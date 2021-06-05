@@ -2,6 +2,7 @@ export { Model };
 
 import { Gizmo }            from "./gizmo.js";
 import { ModelState }       from "./modelState.js";
+import { Stats } from "./stats.js";
 
 /** ========================================================================
  * The base game model for holding game data and state
@@ -67,6 +68,7 @@ class Model extends Gizmo {
         //console.log("model update");
         let updated = super.update(ctx);
         if (this.modified) {
+            Stats.count("model.updated");
             updated = true;
             this.evtUpdated.trigger();
             this.modified = false;

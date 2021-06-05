@@ -47,11 +47,26 @@ class UxView extends Gizmo {
         return this._xform;
     }
 
+    // retrieve view min coords in world position
+    get minx() {
+        return this._xform.wminx;
+    }
+    get miny() {
+        return this._xform.wminy;
+    }
+
     get x() {
-        return this._xform.centerx;
+        return this._xform.wcenterx;
     }
     get y() {
-        return this._xform.centery;
+        return this._xform.wcentery;
+    }
+
+    get maxx() {
+        return this._xform.wmaxx;
+    }
+    get maxy() {
+        return this._xform.wmaxy;
     }
 
     get depth() {
@@ -62,15 +77,15 @@ class UxView extends Gizmo {
     }
 
     get width() {
-        return this._xform.width;
+        return this._xform.wmaxx-this._xform.wminx;
     }
 
     get height() {
-        return this._xform.height;
+        return this._xform.wmaxy-this._xform.wminy;
     }
 
     get bounds() {
-        return new Bounds(this._xform.minx, this._xform.miny, this._xform.width, this._xform.height);
+        return new Bounds(this.minx, this.miny, this.width, this.height);
     }
 
     get visible() {

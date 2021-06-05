@@ -5,7 +5,6 @@ import { Fmt }              from "./base/fmt.js";
 import { Model }            from "./base/model.js";
 import { UxCtrl }           from "./base/uxCtrl.js";
 import { EvtChannel }       from "./base/event.js";
-import { SketchView }       from "./sketchView.js";
 import { Util }             from "./base/util.js";
 import { Grid }             from "./base/grid.js";
 import { Area, AreaView }   from "./base/area.js";

@@ -50,7 +50,6 @@ class UxPanel extends UxView {
     }
 
     _render(ctx) {
-        //console.log(`render: ${this._sketch} w: ${this._sketch.width} x: ${this.xform.minx} y: ${this.xform.miny}`);
         if (this._sketch) this._sketch.render(ctx, this.xform.minx, this.xform.miny);
     }
 

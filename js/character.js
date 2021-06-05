@@ -36,6 +36,7 @@ class Character extends Model {
         if (spec.xactivitySchedule) this.activitySchedule = Generator.generate(spec.xactivitySchedule);
         // -- bed
         this.bedTag = spec.hasOwnProperty("bedTag") ? spec.bedTag : undefined;
+        console.log("char spec: " + Fmt.ofmt(spec));
     }
 
     get x() {

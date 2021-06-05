@@ -1,5 +1,6 @@
 export { XForm };
 import { Fmt } from "./fmt.js";
+import { Vect } from "./vect.js";
 
 /** =============================================================================
  * Provides rectangular bounds and tranformation context including scale, translation, rotation based on given values.
@@ -119,6 +120,14 @@ class XForm {
         return -(this._origy*this.height);
     }
 
+    // minimum in world coords
+    get wminx() {
+        return this.getWorld(new Vect(this.minx, this.miny)).x;
+    }
+    get wminy() {
+        return this.getWorld(new Vect(this.minx, this.miny)).y;
+    }
+
     // get center x,y in local coords
     get centerx() {
         return (this.width*(.5-this._origx));
@@ -127,12 +136,28 @@ class XForm {
         return (this.height*(.5-this._origy));
     }
 
+    // center in world coords
+    get wcenterx() {
+        return this.getWorld(new Vect(this.centerx, this.centery)).x;
+    }
+    get wcentery() {
+        return this.getWorld(new Vect(this.centerx, this.centery)).y;
+    }
+
     // get maximum x,y in local coords
     get maxx() {
         return (1-this._origx)*this.width;
     }
     get maxy() {
         return (1-this._origy)*this.height;
+    }
+
+    // max in world coords
+    get wmaxx() {
+        return this.getWorld(new Vect(this.maxx, this.maxy)).x;
+    }
+    get wmaxy() {
+        return this.getWorld(new Vect(this.maxx, this.maxy)).y;
     }
 
     get isIdentity() {

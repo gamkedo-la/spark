@@ -49,9 +49,11 @@ class Store {
         return this.items.get(key);
     }
 
-    clear() {
-        for (let obj of this) {
-            if (obj.destroy) obj.destroy();
+    clear(destroy=true) {
+        if (destroy) {
+            for (let obj of this) {
+                if (obj.destroy) obj.destroy();
+            }
         }
         this.items.clear();
     }
@@ -139,6 +141,19 @@ class SortedStore extends Store {
             this.items.splice(index, 1);
             this.evtRemoved.trigger({target: obj});
         }
+    }
+
+    contains(obj) {
+        return this.items.indexOf(obj) !== -1;
+    }
+
+    clear(destroy=true) {
+        if (destroy) {
+            for (let obj of this) {
+                if (obj.destroy) obj.destroy();
+            }
+        }
+        this.items.splice(0);
     }
 
     *[Symbol.iterator]() {

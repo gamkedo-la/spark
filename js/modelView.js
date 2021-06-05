@@ -2,9 +2,10 @@ export { ModelView };
 
 import { Config }           from "./base/config.js";
 import { UxPanel }          from "./base/uxPanel.js";
-import { ModelState }       from "./base/modelState.js";
 import { Model }            from "./base/model.js";
-import { Direction } from "./base/dir.js";
+import { Direction }        from "./base/dir.js";
+import { Util }             from "./base/util.js";
+import { Fmt }              from "./base/fmt.js";
 
 class ModelView extends UxPanel {
 
@@ -17,14 +18,38 @@ class ModelView extends UxPanel {
         super.cpost(spec);
         this.model = spec.model || new Model();
         this.tileSize = spec.tileSize || Config.tileSize;
+        // bind event handlers
+        Util.bind(this, "onModelUpdate");
+        // register event handlers
+        this.model.evtUpdated.listen(this.onModelUpdate);
+    }
+
+    // EVENT HANDLERS ------------------------------------------------------
+    onModelUpdate(evt) {
+        this.evtUpdated.trigger();
+    }
+
+    get minx() {
+        return this._xform.wminx + this.model.x;
+    }
+    get miny() {
+        return this._xform.wminy + this.model.y;
     }
 
     get x() {
-        return this._xform.centerx + this.model.x;
+        return this._xform.wcenterx + this.model.x;
     }
     get y() {
-        return this._xform.centery + this.model.y;
+        return this._xform.wcentery + this.model.y;
     }
+
+    get maxx() {
+        return this._xform.wmaxx + this.model.x;
+    }
+    get maxy() {
+        return this._xform.wmaxy + this.model.y;
+    }
+
     get depth() {
         return (this.model.layer * Config.depthMap.max) + this.model.depth;
     }
@@ -41,20 +66,28 @@ class ModelView extends UxPanel {
             //this.lastFacing = ctx.facing;
             //console.log(`facing: ${ctx.facing} heading: ${this.model.heading}`);
         }
-        super.update(ctx);
+        let updated = super.update(ctx);
         // align xform w/ sketch
-        if (this.xform.width != this._sketch.width) this.xform.width = this._sketch.width;
+        if (this.xform.width != this._sketch.width) {
+            updated = true;
+            this.xform.width = this._sketch.width;
+        }
         if (this.xform.height != this._sketch.height) {
+            updated = true;
             this.xform.height = this._sketch.height;
             if (this._sketch.height > this.tileSize) {
                 let off = Math.round((this._sketch.height - this.tileSize)*.5);
                 this.xform._offy = -off;
             }
         }
+        return updated;
     }
 
     _render(ctx) {
-        if (this._sketch) this._sketch.render(ctx, this.xform.minx + this.model.x, this.xform.miny + this.model.y);
+        if (this._sketch) this._sketch.render(ctx, this._xform.minx + this.model.x, this._xform.miny + this.model.y);
+        // FIXME: remove
+        //ctx.strokeStyle = "red";
+        //ctx.strokeRect(this._xform.minx + this.model.x, this._xform.miny + this.model.y, this._xform.width, this._xform.height);
     }
 
     _frender(ctx) {
@@ -64,6 +97,10 @@ class ModelView extends UxPanel {
         if (this.model.activator && Config.dbgViewColliders) {
             this.model.activator.render(ctx);
         }
+    }
+
+    toString() {
+        return Fmt.toString(this.constructor.name, this.gid, this.tag, this.model);
     }
 
 }

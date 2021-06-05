@@ -3,7 +3,7 @@ export { Grid };
 import { Config }           from "./config.js";
 import { Util }             from "./util.js";
 import { Fmt }              from "./fmt.js";
-import { Direction } from "./dir.js";
+import { Direction }        from "./dir.js";
 
 /** ========================================================================
  * A grid-based object (gizmo) storage bucket which allows for quick lookups of game elements based on location.
@@ -31,9 +31,45 @@ class Grid {
     get miny() { return 0 };
     get maxy() { return this._maxy };
 
+    // STATIC METHODS ------------------------------------------------------
+    static ifromidx(idx, width, nentries=undefined) {
+        if (idx < 0) idx = 0;
+        if (nentries && idx >= nentries) idx = nentries-1;
+        return idx % width;
+    }
+    static jfromidx(idx, width, nentries=undefined) {
+        if (idx < 0) idx = 0;
+        if (nentries && idx >= nentries) idx = nentries-1;
+        return Math.floor(idx/width);
+    }
+    static ifromx(x, tileSize, width=undefined) {
+        let i = Math.floor(x/tileSize);
+        if (i < 0) i = 0;
+        if (width && i >= width) i = width-1;
+        return i;
+    }
+    static jfromy(y, tileSize, height=undefined) {
+        let j = Math.floor(y/tileSize);
+        if (j < 0) j = 0;
+        if (height && j >= height) j = height-1;
+        return j;
+    }
+
+    static xfromidx(idx, width, tileWidth, center=false) {
+        return (((idx % width) * tileWidth) + ((center) ? tileWidth*.5 : 0));
+    }
+    static yfromidx(idx, width, tileHeight, center=false) {
+        return ((Math.floor(idx/width) * tileHeight) + ((center) ? tileHeight*.5 : 0));
+    }
+
+    static idxfromij(i, j, width, height) {
+        if (i >= width) i = width-1;
+        if (j >= height) j = height-1;
+        return i + width*j;
+    }
+
     // EVENT HANDLERS ------------------------------------------------------
     onGizmoUpdate(evt) {
-        //console.log("onGizmoUpdate");
         let gzo = evt.actor;
         if (!gzo) return;
         let gidx = this.getgidx(gzo);
@@ -165,31 +201,34 @@ class Grid {
             for (let j=this.jfromy(miny); j<=maxj; j++) {
                 // compute grid index
                 let idx = this.idxfromij(i,j);
-                //if (gzo.tag === "lstucco.b") console.log(`lstucco idx: ${idx} mx ${minx},${maxx}`);
                 // track object gidx
                 gidx.add(idx);
             }
         }
-        //if (gzo.tag === "lstucco.bl") console.log(`lstucco idx: ${gidx} min: ${minx},${miny} max: ${maxx},${maxy}`);
         return gidx;
     }
 
     add(gzo) {
-        //console.log("grid add: " + gzo);
         let gidx = this.getgidx(gzo);
         // assign object to grid
         for (const idx of gidx) {
             if (!this.grid[idx]) this.grid[idx] = [];
             this.grid[idx].push(gzo);
-            //console.log(`this.grid[${idx}]: ${this.grid[idx]}`);
         }
         // assign gizmo gidx
         gzo.gidx = gidx;
-        //console.log(`gidx: ${gidx}`);
         // handle gizmo updates
         gzo.evtUpdated.listen(this.onGizmoUpdate);
         // handle gizmo destroy
         gzo.evtDestroyed.listen(this.onGizmoDestroy);
+    }
+
+    *[Symbol.iterator]() {
+        for (let i=0; i<this.nentries; i++) {
+            if (this.grid[i]) {
+                yield *this.grid[i];
+            }
+        }
     }
 
     *findgidx(gidx, filter=(v) => true) {
@@ -211,7 +250,6 @@ class Grid {
 
     *findOverlaps(bounds, filter=(v) => true) {
         let gidx = this.getgidx(bounds);
-        //console.log("gidx: " + gidx);
         yield *this.findgidx(gidx, filter);
     }
 
@@ -243,13 +281,12 @@ class GridIdx {
         this.values = (values) ? Array.from(values) : new Array();
     }
     add(gidx) {
-        //console.log("adding gidx: " + gidx);
         this.values.push(gidx);
     }
     equals(other) {
         if (!other) return false;
         if (other.values.length !== this.values.length) return false;
-        for (let i=0; i<this.length; i++) {
+        for (let i=0; i<this.values.length; i++) {
             if (this.values[i] !== other.values[i]) return false;
         }
         return true;

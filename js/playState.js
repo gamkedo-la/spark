@@ -10,8 +10,6 @@ import { Keys } from "./base/keys.js";
 import { Util } from "./base/util.js";
 import { Fmt } from "./base/fmt.js";
 import { Config } from "./base/config.js";
-import { Generator } from "./base/generator.js";
-import { SketchView } from "./sketchView.js";
 import { LevelGraph, LevelNode } from "./lvlGraph.js";
 import { Pathfinder } from "./base/pathfinder.js";
 import { Vect } from "./base/vect.js";
@@ -29,6 +27,25 @@ class GridView extends UxView {
         this.player = spec.player;
         this.other = spec.other;
         this.indices = [];
+    }
+
+    get minx() {
+        return 0;
+    }
+    get miny() {
+        return 0;
+    }
+    get maxx() {
+        return this.grid.maxx;
+    }
+    get maxy() {
+        return this.grid.maxy;
+    }
+    get width() {
+        return this.maxx-this.minx;
+    }
+    get height() {
+        return this.maxy-this.miny;
     }
 
     renderGrid(ctx) {
@@ -65,8 +82,7 @@ class GridView extends UxView {
         if (!Config.dbgViewGrid) return;
         // grid
         this.renderGrid(ctx);
-        //this.renderFIXME(ctx);
-        //this.renderIndices(ctx);
+        this.renderIndices(ctx);
     }
 }
 

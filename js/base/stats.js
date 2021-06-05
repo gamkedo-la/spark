@@ -1,12 +1,17 @@
 export { Stats };
-import { Fmt } from "./fmt.js";
+
+import { Config }           from "./config.js";
+import { Fmt }              from "./fmt.js";
 
 class Stats {
-    static enabled = true;
     static kvs = {};
     static elapsed = 0;
     static interval = 1000;
     static last = {};
+
+    static get enabled() {
+        return Config.dbgStats;
+    }
 
     static count(key) {
         if (!this.enabled) return;

@@ -5,11 +5,13 @@ export { Config };
  */
 class Config {
     static dflts = {
+        dfltCanvasId: "canvas",
         tileSize: 32,
         scale: 2,
         dbgViewColliders: false,
         dbgViewAreas: false,
         dbgViewGrid: false,
+        dbgStats: false,
         layerMap: {
             main:   0,
             upper:  1,
