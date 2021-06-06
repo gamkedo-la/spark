@@ -19,6 +19,13 @@ class SparkAssets {
                     { x: 16*4, y: 16*2, width: 16, height: 16 },
                     { x: 16*5, y: 16*2, width: 16, height: 16 },
                 ]},
+                { tag: "road",      cls: "VarSprite", variations: [
+                    { x: 16*0, y: 16*3, width: 16, height: 16 },
+                    { x: 16*1, y: 16*3, width: 16, height: 16 },
+                    { x: 16*2, y: 16*3, width: 16, height: 16 },
+                    { x: 16*3, y: 16*3, width: 16, height: 16 },
+                ]},
+
             ]},
 
             // a sheet of images
@@ -59,12 +66,13 @@ class SparkAssets {
         ];
 
         this.assets = [
-            { id: "001",    tag: "player", cls: "Character", 
+            { id: "002",    tag: "grass", cls: "Tile", xsketch: { cls: "Media", tag: "grass" }},
+            { id: "003",    tag: "road", cls: "Tile", xsketch: { cls: "Media", tag: "road" }},
+
+            { id: "c01",    tag: "player", cls: "Character", 
                             xsketch: { cls: "Media", tag: "gnome" },
                             xcollider: { width:15, height:16, color: "rgba(0,0,127,.5)" }, },
-            { id: "002",    tag: "grass", cls: "Tile", xsketch: { cls: "Media", tag: "grass" }},
-
-            { id: "003",    tag: "npc", cls: "Character", 
+            { id: "c02",    tag: "npc", cls: "Character", 
                             ctrlId: 0,
                             bedTag: "bob",
                             xai: { 
