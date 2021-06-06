@@ -29,6 +29,7 @@ class MoveToAction extends Action {
         this.x = spec.x || 0;
         this.y = spec.y || 0;
         this.range = spec.range || MoveToAction.dfltRange;
+        this.snap = spec.hasOwnProperty("snap") ? spec.snap : false;
         this.pos = new Vect(this.x,this.y);
     }
 
@@ -44,8 +45,10 @@ class MoveToAction extends Action {
             if (this.dbg) console.log(`${this.actor} arrived at target: ${this.pos}`);
             this.done = true;
             this.actor.speed = 0;
-            this.actor.x = this.x;
-            this.actor.y = this.y;
+            if (this.snap) {
+                this.actor.x = this.x;
+                this.actor.y = this.y;
+            }
         // move towards target
         } else {
             // calculate heading/speed from actor to target
