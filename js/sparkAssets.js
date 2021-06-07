@@ -11,21 +11,11 @@ class SparkAssets {
     static init() {
         this.media = [
             { src: "img/terrain1.png", loader: "Sheet", refs: [
-                /*
-                { tag: "grass",      cls: "VarSprite", variations: [
-                    { x: 16*0, y: 16*2, width: 16, height: 16 },
-                    { x: 16*1, y: 16*2, width: 16, height: 16 },
-                    { x: 16*2, y: 16*2, width: 16, height: 16 },
-                    { x: 16*3, y: 16*2, width: 16, height: 16 },
-                    { x: 16*4, y: 16*2, width: 16, height: 16 },
-                    { x: 16*5, y: 16*2, width: 16, height: 16 },
-                ]},
-                */
                 { tag: "road",      cls: "VarSprite", variations: [
-                    { x: 16*0, y: 16*3, width: 16, height: 16 },
-                    { x: 16*1, y: 16*3, width: 16, height: 16 },
-                    { x: 16*2, y: 16*3, width: 16, height: 16 },
-                    { x: 16*3, y: 16*3, width: 16, height: 16 },
+                    { x: 16*0, y: 16*0, width: 16, height: 16 },
+                    { x: 16*1, y: 16*0, width: 16, height: 16 },
+                    { x: 16*2, y: 16*0, width: 16, height: 16 },
+                    { x: 16*3, y: 16*0, width: 16, height: 16 },
                 ]},
 
             ]},
