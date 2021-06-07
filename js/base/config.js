@@ -11,7 +11,7 @@ class Config {
         dbgViewColliders: false,
         dbgViewAreas: false,
         dbgViewGrid: false,
-        dbgStats: false,
+        dbgStats: true,
         layerMap: {
             main:   0,
             upper:  1,

@@ -11,6 +11,7 @@ class SparkAssets {
     static init() {
         this.media = [
             { src: "img/terrain1.png", loader: "Sheet", refs: [
+                /*
                 { tag: "grass",      cls: "VarSprite", variations: [
                     { x: 16*0, y: 16*2, width: 16, height: 16 },
                     { x: 16*1, y: 16*2, width: 16, height: 16 },
@@ -19,6 +20,7 @@ class SparkAssets {
                     { x: 16*4, y: 16*2, width: 16, height: 16 },
                     { x: 16*5, y: 16*2, width: 16, height: 16 },
                 ]},
+                */
                 { tag: "road",      cls: "VarSprite", variations: [
                     { x: 16*0, y: 16*3, width: 16, height: 16 },
                     { x: 16*1, y: 16*3, width: 16, height: 16 },
@@ -27,6 +29,7 @@ class SparkAssets {
                 ]},
 
             ]},
+            Templates.sprite("img/grass.png", "grass", {"height": 16, "width": 16}),
 
             // a sheet of images
             { src: "img/goldButtonFrames.png", loader: "Sheet", refs: [
@@ -66,7 +69,23 @@ class SparkAssets {
         ];
 
         this.assets = [
-            { id: "002",    tag: "grass", cls: "Tile", xsketch: { cls: "Media", tag: "grass" }},
+
+            Templates.tile("02a", "grass.a"),
+            Templates.tile("02b", "grass.b"),
+            Templates.tile("02c", "grass.c"),
+            Templates.tile("02d", "grass.d"),
+            Templates.tile("02e", "grass.e"),
+            Templates.tile("02f", "grass.f"),
+            Templates.tile("02g", "grass.g"),
+            Templates.tile("02h", "grass.h"),
+            Templates.tile("02i", "grass.i"),
+            Templates.tile("02j", "grass.j"),
+            Templates.tile("02k", "grass.k"),
+            Templates.tile("02l", "grass.l"),
+            Templates.tile("02m", "grass.m"),
+            Templates.tile("02n", "grass.n"),
+            Templates.tile("02o", "grass.o"),
+
             { id: "003",    tag: "road", cls: "Tile", xsketch: { cls: "Media", tag: "road" }},
 
             { id: "c01",    tag: "player", cls: "Character", 
