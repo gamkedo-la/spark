@@ -1,7 +1,7 @@
 export { SparkAssets };
 
 import { Direction }            from "./base/dir.js";
-import { Fmt } from "./base/fmt.js";
+import { Fmt }                  from "./base/fmt.js";
 import { ModelState }           from "./base/modelState.js";
 import { Templates }            from "./templates.js";
 
@@ -76,7 +76,7 @@ class SparkAssets {
             Templates.tile("02n", "grass.n"),
             Templates.tile("02o", "grass.o"),
 
-            { id: "003",    tag: "road", cls: "Tile", xsketch: { cls: "Media", tag: "road" }},
+            Templates.tile("003", "road"),
 
             { id: "c01",    tag: "player", cls: "Character", 
                             xsketch: { cls: "Media", tag: "gnome" },
