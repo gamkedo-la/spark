@@ -82,7 +82,7 @@ class GridView extends UxView {
         if (!Config.dbgViewGrid) return;
         // grid
         this.renderGrid(ctx);
-        this.renderIndices(ctx);
+        //this.renderIndices(ctx);
     }
 }
 
@@ -91,11 +91,11 @@ class PlayState extends State {
         super.cpre(spec);
         const media = spec.media || Base.instance.media;
         // construct the UI elements
-        spec.xview = {
+        spec.xview = {},
+        spec.xxview = {
             cls: "UxCanvas",
             cvsid: "canvas",
             tag: "cvs.0",
-            depth: 10,
             xchildren: [
                 /*
                 {
@@ -134,8 +134,8 @@ class PlayState extends State {
         for (const v of vs) this.player = v;
         vs = this.find(v=>v.gid === 14);
         for (const v of vs) this.other = v;
-        console.log("this.player: " + this.player);
-        console.log("this.other: " + this.other);
+        //console.log("this.player: " + this.player);
+        //console.log("this.other: " + this.other);
         let gridView = new GridView({depth: 99, grid: this.grid, player: this.player, other:this.other});
 
     }

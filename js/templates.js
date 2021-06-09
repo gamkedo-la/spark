@@ -51,7 +51,7 @@ class Templates {
         }
     }
 
-    static sprite(file, tag, spec={}) {
+    static overlaySprite(file, tag, spec={}) {
         let xmedia = { 
             src: file, 
             loader: "Sheet", 
@@ -164,7 +164,7 @@ class Templates {
             ],
         });
 
-        console.log(`refs: ${Fmt.ofmt(xmedia.refs[xmedia.refs.length-1].variations)}`);
+        //console.log(`refs: ${Fmt.ofmt(xmedia.refs[xmedia.refs.length-1].variations)}`);
 
          xmedia.refs.push({
             tag: `${tag}.k`,
@@ -217,6 +217,247 @@ class Templates {
 
         return xmedia;
 
+    }
+
+    static overlayTiles(baseId, baseTag) {
+        let xtiles = [];
+        for (const c of "abcdefghijklmno") {
+            let id = `${baseId}${c}`;
+            let tag = `${baseTag}.${c}`;
+            xtiles.push(Templates.tile(id, tag))
+        }
+        return xtiles;
+    }
+
+    static wallSprite(file, tag, spec={}) {
+        let xmedia = { 
+            src: file, 
+            loader: "Sheet", 
+            refs: [],
+         };
+         let width = spec.width || Config.tileSize;
+         let height = spec.height || Config.tileSize;
+
+         xmedia.refs.push({
+            tag: `${tag}.a`,
+            cls: "VarSprite",
+            variations: [
+                { x: width*3, y: height*0, width: width, height: height },
+                { x: width*2, y: height*3, width: width, height: height },
+                { x: width*0, y: height*4, width: width, height: height },
+                { x: width*6, y: height*8, width: width, height: height },
+                { x: width*5, y: height*9, width: width, height: height },
+            ],
+        });
+
+         xmedia.refs.push({
+            tag: `${tag}.b`,
+            cls: "VarSprite",
+            variations: [
+                { x: width*4, y: height*0, width: width, height: height },
+                { x: width*1, y: height*4, width: width, height: height },
+                { x: width*1, y: height*8, width: width, height: height },
+                { x: width*4, y: height*12, width: width, height: height },
+            ],
+        });
+
+         xmedia.refs.push({
+            tag: `${tag}.c`,
+            cls: "VarSprite",
+            variations: [
+                { x: width*5, y: height*0, width: width, height: height },
+                { x: width*6, y: height*3, width: width, height: height },
+                { x: width*7, y: height*4, width: width, height: height },
+                { x: width*2, y: height*8, width: width, height: height },
+                { x: width*3, y: height*9, width: width, height: height },
+            ],
+        });
+
+         xmedia.refs.push({
+            tag: `${tag}.d`,
+            cls: "VarSprite",
+            variations: [
+                { x: width*3, y: height*1, width: width, height: height },
+                { x: width*0, y: height*5, width: width, height: height },
+                { x: width*5, y: height*10, width: width, height: height },
+            ],
+        });
+
+         xmedia.refs.push({
+            tag: `${tag}.e`,
+            cls: "VarSprite",
+            variations: [
+                { x: width*4, y: height*1, width: width, height: height },
+                { x: width*1, y: height*5, width: width, height: height },
+                { x: width*1, y: height*9, width: width, height: height },
+                { x: width*4, y: height*13, width: width, height: height },
+            ],
+        });
+
+         xmedia.refs.push({
+            tag: `${tag}.f`,
+            cls: "VarSprite",
+            variations: [
+                { x: width*5, y: height*1, width: width, height: height },
+                { x: width*7, y: height*5, width: width, height: height },
+                { x: width*3, y: height*10, width: width, height: height },
+            ],
+        });
+
+         xmedia.refs.push({
+            tag: `${tag}.g`,
+            cls: "VarSprite",
+            variations: [
+                { x: width*3, y: height*2, width: width, height: height },
+                { x: width*0, y: height*6, width: width, height: height },
+                { x: width*5, y: height*11, width: width, height: height },
+            ],
+        });
+
+         xmedia.refs.push({
+            tag: `${tag}.h`,
+            cls: "VarSprite",
+            variations: [
+                { x: width*4, y: height*2, width: width, height: height },
+                { x: width*1, y: height*6, width: width, height: height },
+                { x: width*1, y: height*10, width: width, height: height },
+                { x: width*4, y: height*14, width: width, height: height },
+            ],
+        });
+
+         xmedia.refs.push({
+            tag: `${tag}.i`,
+            cls: "VarSprite",
+            variations: [
+                { x: width*5, y: height*2, width: width, height: height },
+                { x: width*7, y: height*6, width: width, height: height },
+                { x: width*3, y: height*11, width: width, height: height },
+            ],
+        });
+
+         xmedia.refs.push({
+            tag: `${tag}.j`,
+            cls: "VarSprite",
+            variations: [
+                { x: width*3, y: height*3, width: width, height: height },
+                { x: width*7, y: height*8, width: width, height: height },
+                { x: width*5, y: height*12, width: width, height: height },
+            ],
+        });
+
+        //console.log(`refs: ${Fmt.ofmt(xmedia.refs[xmedia.refs.length-1].variations)}`);
+
+         xmedia.refs.push({
+            tag: `${tag}.k`,
+            cls: "VarSprite",
+            variations: [
+                { x: width*5, y: height*3, width: width, height: height },
+                { x: width*0, y: height*8, width: width, height: height },
+                { x: width*3, y: height*12, width: width, height: height },
+            ],
+        });
+
+         xmedia.refs.push({
+            tag: `${tag}.l`,
+            cls: "VarSprite",
+            variations: [
+                { x: width*2, y: height*4, width: width, height: height },
+                { x: width*6, y: height*9, width: width, height: height },
+            ],
+        });
+
+         xmedia.refs.push({
+            tag: `${tag}.m`,
+            cls: "VarSprite",
+            variations: [
+                { x: width*3, y: height*4, width: width, height: height },
+                { x: width*7, y: height*9, width: width, height: height },
+                { x: width*5, y: height*13, width: width, height: height },
+            ],
+        });
+
+         xmedia.refs.push({
+            tag: `${tag}.n`,
+            cls: "VarSprite",
+            variations: [
+                { x: width*5, y: height*4, width: width, height: height },
+                { x: width*0, y: height*9, width: width, height: height },
+                { x: width*3, y: height*13, width: width, height: height },
+            ],
+        });
+
+         xmedia.refs.push({
+            tag: `${tag}.o`,
+            cls: "VarSprite",
+            variations: [
+                { x: width*6, y: height*4, width: width, height: height },
+                { x: width*2, y: height*9, width: width, height: height },
+            ],
+        });
+
+         xmedia.refs.push({
+            tag: `${tag}.p`,
+            cls: "VarSprite",
+            variations: [
+                { x: width*2, y: height*5, width: width, height: height },
+                { x: width*6, y: height*10, width: width, height: height },
+            ],
+        });
+
+         xmedia.refs.push({
+            tag: `${tag}.q`,
+            cls: "VarSprite",
+            variations: [
+                { x: width*3, y: height*5, width: width, height: height },
+                { x: width*2, y: height*6, width: width, height: height },
+                { x: width*7, y: height*10, width: width, height: height },
+                { x: width*6, y: height*11, width: width, height: height },
+                { x: width*5, y: height*14, width: width, height: height },
+            ],
+        });
+
+         xmedia.refs.push({
+            tag: `${tag}.r`,
+            cls: "VarSprite",
+            variations: [
+                { x: width*5, y: height*5, width: width, height: height },
+                { x: width*6, y: height*6, width: width, height: height },
+                { x: width*0, y: height*10, width: width, height: height },
+                { x: width*2, y: height*11, width: width, height: height },
+                { x: width*3, y: height*14, width: width, height: height },
+            ],
+        });
+
+         xmedia.refs.push({
+            tag: `${tag}.s`,
+            cls: "VarSprite",
+            variations: [
+                { x: width*6, y: height*5, width: width, height: height },
+                { x: width*2, y: height*10, width: width, height: height },
+            ],
+        });
+
+         xmedia.refs.push({
+            tag: `${tag}.t`,
+            cls: "VarSprite",
+            variations: [
+                { x: width*0, y: height*7, width: width, height: height },
+                { x: width*7, y: height*7, width: width, height: height },
+            ],
+        });
+
+        return xmedia;
+
+    }
+
+    static wallTiles(baseId, baseTag) {
+        let xtiles = [];
+        for (const c of "abcdefghijklmnopqrst") {
+            let id = `${baseId}${c}`;
+            let tag = `${baseTag}.${c}`;
+            xtiles.push(Templates.tile(id, tag))
+        }
+        return xtiles;
     }
 
     static xtile(tag, mediaTag, baseId) {

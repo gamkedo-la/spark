@@ -87,8 +87,7 @@ class Animation extends Sprite {
      * Update animation state
      * @param {*} ctx 
      */
-    update(ctx) {
-        let updated = super.update(ctx);
+    iupdate(ctx) {
         if (this.done) return;
         if (this.step) {
             if (this.step === "next") this.advance();
@@ -100,9 +99,9 @@ class Animation extends Sprite {
         while (!this.done && this.elapsed > this.cel.ttl) {
             this.elapsed -= this.cel.ttl;
             this.advance();
-            updated = true;
+            this.updated = true;
         }
-        return updated;
+        return this.updated;
     }
 
 }

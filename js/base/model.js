@@ -64,17 +64,14 @@ class Model extends Gizmo {
     }
 
     // METHODS -------------------------------------------------------------
-    update(ctx) {
+    iupdate(ctx) {
         //console.log("model update");
-        let updated = super.update(ctx);
         if (this.modified) {
             Stats.count("model.updated");
-            updated = true;
-            this.evtUpdated.trigger();
+            this.updated = true;
             this.modified = false;
-            //console.log("trigger updated");
         }
-        return updated;
+        return this.updated;
     }
 
 }

@@ -135,7 +135,7 @@ class Text extends Sketch {
                     }
                 }
             }
-            //this.evtUpdated.trigger();
+            this.updated = true;
         }
     }
 
@@ -149,6 +149,7 @@ class Text extends Sketch {
         if (!force && this.size.equals(this.fitSize)) return;
         let tsize = Text.measure(font, this._text);
         this.fitSize = this.size;
+        // FIXME: should we be setting updated here?
         // grow
         if (tsize.x < this.width && tsize.y < this.height) {
             while (tsize.x < this.width && tsize.y < this.height) {

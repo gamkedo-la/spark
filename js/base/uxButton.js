@@ -96,13 +96,13 @@ class UxButton extends UxView {
     }
     onSketchUpdate(evt) {
         // propagate update
-        if (evt.actor === this._sketch|| evt.actor === this._text) this.evtUpdated.trigger();
+        if (evt.actor === this._sketch|| evt.actor === this._text) this.updated = true;
     }
 
     // METHODS -------------------------------------------------------------
-    update(ctx) {
-        super.update(ctx);
-        if (!this.active) return;
+    iupdate(ctx) {
+        this.updated |= super.iupdate(ctx);
+        if (!this.active) return updated;
         // determine active sketch based on mouse state
         let want = this._unpressed;
         if (this.mouseDown) {
@@ -112,10 +112,11 @@ class UxButton extends UxView {
         }
         if (want !== this._sketch)  {
             this._sketch = want;
-            this.evtUpdated.trigger();
+            this.updated = true;
         }
         // update active sketch
         if (this._sketch) this._sketch.update(ctx);
+        return this.updated;
     }
 
     _render(ctx) {

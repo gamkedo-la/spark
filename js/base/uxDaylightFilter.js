@@ -1,9 +1,9 @@
 export { UxDaylightFilter };
 
-    import { Atts } from "./atts.js";
-import { Color } from "./color.js";
-import { Mathf } from "./math.js";
-import { UxPanel } from "./uxPanel.js";
+import { Atts }             from "./atts.js";
+import { Color }            from "./color.js";
+import { Mathf }            from "./math.js";
+import { UxPanel }          from "./uxPanel.js";
 
 class UxDaylightFilter extends UxPanel {
     static dfltSketch = {
@@ -26,17 +26,17 @@ class UxDaylightFilter extends UxPanel {
     }
 
     // METHODS -------------------------------------------------------------
-    update(ctx) {
-        let updated = super.update(ctx);
+    iupdate(ctx) {
         // update sketch color based on current light
         let light = this.getLight();
         if (light != this.lastLight) {
             this.lastLight = light;
             let alpha = Mathf.lerp(0, 1, this.maxAlpha, this.minAlpha, light);
             this.sketch.color.a = alpha;
+            this.updated = true;
         }
-        if (this._sketch) updated |= this._sketch.update(ctx);
-        return updated;
+        if (this._sketch) this.updated |= this._sketch.update(ctx);
+        return this.updated;
     }
 
 }

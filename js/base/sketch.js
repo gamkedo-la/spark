@@ -31,6 +31,7 @@ class Sketch {
         let gen = spec.gen || Generator.instance;
         this.fitter = (spec.xfitter) ? gen.generate(Object.assign({target: this}, spec.xfitter)) : undefined;
         this.cfWidth = this.cfHeight = this.cfX = this.cfY = 0;
+        this.updated = false;
         // event channels
         this.__evtUpdated = new EvtChannel("updated", {actor: this});
     }
@@ -109,9 +110,22 @@ class Sketch {
                 this.cfX = this.fitter.x + (this.fitter.width-dw )* .5;
                 this.cfY = this.fitter.y + (this.fitter.height-dh) * .5;
                 this.evtUpdated.trigger();
-                return true;
+                this.updated = true;
             }
         }
+        // handle internal updates
+        this.updated |= this.iupdate(ctx);
+        // trigger update event if needed
+        if (this.updated) {
+            this.evtUpdated.trigger();
+        }
+        // handle 
+        let updated = this.updated;
+        this.updated = false;
+        return updated;
+    }
+
+    iupdate(ctx) {
         return false;
     }
 

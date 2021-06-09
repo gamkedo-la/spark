@@ -43,10 +43,9 @@ class UxPanel extends UxView {
     }
 
     // METHODS -------------------------------------------------------------
-    update(ctx) {
-        let updated = super.update(ctx);
-        if (this._sketch) updated |= this._sketch.update(ctx);
-        return updated;
+    iupdate(ctx) {
+        if (this._sketch) this.updated |= this._sketch.update(ctx);
+        return this.updated;
     }
 
     _render(ctx) {

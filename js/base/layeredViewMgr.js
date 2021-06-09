@@ -63,7 +63,7 @@ class LayeredViewMgr extends Gizmo {
     onViewUpdate(evt) {
         Stats.count("view.update");
         let view = evt.actor;
-        //console.log("view: " + view);
+        //console.log(`on view update: ${view} view.width: ${view.width}, view xform: ${view.xform} parent: ${view.xform.parent}`);
         if (this.camera.overlaps(view)) {
             this.updatedViews.push(evt.actor);
         }
@@ -77,7 +77,7 @@ class LayeredViewMgr extends Gizmo {
         return (obj.depth * this.maxDepth) + y;
     }
 
-    update(ctx) {
+    iupdate(ctx) {
         // update all managed views
         for(const view of this.sorted) {
             // check for change in rootness
@@ -109,6 +109,7 @@ class LayeredViewMgr extends Gizmo {
                 let rmaxx = maxx;
                 let maxy = view.maxy - this.camera.miny;
                 let rmaxy = maxy;
+                //console.log(`handle updated view: ${view} min: ${minx},${miny}, max: ${maxx},${maxy}`);
                 if (view.hasOwnProperty("lastMinX")) {
                     rminx = Math.min(view.lastMinX, minx);
                     rminy = Math.min(view.lastMinY, miny);
@@ -128,6 +129,7 @@ class LayeredViewMgr extends Gizmo {
                         this.sliceIdxs[this.grid.idxfromij(i, j)] = true;
                     }
                 }
+                //console.log("idxs are: " + Object.keys(this.sliceIdxs));
             }
             this.updatedViews = [];
 
@@ -144,7 +146,7 @@ class LayeredViewMgr extends Gizmo {
                         this.tileSize,
                     );
                     for (const view of this.grid.findOverlaps(bounds, (v) => v.cat === "View")) {
-                        //console.log(`${gidx} check ${view}`);
+                        //console.log(`+++ ${gidx} check ${view}`);
                         if (!this.slicedSorted.contains(view)) {
                             this.slicedSorted.add(view);
                             //console.log(`+++ ${gidx} add ${view}`);
@@ -194,7 +196,7 @@ class LayeredViewMgr extends Gizmo {
     add(view) {
         // ignore views that are not roots
         if (!view || view.parent) return;
-        if (this.dbg) console.log("adding view: " + view);
+        if (this.dbg) console.log(`adding view ${view} w/ vidx: ${view.vidx}`);
         // listen for view updates
         view.evtUpdated.listen(this.onViewUpdate)
         // assign index

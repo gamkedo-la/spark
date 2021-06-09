@@ -23,7 +23,7 @@ class Character extends Model {
         this.ctrlId = spec.hasOwnProperty("ctrlId") ? spec.ctrlId : 1;
         // -- AI state
         this.ai = (spec.hasOwnProperty("xai")) ? Generator.generate(spec.xai) : undefined;
-        if (this.ai) console.log("char ai: " + Fmt.ofmt(this.ai));
+        //if (this.ai) console.log("char ai: " + Fmt.ofmt(this.ai));
         // -- collider
         if (spec.xcollider) {
             this.collider = Generator.generate(Object.assign({"cls": "Collider", x: this.x, y: this.y}, spec.xcollider));
@@ -36,7 +36,7 @@ class Character extends Model {
         if (spec.xactivitySchedule) this.activitySchedule = Generator.generate(spec.xactivitySchedule);
         // -- bed
         this.bedTag = spec.hasOwnProperty("bedTag") ? spec.bedTag : undefined;
-        console.log("char spec: " + Fmt.ofmt(spec));
+        //console.log("char spec: " + Fmt.ofmt(spec));
     }
 
     get x() {

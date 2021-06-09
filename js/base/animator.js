@@ -1,6 +1,6 @@
 export { Animator };
 
-    import { Direction } from "./dir.js";
+import { Direction } from "./dir.js";
 import { Fmt } from "./fmt.js";
 import { Generator } from "./generator.js";
 import { ModelState } from "./modelState.js";
@@ -62,12 +62,12 @@ class Animator extends Sketch {
         return this.getAnim(key);
     }
 
-    update(ctx) {
-
-        // FIXME: need to update to trigger updated event
-
+    iupdate(ctx) {
         // update the current animation state
-        if (this.anim) this.anim.update(ctx);
+        if (this.anim) {
+            this.updated |= this.anim.update(ctx);
+        }
+
         // compare desired state to current state (pending or actual)
         let wantState = ctx.state || ModelState.idle;
         if (ctx.facing) {
@@ -89,16 +89,20 @@ class Animator extends Sketch {
                     this.anim = this.getAnim(this.pendingState);
                     this.pendingState = undefined;
                     this.state = this.pendingState;
+                    updated = true;
                 }
             }
             return;  
         }
         // we have a new state transition...
+        //console.log(`from: ${fromState} want: ${wantState}`);
         // -- check for animation for given state
         let anim = this.getAnim(wantState);
         //console.log("anim: " + anim);
+        //if (anim) console.log(`animation ${anim} dim: ${anim.width},${anim.height}`);
         if (!anim) return;
         anim.reset();
+        this.updated = true;
         // -- check for transition to a pending state...
         let trans = this.getTransition(fromState, wantState);
         //console.log("anim: " + anim + " trans: " + trans);
@@ -113,6 +117,7 @@ class Animator extends Sketch {
         }
         // assign state
         this.state = newState;
+        return this.updated;
     }
 
     _render(ctx, x=0, y=0) {

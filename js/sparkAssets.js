@@ -25,7 +25,20 @@ class SparkAssets {
                 ]},
 
             ]},
-            Templates.sprite("img/grass.png", "grass", {"height": 16, "width": 16}),
+            Templates.overlaySprite("img/grass.png", "grass", {"height": 16, "width": 16}),
+            Templates.wallSprite("img/stuccoHouse.png", "stuccoHouse", {"height": 16, "width": 16}),
+
+            { src: "img/stuccoHouse.png", loader: "Sheet", refs: [
+                {tag: "woodDoor.close", cls: "Sprite", width: 16*4, height: 16*5, x: 16*11, y: 16*0 },
+                {tag: "woodDoor.open", cls: "Sprite", width: 16*4, height: 16*5, x: 16*11, y: 16*6 },
+            ]},
+            { tag: "woodDoor", 
+                cls: "Animator", 
+                animations: { 
+                    [ModelState.close]: { cls: "Media", tag: "woodDoor.close" }, 
+                    [ModelState.open]: { cls: "Media", tag: "woodDoor.open" }, 
+                },
+            },
 
             // a sheet of images
             { src: "img/goldButtonFrames.png", loader: "Sheet", refs: [
@@ -66,24 +79,10 @@ class SparkAssets {
 
         this.assets = [
 
-            Templates.tile("02a", "grass.a"),
-            Templates.tile("02b", "grass.b"),
-            Templates.tile("02c", "grass.c"),
-            Templates.tile("02d", "grass.d"),
-            Templates.tile("02e", "grass.e"),
-            Templates.tile("02f", "grass.f"),
-            Templates.tile("02g", "grass.g"),
-            Templates.tile("02h", "grass.h"),
-            Templates.tile("02i", "grass.i"),
-            Templates.tile("02j", "grass.j"),
-            Templates.tile("02k", "grass.k"),
-            Templates.tile("02l", "grass.l"),
-            Templates.tile("02m", "grass.m"),
-            Templates.tile("02n", "grass.n"),
-            Templates.tile("02o", "grass.o"),
-
             Templates.tile("003", "road"),
             Templates.tile("004", "brickFloor"),
+
+            { id: "o01", tag: "woodDoor", cls: "Door", xcollider: {}, xxform: {dx: 48}, xsketch: { cls: "Media", tag: "woodDoor"} },
 
             { id: "c01",    tag: "player", cls: "Character", 
                             xsketch: { cls: "Media", tag: "gnome" },
@@ -109,5 +108,8 @@ class SparkAssets {
                             xcollider: { width:15, height:16, color: "rgba(0,0,127,.5)" }, },
 
         ];
+
+        this.assets = this.assets.concat(Templates.overlayTiles("02", "grass"));
+        this.assets = this.assets.concat(Templates.wallTiles("05", "stuccoHouse"));
     }
 }

@@ -19,10 +19,15 @@ class UxText extends UxView {
     }
     set text(v) {
         this.sketch.text = v;
-        this.evtUpdated.trigger();
+        this.updated = true;
     }
 
     // METHODS -------------------------------------------------------------
+    iupdate(ctx) {
+        this.updated |= this.sketch.update();
+        return this.updated;
+    }
+
     _render(ctx) {
         if (this.sketch) this.sketch.render(ctx, this.xform.minx, this.xform.miny);
     }

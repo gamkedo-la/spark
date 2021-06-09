@@ -54,9 +54,9 @@ class Region extends Model {
                     width: width*this.sketchSize,
                     height: height*this.sketchSize,
                 };
-                console.log("xarea: " + Fmt.ofmt(xarea));
+                //console.log("xarea: " + Fmt.ofmt(xarea));
                 let area = this.generator.generate(xarea);
-                console.log("area: " + area);
+                //console.log("area: " + area);
                 this.areas.push(area);
                 this.autoAreas.push(area);
             }

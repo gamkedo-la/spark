@@ -127,7 +127,7 @@ class UxInput extends UxView {
 
     onSketchUpdate(evt) {
         // propagate update
-        this.evtUpdated.trigger();
+        this.updated = true;
     }
 
     onKeyDown(evt) {
@@ -181,9 +181,9 @@ class UxInput extends UxView {
     }
 
     // METHODS -------------------------------------------------------------
-    update(ctx) {
-        super.update(ctx);
-        if (this._sketch) this._sketch.update(ctx);
+    iupdate(ctx) {
+        if (this._text) this.updated |= this._text.update(ctx);
+        if (this._sketch) this.updated |= this._sketch.update(ctx);
         // update cursor height
         if (this.cursor.height !== this.lcheight) {
             this.cursor._height = this.xform.height * .8;
@@ -195,8 +195,10 @@ class UxInput extends UxView {
             if (this.cursorBlinkTTL <= 0) {
                 this.cursorBlinkTTL = this.cursorBlinkRate;
                 this.cursorOn = (!this.cursorOn);
+                this.updated = true;
             }
         }
+        return this.updated;
     }
 
     _render(ctx) {

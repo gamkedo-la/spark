@@ -19,7 +19,7 @@ class System extends Gizmo {
     }
 
     // METHODS -------------------------------------------------------------
-    update(ctx) {
+    iupdate(ctx) {
         this.nextTTL -= ctx.deltaTime;
         this.deltaTime += ctx.deltaTime;
         if (this.nextTTL <= 0) {

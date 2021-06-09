@@ -60,7 +60,7 @@ class State extends Gizmo {
     }
 
     // METHODS -------------------------------------------------------------
-    update(ctx) {
+    iupdate(ctx) {
         // update managers
         this.viewMgr.update(ctx);
         // update entities

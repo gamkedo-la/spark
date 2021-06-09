@@ -6,7 +6,6 @@ import { Spark }        from "./spark.js";
 window.onload = async function() {
     window.AudioContext = window.AudioContext || window.webkitAudioContext;
     let lastUpdate = Math.round(performance.now());
-    console.log('lastUpdate: ' + lastUpdate);
     let loopID = 0;
     const maxDeltaTime = 1000/20;
 

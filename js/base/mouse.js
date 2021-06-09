@@ -19,7 +19,6 @@ class MouseSystem extends System {
 
     // CONSTRUCTOR ---------------------------------------------------------
     cpost(spec={}) {
-        console.log("mouse system");
         super.cpost(spec);
         let cvsid = spec.cvsid || "canvas";
         this.canvas = spec.canvas || UxCanvas.getCanvas(cvsid);

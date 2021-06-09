@@ -2,6 +2,7 @@ export { Tile };
 
 import { Generator }        from "./base/generator.js";
 import { Model }            from "./base/model.js";
+import { Stats } from "./base/stats.js";
 
 class Tile extends Model {
 
@@ -14,6 +15,10 @@ class Tile extends Model {
         if (spec.xcollider) {
             this.collider = Generator.generate(Object.assign({"cls": "Collider", x: this.x, y: this.y}, spec.xcollider));
         }
+    }
+
+    update(ctx) {
+        Stats.count("tile.update");
     }
 
 }

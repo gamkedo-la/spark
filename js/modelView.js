@@ -6,6 +6,7 @@ import { Model }            from "./base/model.js";
 import { Direction }        from "./base/dir.js";
 import { Util }             from "./base/util.js";
 import { Fmt }              from "./base/fmt.js";
+import { Stats } from "./base/stats.js";
 
 class ModelView extends UxPanel {
 
@@ -26,7 +27,7 @@ class ModelView extends UxPanel {
 
     // EVENT HANDLERS ------------------------------------------------------
     onModelUpdate(evt) {
-        this.evtUpdated.trigger();
+        this.updated = true;
     }
 
     get minx() {
@@ -57,7 +58,8 @@ class ModelView extends UxPanel {
         return this.model.visible;
     }
 
-    update(ctx) {
+    iupdate(ctx) {
+        Stats.count("modelView.iupdate");
         // update context w/ current model state
         ctx = Object.assign({ state: this.model.state }, ctx);
         if (this.model.hasOwnProperty("heading")) {
@@ -66,26 +68,29 @@ class ModelView extends UxPanel {
             //this.lastFacing = ctx.facing;
             //console.log(`facing: ${ctx.facing} heading: ${this.model.heading}`);
         }
-        let updated = super.update(ctx);
+        this.updated = super.iupdate(ctx);
         // align xform w/ sketch
         if (this.xform.width != this._sketch.width) {
-            updated = true;
+            this.updated = true;
+            //console.log(`@@@ setting view ${this} width: ${this._sketch.width}`);
             this.xform.width = this._sketch.width;
         }
         if (this.xform.height != this._sketch.height) {
-            updated = true;
+            this.updated = true;
             this.xform.height = this._sketch.height;
             if (this._sketch.height > this.tileSize) {
                 let off = Math.round((this._sketch.height - this.tileSize)*.5);
                 this.xform._offy = -off;
+            //console.log(`@@@ setting view ${this} height: ${this._sketch.height}`);
             }
         }
-        return updated;
+        return this.updated;
     }
 
     _render(ctx) {
         if (this._sketch) this._sketch.render(ctx, this._xform.minx + this.model.x, this._xform.miny + this.model.y);
         // FIXME: remove
+        //console.log(`render ${this}: min: ${this._xform.minx + this.model.x},${this._xform.miny + this.model.y} dim: ${this._xform.width},${this._xform.height}`);
         //ctx.strokeStyle = "red";
         //ctx.strokeRect(this._xform.minx + this.model.x, this._xform.miny + this.model.y, this._xform.width, this._xform.height);
     }

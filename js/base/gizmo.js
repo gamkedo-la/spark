@@ -44,7 +44,7 @@ class Gizmo {
         // -- cls
         this.cls = this.constructor.name;
         this.cpre(spec);
-        Util.bind(this, "onChildUpdate");
+        //Util.bind(this, "onChildUpdate");
         // -- id
         if (spec.hasOwnProperty("gid")) {
             this.gid = spec.gid;
@@ -71,6 +71,8 @@ class Gizmo {
                 if (child) this.adopt(child);
             }
         }
+        // -- state flags
+        this.updated = false;
         // -- events/handlers
         this.__evtActivated = new EvtChannel("activated", {actor: this});
         this.__evtDeactivated = new EvtChannel("deactivated", {actor: this});
@@ -118,11 +120,13 @@ class Gizmo {
     get evtUpdated() { return this.__evtUpdated; }
 
     // EVENT HANDLERS ------------------------------------------------------
+    /*
     onChildUpdate(evt) {
         //console.log("this: " + this);
         //console.log("this.__evtUpdated: " + this.__evtUpdated);
         this.evtUpdated.trigger(evt);
     }
+    */
 
     // METHODS -------------------------------------------------------------
     *children() {
@@ -143,7 +147,7 @@ class Gizmo {
         this.__children.push(child);
         // cascade child events
         //console.log("adopt onChildUpdate: " + this.onChildUpdate);
-        child.evtUpdated.listen(this.onChildUpdate);
+        //child.evtUpdated.listen(this.onChildUpdate);
     }
 
     orphan() {
@@ -152,7 +156,7 @@ class Gizmo {
             let idx = parent.__children.indexOf(this);
             if (idx != -1) {
                 parent.__children.splice(idx, 1);
-                this.evtUpdated.ignore(parent.onChildUpdate);
+                //this.evtUpdated.ignore(parent.onChildUpdate);
             }
             this.__parent = undefined;
         }
@@ -166,11 +170,24 @@ class Gizmo {
     }
 
     update(ctx) {
-        let updated = false;
+        // handle all child updates
         for (const child of this.__children) {
-            if (child.update) updated |= child.update(ctx);
+            if (child.update) this.updated |= child.update(ctx);
         }
+        // handle internal updates
+        this.updated |= this.iupdate(ctx);
+        // trigger update event if needed
+        if (this.updated) {
+            this.evtUpdated.trigger();
+        }
+        let updated = this.updated;
+        this.updated = false;
         return updated;
+    }
+
+    // internal update
+    iupdate() {
+        return false;
     }
 
     toString() {

@@ -73,6 +73,7 @@ class Grid {
         let gzo = evt.actor;
         if (!gzo) return;
         let gidx = this.getgidx(gzo);
+        //console.log(`----- Grid.onGizmoUpdate: ${evt.actor} old ${gzo.gidx} new ${gidx}`);
         if (!gidx.equals(gzo.gidx)) {
             // remove old
             if (gzo.gidx) {
@@ -183,8 +184,8 @@ class Grid {
         if (gzo.minx !== undefined && gzo.miny !== undefined && gzo.maxx !== undefined && gzo.maxy !== undefined) {
             minx = gzo.minx;
             miny = gzo.miny;
-            maxx = gzo.maxx-1;
-            maxy = gzo.maxy-1;
+            maxx = Math.max(gzo.minx,gzo.maxx-1);
+            maxy = Math.max(gzo.miny,gzo.maxy-1);
         // if object only has position...
         } else if (gzo.x !== undefined && gzo.y !== undefined) {
             minx = gzo.x;
@@ -217,6 +218,7 @@ class Grid {
         }
         // assign gizmo gidx
         gzo.gidx = gidx;
+        //console.log(`grid add ${gzo} w/ idx: ${gzo.gidx}`);
         // handle gizmo updates
         gzo.evtUpdated.listen(this.onGizmoUpdate);
         // handle gizmo destroy
