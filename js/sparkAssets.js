@@ -39,6 +39,36 @@ class SparkAssets {
                     [ModelState.open]: { cls: "Media", tag: "woodDoor.open" }, 
                 },
             },
+            { src: "img/roof.png", loader: "Sheet", refs: [
+                {tag: "roof.1", cls: "Sprite", width: 16, height: 16, x: 16*1, y: 16*0 },
+                {tag: "roof.2", cls: "Sprite", width: 16, height: 16, x: 16*2, y: 16*0 },
+                {tag: "roof.3", cls: "Sprite", width: 16, height: 16, x: 16*3, y: 16*0 },
+
+                {tag: "roof.4", cls: "Sprite", width: 16, height: 16, x: 16*0, y: 16*1 },
+                {tag: "roof.5", cls: "Sprite", width: 16, height: 16, x: 16*1, y: 16*1 },
+                {tag: "roof.6", cls: "Sprite", width: 16, height: 16, x: 16*2, y: 16*1 },
+                {tag: "roof.7", cls: "Sprite", width: 16, height: 16, x: 16*3, y: 16*1 },
+                {tag: "roof.8", cls: "Sprite", width: 16, height: 16, x: 16*4, y: 16*1 },
+
+                {tag: "roof.9", cls: "Sprite", width: 16, height: 16, x: 16*0, y: 16*2 },
+                {tag: "roof.10", cls: "Sprite", width: 16, height: 16, x: 16*1, y: 16*2 },
+                {tag: "roof.11", cls: "Sprite", width: 16, height: 16, x: 16*2, y: 16*2 },
+                {tag: "roof.12", cls: "Sprite", width: 16, height: 16, x: 16*3, y: 16*2 },
+                {tag: "roof.13", cls: "Sprite", width: 16, height: 16, x: 16*4, y: 16*2 },
+
+                {tag: "roof.14", cls: "Sprite", width: 16, height: 16, x: 16*0, y: 16*3 },
+                {tag: "roof.15", cls: "Sprite", width: 16, height: 16, x: 16*1, y: 16*3 },
+                {tag: "roof.16", cls: "Sprite", width: 16, height: 16, x: 16*2, y: 16*3 },
+                {tag: "roof.17", cls: "Sprite", width: 16, height: 16, x: 16*3, y: 16*3 },
+                {tag: "roof.18", cls: "Sprite", width: 16, height: 16, x: 16*4, y: 16*3 },
+
+                {tag: "roof.15", cls: "Sprite", width: 16, height: 16, x: 16*0, y: 16*4 },
+                {tag: "roof.16", cls: "Sprite", width: 16, height: 16, x: 16*1, y: 16*4 },
+                {tag: "roof.17", cls: "Sprite", width: 16, height: 16, x: 16*2, y: 16*4 },
+                {tag: "roof.18", cls: "Sprite", width: 16, height: 16, x: 16*3, y: 16*4 },
+                {tag: "roof.19", cls: "Sprite", width: 16, height: 16, x: 16*4, y: 16*4 },
+
+            ]},
 
             // a sheet of images
             { src: "img/goldButtonFrames.png", loader: "Sheet", refs: [
@@ -106,6 +136,26 @@ class SparkAssets {
                             xsketch: { cls: "Media", tag: "wizard" },
                             xactivitySchedule: Templates.testSchedule,
                             xcollider: { width:15, height:16, color: "rgba(0,0,127,.5)" }, },
+
+            Templates.tile("r01", "roof.1"),
+            Templates.tile("r02", "roof.2"),
+            Templates.tile("r03", "roof.3"),
+            Templates.tile("r04", "roof.4"),
+            Templates.tile("r05", "roof.5"),
+            Templates.tile("r06", "roof.6"),
+            Templates.tile("r07", "roof.7"),
+            Templates.tile("r08", "roof.8"),
+            Templates.tile("r09", "roof.9"),
+            Templates.tile("r10", "roof.10"),
+            Templates.tile("r11", "roof.11"),
+            Templates.tile("r12", "roof.12"),
+            Templates.tile("r13", "roof.13"),
+            Templates.tile("r14", "roof.14"),
+            Templates.tile("r15", "roof.15"),
+            Templates.tile("r16", "roof.16"),
+            Templates.tile("r17", "roof.17"),
+            Templates.tile("r18", "roof.18"),
+            Templates.tile("r19", "roof.19"),
 
         ];
 

@@ -96,6 +96,7 @@ class UxView extends Gizmo {
     set visible(v) {
         v = (v) ? true : false;
         if (v != this._visible) {
+            this.updated = true;
             this._visible = v;
             if (v) {
                 this.evtAppeared.trigger();
