@@ -32,7 +32,7 @@ class Model extends Gizmo {
         this.state = spec.state || ModelState.idle;
         // FIXME: validate we want to put this here...
         // -- visible
-        this.visible = spec.hasOwnProperty("visible") ? spec.visible : true;
+        this._visible = spec.hasOwnProperty("visible") ? spec.visible : true;
     }
 
     // PROPERTIES ----------------------------------------------------------
@@ -62,11 +62,22 @@ class Model extends Gizmo {
             this.modified = true;
         }
     }
+    get visible() {
+        return this._visible;
+    }
+    set visible(v) {
+        if (v !== this._visible) {
+            console.log(`setting ${this}.visible: ${v}`);
+            this._visible = v;
+            this.modified = true;
+        }
+    }
 
     // METHODS -------------------------------------------------------------
     iupdate(ctx) {
         //console.log("model update");
         if (this.modified) {
+            if (this.tag !== "player") console.log(`${this} iupdate modified`);
             Stats.count("model.updated");
             this.updated = true;
             this.modified = false;

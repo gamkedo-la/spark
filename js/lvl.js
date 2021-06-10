@@ -182,6 +182,7 @@ class LevelCtrl extends UxCtrl {
             let xview = {
                 cls: "ModelView",
                 xsketch: obj.xsketch,
+                //xxform: Object.assign({scalex:2, scaley:2}, obj.xxform),
                 xxform: obj.xxform,
                 model: obj,
                 //xsketch: this.media.get(obj.tag),

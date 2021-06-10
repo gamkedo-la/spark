@@ -17,8 +17,9 @@ class Tile extends Model {
         }
     }
 
-    update(ctx) {
+    iupdate(ctx) {
         Stats.count("tile.update");
+        return super.iupdate(ctx);
     }
 
 }

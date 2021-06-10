@@ -41,7 +41,9 @@ class Region extends Model {
         // load layer data
         for (const [layerName, layerData] of Object.entries(layers)) {
             let layerId = this.layerMap[layerName];
+            // FIXME FIXME FIXME
             let miny = ((offy-layerId)*this.sketchSize);
+            //let miny = ((offy-layerId)*this.halfSize);
             // handle auto generation of layer data
             if (autoArea) {
                 let xarea = {
