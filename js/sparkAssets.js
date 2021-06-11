@@ -30,6 +30,13 @@ class SparkAssets {
             Templates.wallMedia("img/stuccoWalls2.png", "stuccoWalls2", {"height": 16, "width": 16}),
             Templates.roofMedia("img/roof.png", "roof.l", "roof.r", "roof.f", "roof.b", {"height": 16, "width": 16}),
 
+            { src: "img/object1.png", loader: "Sheet", refs: [
+                {tag: "stool", cls: "Sprite", width: 16*2, height: 16*3, x: 16*0, y: 16*0 },
+                {tag: "table", cls: "Sprite", width: 16*2, height: 16*3, x: 16*2, y: 16*0 },
+                {tag: "bed.empty", cls: "Sprite", width: 16*2, height: 16*4, x: 16*4, y: 16*0 },
+                {tag: "bed.occupied", cls: "Sprite", width: 16*2, height: 16*4, x: 16*6, y: 16*0 },
+            ]},
+
             { src: "img/stuccoWalls1.png", loader: "Sheet", refs: [
                 {tag: "woodDoor.close", cls: "Sprite", width: 16*4, height: 16*5, x: 16*11, y: 16*0 },
                 {tag: "woodDoor.open", cls: "Sprite", width: 16*4, height: 16*5, x: 16*11, y: 16*6 },
@@ -44,6 +51,14 @@ class SparkAssets {
                 animations: { 
                     [ModelState.close]: { cls: "Media", tag: "woodDoor.close" }, 
                     [ModelState.open]: { cls: "Media", tag: "woodDoor.open" }, 
+                },
+            },
+
+            { tag: "bed", 
+                cls: "Animator", 
+                animations: { 
+                    [ModelState.idle]: { cls: "Media", tag: "bed.empty" }, 
+                    [ModelState.occupied]: { cls: "Media", tag: "bed.occupied" }, 
                 },
             },
 
@@ -91,6 +106,11 @@ class SparkAssets {
             Templates.tile("005", "woodDoor.top", {xxform: {dx:48}}),
 
             { id: "o01", tag: "woodDoor", cls: "Door", xcollider: {}, xxform: {dx: 48}, xsketch: { cls: "Media", tag: "woodDoor"} },
+            //{ id: "o02", tag: "stool", cls: "Tile", xsketch: { cls: "Media", tag: "stool"} },
+            //{ id: "o03", tag: "table", cls: "Tile", xsketch: { cls: "Media", tag: "table"} },
+            Templates.tile("o02", "stool", {xxform: {dx:16}}),
+            Templates.tile("o03", "table", {xxform: {dx:16}}),
+            Templates.tile("o04", "bed", {xxform: {dx:16}}),
 
             { id: "c01",    tag: "player", cls: "Character", 
                             xsketch: { cls: "Media", tag: "gnome" },
