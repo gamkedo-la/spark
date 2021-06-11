@@ -15,6 +15,8 @@ class Tile extends Model {
         if (spec.xcollider) {
             this.collider = Generator.generate(Object.assign({"cls": "Collider", x: this.x, y: this.y}, spec.xcollider));
         }
+        // -- xform
+        this.xxform = spec.xxform || undefined;
     }
 
     iupdate(ctx) {

@@ -30,10 +30,15 @@ class SparkAssets {
             Templates.wallMedia("img/stuccoWalls2.png", "stuccoWalls2", {"height": 16, "width": 16}),
             Templates.roofMedia("img/roof.png", "roof.l", "roof.r", "roof.f", "roof.b", {"height": 16, "width": 16}),
 
-            { src: "img/stuccoHouse.png", loader: "Sheet", refs: [
+            { src: "img/stuccoWalls1.png", loader: "Sheet", refs: [
                 {tag: "woodDoor.close", cls: "Sprite", width: 16*4, height: 16*5, x: 16*11, y: 16*0 },
                 {tag: "woodDoor.open", cls: "Sprite", width: 16*4, height: 16*5, x: 16*11, y: 16*6 },
             ]},
+
+            { src: "img/stuccoWalls2.png", loader: "Sheet", refs: [
+                {tag: "woodDoor.top", cls: "Sprite", width: 16*4, height: 16*2, x: 16*11, y: 16*1 },
+            ]},
+
             { tag: "woodDoor", 
                 cls: "Animator", 
                 animations: { 
@@ -83,6 +88,7 @@ class SparkAssets {
 
             Templates.tile("003", "road"),
             Templates.tile("004", "brickFloor"),
+            Templates.tile("005", "woodDoor.top", {xxform: {dx:48}}),
 
             { id: "o01", tag: "woodDoor", cls: "Door", xcollider: {}, xxform: {dx: 48}, xsketch: { cls: "Media", tag: "woodDoor"} },
 

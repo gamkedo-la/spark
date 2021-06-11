@@ -205,7 +205,7 @@ class Templates {
             loader: "Sheet", 
             refs: [],
         };
-        xmedia.refs.push(this.varSpriteRef(`${tag}.a`, [[5,6], [6,1]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.a`, [[5,0], [6,1]], spec));
         xmedia.refs.push(this.varSpriteRef(`${tag}.b`, [[5,1]], spec));
         xmedia.refs.push(this.varSpriteRef(`${tag}.c`, [[5,2], [5,7], [5,8]], spec));
         xmedia.refs.push(this.varSpriteRef(`${tag}.d`, [[6,2], [6,7], [6,8], [6,9]], spec));
@@ -314,9 +314,9 @@ class Templates {
         return anim;
     }
 
-    static tile(id, tag, mediaTag) {
-        if (!mediaTag) mediaTag = tag;
-        return {
+    static tile(id, tag, spec={}) {
+        let mediaTag = spec.mediaTag || tag;
+        return Object.assign({
             cls: "Tile", 
             id: id, 
             tag: tag,           
@@ -324,7 +324,7 @@ class Templates {
                 cls: "Media", 
                 tag: mediaTag,
             }
-        };
+        }, spec);
     }
 
 }
