@@ -27,7 +27,7 @@ class ModelView extends UxPanel {
 
     // EVENT HANDLERS ------------------------------------------------------
     onModelUpdate(evt) {
-        if (this.model.tag !== "player") console.log(`${this} onModelUpdate`);
+        //if (this.model.tag !== "player") console.log(`${this} onModelUpdate`);
         this.updated = true;
     }
 

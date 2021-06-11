@@ -13,10 +13,13 @@ class Config {
         dbgViewGrid: false,
         dbgStats: true,
         layerMap: {
-            main:   0,
-            upper:  1,
-            upper2: 2,
-            max:    2,
+            l1:     0,
+            l2:     1,
+            l3:     2,
+            l4:     3,
+            l5:     4,
+            l6:     5,
+            max:    5,
         },
         depthMap: {
             bg:  0,

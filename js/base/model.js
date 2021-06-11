@@ -57,7 +57,7 @@ class Model extends Gizmo {
     }
     set layer(v) {
         if (v !== this._layer) {
-            console.log("setting layer: " + v);
+            //console.log("setting layer: " + v);
             this._layer = v;
             this.modified = true;
         }
@@ -67,7 +67,7 @@ class Model extends Gizmo {
     }
     set visible(v) {
         if (v !== this._visible) {
-            console.log(`setting ${this}.visible: ${v}`);
+            //console.log(`setting ${this}.visible: ${v}`);
             this._visible = v;
             this.modified = true;
         }
@@ -77,7 +77,7 @@ class Model extends Gizmo {
     iupdate(ctx) {
         //console.log("model update");
         if (this.modified) {
-            if (this.tag !== "player") console.log(`${this} iupdate modified`);
+            //if (this.tag !== "player") console.log(`${this} iupdate modified`);
             Stats.count("model.updated");
             this.updated = true;
             this.modified = false;

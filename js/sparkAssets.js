@@ -25,8 +25,10 @@ class SparkAssets {
                 ]},
 
             ]},
-            Templates.overlaySprite("img/grass.png", "grass", {"height": 16, "width": 16}),
-            Templates.wallSprite("img/stuccoHouse.png", "stuccoHouse", {"height": 16, "width": 16}),
+            Templates.overlayMedia("img/grass.png", "grass", {"height": 16, "width": 16}),
+            Templates.wallMedia("img/stuccoWalls1.png", "stuccoWalls1", {"height": 16, "width": 16, offy:16}),
+            Templates.wallMedia("img/stuccoWalls2.png", "stuccoWalls2", {"height": 16, "width": 16}),
+            Templates.roofMedia("img/roof.png", "roof.l", "roof.r", "roof.f", "roof.b", {"height": 16, "width": 16}),
 
             { src: "img/stuccoHouse.png", loader: "Sheet", refs: [
                 {tag: "woodDoor.close", cls: "Sprite", width: 16*4, height: 16*5, x: 16*11, y: 16*0 },
@@ -39,36 +41,6 @@ class SparkAssets {
                     [ModelState.open]: { cls: "Media", tag: "woodDoor.open" }, 
                 },
             },
-            { src: "img/roof.png", loader: "Sheet", refs: [
-                {tag: "roof.1", cls: "Sprite", width: 16, height: 16, x: 16*1, y: 16*0 },
-                {tag: "roof.2", cls: "Sprite", width: 16, height: 16, x: 16*2, y: 16*0 },
-                {tag: "roof.3", cls: "Sprite", width: 16, height: 16, x: 16*3, y: 16*0 },
-
-                {tag: "roof.4", cls: "Sprite", width: 16, height: 16, x: 16*0, y: 16*1 },
-                {tag: "roof.5", cls: "Sprite", width: 16, height: 16, x: 16*1, y: 16*1 },
-                {tag: "roof.6", cls: "Sprite", width: 16, height: 16, x: 16*2, y: 16*1 },
-                {tag: "roof.7", cls: "Sprite", width: 16, height: 16, x: 16*3, y: 16*1 },
-                {tag: "roof.8", cls: "Sprite", width: 16, height: 16, x: 16*4, y: 16*1 },
-
-                {tag: "roof.9", cls: "Sprite", width: 16, height: 16, x: 16*0, y: 16*2 },
-                {tag: "roof.10", cls: "Sprite", width: 16, height: 16, x: 16*1, y: 16*2 },
-                {tag: "roof.11", cls: "Sprite", width: 16, height: 16, x: 16*2, y: 16*2 },
-                {tag: "roof.12", cls: "Sprite", width: 16, height: 16, x: 16*3, y: 16*2 },
-                {tag: "roof.13", cls: "Sprite", width: 16, height: 16, x: 16*4, y: 16*2 },
-
-                {tag: "roof.14", cls: "Sprite", width: 16, height: 16, x: 16*0, y: 16*3 },
-                {tag: "roof.15", cls: "Sprite", width: 16, height: 16, x: 16*1, y: 16*3 },
-                {tag: "roof.16", cls: "Sprite", width: 16, height: 16, x: 16*2, y: 16*3 },
-                {tag: "roof.17", cls: "Sprite", width: 16, height: 16, x: 16*3, y: 16*3 },
-                {tag: "roof.18", cls: "Sprite", width: 16, height: 16, x: 16*4, y: 16*3 },
-
-                {tag: "roof.15", cls: "Sprite", width: 16, height: 16, x: 16*0, y: 16*4 },
-                {tag: "roof.16", cls: "Sprite", width: 16, height: 16, x: 16*1, y: 16*4 },
-                {tag: "roof.17", cls: "Sprite", width: 16, height: 16, x: 16*2, y: 16*4 },
-                {tag: "roof.18", cls: "Sprite", width: 16, height: 16, x: 16*3, y: 16*4 },
-                {tag: "roof.19", cls: "Sprite", width: 16, height: 16, x: 16*4, y: 16*4 },
-
-            ]},
 
             // a sheet of images
             { src: "img/goldButtonFrames.png", loader: "Sheet", refs: [
@@ -137,29 +109,14 @@ class SparkAssets {
                             xactivitySchedule: Templates.testSchedule,
                             xcollider: { width:15, height:16, color: "rgba(0,0,127,.5)" }, },
 
-            Templates.tile("r01", "roof.1"),
-            Templates.tile("r02", "roof.2"),
-            Templates.tile("r03", "roof.3"),
-            Templates.tile("r04", "roof.4"),
-            Templates.tile("r05", "roof.5"),
-            Templates.tile("r06", "roof.6"),
-            Templates.tile("r07", "roof.7"),
-            Templates.tile("r08", "roof.8"),
-            Templates.tile("r09", "roof.9"),
-            Templates.tile("r10", "roof.10"),
-            Templates.tile("r11", "roof.11"),
-            Templates.tile("r12", "roof.12"),
-            Templates.tile("r13", "roof.13"),
-            Templates.tile("r14", "roof.14"),
-            Templates.tile("r15", "roof.15"),
-            Templates.tile("r16", "roof.16"),
-            Templates.tile("r17", "roof.17"),
-            Templates.tile("r18", "roof.18"),
-            Templates.tile("r19", "roof.19"),
-
         ];
 
         this.assets = this.assets.concat(Templates.overlayTiles("02", "grass"));
-        this.assets = this.assets.concat(Templates.wallTiles("05", "stuccoHouse"));
+        this.assets = this.assets.concat(Templates.wallTiles("05", "stuccoWalls1"));
+        this.assets = this.assets.concat(Templates.wallTiles("06", "stuccoWalls2"));
+        this.assets = this.assets.concat(Templates.frontRoofTiles("rf", "roof.f"));
+        this.assets = this.assets.concat(Templates.backRoofTiles("rb", "roof.b"));
+        this.assets = this.assets.concat(Templates.leftRoofTiles("rl", "roof.l"));
+        this.assets = this.assets.concat(Templates.rightRoofTiles("rr", "roof.r"));
     }
 }

@@ -3,7 +3,6 @@ export { Templates };
 import { AiGoal }               from "./base/ai/aiGoal.js";
 import { Activity }             from "./base/activity.js";
 import { Config }               from "./base/config.js";
-import { Fmt } from "./base/fmt.js";
 
 class Templates {
 
@@ -51,172 +50,190 @@ class Templates {
         }
     }
 
-    static overlaySprite(file, tag, spec={}) {
+    static varSpriteRef(tag, coords, spec={}) {
+        let width = spec.width || Config.tileSize;
+        let height = spec.height || Config.tileSize;
+        let offx = spec.offx || 0;
+        let offy = spec.offy || 0;
+        var xref = {
+            tag: tag,
+            cls: "VarSprite",
+            variations: [],
+        }
+        console.log("coords: " + coords)
+        for (const [x,y] of coords) {
+            xref.variations.push(
+                { x: offx+(width*x), y: offy+(height*y), width: width, height: height },
+            );
+        }
+        return xref;
+    }
+
+    static overlayMedia(file, tag, spec={}) {
         let xmedia = { 
             src: file, 
             loader: "Sheet", 
             refs: [],
-         };
-         let width = spec.width || Config.tileSize;
-         let height = spec.height || Config.tileSize;
+        };
+        xmedia.refs.push(this.varSpriteRef(`${tag}.a`, [[0,0], [1,1]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.b`, [[1,0], [0,1]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.c`, [[3,0], [2,2], [0,3]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.d`, [[4,0], [5,0], [1,3], [8,3]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.e`, [[6,0], [7,2], [9,3]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.f`, [[3,1], [0,4], [0,5], [3,8]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.g`, [[6,1], [9,4], [9,5], [6,8]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.h`, [[3,2], [2,3]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.i`, [[6,2], [7,3]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.j`, [[1,4], [2,4], [3,4], [4,4], [5,4], [6,4], [7,4], [8,4]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.k`, [[0,6], [2,7], [3,9]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.l`, [[1,6], [8,6], [4,9], [5,9]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.m`, [[2,6], [3,7]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.n`, [[7,6], [6,7]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.o`, [[9,6], [7,7], [6,9]], spec));
+        return xmedia;
+    }
 
-         xmedia.refs.push({
-            tag: `${tag}.a`,
-            cls: "VarSprite",
-            variations: [
-                { x: width*0, y: height*0, width: width, height: height },
-                { x: width*1, y: height*1, width: width, height: height },
-            ],
-        });
-
-         xmedia.refs.push({
-            tag: `${tag}.b`,
-            cls: "VarSprite",
-            variations: [
-                { x: width*1, y: height*0, width: width, height: height },
-                { x: width*0, y: height*1, width: width, height: height },
-            ],
-        });
-
-         xmedia.refs.push({
-            tag: `${tag}.c`,
-            cls: "VarSprite",
-            variations: [
-                { x: width*3, y: height*0, width: width, height: height },
-                { x: width*2, y: height*2, width: width, height: height },
-                { x: width*0, y: height*3, width: width, height: height },
-            ],
-        });
-
-         xmedia.refs.push({
-            tag: `${tag}.d`,
-            cls: "VarSprite",
-            variations: [
-                { x: width*4, y: height*0, width: width, height: height },
-                { x: width*5, y: height*0, width: width, height: height },
-                { x: width*1, y: height*3, width: width, height: height },
-                { x: width*8, y: height*3, width: width, height: height },
-            ],
-        });
-
-         xmedia.refs.push({
-            tag: `${tag}.e`,
-            cls: "VarSprite",
-            variations: [
-                { x: width*6, y: height*0, width: width, height: height },
-                { x: width*7, y: height*2, width: width, height: height },
-                { x: width*9, y: height*3, width: width, height: height },
-            ],
-        });
-
-         xmedia.refs.push({
-            tag: `${tag}.f`,
-            cls: "VarSprite",
-            variations: [
-                { x: width*3, y: height*1, width: width, height: height },
-                { x: width*0, y: height*4, width: width, height: height },
-                { x: width*0, y: height*5, width: width, height: height },
-                { x: width*3, y: height*8, width: width, height: height },
-            ],
-        });
-
-         xmedia.refs.push({
-            tag: `${tag}.g`,
-            cls: "VarSprite",
-            variations: [
-                { x: width*6, y: height*1, width: width, height: height },
-                { x: width*9, y: height*4, width: width, height: height },
-                { x: width*9, y: height*5, width: width, height: height },
-                { x: width*6, y: height*8, width: width, height: height },
-            ],
-        });
-
-         xmedia.refs.push({
-            tag: `${tag}.h`,
-            cls: "VarSprite",
-            variations: [
-                { x: width*3, y: height*2, width: width, height: height },
-                { x: width*2, y: height*3, width: width, height: height },
-            ],
-        });
-
-         xmedia.refs.push({
-            tag: `${tag}.i`,
-            cls: "VarSprite",
-            variations: [
-                { x: width*6, y: height*2, width: width, height: height },
-                { x: width*7, y: height*3, width: width, height: height },
-            ],
-        });
-
-         xmedia.refs.push({
-            tag: `${tag}.j`,
-            cls: "VarSprite",
-            variations: [
-                { x: width*1, y: height*4, width: width, height: height },
-                { x: width*2, y: height*4, width: width, height: height },
-                { x: width*3, y: height*4, width: width, height: height },
-                { x: width*4, y: height*4, width: width, height: height },
-                { x: width*5, y: height*4, width: width, height: height },
-                { x: width*6, y: height*4, width: width, height: height },
-                { x: width*7, y: height*4, width: width, height: height },
-                { x: width*8, y: height*4, width: width, height: height },
-            ],
-        });
-
-        //console.log(`refs: ${Fmt.ofmt(xmedia.refs[xmedia.refs.length-1].variations)}`);
-
-         xmedia.refs.push({
-            tag: `${tag}.k`,
-            cls: "VarSprite",
-            variations: [
-                { x: width*0, y: height*6, width: width, height: height },
-                { x: width*2, y: height*7, width: width, height: height },
-                { x: width*3, y: height*9, width: width, height: height },
-            ],
-        });
-
-         xmedia.refs.push({
-            tag: `${tag}.l`,
-            cls: "VarSprite",
-            variations: [
-                { x: width*1, y: height*6, width: width, height: height },
-                { x: width*8, y: height*6, width: width, height: height },
-                { x: width*4, y: height*9, width: width, height: height },
-                { x: width*5, y: height*9, width: width, height: height },
-            ],
-        });
-
-         xmedia.refs.push({
-            tag: `${tag}.m`,
-            cls: "VarSprite",
-            variations: [
-                { x: width*2, y: height*6, width: width, height: height },
-                { x: width*3, y: height*7, width: width, height: height },
-            ],
-        });
-
-         xmedia.refs.push({
-            tag: `${tag}.n`,
-            cls: "VarSprite",
-            variations: [
-                { x: width*7, y: height*6, width: width, height: height },
-                { x: width*6, y: height*7, width: width, height: height },
-            ],
-        });
-
-         xmedia.refs.push({
-            tag: `${tag}.o`,
-            cls: "VarSprite",
-            variations: [
-                { x: width*9, y: height*6, width: width, height: height },
-                { x: width*7, y: height*7, width: width, height: height },
-                { x: width*6, y: height*9, width: width, height: height },
-            ],
-        });
-
+    static wallMedia(file, tag, spec={}) {
+        let xmedia = { 
+            src: file, 
+            loader: "Sheet", 
+            refs: [],
+        };
+        xmedia.refs.push(this.varSpriteRef(`${tag}.a`, [[3,0], [2,3], [0,4], [6,7], [5,8]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.b`, [[4,0], [1,4], [1,7], [4,11]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.c`, [[5,0], [6,3], [7,4], [2,7], [3,8]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.d`, [[3,1], [0,5], [5,9]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.e`, [[4,1], [1,5], [1,8], [4,12]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.f`, [[5,1], [7,5], [3,9]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.g`, [[3,2], [0,6], [3,10]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.h`, [[5,2], [7,6], [5,10]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.i`, [[3,3], [7,7], [5,11]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.j`, [[5,3], [0,7], [3,11]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.k`, [[2,4], [6,8]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.l`, [[3,4], [2,5], [7,8], [6,9], [5,12]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.m`, [[5,4], [6,5], [0,8], [2,9], [3,12]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.n`, [[6,4], [2,8]], spec));
         return xmedia;
 
+    }
+
+    static frontRoofMedia(file, tag, spec={}) {
+        let xmedia = { 
+            src: file, 
+            loader: "Sheet", 
+            refs: [],
+        };
+        xmedia.refs.push(this.varSpriteRef(`${tag}.a`, [[0,4], [9,4], [12,4]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.b`, [[1,4], [2,4], [6,4], [7,4], [10,4], [13,4]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.c`, [[8,4], [11,4], [14,4]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.d`, [[0,5], [9,5]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.e`, [[1,5], [2,5], [6,5], [7,5], [10,5]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.f`, [[8,5], [11,5]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.g`, [[12,5]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.h`, [[13,5]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.i`, [[14,5]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.j`, [[0,6]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.k`, [[1,6], [7,6]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.l`, [[8,6]], spec));
+        return xmedia;
+    }
+
+    static backRoofMedia(file, tag, spec={}) {
+        let xmedia = { 
+            src: file, 
+            loader: "Sheet", 
+            refs: [],
+        };
+        xmedia.refs.push(this.varSpriteRef(`${tag}.a`, [[7,0]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.b`, [[8,0]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.c`, [[9,0]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.d`, [[7,1]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.e`, [[8,1]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.f`, [[9,1]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.g`, [[7,2]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.h`, [[8,2]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.i`, [[9,2]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.j`, [[0,3]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.k`, [[1,3], [7,3]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.l`, [[8,3]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.m`, [[9,3]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.n`, [[10,3]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.o`, [[11,3]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.p`, [[12,3]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.q`, [[13,3]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.r`, [[14,3]], spec));
+        return xmedia;
+    }
+
+    static leftRoofMedia(file, tag, spec={}) {
+        let xmedia = { 
+            src: file, 
+            loader: "Sheet", 
+            refs: [],
+        };
+        xmedia.refs.push(this.varSpriteRef(`${tag}.a`, [[3,0], [2,1]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.b`, [[4,0]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.c`, [[3,1]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.d`, [[4,1], [4,2], [4,5], [4,6], [4,7], [4,8]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.e`, [[2,2], [2,7], [2,8], [2,9]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.f`, [[3,2], [3,7], [3,8]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.g`, [[2,3]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.h`, [[3,3]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.i`, [[4,3]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.j`, [[3,4]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.k`, [[4,4]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.l`, [[3,5]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.m`, [[2,6]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.n`, [[3,6]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.o`, [[3,9]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.p`, [[4,9]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.q`, [[2,10]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.r`, [[3,10]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.s`, [[4,10]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.t`, [[7,8]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.u`, [[9,8]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.v`, [[10,8]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.w`, [[7,9]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.x`, [[9,9]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.y`, [[10,9]], spec));
+        return xmedia;
+    }
+
+    static rightRoofMedia(file, tag, spec={}) {
+        let xmedia = { 
+            src: file, 
+            loader: "Sheet", 
+            refs: [],
+        };
+        xmedia.refs.push(this.varSpriteRef(`${tag}.a`, [[5,6], [6,1]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.b`, [[5,1]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.c`, [[5,2], [5,7], [5,8]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.d`, [[6,2], [6,7], [6,8], [6,9]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.e`, [[5,3]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.f`, [[6,3]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.g`, [[5,4]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.h`, [[5,5]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.i`, [[5,6]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.j`, [[6,6]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.k`, [[5,9]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.l`, [[5,10]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.m`, [[6,10]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.n`, [[8,8]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.o`, [[8,9]], spec));
+        return xmedia;
+    }
+
+    static roofMedia(file, ltag, rtag, btag, ftag, spec={}) {
+        let lmedia = this.leftRoofMedia(file, ltag, spec);
+        let rmedia = this.rightRoofMedia(file, rtag, spec);
+        let bmedia = this.backRoofMedia(file, btag, spec);
+        let fmedia = this.frontRoofMedia(file, ftag, spec);
+        let xmedia = { 
+            src: file, 
+            loader: "Sheet", 
+            refs: lmedia.refs.concat(rmedia.refs, bmedia.refs, fmedia.refs),
+        };
+        return xmedia;
     }
 
     static overlayTiles(baseId, baseTag) {
@@ -229,230 +246,9 @@ class Templates {
         return xtiles;
     }
 
-    static wallSprite(file, tag, spec={}) {
-        let xmedia = { 
-            src: file, 
-            loader: "Sheet", 
-            refs: [],
-         };
-         let width = spec.width || Config.tileSize;
-         let height = spec.height || Config.tileSize;
-
-         xmedia.refs.push({
-            tag: `${tag}.a`,
-            cls: "VarSprite",
-            variations: [
-                { x: width*3, y: height*0, width: width, height: height },
-                { x: width*2, y: height*3, width: width, height: height },
-                { x: width*0, y: height*4, width: width, height: height },
-                { x: width*6, y: height*8, width: width, height: height },
-                { x: width*5, y: height*9, width: width, height: height },
-            ],
-        });
-
-         xmedia.refs.push({
-            tag: `${tag}.b`,
-            cls: "VarSprite",
-            variations: [
-                { x: width*4, y: height*0, width: width, height: height },
-                { x: width*1, y: height*4, width: width, height: height },
-                { x: width*1, y: height*8, width: width, height: height },
-                { x: width*4, y: height*12, width: width, height: height },
-            ],
-        });
-
-         xmedia.refs.push({
-            tag: `${tag}.c`,
-            cls: "VarSprite",
-            variations: [
-                { x: width*5, y: height*0, width: width, height: height },
-                { x: width*6, y: height*3, width: width, height: height },
-                { x: width*7, y: height*4, width: width, height: height },
-                { x: width*2, y: height*8, width: width, height: height },
-                { x: width*3, y: height*9, width: width, height: height },
-            ],
-        });
-
-         xmedia.refs.push({
-            tag: `${tag}.d`,
-            cls: "VarSprite",
-            variations: [
-                { x: width*3, y: height*1, width: width, height: height },
-                { x: width*0, y: height*5, width: width, height: height },
-                { x: width*5, y: height*10, width: width, height: height },
-            ],
-        });
-
-         xmedia.refs.push({
-            tag: `${tag}.e`,
-            cls: "VarSprite",
-            variations: [
-                { x: width*4, y: height*1, width: width, height: height },
-                { x: width*1, y: height*5, width: width, height: height },
-                { x: width*1, y: height*9, width: width, height: height },
-                { x: width*4, y: height*13, width: width, height: height },
-            ],
-        });
-
-         xmedia.refs.push({
-            tag: `${tag}.f`,
-            cls: "VarSprite",
-            variations: [
-                { x: width*5, y: height*1, width: width, height: height },
-                { x: width*7, y: height*5, width: width, height: height },
-                { x: width*3, y: height*10, width: width, height: height },
-            ],
-        });
-
-         xmedia.refs.push({
-            tag: `${tag}.g`,
-            cls: "VarSprite",
-            variations: [
-                { x: width*3, y: height*2, width: width, height: height },
-                { x: width*0, y: height*6, width: width, height: height },
-                { x: width*5, y: height*11, width: width, height: height },
-            ],
-        });
-
-         xmedia.refs.push({
-            tag: `${tag}.h`,
-            cls: "VarSprite",
-            variations: [
-                { x: width*4, y: height*2, width: width, height: height },
-                { x: width*1, y: height*6, width: width, height: height },
-                { x: width*1, y: height*10, width: width, height: height },
-                { x: width*4, y: height*14, width: width, height: height },
-            ],
-        });
-
-         xmedia.refs.push({
-            tag: `${tag}.i`,
-            cls: "VarSprite",
-            variations: [
-                { x: width*5, y: height*2, width: width, height: height },
-                { x: width*7, y: height*6, width: width, height: height },
-                { x: width*3, y: height*11, width: width, height: height },
-            ],
-        });
-
-         xmedia.refs.push({
-            tag: `${tag}.j`,
-            cls: "VarSprite",
-            variations: [
-                { x: width*3, y: height*3, width: width, height: height },
-                { x: width*7, y: height*8, width: width, height: height },
-                { x: width*5, y: height*12, width: width, height: height },
-            ],
-        });
-
-        //console.log(`refs: ${Fmt.ofmt(xmedia.refs[xmedia.refs.length-1].variations)}`);
-
-         xmedia.refs.push({
-            tag: `${tag}.k`,
-            cls: "VarSprite",
-            variations: [
-                { x: width*5, y: height*3, width: width, height: height },
-                { x: width*0, y: height*8, width: width, height: height },
-                { x: width*3, y: height*12, width: width, height: height },
-            ],
-        });
-
-         xmedia.refs.push({
-            tag: `${tag}.l`,
-            cls: "VarSprite",
-            variations: [
-                { x: width*2, y: height*4, width: width, height: height },
-                { x: width*6, y: height*9, width: width, height: height },
-            ],
-        });
-
-         xmedia.refs.push({
-            tag: `${tag}.m`,
-            cls: "VarSprite",
-            variations: [
-                { x: width*3, y: height*4, width: width, height: height },
-                { x: width*7, y: height*9, width: width, height: height },
-                { x: width*5, y: height*13, width: width, height: height },
-            ],
-        });
-
-         xmedia.refs.push({
-            tag: `${tag}.n`,
-            cls: "VarSprite",
-            variations: [
-                { x: width*5, y: height*4, width: width, height: height },
-                { x: width*0, y: height*9, width: width, height: height },
-                { x: width*3, y: height*13, width: width, height: height },
-            ],
-        });
-
-         xmedia.refs.push({
-            tag: `${tag}.o`,
-            cls: "VarSprite",
-            variations: [
-                { x: width*6, y: height*4, width: width, height: height },
-                { x: width*2, y: height*9, width: width, height: height },
-            ],
-        });
-
-         xmedia.refs.push({
-            tag: `${tag}.p`,
-            cls: "VarSprite",
-            variations: [
-                { x: width*2, y: height*5, width: width, height: height },
-                { x: width*6, y: height*10, width: width, height: height },
-            ],
-        });
-
-         xmedia.refs.push({
-            tag: `${tag}.q`,
-            cls: "VarSprite",
-            variations: [
-                { x: width*3, y: height*5, width: width, height: height },
-                { x: width*2, y: height*6, width: width, height: height },
-                { x: width*7, y: height*10, width: width, height: height },
-                { x: width*6, y: height*11, width: width, height: height },
-                { x: width*5, y: height*14, width: width, height: height },
-            ],
-        });
-
-         xmedia.refs.push({
-            tag: `${tag}.r`,
-            cls: "VarSprite",
-            variations: [
-                { x: width*5, y: height*5, width: width, height: height },
-                { x: width*6, y: height*6, width: width, height: height },
-                { x: width*0, y: height*10, width: width, height: height },
-                { x: width*2, y: height*11, width: width, height: height },
-                { x: width*3, y: height*14, width: width, height: height },
-            ],
-        });
-
-         xmedia.refs.push({
-            tag: `${tag}.s`,
-            cls: "VarSprite",
-            variations: [
-                { x: width*6, y: height*5, width: width, height: height },
-                { x: width*2, y: height*10, width: width, height: height },
-            ],
-        });
-
-         xmedia.refs.push({
-            tag: `${tag}.t`,
-            cls: "VarSprite",
-            variations: [
-                { x: width*0, y: height*7, width: width, height: height },
-                { x: width*7, y: height*7, width: width, height: height },
-            ],
-        });
-
-        return xmedia;
-
-    }
-
     static wallTiles(baseId, baseTag) {
         let xtiles = [];
-        for (const c of "abcdefghijklmnopqrst") {
+        for (const c of "abcdefghijklmn") {
             let id = `${baseId}${c}`;
             let tag = `${baseTag}.${c}`;
             xtiles.push(Templates.tile(id, tag))
@@ -460,17 +256,44 @@ class Templates {
         return xtiles;
     }
 
-    static xtile(tag, mediaTag, baseId) {
-        if (!mediaTag) mediaTag = tag;
-        return {
-            cls: "Tile", 
-            id: id, 
-            tag: tag,           
-            xsketch: { 
-                cls: "Media", 
-                tag: mediaTag,
-            }
-        };
+    static frontRoofTiles(baseId, baseTag) {
+        let xtiles = [];
+        for (const c of "abcdefghijkl") {
+            let id = `${baseId}${c}`;
+            let tag = `${baseTag}.${c}`;
+            xtiles.push(Templates.tile(id, tag))
+        }
+        return xtiles;
+    }
+
+    static backRoofTiles(baseId, baseTag) {
+        let xtiles = [];
+        for (const c of "abcdefghijklmnopqr") {
+            let id = `${baseId}${c}`;
+            let tag = `${baseTag}.${c}`;
+            xtiles.push(Templates.tile(id, tag))
+        }
+        return xtiles;
+    }
+
+    static leftRoofTiles(baseId, baseTag) {
+        let xtiles = [];
+        for (const c of "abcdefghijklmnopqrstuvwxy") {
+            let id = `${baseId}${c}`;
+            let tag = `${baseTag}.${c}`;
+            xtiles.push(Templates.tile(id, tag))
+        }
+        return xtiles;
+    }
+
+    static rightRoofTiles(baseId, baseTag) {
+        let xtiles = [];
+        for (const c of "abcdefghijklmno") {
+            let id = `${baseId}${c}`;
+            let tag = `${baseTag}.${c}`;
+            xtiles.push(Templates.tile(id, tag))
+        }
+        return xtiles;
     }
 
     static anim(tag, spec={}) {
@@ -486,7 +309,6 @@ class Templates {
             let x = xoff + ((row) ? i*width : 0);
             let y = yoff + ((row) ? 0 : i*height);
             let cel = { x: x, y: y, width: width, height: height, ttl: duration };
-            //console.log("cel: " + Fmt.ofmt(cel));
             anim.cels.push(cel);
         }
         return anim;
