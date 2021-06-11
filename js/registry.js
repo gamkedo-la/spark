@@ -12,6 +12,7 @@ import { FindBedScheme }    from "./actions/findbed.js";
 import { MoveScheme }       from "./actions/move.js";
 import { Bed }              from "./bed.js";
 import { WakeFromBedScheme } from "./actions/wakeFromBed.js";
+import { Chair }            from "./chair.js";
 
 class SparkRegistry {
     static init() {
@@ -30,6 +31,7 @@ class SparkRegistry {
         registry.add(Tile);
         registry.add(Character);
         registry.add(Door);
+        registry.add(Chair);
         registry.add(Stairs);
         registry.add(Bed);
         // -- register schemes

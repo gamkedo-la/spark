@@ -106,9 +106,9 @@ class SparkAssets {
             Templates.tile("005", "woodDoor.top", {xxform: {dx:48}}),
 
             { id: "o01", tag: "woodDoor", cls: "Door", xcollider: {}, xxform: {dx: 48}, xsketch: { cls: "Media", tag: "woodDoor"} },
-            //{ id: "o02", tag: "stool", cls: "Tile", xsketch: { cls: "Media", tag: "stool"} },
+            { id: "o02", tag: "stool", cls: "Chair", xsketch: { cls: "Media", tag: "stool"} },
             //{ id: "o03", tag: "table", cls: "Tile", xsketch: { cls: "Media", tag: "table"} },
-            Templates.tile("o02", "stool", {xxform: {dx:16}}),
+            //Templates.tile("o02", "stool", {xxform: {dx:16}}),
             Templates.tile("o03", "table", {xxform: {dx:16}}),
             Templates.tile("o04", "bed", {xxform: {dx:16}}),
 

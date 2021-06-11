@@ -55,6 +55,7 @@ import { EQuerySystem }     from "./eQuerySystem.js";
 import { AiPlanSystem }     from "./ai/aiPlanSystem.js";
 import { AiProcessSystem }  from "./ai/aiProcessSystem.js";
 import { ModelState } from "./modelState.js";
+import { Condition } from "./condition.js";
 
 class Base {
 
@@ -87,6 +88,10 @@ class Base {
             "walk_south",
             "walk_west",
             "walk_east",
+        ]);
+        Condition.init([
+            "occupied",
+            "seated",
         ]);
         // -- global atts
         Atts.init();

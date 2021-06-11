@@ -73,6 +73,28 @@ class Direction {
         }
     }
 
+    static asHeading(dir) {
+        switch (dir) {
+        case this.north:
+            return -Math.PI*.5;
+        case this.south:
+            return Math.PI*.5;
+        case this.east:
+            return 0;
+        case this.west:
+            return Math.PI;
+        case this.northWest:
+            return -Math.PI*.75;
+        case this.northEast:
+            return -Math.PI*.25;
+        case this.southWest:
+            return Math.PI*.75;
+        case this.southEast:
+            return Math.PI*.25;
+        }
+        return 0;
+    }
+
     static applyToX(x, dir, offset=Config.tileSize) {
         switch(dir) {
         case Direction.west:
