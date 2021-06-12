@@ -14,8 +14,6 @@ class Door extends Model {
         this.y = spec.y || 0;
         // -- sketch
         this.xsketch = spec.xsketch || {};
-        // -- xform
-        this.xxform = spec.xxform || undefined;
         // -- state
         this.state = spec.state || ModelState.close;
         // -- autoClose

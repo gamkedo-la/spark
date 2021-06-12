@@ -21,6 +21,8 @@ class InteractSystem extends System {
     iterate(ctx, e) {
         // only match entities that are interacting...
         if (!e.interact) return;
+        console.log("e.interact is true");
+        e.interact = false;
         // check for objects within range...
         let bounds = new Bounds(e.x-e.interactRange, e.y-e.interactRange, e.interactRange+e.interactRange, e.interactRange+e.interactRange);
         //console.log(`${e} + checks: ${bounds} range: ${e.interactRange}`);

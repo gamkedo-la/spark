@@ -28,6 +28,8 @@ class Model extends Gizmo {
         this.depth = spec.depth || 0;
         // -- layer is the terrain level associated with model.  used to handle upstair or cellar sections, etc.
         this._layer = spec.layer || 0;
+        // -- xform
+        this.xxform = spec.xxform || undefined;
         // -- conditions
         this.conditions = new Set(spec.conditions);
         // -- state

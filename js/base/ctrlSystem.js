@@ -47,11 +47,21 @@ class CtrlSystem extends System {
         if (e.currentAction && !wantCtrl) return;
 
         // FIXME: primary/secondary action bindings should probably be game specific...
+        if (!e.interact) {
+            e.interact = this.bindings.primary && !e.wantInteract && !e.wantSecondary;
+            e.wantInteract = this.bindings.primary;
+            console.log(`bindings.primary: ${this.bindings.primary} e.interact: ${e.interact} e.wantInteract: ${e.wantInteract}`);
+        }
+
+        /*
         if (this.bindings.primary) {
             if (!e.interact) e.interact = true;
         } else {
             if (e.interact) e.interact = false;
         }
+        */
+        //e.interact = false;
+        // check for objects within range...
 
         // calculate current x/y axis values
         let xaxis = Math.cos(e.heading) * e.speed;
