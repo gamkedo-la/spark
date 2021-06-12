@@ -98,7 +98,7 @@ class Region extends Model {
                 for (const other of this.autoAreas) {
                     if (other.layer > area.layer) {
                         area.links.push(other.tag);
-                        console.log("area: " + area + " roofs: " + area.links);
+                        //console.log("area: " + area + " roofs: " + area.links);
                     }
                 }
             }

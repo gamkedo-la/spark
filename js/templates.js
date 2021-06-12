@@ -301,13 +301,13 @@ class Templates {
         const duration = spec.duration || 100;
         const width = spec.width || Config.halfSize;
         const height = spec.height || Config.halfSize;
-        const xoff = spec.xoff || 0;
-        const yoff = spec.yoff || 0;
+        const offx = spec.offx || 0;
+        const offy = spec.offy || 0;
         const row = spec.row || false;
         let anim = {tag: tag, cls: "Animation", cels: []};
         for (let i=0; i<frames; i++) {
-            let x = xoff + ((row) ? i*width : 0);
-            let y = yoff + ((row) ? 0 : i*height);
+            let x = offx + ((row) ? i*width : 0);
+            let y = offy + ((row) ? 0 : i*height);
             let cel = { x: x, y: y, width: width, height: height, ttl: duration };
             anim.cels.push(cel);
         }

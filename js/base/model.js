@@ -2,7 +2,8 @@ export { Model };
 
 import { Gizmo }            from "./gizmo.js";
 import { ModelState }       from "./modelState.js";
-import { Stats } from "./stats.js";
+import { Stats }            from "./stats.js";
+import { Generator }        from "./generator.js";
 
 /** ========================================================================
  * The base game model for holding game data and state
@@ -28,18 +29,52 @@ class Model extends Gizmo {
         this.depth = spec.depth || 0;
         // -- layer is the terrain level associated with model.  used to handle upstair or cellar sections, etc.
         this._layer = spec.layer || 0;
-        // -- xform
+        // -- position
+        this._x = spec.x || 0;
+        this._y = spec.y || 0;
+        // -- view xform
         this.xxform = spec.xxform || undefined;
         // -- conditions
         this.conditions = new Set(spec.conditions);
+        // -- sketch
+        this.xsketch = spec.xsketch || {};
+        // -- xform
+        this.xxform = spec.xxform || undefined;
         // -- state
         this.state = spec.state || ModelState.idle;
+        this.dfltState = spec.dfltState || ModelState.idle;
         // FIXME: validate we want to put this here...
         // -- visible
         this._visible = spec.hasOwnProperty("visible") ? spec.visible : true;
+        // -- collider
+        if (spec.xcollider) {
+            this.collider = Generator.generate(Object.assign({"cls": "Collider", x: this.x, y: this.y}, spec.xcollider));
+        }
     }
 
     // PROPERTIES ----------------------------------------------------------
+    get x() {
+        return this._x;
+    }
+    set x(v) {
+        if (v !== this._x) {
+            this._x = v;
+            if (this.collider) this.collider.x = v;
+            this.updated = true;
+        }
+    }
+
+    get y() {
+        return this._y;
+    }
+    set y(v) {
+        if (v !== this._y) {
+            this._y = v;
+            if (this.collider) this.collider.y = v;
+            this.updated = true;
+        }
+    }
+
     get minx() {
         if (this.collider) return this.collider.minx;
         return undefined;

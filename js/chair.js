@@ -28,25 +28,31 @@ class Chair extends Model {
         this.offy = this.emptyY;
         this.actorSavedX = 0;
         this.actorSavedY = 0;
-        // -- sketch
-        this.xsketch = spec.xsketch || {};
         // -- approachMask (direction mask)
         this.approachMask = spec.approachMask || Direction.cardinal;
-        // -- seated offset
-        this.seatedOffX = spec.seatedOffX || 0;
-        this.seatedOffY = spec.seatedOffY || 0;
-        // -- seated direction
-        this.seatedDir = spec.seatedDir || Direction.north;
+        // -- occupied offset
+        this.occupiedOffX = spec.occupiedOffX || 0;
+        this.occupiedOffY = spec.occupiedOffY || 0;
+        // -- occupied direction
+        this.occupiedDir = spec.occupiedDir || Direction.north;
         // -- conditions
         this.occupiedCondition = spec.occupiedCondition || Condition.occupied;
-        this.seatedCondition = spec.seatedCondition || Condition.seated;
-        // -- xform
-        this.xxform = spec.xxform || undefined;
+        this.actorCondition = spec.actorCondition || Condition.seated;
         // -- interactable
         this.interactable = true;
         // -- collider
         if (spec.xcollider) {
             this.collider = Generator.generate(Object.assign({"cls": "Collider", x: this.x, y: this.y}, spec.xcollider));
+        }
+        // -- actor id (who's in the bed)
+        this.actorId = 0;
+    }
+
+    get approaches() {
+        if (this.approachMask) {
+            return Direction.all.filter((v) => (v & this.approachMask)).map((v) => new LevelNode(Direction.applyToX(this.x, v), Direction.applyToY(this.y, v), this.layer));
+        } else {
+            return [new LevelNode(this.x, this.y, this.layer)];
         }
     }
 
@@ -68,12 +74,12 @@ class Chair extends Model {
         this.actorSavedX = actor.x;
         this.actorSavedY = actor.y;
         this.actorSavedDepth = actor.depth;
+        this.actorId = actor.gid;
         // update actor state
-        actor.conditions.add(this.seatedCondition);
-        console.log("actor.conditions: " + Array.from(actor.conditions.values()));
-        actor.x = this.x + this.seatedOffX;
-        actor.y = this.y + this.seatedOffY;
-        actor.heading = Direction.asHeading(this.seatedDir);
+        actor.conditions.add(this.actorCondition);
+        actor.x = this.x + this.occupiedOffX;
+        actor.y = this.y + this.occupiedOffY;
+        actor.heading = Direction.asHeading(this.occupiedDir);
         if (actor.depth <= this.depth) actor.depth = this.depth+1;
         actor.updated = true;
     }
@@ -84,17 +90,13 @@ class Chair extends Model {
         this.conditions.delete(this.occupiedCondition);
         this.offx = this.emptyX;
         this.offy = this.emptyY;
+        this.actorId = 0;
         // update actor state
-        actor.conditions.delete(this.seatedCondition)
-        console.log("actor.conditions: " + Array.from(actor.conditions.values()));
+        actor.conditions.delete(this.actorCondition)
         actor.x = this.actorSavedX;
         actor.y = this.actorSavedY;
         actor.depth = this.actorSavedDepth;
         actor.updated = true;
-    }
-
-    bypassAction() {
-        return new OpenAction({target: this});
     }
 
 }

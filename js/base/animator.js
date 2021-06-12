@@ -72,7 +72,6 @@ class Animator extends Sketch {
         let wantState = ctx.state || ModelState.idle;
         if (ctx.facing) {
             let tag = `${ModelState.toString(wantState)}_${Direction.toString(ctx.facing)}`;
-            //console.log("tag: " + tag);
             //if (tag !== this.lastTag) {
                 //console.log(`changed tag: ${tag} wantState: ${ModelState[tag]}`);
                 //this.lastTag = tag;
@@ -92,13 +91,12 @@ class Animator extends Sketch {
                     updated = true;
                 }
             }
-            return;  
+            return false;  
         }
         // we have a new state transition...
-        //console.log(`from: ${fromState} want: ${wantState}`);
         // -- check for animation for given state
         let anim = this.getAnim(wantState);
-        //console.log("anim: " + anim);
+        console.log(`Animator from: ${ModelState.toString(fromState)} want: ${ModelState.toString(wantState)} anim: ${anim}`);
         //if (anim) console.log(`animation ${anim} dim: ${anim.width},${anim.height}`);
         if (!anim) return;
         anim.reset();

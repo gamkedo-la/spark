@@ -70,6 +70,7 @@ class ModelView extends UxPanel {
             //console.log(`facing: ${ctx.facing} heading: ${this.model.heading}`);
         }
         this.updated = super.iupdate(ctx);
+        //if (this.updated) console.log(`ModelView for ${this} super updated`);
         // align xform w/ sketch
         if (this.xform.width != this._sketch.width) {
             this.updated = true;
@@ -92,8 +93,10 @@ class ModelView extends UxPanel {
         if (this._sketch) this._sketch.render(ctx, this._xform.minx + this.model.x, this._xform.miny + this.model.y);
         // FIXME: remove
         //console.log(`render ${this}: min: ${this._xform.minx + this.model.x},${this._xform.miny + this.model.y} dim: ${this._xform.width},${this._xform.height}`);
-        //ctx.strokeStyle = "red";
-        //ctx.strokeRect(this._xform.minx + this.model.x, this._xform.miny + this.model.y, this._xform.width, this._xform.height);
+        if (this.model.tag === "woodDoor") {
+            ctx.strokeStyle = "red";
+            ctx.strokeRect(this._xform.minx + this.model.x, this._xform.miny + this.model.y, this._xform.width, this._xform.height);
+        }
     }
 
     _frender(ctx) {

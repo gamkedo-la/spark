@@ -75,14 +75,15 @@ class SparkAssets {
             ]},
 
             { src: "img/gnome.png", loader: "Sheet", refs: [
-                {tag: "gnome.idle_south",    cls: "Sprite", width: 32, height: 64, x: 32*0, y: 64*7 },
-                {tag: "gnome.idle_north",    cls: "Sprite", width: 32, height: 64, x: 32*1, y: 64*7 },
-                {tag: "gnome.idle_west",     cls: "Sprite", width: 32, height: 64, x: 32*2, y: 64*7 },
-                {tag: "gnome.idle_east",     cls: "Sprite", width: 32, height: 64, x: 32*3, y: 64*7 },
-                Templates.anim("gnome.walk_south", {xoff:0, width: 32, height:64, duration: 70}),
-                Templates.anim("gnome.walk_north", {xoff:32, width: 32, height:64, duration: 70}),
-                Templates.anim("gnome.walk_west", {xoff:64, width: 32, height:64, duration: 70}),
-                Templates.anim("gnome.walk_east", {xoff:96, width: 32, height:64, duration: 70}),
+                {tag: "gnome.idle_south",    cls: "Sprite", width: 32, height: 64, x: 32*0, y: 64*0 },
+                {tag: "gnome.idle_north",    cls: "Sprite", width: 32, height: 64, x: 32*1, y: 64*0 },
+                {tag: "gnome.idle_west",     cls: "Sprite", width: 32, height: 64, x: 32*2, y: 64*0 },
+                {tag: "gnome.idle_east",     cls: "Sprite", width: 32, height: 64, x: 32*3, y: 64*0 },
+                Templates.anim("gnome.walk_south", {offx:0, offy: 64, width: 32, height:64, duration: 70}),
+                Templates.anim("gnome.walk_north", {offx:32, offy: 64, width: 32, height:64, duration: 70}),
+                Templates.anim("gnome.walk_west", {offx:64, offy: 64, width: 32, height:64, duration: 70}),
+                Templates.anim("gnome.walk_east", {offx:96, offy: 64, width: 32, height:64, duration: 70}),
+                {tag: "gnome.sleep_south",    cls: "Sprite", width: 32, height: 64, x: 32*0, y: 64*9 },
             ]},
 
             { tag: "gnome",               cls: "Animator", animations: {
@@ -95,6 +96,7 @@ class SparkAssets {
                     [ModelState.walk_north]:   { cls: "Media", tag: "gnome.walk_north" },
                     [ModelState.walk_west]:    { cls: "Media", tag: "gnome.walk_west" },
                     [ModelState.walk_east]:    { cls: "Media", tag: "gnome.walk_east" },
+                    [ModelState.sleep_south]:  { cls: "Media", tag: "gnome.sleep_south" },
             }},
 
         ];
@@ -106,11 +108,24 @@ class SparkAssets {
             Templates.tile("005", "woodDoor.top", {xxform: {dx:48}}),
 
             { id: "o01", tag: "woodDoor", cls: "Door", xcollider: {}, xxform: {dx: 48}, xsketch: { cls: "Media", tag: "woodDoor"} },
-            { id: "o02", tag: "stool", cls: "Chair", xxform: {dx:16}, xsketch: { cls: "Media", tag: "stool"}, seatedDir: Direction.east, seatedOffX: 20, seatedOffY: -20 },
+            { id: "o02", tag: "stool", cls: "Chair", 
+                xxform: {dx:16}, 
+                xsketch: { cls: "Media", tag: "stool"}, 
+                occupiedDir: Direction.east, 
+                occupiedOffX: 20, 
+                occupiedOffY: -20 
+            },
+
             //{ id: "o03", tag: "table", cls: "Tile", xsketch: { cls: "Media", tag: "table"} },
             //Templates.tile("o02", "stool", {xxform: {dx:16}}),
             Templates.tile("o03", "table", {xxform: {dx:16}}),
-            Templates.tile("o04", "bed", {xxform: {dx:16}}),
+            //Templates.tile("o04", "bed", {xxform: {dx:16}}),
+            { id: "o04", tag: "bed", cls: "Bed", 
+                xxform: {dx:16}, 
+                xsketch: { cls: "Media", tag: "bed"}, 
+                occupiedOffX: 16, 
+                occupiedOffY: -28 
+            },
 
             { id: "c01",    tag: "player", cls: "Character", 
                             xsketch: { cls: "Media", tag: "gnome" },

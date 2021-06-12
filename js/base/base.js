@@ -24,6 +24,7 @@ import { Keys }             from "./keys.js";
 import { MouseSystem }      from "./mouse.js";
 import { CtrlSystem }       from "./ctrlSystem.js";
 import { MoveSystem }       from "./moveSystem.js";
+import { StateSystem }      from "./stateSystem.js";
 import { UxView }           from "./uxView.js";
 import { UxCanvas }         from "./uxCanvas.js";
 import { UxPanel }          from "./uxPanel.js";
@@ -92,6 +93,8 @@ class Base {
         Condition.init([
             "occupied",
             "seated",
+            "asleep",
+            "opened",
         ]);
         console.log("initialized conditions: " + Fmt.ofmt(Condition));
         // -- global atts
@@ -221,6 +224,10 @@ class Base {
         }));
         // ---- activity schedule system
         this.systemMgr.adopt(new ActivityScheduleSystem({
+            dbg: true,
+        }));
+        // ---- state system
+        this.systemMgr.adopt(new StateSystem({
             dbg: true,
         }));
         // ---- query system

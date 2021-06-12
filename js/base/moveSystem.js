@@ -60,14 +60,14 @@ class MoveSystem extends System {
         let wantx = Math.round(e.x + speed * Math.cos(e.heading));
         let wanty = Math.round(e.y + speed * Math.sin(e.heading));
         if (wantx === e.x && wanty === e.y) {
-            if (e.state === ModelState.walk) e.state = ModelState.idle;
+            //if (e.state === ModelState.walk) e.state = ModelState.idle;
             return;
         }
         // handle model state
-        if (e.state !== ModelState.walk) {
+        //if (e.state !== ModelState.walk) {
             //console.log("setting state to walk");
-            e.state = ModelState.walk;
-        }
+            //e.state = ModelState.walk;
+        //}
         e.wantx = wantx;
         e.wanty = wanty;
 

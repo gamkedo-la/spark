@@ -22,7 +22,9 @@ class SparkRegistry {
         ModelState.register("open");
         ModelState.register("close");
         ModelState.register("sleep");
+        ModelState.register("sleep_south");
         ModelState.register("occupied");
+        ModelState.register("seated");
         // -- register activities
         Activity.register("sleep");
     }

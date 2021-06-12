@@ -1,8 +1,7 @@
 export { Tile };
 
-import { Generator }        from "./base/generator.js";
 import { Model }            from "./base/model.js";
-import { Stats } from "./base/stats.js";
+import { Stats }            from "./base/stats.js";
 
 class Tile extends Model {
 
@@ -11,12 +10,6 @@ class Tile extends Model {
         super.cpost(spec);
         this.x = spec.x || 0;
         this.y = spec.y || 0;
-        this.xsketch = spec.xsketch || {};
-        if (spec.xcollider) {
-            this.collider = Generator.generate(Object.assign({"cls": "Collider", x: this.x, y: this.y}, spec.xcollider));
-        }
-        // -- xform
-        this.xxform = spec.xxform || undefined;
     }
 
     iupdate(ctx) {

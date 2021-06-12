@@ -94,11 +94,11 @@ class WakeFromBedAction extends Action {
         this.actor = actor;
         // does bed have port
         let target;
-        if (Object.getPrototypeOf(this.bed).hasOwnProperty("ports")) {
-            let ports = this.bed.ports;
-            for (const port of ports) {
+        if (Object.getPrototypeOf(this.bed).hasOwnProperty("approaches")) {
+            let approaches = this.bed.approaches;
+            for (const approach of approaches) {
                 // FIXME: check for occupied
-                target = port;
+                target = approach;
                 break;
             }
         } else {

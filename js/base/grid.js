@@ -74,6 +74,7 @@ class Grid {
         if (!gzo) return;
         let gidx = this.getgidx(gzo);
         //console.log(`----- Grid.onGizmoUpdate: ${evt.actor} old ${gzo.gidx} new ${gidx}`);
+        //if (gzo.tag === "woodDoor") console.log(`----- Grid.onGizmoUpdate: ${evt.actor} old ${gzo.gidx} new ${gidx}`);
         if (!gidx.equals(gzo.gidx)) {
             // remove old
             if (gzo.gidx) {
@@ -218,7 +219,7 @@ class Grid {
         }
         // assign gizmo gidx
         gzo.gidx = gidx;
-        //console.log(`grid add ${gzo} w/ idx: ${gzo.gidx}`);
+        //if (gzo.tag && gzo.tag === "woodDoor") console.log(`grid add ${gzo} w/ idx: ${gzo.gidx}`);
         // handle gizmo updates
         gzo.evtUpdated.listen(this.onGizmoUpdate);
         // handle gizmo destroy

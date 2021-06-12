@@ -47,9 +47,9 @@ class MovePlan extends AiPlan {
         // find path to target ...
         // -- does target have a port list?
         let targets;
-        if (Object.getPrototypeOf(this.state.v_target).hasOwnProperty("ports")) {
+        if (Object.getPrototypeOf(this.state.v_target).hasOwnProperty("approaches")) {
             //console.log("=== has ports property");
-            targets = this.state.v_target.ports;
+            targets = this.state.v_target.approaches;
             //console.log("ports: " + Fmt.ofmt(targets));
         } else {
             //console.log("=== does not have ports property");
