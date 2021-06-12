@@ -5,6 +5,7 @@ import { Feat }         from "./feat.js";
 import { Bindings }     from "./bindings.js";
 import { Vect }         from "./vect.js";
 import { Mathf }        from "./math.js";
+import { Condition } from "./condition.js";
 
 class SetSpeedHeadingFeat extends Feat {
     constructor(target, speed, heading) {
@@ -46,22 +47,17 @@ class CtrlSystem extends System {
         let wantCtrl = this.bindings.left || this.bindings.right || this.bindings.up || this.bindings.down;
         if (e.currentAction && !wantCtrl) return;
 
-        // FIXME: primary/secondary action bindings should probably be game specific...
+        // check for primary/secondary interactions...
         if (!e.interact) {
             e.interact = this.bindings.primary && !e.wantInteract && !e.wantSecondary;
             e.wantInteract = this.bindings.primary;
-            //console.log(`bindings.primary: ${this.bindings.primary} e.interact: ${e.interact} e.wantInteract: ${e.wantInteract}`);
         }
 
-        /*
-        if (this.bindings.primary) {
-            if (!e.interact) e.interact = true;
-        } else {
-            if (e.interact) e.interact = false;
+        // check for conditions preventing movement
+        if (e.conditions.has(Condition.seated)) {
+            e.speed = 0;
+            return;
         }
-        */
-        //e.interact = false;
-        // check for objects within range...
 
         // calculate current x/y axis values
         let xaxis = Math.cos(e.heading) * e.speed;

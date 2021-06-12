@@ -93,6 +93,7 @@ class Base {
             "occupied",
             "seated",
         ]);
+        console.log("initialized conditions: " + Fmt.ofmt(Condition));
         // -- global atts
         Atts.init();
         // -- global query queue

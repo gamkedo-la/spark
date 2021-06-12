@@ -9,14 +9,9 @@ import { Direction } from './base/dir.js';
 import { Condition } from './base/condition.js';
 
 class Chair extends Model {
-    static dfltState = ModelState.idle;
-    static dfltApproachMask = Direction.cardinal;
-    static dfltSeatedDir = Direction.north;
-    static dfltOccupiedCondition = Condition.occupied;
-    static dfltSeatedCondition = Condition.seated;
 
     cpre(spec) {
-        if (!spec.hasOwnProperty("state")) spec.state = Chair.dfltState;
+        if (!spec.hasOwnProperty("state")) spec.state = ModelState.idle;
     }
     constructor(spec={}) {
         super(spec);
@@ -36,15 +31,15 @@ class Chair extends Model {
         // -- sketch
         this.xsketch = spec.xsketch || {};
         // -- approachMask (direction mask)
-        this.approachMask = spec.approachMask || Chair.dfltApproachMask;
+        this.approachMask = spec.approachMask || Direction.cardinal;
         // -- seated offset
         this.seatedOffX = spec.seatedOffX || 0;
         this.seatedOffY = spec.seatedOffY || 0;
         // -- seated direction
-        this.seatedDir = spec.seatedDir || Chair.dfltSeatedDir;
+        this.seatedDir = spec.seatedDir || Direction.north;
         // -- conditions
-        this.occupiedCondition = spec.occupiedCondition || Chair.dfltOccupiedCondition;
-        this.seatedCondition = spec.seatedCondition || Chair.dfltSeatedCondition;
+        this.occupiedCondition = spec.occupiedCondition || Condition.occupied;
+        this.seatedCondition = spec.seatedCondition || Condition.seated;
         // -- xform
         this.xxform = spec.xxform || undefined;
         // -- interactable
@@ -74,7 +69,8 @@ class Chair extends Model {
         this.actorSavedY = actor.y;
         this.actorSavedDepth = actor.depth;
         // update actor state
-        actor.conditions.add(this.seatedCondition)
+        actor.conditions.add(this.seatedCondition);
+        console.log("actor.conditions: " + Array.from(actor.conditions.values()));
         actor.x = this.x + this.seatedOffX;
         actor.y = this.y + this.seatedOffY;
         actor.heading = Direction.asHeading(this.seatedDir);
@@ -89,7 +85,8 @@ class Chair extends Model {
         this.offx = this.emptyX;
         this.offy = this.emptyY;
         // update actor state
-        actor.conditions.add(this.seatedCondition)
+        actor.conditions.delete(this.seatedCondition)
+        console.log("actor.conditions: " + Array.from(actor.conditions.values()));
         actor.x = this.actorSavedX;
         actor.y = this.actorSavedY;
         actor.depth = this.actorSavedDepth;
