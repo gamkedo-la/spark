@@ -50,7 +50,7 @@ class CtrlSystem extends System {
         if (!e.interact) {
             e.interact = this.bindings.primary && !e.wantInteract && !e.wantSecondary;
             e.wantInteract = this.bindings.primary;
-            console.log(`bindings.primary: ${this.bindings.primary} e.interact: ${e.interact} e.wantInteract: ${e.wantInteract}`);
+            //console.log(`bindings.primary: ${this.bindings.primary} e.interact: ${e.interact} e.wantInteract: ${e.wantInteract}`);
         }
 
         /*

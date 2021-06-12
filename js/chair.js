@@ -72,11 +72,14 @@ class Chair extends Model {
         this.offy = this.occupiedY;
         this.actorSavedX = actor.x;
         this.actorSavedY = actor.y;
+        this.actorSavedDepth = actor.depth;
         // update actor state
         actor.conditions.add(this.seatedCondition)
         actor.x = this.x + this.seatedOffX;
         actor.y = this.y + this.seatedOffY;
         actor.heading = Direction.asHeading(this.seatedDir);
+        if (actor.depth <= this.depth) actor.depth = this.depth+1;
+        actor.updated = true;
     }
 
     leave(actor) {
@@ -89,6 +92,8 @@ class Chair extends Model {
         actor.conditions.add(this.seatedCondition)
         actor.x = this.actorSavedX;
         actor.y = this.actorSavedY;
+        actor.depth = this.actorSavedDepth;
+        actor.updated = true;
     }
 
     bypassAction() {

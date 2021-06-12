@@ -60,7 +60,7 @@ class Templates {
             cls: "VarSprite",
             variations: [],
         }
-        console.log("coords: " + coords)
+        //console.log("coords: " + coords)
         for (const [x,y] of coords) {
             xref.variations.push(
                 { x: offx+(width*x), y: offy+(height*y), width: width, height: height },
