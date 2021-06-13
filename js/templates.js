@@ -135,6 +135,7 @@ class Templates {
         xmedia.refs.push(this.varSpriteRef(`${tag}.j`, [[0,6]], spec));
         xmedia.refs.push(this.varSpriteRef(`${tag}.k`, [[1,6], [7,6]], spec));
         xmedia.refs.push(this.varSpriteRef(`${tag}.l`, [[8,6]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.m`, [[9,6], [10,6], [11,6]], spec));
         return xmedia;
     }
 
@@ -223,7 +224,7 @@ class Templates {
         return xmedia;
     }
 
-    static roofMedia(file, ltag, rtag, btag, ftag, spec={}) {
+    static roofMedia(file, ltag, rtag, ftag, btag, spec={}) {
         let lmedia = this.leftRoofMedia(file, ltag, spec);
         let rmedia = this.rightRoofMedia(file, rtag, spec);
         let bmedia = this.backRoofMedia(file, btag, spec);
@@ -258,7 +259,7 @@ class Templates {
 
     static frontRoofTiles(baseId, baseTag) {
         let xtiles = [];
-        for (const c of "abcdefghijkl") {
+        for (const c of "abcdefghijklm") {
             let id = `${baseId}${c}`;
             let tag = `${baseTag}.${c}`;
             xtiles.push(Templates.tile(id, tag))
@@ -294,6 +295,15 @@ class Templates {
             xtiles.push(Templates.tile(id, tag))
         }
         return xtiles;
+    }
+
+    static xsprite(tag, col, row, spec={}) {
+        let tileSize = spec.tileSize || Config.tileSize;
+        let width = spec.width || tileSize;
+        let height = spec.height || tileSize;
+        let x = col*tileSize;
+        let y = row*tileSize;
+        return {tag: tag, cls: "Sprite", width: width, height: height, x: x, y: y};
     }
 
     static anim(tag, spec={}) {

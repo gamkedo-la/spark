@@ -93,10 +93,12 @@ class ModelView extends UxPanel {
         if (this._sketch) this._sketch.render(ctx, this._xform.minx + this.model.x, this._xform.miny + this.model.y);
         // FIXME: remove
         //console.log(`render ${this}: min: ${this._xform.minx + this.model.x},${this._xform.miny + this.model.y} dim: ${this._xform.width},${this._xform.height}`);
+        /*
         if (this.model.tag === "woodDoor") {
             ctx.strokeStyle = "red";
             ctx.strokeRect(this._xform.minx + this.model.x, this._xform.miny + this.model.y, this._xform.width, this._xform.height);
         }
+        */
     }
 
     _frender(ctx) {

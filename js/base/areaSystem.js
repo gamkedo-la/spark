@@ -1,65 +1,9 @@
 export { AreaSystem };
 
-    import { Level } from "../lvl.js";
+import { Level }            from "../lvl.js";
 import { Area }             from "./area.js";
 import { System }           from "./system.js";
 
-//import { Filter } from "./filter.js";
-//import { Feat } from "./feat.js";
-//import { GizmoMgr } from "./gizmoMgr.js";
-//import { getCode as evtCode } from "./event.js";
-//import { AreaCmp } from "../js/cmp.js";
-
-/*
-class AreaLeaveFeat extends Feat {
-    static evt = evtCode("area.left")
-
-    constructor(area, actor, evtc) {
-        super();
-        this.area = area;
-        this.actor = actor;
-        this.evtc = evtc;
-    }
-
-    execute() {
-        var index = this.area.actors.indexOf(this.actor);
-        if (index > -1) {
-            this.area.actors.splice(index, 1);
-            this.evtc.trigger(AreaLeaveFeat.evt, {
-                actor: this.actor.id, 
-                area:this.area.id
-            });
-        }
-    }
-}
-
-class AreaEnterFeat extends Feat {
-    static evt = evtCode("area.entered")
-
-    constructor(area, actor, evtc) {
-        super();
-        this.area = area;
-        this.actor = actor;
-        this.evtc = evtc;
-    }
-
-    execute() {
-        if (!this.area.actors.includes(this.actor)) {
-            this.area.actors.push(this.actor);
-            this.evtc.trigger(AreaEnterFeat.evt, {
-                actor: this.actor.id, 
-                area:this.area.id
-            });
-        }
-    }
-}
-*/
-
-/*
-const filterMap = {
-    [AreaCmp.kinds.roof]: (e) => false,
-}
-*/
 
 class AreaSystem extends System {
 

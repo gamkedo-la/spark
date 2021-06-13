@@ -39,30 +39,6 @@ class Character extends Model {
         //console.log("char spec: " + Fmt.ofmt(spec));
     }
 
-    get x() {
-        return this._x;
-    }
-    set x(v) {
-        if (v !== this._x) {
-            this._x = v;
-            if (this.collider) this.collider.x = v;
-            this.modified = true;
-            //console.log("set modified x");
-        }
-    }
-
-    get y() {
-        return this._y;
-    }
-    set y(v) {
-        if (v !== this._y) {
-            this._y = v;
-            if (this.collider) this.collider.y = v;
-            this.modified = true;
-            //console.log("set modified y");
-        }
-    }
-
     toString() {
         return Fmt.toString(this.cls, this.gid, this.tag, this.x, this.y);
     }
