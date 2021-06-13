@@ -50,6 +50,7 @@ class Model extends Gizmo {
         if (spec.xcollider) {
             this.collider = Generator.generate(Object.assign({"cls": "Collider", x: this.x, y: this.y}, spec.xcollider));
         }
+        //console.log(`model ${this} at: ${this._x},${this._y}`);
     }
 
     // PROPERTIES ----------------------------------------------------------

@@ -40,11 +40,12 @@ class LayeredViewMgr extends Gizmo {
         this.sorted = new SortedStore({cmpFcn: (v1, v2) => v1.vidx - v2.vidx});
         this.slicedSorted = new SortedStore({cmpFcn: (v1, v2) => v1.vidx - v2.vidx});
 
-        this.tileSize = spec.tileSize || Config.tileSize;
+        this.viewSize = spec.viewSize || (Config.tileSize*Config.renderScale);
         this.grid = new Grid({
-            width: Math.floor(this.camera.width/this.tileSize),
-            height: Math.floor(this.camera.height/this.tileSize),
-            tileSize: this.tileSize,
+            width: Math.floor(this.camera.width/this.viewSize),
+            height: Math.floor(this.camera.height/this.viewSize),
+            tileSize: this.viewSize,
+            //dbg: true,
         })
         this.dbg = spec.dbg;
         this.sliceCanvas = document.createElement('canvas');
@@ -109,7 +110,6 @@ class LayeredViewMgr extends Gizmo {
                 let rmaxx = maxx;
                 let maxy = view.maxy - this.camera.miny;
                 let rmaxy = maxy;
-                //console.log(`handle updated view: ${view} min: ${minx},${miny}, max: ${maxx},${maxy}`);
                 if (view.hasOwnProperty("lastMinX")) {
                     rminx = Math.min(view.lastMinX, minx);
                     rminy = Math.min(view.lastMinY, miny);
@@ -122,6 +122,12 @@ class LayeredViewMgr extends Gizmo {
                 view.lastMaxY = maxy;
                 let maxi = this.grid.ifromx(rmaxx);
                 let maxj = this.grid.jfromy(rmaxy);
+                /*
+                if (view.model.tag === "player") {
+                    console.log(`handle updated view: ${view} min: ${minx},${miny}, max: ${maxx},${maxy} coords min: ${this.grid.ifromx(rminx)},${this.grid.jfromy(rminy)}, max: ${maxi},${maxj}`);
+                    console.log(`model pos: ${view.model.x},${view.model.y} view model wpos: ${view.wmodelX},${view.wmodelY}`);
+                }
+                */
                 for (let i=this.grid.ifromx(rminx); i<=maxi; i++) {
                     for (let j=this.grid.jfromy(rminy); j<=maxj; j++) {
                         this.sliceReady = true;
@@ -142,9 +148,10 @@ class LayeredViewMgr extends Gizmo {
                     const bounds = new Bounds(
                         this.grid.xfromidx(gidx, false), 
                         this.grid.yfromidx(gidx, false), 
-                        this.tileSize,
-                        this.tileSize,
+                        this.viewSize,
+                        this.viewSize,
                     );
+                    //console.log(`gidx: ${gidx} gives bounds: ${bounds}`);
                     for (const view of this.grid.findOverlaps(bounds, (v) => v.cat === "View")) {
                         //console.log(`+++ ${gidx} check ${view}`);
                         if (!this.slicedSorted.contains(view)) {
@@ -185,8 +192,8 @@ class LayeredViewMgr extends Gizmo {
                 let minx = this.grid.xfromidx(gidx, false);
                 let miny = this.grid.yfromidx(gidx, false);
                 this.renderCtx.drawImage(this.sliceCanvas, 
-                    minx, miny, this.tileSize, this.tileSize, 
-                    minx, miny, this.tileSize, this.tileSize);
+                    minx, miny, this.viewSize, this.viewSize, 
+                    minx, miny, this.viewSize, this.viewSize);
             }
         }
         // restore transform matrix (clears any xform apply/revert floating point deltas)

@@ -41,7 +41,7 @@ class StateSystem extends System {
 
         // change state (if needed)
         if (wantState && wantState !== e.state) {
-            console.log(`${e} change state from: ${ModelState.toString(e.state)} to ${ModelState.toString(wantState)}`);
+            if (this.dbg) console.log(`${e} change state from: ${ModelState.toString(e.state)} to ${ModelState.toString(wantState)}`);
             e.state = wantState;
             e.updated = true;
         }

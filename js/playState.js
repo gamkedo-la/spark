@@ -50,7 +50,7 @@ class GridView extends UxView {
 
     renderGrid(ctx) {
         ctx.strokeStyle = "rgba(255,255,0,.25";
-        ctx.lineWidth = 3;
+        ctx.lineWidth = 2;
         // vertical
         for (let i=0; i<=this.grid.width; i++) {
             ctx.beginPath()
@@ -72,7 +72,7 @@ class GridView extends UxView {
         for (let i=0; i<this.grid.nentries; i++) {
             let x = this.grid.xfromidx(i);
             let y = this.grid.yfromidx(i);
-            let text = new Text({text:i.toString(), width: 28, height: 28, align: "center", valign: "middle", color: "rgba(255,255,0,.25"});
+            let text = new Text({text:i.toString(), width: Config.tileSize-2, height: Config.tileSize-2, align: "center", valign: "middle", color: "rgba(255,255,0,.25"});
             text.render(ctx, x+1, y+3);
         }
     }
@@ -136,7 +136,7 @@ class PlayState extends State {
         for (const v of vs) this.other = v;
         //console.log("this.player: " + this.player);
         //console.log("this.other: " + this.other);
-        let gridView = new GridView({depth: 99, grid: this.grid, player: this.player, other:this.other});
+        //let gridView = new GridView({depth: 10, grid: this.grid, player: this.player, other:this.other, xxform: {scalex: 2, scaley: 2}});
 
     }
 

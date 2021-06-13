@@ -96,7 +96,6 @@ class Base {
             "asleep",
             "opened",
         ]);
-        console.log("initialized conditions: " + Fmt.ofmt(Condition));
         // -- global atts
         Atts.init();
         // -- global query queue
@@ -228,7 +227,7 @@ class Base {
         }));
         // ---- state system
         this.systemMgr.adopt(new StateSystem({
-            dbg: true,
+            dbg: false,
         }));
         // ---- query system
         this.systemMgr.adopt(new EQuerySystem({

@@ -24,6 +24,8 @@ class Grid {
         Util.bind(this, "onGizmoUpdate", "onGizmoDestroy", "heuristic");
         this._maxx = this.tileSize * this.width;
         this._maxy = this.tileSize * this.height;
+        this.dbg = spec.dbg;
+        //console.log("grid w/ spec: " + Fmt.ofmt(spec));
     }
 
     get minx() { return 0 };
@@ -73,8 +75,7 @@ class Grid {
         let gzo = evt.actor;
         if (!gzo) return;
         let gidx = this.getgidx(gzo);
-        //console.log(`----- Grid.onGizmoUpdate: ${evt.actor} old ${gzo.gidx} new ${gidx}`);
-        //if (gzo.tag === "woodDoor") console.log(`----- Grid.onGizmoUpdate: ${evt.actor} old ${gzo.gidx} new ${gidx}`);
+        if (this.dbg) console.log(`----- Grid.onGizmoUpdate: ${evt.actor} old ${gzo.gidx} new ${gidx}`);
         if (!gidx.equals(gzo.gidx)) {
             // remove old
             if (gzo.gidx) {
@@ -219,7 +220,7 @@ class Grid {
         }
         // assign gizmo gidx
         gzo.gidx = gidx;
-        //if (gzo.tag && gzo.tag === "woodDoor") console.log(`grid add ${gzo} w/ idx: ${gzo.gidx}`);
+        if (this.dbg) console.log(`grid add ${gzo} w/ idx: ${gzo.gidx}`);
         // handle gizmo updates
         gzo.evtUpdated.listen(this.onGizmoUpdate);
         // handle gizmo destroy

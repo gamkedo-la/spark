@@ -46,6 +46,7 @@ class MoveSystem extends System {
 
         // does model have resolved position
         if (e.resx !== undefined && e.resy !== undefined) {
+            //console.log(`==== ${e} has new pos: ${e.resx},${e.resy}`);
             e.x = e.resx;
             e.y = e.resy;
             e.resx = undefined;
@@ -70,6 +71,8 @@ class MoveSystem extends System {
         //}
         e.wantx = wantx;
         e.wanty = wanty;
+
+        //console.log(`==== ${e} wants pos: ${e.wantx},${e.wanty}`);
 
         /*
         // check for collisions

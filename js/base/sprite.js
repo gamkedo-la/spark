@@ -28,11 +28,13 @@ class Sprite extends Sketch {
                 // dst dims
                 let dw = this.width;
                 let dh = this.height;
+                //renderCtx.imageSmoothingEnabled = false;
                 renderCtx.drawImage(this.img, 
                     0, 0, sw, sh, 
                     x, y, dw, dh);
             }
         } else {
+            //renderCtx.imageSmoothingEnabled = false;
             renderCtx.drawImage(this.img, x, y);
         }
     }

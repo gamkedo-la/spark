@@ -96,7 +96,7 @@ class Animator extends Sketch {
         // we have a new state transition...
         // -- check for animation for given state
         let anim = this.getAnim(wantState);
-        console.log(`Animator from: ${ModelState.toString(fromState)} want: ${ModelState.toString(wantState)} anim: ${anim}`);
+        //console.log(`Animator from: ${ModelState.toString(fromState)} want: ${ModelState.toString(wantState)} anim: ${anim}`);
         //if (anim) console.log(`animation ${anim} dim: ${anim.width},${anim.height}`);
         if (!anim) return;
         anim.reset();

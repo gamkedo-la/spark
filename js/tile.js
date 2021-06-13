@@ -8,12 +8,13 @@ class Tile extends Model {
     // CONSTRUCTOR ---------------------------------------------------------
     cpost(spec) {
         super.cpost(spec);
-        this.x = spec.x || 0;
-        this.y = spec.y || 0;
+        //this.x = spec.x || 0;
+        //this.y = spec.y || 0;
     }
 
     iupdate(ctx) {
-        Stats.count("tile.update");
+        //console.error("here");
+        Stats.count("tile.iupdate");
         return super.iupdate(ctx);
     }
 
