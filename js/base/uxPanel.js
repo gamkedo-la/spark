@@ -17,7 +17,7 @@ class UxPanel extends UxView {
         this._sketch = Generator.generate(Object.assign({parent: this, xfitter: { cls: "FitToParent" }}, spec.xsketch || UxPanel.dfltSketch));
         // bind event handlers
         Util.bind(this, "onSketchUpdate");
-        if (this._sketch) this._sketch.evtUpdated.listen(this.onSketchUpdate);
+        //if (this._sketch) this._sketch.evtUpdated.listen(this.onSketchUpdate);
     }
 
     // PROPERTIES ----------------------------------------------------------
@@ -27,12 +27,13 @@ class UxPanel extends UxView {
 
     set sketch(v) {
         if (v !== this._sketch) {
-            if (this._sketch) this._sketch.evtUpdated.ignore(this.onSketchUpdate);
+            //if (this._sketch) this._sketch.evtUpdated.ignore(this.onSketchUpdate);
             if (this._sketch.parent) this._sketch.parent = undefined;
             this._sketch = v;
             v.parent = this;
-            if (this._sketch) this._sketch.evtUpdated.listen(this.onSketchUpdate);
-            this.evtUpdated.trigger();
+            //if (this._sketch) this._sketch.evtUpdated.listen(this.onSketchUpdate);
+            this.updated = true;
+            //this.evtUpdated.trigger();
         }
     }
 

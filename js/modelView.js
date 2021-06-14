@@ -37,7 +37,7 @@ class ModelView extends UxPanel {
             return this._wmodelX;
         } else {
             this.lastModelX = this.model.x;
-            this._wmodelX = this._xform.getWorld(new Vect(this.model.x, this.model.y)).x + this._xform.dox;
+            this._wmodelX = this._xform.getWorld(new Vect(this.model.x-this._xform.dx, this.model.y-this._xform.dy)).x + this._xform.dox;
             //this._wmodelX = this._xform.getWorld(new Vect(this.model.x+this._xform.minx, this.model.y+this._xform.miny)).x;
             //console.log(`#-#-# compute new world x ${this.wmodelX} w/ xform: ${this._xform}, dox: ${this.xform.dox} pos: ${this.model.x},${this.model.y}`);
             return this._wmodelX;
@@ -50,7 +50,7 @@ class ModelView extends UxPanel {
         } else {
             this.lastModelY = this.model.y;
             //this._wmodelY = this._xform.getWorld(new Vect(this.model.x+this._xform.minx, this.model.y+this._xform.miny)).y;
-            this._wmodelY = this._xform.getWorld(new Vect(this.model.x, this.model.y)).y - this._xform.doy;
+            this._wmodelY = this._xform.getWorld(new Vect(this.model.x-this._xform.dx, this.model.y-this._xform.dy)).y - this._xform.doy;
             //console.log(`#-#-# compute new world y ${this.wmodelY} w/ xform: ${this._xform}, doy: ${this.xform.doy} pos: ${this.model.x},${this.model.y}`);
 
             /*
@@ -153,10 +153,12 @@ class ModelView extends UxPanel {
         if (this._sketch) this._sketch.render(ctx, this._xform.minx + this.model.x, this._xform.miny + this.model.y);
         // FIXME: remove
         //console.log(`render ${this}: min: ${this._xform.minx + this.model.x},${this._xform.miny + this.model.y} dim: ${this._xform.width},${this._xform.height}`);
-        //if (this.model.tag === "player") {
-            //ctx.strokeStyle = "red";
-            //ctx.strokeRect(this._xform.minx + this.model.x, this._xform.miny + this.model.y, this._xform.width, this._xform.height);
-        //}
+        /*
+        if (this.model.tag !== "grass.j") {
+            ctx.strokeStyle = "red";
+            ctx.strokeRect(this._xform.minx + this.model.x, this._xform.miny + this.model.y, this._xform.width, this._xform.height);
+        }
+        */
     }
 
     _frender(ctx) {

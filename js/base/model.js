@@ -78,19 +78,19 @@ class Model extends Gizmo {
 
     get minx() {
         if (this.collider) return this.collider.minx;
-        return undefined;
+        return this._x;
     }
     get maxx() {
         if (this.collider) return this.collider.maxx;
-        return undefined;
+        return this._x;
     }
     get miny() {
         if (this.collider) return this.collider.miny;
-        return undefined;
+        return this._y;
     }
     get maxy() {
         if (this.collider) return this.collider.maxy;
-        return undefined;
+        return this._y;
     }
     get layer() {
         return this._layer;

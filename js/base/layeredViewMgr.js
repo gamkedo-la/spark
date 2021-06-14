@@ -64,7 +64,8 @@ class LayeredViewMgr extends Gizmo {
     onViewUpdate(evt) {
         Stats.count("view.update");
         let view = evt.actor;
-        //console.log(`on view update: ${view} view.width: ${view.width}, view xform: ${view.xform} parent: ${view.xform.parent}`);
+        //console.log(`==================== on view update: ${view} view.min: ${view.minx},${view.miny} view.width: ${view.width}, view xform: ${view.xform} parent: ${view.xform.parent}`);
+        //console.trace();
         if (this.camera.overlaps(view)) {
             this.updatedViews.push(evt.actor);
         }
@@ -74,7 +75,7 @@ class LayeredViewMgr extends Gizmo {
 
     // view index
     vidx(obj) {
-        let y = Math.round(obj.y*this.yscale);
+        let y = Math.round(obj.maxy*this.yscale);
         return (obj.depth * this.maxDepth) + y;
     }
 
@@ -89,7 +90,9 @@ class LayeredViewMgr extends Gizmo {
             // check for change in vidx
             if (view.vidx !== this.vidx(view)) {
                 this.sorted.remove(view);
+                let oldVidx = view.vidx;
                 view.vidx = this.vidx(view);
+                //console.log(`view ${view} changed index from ${oldVidx} to ${view.vidx} y: ${view.y}`);
                 this.sorted.add(view);
             }
             // trigger view update
@@ -122,12 +125,10 @@ class LayeredViewMgr extends Gizmo {
                 view.lastMaxY = maxy;
                 let maxi = this.grid.ifromx(rmaxx);
                 let maxj = this.grid.jfromy(rmaxy);
-                /*
-                if (view.model.tag === "player") {
-                    console.log(`handle updated view: ${view} min: ${minx},${miny}, max: ${maxx},${maxy} coords min: ${this.grid.ifromx(rminx)},${this.grid.jfromy(rminy)}, max: ${maxi},${maxj}`);
-                    console.log(`model pos: ${view.model.x},${view.model.y} view model wpos: ${view.wmodelX},${view.wmodelY}`);
-                }
-                */
+                //if (view.model.tag === "player") {
+                    //console.log(`handle updated view: ${view} min: ${minx},${miny}, max: ${maxx},${maxy} coords min: ${this.grid.ifromx(rminx)},${this.grid.jfromy(rminy)}, max: ${maxi},${maxj}`);
+                    //console.log(`model pos: ${view.model.x},${view.model.y} view model wpos: ${view.wmodelX},${view.wmodelY}`);
+                //}
                 for (let i=this.grid.ifromx(rminx); i<=maxi; i++) {
                     for (let j=this.grid.jfromy(rminy); j<=maxj; j++) {
                         this.sliceReady = true;
@@ -156,7 +157,7 @@ class LayeredViewMgr extends Gizmo {
                         //console.log(`+++ ${gidx} check ${view}`);
                         if (!this.slicedSorted.contains(view)) {
                             this.slicedSorted.add(view);
-                            //console.log(`+++ ${gidx} add ${view}`);
+                            //if (view.model && view.model.tag !== "grass.j") console.log(`+++ ${gidx} add ${view}`);
                         }
                     }
                 }
@@ -203,12 +204,13 @@ class LayeredViewMgr extends Gizmo {
     add(view) {
         // ignore views that are not roots
         if (!view || view.parent) return;
-        if (this.dbg) console.log(`adding view ${view} w/ vidx: ${view.vidx}`);
+        //if (this.dbg) console.log(`adding view ${view} w/ vidx: ${view.vidx}`);
         // listen for view updates
         view.evtUpdated.listen(this.onViewUpdate)
         // assign index
         let vidx = this.vidx(view);
         view.vidx = vidx;
+        //console.log(`add view ${view} with vidx: ${view.vidx} y: ${view.y}`);
         this.sorted.add(view);
         this.grid.add(view);
     }

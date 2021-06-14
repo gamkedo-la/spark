@@ -11,8 +11,8 @@ class Config {
         renderScale: 2,
         dbgViewColliders: false,
         dbgViewAreas: false,
-        dbgViewGrid: true,
-        dbgStats: true,
+        dbgViewGrid: false,
+        dbgStats: false,
         layerMap: {
             l1:     0,
             l2:     1,

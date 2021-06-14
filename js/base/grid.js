@@ -75,8 +75,8 @@ class Grid {
         let gzo = evt.actor;
         if (!gzo) return;
         let gidx = this.getgidx(gzo);
-        if (this.dbg) console.log(`----- Grid.onGizmoUpdate: ${evt.actor} old ${gzo.gidx} new ${gidx}`);
         if (!gidx.equals(gzo.gidx)) {
+            if (this.dbg) console.log(`----- Grid.onGizmoUpdate: ${evt.actor} old ${gzo.gidx} new ${gidx}`);
             // remove old
             if (gzo.gidx) {
                 for (const idx of gzo.gidx) {

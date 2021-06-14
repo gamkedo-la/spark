@@ -143,7 +143,7 @@ class SparkAssets {
 
             { id: "o01", tag: "woodDoor", cls: "Door", xcollider: {}, xxform: {dx: 24}, xsketch: { cls: "Media", tag: "woodDoor"} },
             { id: "o02", tag: "stool", cls: "Chair", 
-                xxform: {dx:16}, 
+                xxform: {dx:8}, 
                 xsketch: { cls: "Media", tag: "stool"}, 
                 occupiedDir: Direction.east, 
                 occupiedOffX: 20, 
@@ -152,10 +152,10 @@ class SparkAssets {
 
             //{ id: "o03", tag: "table", cls: "Tile", xsketch: { cls: "Media", tag: "table"} },
             //Templates.tile("o02", "stool", {xxform: {dx:16}}),
-            Templates.tile("o03", "table", {xxform: {dx:16}}),
+            Templates.tile("o03", "table", {xxform: {dx:8}}),
             //Templates.tile("o04", "bed", {xxform: {dx:16}}),
             { id: "o04", tag: "bed", cls: "Bed", 
-                xxform: {dx:16}, 
+                xxform: {dx:8}, 
                 xsketch: { cls: "Media", tag: "bed"}, 
                 occupiedOffX: 16, 
                 occupiedOffY: -28 

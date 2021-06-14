@@ -61,90 +61,12 @@ class MoveSystem extends System {
         let wantx = Math.round(e.x + speed * Math.cos(e.heading));
         let wanty = Math.round(e.y + speed * Math.sin(e.heading));
         if (wantx === e.x && wanty === e.y) {
-            //if (e.state === ModelState.walk) e.state = ModelState.idle;
             return;
         }
-        // handle model state
-        //if (e.state !== ModelState.walk) {
-            //console.log("setting state to walk");
-            //e.state = ModelState.walk;
-        //}
+        // handle wanting new position
         e.wantx = wantx;
         e.wanty = wanty;
-
         //console.log(`==== ${e} wants pos: ${e.wantx},${e.wanty}`);
-
-        /*
-        // check for collisions
-        if (e.collider) {
-            let dx = wantx - e.x;
-            let dy = wanty - e.y;
-            // -- x axis
-            if (dx) {
-                let xbounds = new Bounds(e.collider.minx+dx, e.collider.miny, e.collider.width, e.collider.height);
-                for (const other of this.findOverlaps(xbounds, (v) => (v !== e && v.collider && v.collider.blocking))) {
-                    // determine overlap...
-                    let overlap = xbounds.overlaps(other.collider);
-                    if (overlap) {
-                        // moving right
-                        if (dx > 0) {
-                            wantx -= (xbounds.maxx - overlap.minx);
-                        // moving left
-                        } else {
-                            wantx += (overlap.maxx - xbounds.minx);
-                        }
-                    }
-                }
-            }
-            // -- y axis
-            if (dy) {
-                let ybounds = new Bounds(e.collider.minx, e.collider.miny+dy, e.collider.width, e.collider.height);
-                for (const other of this.findOverlaps(ybounds, (v) => (v !== e && v.collider && v.collider.blocking))) {
-                    // determine overlap...
-                    let overlap = ybounds.overlaps(other.collider);
-                    //console.log(`dy: ${dy} e.c: ${e.collider.miny},${e.collider.maxy}, ybounds: ${ybounds.miny},${ybounds.maxy} other: ${other.miny},${other.maxy} overlap: ${overlap.miny},${overlap.maxy}`);
-                    //console.log("other: " + other);
-                    if (overlap) {
-                        // moving down
-                        if (dy > 0) {
-                            wanty -= (ybounds.maxy - overlap.miny);
-                        // moving up
-                        } else {
-                            wanty += (overlap.maxy - ybounds.miny);
-                        }
-                    }
-                }
-            }
-
-
-        }
-
-        // handle change of position
-        this.feats.push(new SetPosFeat(e, wantx, wanty));
-        */
-        /*
-        // state management
-        const state = e.state;
-        if (state) {
-            let isMoving = ctrl.xaxis || ctrl.yaxis;
-            let wantState = "dflt";
-            if (isMoving) {
-                if (ctrl.xaxis > 0 && ctrl.xaxis >= Math.abs(ctrl.yaxis)) {
-                    wantState = "walkEast";
-                } else if (ctrl.xaxis < 0 && -ctrl.xaxis >= Math.abs(ctrl.yaxis)) {
-                    wantState = "walkWest";
-                } else if (ctrl.yaxis > 0) {
-                    wantState = "walkSouth";
-                } else {
-                    wantState = "walkNorth";
-                }
-            }
-            if (wantState !== state.value) {
-                //console.log("wantState: " + wantState);
-                this._feats.push(new SetStateFeat(e, wantState));
-            }
-        }
-        */
        
 
     }

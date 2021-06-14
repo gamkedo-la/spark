@@ -82,7 +82,7 @@ class GridView extends UxView {
         if (!Config.dbgViewGrid) return;
         // grid
         this.renderGrid(ctx);
-        //this.renderIndices(ctx);
+        this.renderIndices(ctx);
     }
 }
 
@@ -136,7 +136,7 @@ class PlayState extends State {
         for (const v of vs) this.other = v;
         //console.log("this.player: " + this.player);
         //console.log("this.other: " + this.other);
-        //let gridView = new GridView({depth: 10, grid: this.grid, player: this.player, other:this.other, xxform: {scalex: 2, scaley: 2}});
+        let gridView = new GridView({depth: 10, grid: this.grid, player: this.player, other:this.other, xxform: {scalex: 2, scaley: 2}});
 
     }
 
