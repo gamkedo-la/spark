@@ -12,7 +12,7 @@ class Config {
         dbgViewColliders: false,
         dbgViewAreas: false,
         dbgViewGrid: false,
-        dbgStats: false,
+        dbgStats: true,
         layerMap: {
             l1:     0,
             l2:     1,
