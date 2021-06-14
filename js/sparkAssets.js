@@ -146,8 +146,8 @@ class SparkAssets {
                 xxform: {dx:8}, 
                 xsketch: { cls: "Media", tag: "stool"}, 
                 occupiedDir: Direction.east, 
-                occupiedOffX: 20, 
-                occupiedOffY: -20 
+                occupiedOffX: 10, 
+                occupiedOffY: -10 
             },
 
             //{ id: "o03", tag: "table", cls: "Tile", xsketch: { cls: "Media", tag: "table"} },
@@ -157,8 +157,8 @@ class SparkAssets {
             { id: "o04", tag: "bed", cls: "Bed", 
                 xxform: {dx:8}, 
                 xsketch: { cls: "Media", tag: "bed"}, 
-                occupiedOffX: 16, 
-                occupiedOffY: -28 
+                occupiedOffX: 8, 
+                occupiedOffY: -14 
             },
 
             { id: "c01",    tag: "player", cls: "Character", 

@@ -23,11 +23,13 @@ class Config {
             max:    5,
         },
         depthMap: {
-            bg:  0,
-            bo:  1,
-            fg:  2,
-            fo:  3,
-            max: 3,
+            bb:  0,
+            bm:  1,
+            bf:  2,
+            fb:  3,
+            fm:  4,
+            ff:  5,
+            max: 5,
         },
         actorTags: {
             player: "visible",
