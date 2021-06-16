@@ -26,6 +26,7 @@ class Animation extends Sprite {
 
     // CONSTRUCTOR ---------------------------------------------------------
     constructor(spec={}) {
+        //console.log("animation spec: " + Fmt.ofmt(spec));
         super(spec);
         this.loop = (spec.hasOwnProperty("loop")) ? spec.loop : true;
         let cels = spec.cels || [{}];
@@ -93,7 +94,7 @@ class Animation extends Sprite {
             if (this.step === "next") this.advance();
             if (this.step === "prev" && this.cidx > 0) this.cidx--;
             this.step = (this.done) ? false : true;
-            return;
+            return false;
         }
         this.elapsed += ctx.deltaTime;
         while (!this.done && this.elapsed > this.cel.ttl) {
@@ -101,6 +102,7 @@ class Animation extends Sprite {
             this.advance();
             this.updated = true;
         }
+        //console.log("animation.iupdate updated: " + this.updated);
         return this.updated;
     }
 

@@ -114,7 +114,9 @@ class Sketch {
             }
         }
         // handle internal updates
-        this.updated |= this.iupdate(ctx);
+        let v = this.iupdate(ctx);
+        this.updated |= v;
+        //if (this.tag === "fairy") console.log("sketch updated: " + v);
         // trigger update event if needed
         if (this.updated) {
             this.evtUpdated.trigger();

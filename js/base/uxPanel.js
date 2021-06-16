@@ -46,6 +46,7 @@ class UxPanel extends UxView {
     // METHODS -------------------------------------------------------------
     iupdate(ctx) {
         if (this._sketch) this.updated |= this._sketch.update(ctx);
+        //if (this.model && this.model.tag === "player") console.log("panel updated: " + this.updated)
         return this.updated;
     }
 

@@ -58,14 +58,17 @@ class Animator extends Sketch {
 
     getTransition(from, to) {
         // lookup sketch in cache
-        let key = `${from}:${to}`;
-        return this.getAnim(key);
+        let key = `${ModelState.toString(from)}:${ModelState.toString(to)}`;
+        let tanim = this.getAnim(key);
+        //console.log(`transition key: ${key} anim: ${tanim}`);
+        return tanim;
     }
 
     iupdate(ctx) {
         // update the current animation state
         if (this.anim) {
             this.updated |= this.anim.update(ctx);
+            //console.log("animator this.updated: " + this.updated);
         }
 
         // compare desired state to current state (pending or actual)
@@ -86,19 +89,21 @@ class Animator extends Sketch {
             if (this.pendingState) {
                 if (this.anim.done) {
                     this.anim = this.getAnim(this.pendingState);
+                    //console.log(`Animator pending from: ${this.state} want: ${ModelState.toString(this.pendingState)} anim: ${this.anim}`);
                     this.pendingState = undefined;
                     this.state = this.pendingState;
-                    updated = true;
+                    this.updated = true;
                 }
             }
-            return false;  
+            return this.updated;  
         }
+        this.pendingState = undefined;
         // we have a new state transition...
         // -- check for animation for given state
         let anim = this.getAnim(wantState);
         //console.log(`Animator from: ${ModelState.toString(fromState)} want: ${ModelState.toString(wantState)} anim: ${anim}`);
         //if (anim) console.log(`animation ${anim} dim: ${anim.width},${anim.height}`);
-        if (!anim) return;
+        if (!anim) return this.updated;
         anim.reset();
         this.updated = true;
         // -- check for transition to a pending state...
@@ -108,7 +113,10 @@ class Animator extends Sketch {
         let newState = wantState;
         if (trans) {
             this.anim = trans;
+            this.anim.reset();
             newState = "x" + fromState + "." + wantState;
+            this.pendingState = wantState;
+            //console.log(`transition state is: ${newState} pending: ${this.pendingState} anim: ${this.anim}`);
         // -- otherwise, no transition, start state animation directly
         } else {
             this.anim = anim;

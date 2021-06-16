@@ -115,6 +115,37 @@ class SparkAssets {
                     [ModelState.sleep_south]:  { cls: "Media", tag: "gnome.sleep_south" },
             }},
 
+            { src: "img/fairy.png", loader: "Sheet", refs: [
+                Templates.anim("fairy.idle_south", {offx:0, offy: 0, width: 48, height:32, duration: 200, frames: 4}),
+                Templates.anim("fairy.idle_north", {offx:48*1, offy: 0, width: 48, height:32, duration: 200, frames: 4}),
+                Templates.anim("fairy.idle_west", {offx:48*2, offy: 0, width: 48, height:32, duration: 200, frames: 4}),
+                Templates.anim("fairy.idle_east", {offx:48*3, offy: 0, width: 48, height:32, duration: 200, frames: 4}),
+                Templates.anim("fairy.takeoff_south", {offx:48*4, offy: 0, width: 48, height:32, duration: 100, frames: 4, loop: false}),
+                Templates.anim("fairy.takeoff_north", {offx:48*5, offy: 0, width: 48, height:32, duration: 100, frames: 4, loop: false}),
+                Templates.anim("fairy.takeoff_west", {offx:48*6, offy: 0, width: 48, height:32, duration: 100, frames: 4, loop: false}),
+                Templates.anim("fairy.takeoff_east", {offx:48*7, offy: 0, width: 48, height:32, duration: 100, frames: 4, loop: false}),
+                Templates.anim("fairy.fly_south", {offx:48*8, offy: 0, width: 48, height:32, duration: 50, frames: 6}),
+                Templates.anim("fairy.fly_north", {offx:48*9, offy: 0, width: 48, height:32, duration: 50, frames: 6}),
+                Templates.anim("fairy.fly_west", {offx:48*10, offy: 0, width: 48, height:32, duration: 50, frames: 6}),
+                Templates.anim("fairy.fly_east", {offx:48*11, offy: 0, width: 48, height:32, duration: 50, frames: 6}),
+            ]},
+
+            { tag: "fairy",               cls: "Animator", animations: {
+                    [ModelState.idle]:         { cls: "Media", tag: "fairy.idle_south" },
+                    [ModelState.idle_south]:   { cls: "Media", tag: "fairy.idle_south" },
+                    [ModelState.idle_north]:   { cls: "Media", tag: "fairy.idle_north" },
+                    [ModelState.idle_west]:    { cls: "Media", tag: "fairy.idle_west" },
+                    [ModelState.idle_east]:    { cls: "Media", tag: "fairy.idle_east" },
+                    [ModelState.walk_south]:   { cls: "Media", tag: "fairy.fly_south" },
+                    [ModelState.walk_north]:   { cls: "Media", tag: "fairy.fly_north" },
+                    [ModelState.walk_west]:    { cls: "Media", tag: "fairy.fly_west" },
+                    [ModelState.walk_east]:    { cls: "Media", tag: "fairy.fly_east" },
+                    'idle_south:walk_south':   { cls: "Media", tag: "fairy.takeoff_south" },
+                    'idle_north:walk_north':   { cls: "Media", tag: "fairy.takeoff_north" },
+                    'idle_east:walk_east':   { cls: "Media", tag: "fairy.takeoff_east" },
+                    'idle_west:walk_west':   { cls: "Media", tag: "fairy.takeoff_west" },
+            }},
+
         ];
 
         this.assets = [
@@ -162,7 +193,7 @@ class SparkAssets {
             },
 
             { id: "c01",    tag: "player", cls: "Character", 
-                            xsketch: { cls: "Media", tag: "gnome" },
+                            xsketch: { cls: "Media", tag: "fairy" },
                             xcollider: { width:15, height:16, color: "rgba(0,0,127,.5)" }, },
             { id: "c02",    tag: "npc", cls: "Character", 
                             ctrlId: 0,

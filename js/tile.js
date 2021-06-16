@@ -15,9 +15,10 @@ class Tile extends Model {
     }
 
     iupdate(ctx) {
+        // FIXME: remove
         if (this.twice > 0) {
             this.twice--;
-            console.trace("iupdate");
+            //console.trace("iupdate");
         }
         //console.error("here");
         Stats.count("tile.iupdate");

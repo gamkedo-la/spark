@@ -3,6 +3,7 @@ export { Templates };
 import { AiGoal }               from "./base/ai/aiGoal.js";
 import { Activity }             from "./base/activity.js";
 import { Config }               from "./base/config.js";
+import { Fmt }                  from "./base/fmt.js";
 
 class Templates {
 
@@ -313,8 +314,9 @@ class Templates {
         const height = spec.height || Config.halfSize;
         const offx = spec.offx || 0;
         const offy = spec.offy || 0;
+        const loop = spec.hasOwnProperty("loop") ? spec.loop : true;
         const row = spec.row || false;
-        let anim = {tag: tag, cls: "Animation", cels: []};
+        let anim = {tag: tag, cls: "Animation", cels: [], loop: loop};
         for (let i=0; i<frames; i++) {
             let x = offx + ((row) ? i*width : 0);
             let y = offy + ((row) ? 0 : i*height);
