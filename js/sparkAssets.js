@@ -51,6 +51,7 @@ class SparkAssets {
                 Templates.xsprite("postUpper.l", 0, 7, {tileSize: 16, width: 32 }),
                 Templates.xsprite("postUpper.s", 2, 7, {tileSize: 16}),
                 Templates.xsprite("postUpper.r", 3, 7, {tileSize: 16, width: 32 }),
+                Templates.xsprite("monolith", 5, 4, {tileSize: 16, width: 32, height: 48}),
             ]},
 
             { src: "img/stuccoWalls1.png", loader: "Sheet", refs: [
@@ -171,6 +172,7 @@ class SparkAssets {
             Templates.tile("00l", "postUpper.l", { xxform: {dx:8} }),
             Templates.tile("00m", "postUpper.s", { xxform: {dx:8} }),
             Templates.tile("00n", "postUpper.r", { xxform: {dx:8} }),
+            Templates.tile("00o", "monolith", { xxform: {dx:8} }),
 
             { id: "o01", tag: "woodDoor", cls: "Door", xcollider: {}, xxform: {dx: 24}, xsketch: { cls: "Media", tag: "woodDoor"} },
             { id: "o02", tag: "stool", cls: "Chair", 
