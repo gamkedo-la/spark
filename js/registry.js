@@ -13,12 +13,14 @@ import { MoveScheme }       from "./actions/move.js";
 import { Bed }              from "./bed.js";
 import { WakeFromBedScheme } from "./actions/wakeFromBed.js";
 import { Chair }            from "./chair.js";
+import { Projectile }       from "./projectile.js";
 
 class SparkRegistry {
     static init() {
         // -- register goals
         AiGoal.register("sleep");
         // -- register model states
+        ModelState.register("active");
         ModelState.register("open");
         ModelState.register("close");
         ModelState.register("sleep");
@@ -36,6 +38,7 @@ class SparkRegistry {
         registry.add(Chair);
         registry.add(Stairs);
         registry.add(Bed);
+        registry.add(Projectile);
         // -- register schemes
         registry.add(SleepBedScheme);
         registry.add(FindBedScheme);

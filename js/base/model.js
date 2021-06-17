@@ -23,6 +23,8 @@ class Model extends Gizmo {
     constructor(spec={}) {
         spec.cat = "Model";
         super(spec);
+    }
+    cpost(spec) {
         // -- ID represents unique asset ID
         this.id = spec.id || 0;
         // -- depth is relative draw depth (relative to layer)

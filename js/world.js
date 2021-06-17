@@ -295,9 +295,9 @@ class World {
         width: 32,
         height: 24,
         xregions: [
-            this.genRegion({width: 32, height: 24, xlayers: [{ id: '002j' }]}),
-            this.house1,
-            this.vendor1,
+            //this.genRegion({width: 32, height: 24, xlayers: [{ id: '002j' }]}),
+            //this.house1,
+            //this.vendor1,
             {
                 width: 4,
                 height: 4,
@@ -323,10 +323,10 @@ class World {
                         */
 
                         fb: [   
+                            "0000","000o","0000","0000",
                             "0000","0000","0000","0000",
-                            "0000","0000","000o","0000",
                             "0000","0000","0000","0000",
-                            "0c01","0000","0000","0000",
+                            "0c01","0000","0000","000p",
                         ],
                     },
                 },

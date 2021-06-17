@@ -11,9 +11,10 @@ import { SparkAssets }      from "./sparkAssets.js";
 import { PlayState }        from "./playState.js";
 import { InteractSystem }   from "./interactSystem.js";
 import { AutoCloseSystem }  from "./autoCloseSystem.js";
-import { SparkRegistry } from "./registry.js";
-import { Templates } from "./templates.js";
-import { Base } from "./base/base.js";
+import { SparkRegistry }    from "./registry.js";
+import { Templates }        from "./templates.js";
+import { Base }             from "./base/base.js";
+import { SparkSystem }      from "./sparkSystem.js";
 //import { Assets } from "./base/assets.js";
 //import { UxMouse } from "./base/uxMouse.js";
 //import { ViewSystem } from "./systems/viewSystem.js";
@@ -81,6 +82,10 @@ class Spark extends Game {
         this.base.systemMgr.adopt(new AutoCloseSystem({
             dbg: false,
             findOverlaps: this.base.findOverlaps,
+        }));
+        // ---- spark system
+        this.base.systemMgr.adopt(new SparkSystem({
+            dbg: false,
         }));
 
         // initialize and start master game state

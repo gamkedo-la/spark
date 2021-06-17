@@ -11,11 +11,6 @@ class Character extends Model {
     // CONSTRUCTOR ---------------------------------------------------------
     cpost(spec) {
         super.cpost(spec);
-        // -- position
-        this._x = spec.x || 0;
-        this._y = spec.y || 0;
-        // -- sketch
-        this.xsketch = spec.xsketch || {};
         // -- movement state
         this.heading = 0;
         this.speed = 0;
@@ -24,10 +19,6 @@ class Character extends Model {
         // -- AI state
         this.ai = (spec.hasOwnProperty("xai")) ? Generator.generate(spec.xai) : undefined;
         //if (this.ai) console.log("char ai: " + Fmt.ofmt(this.ai));
-        // -- collider
-        if (spec.xcollider) {
-            this.collider = Generator.generate(Object.assign({"cls": "Collider", x: this.x, y: this.y}, spec.xcollider));
-        }
         // -- interactRange
         this.interactRange = spec.interactRange || Config.tileSize*2;
         // -- actor
