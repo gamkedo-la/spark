@@ -162,10 +162,10 @@ class ModelView extends UxPanel {
     }
 
     _frender(ctx) {
-        if (this.model.collider && Config.dbgViewColliders) {
+        if (this.model.collider && Config.dbg.viewColliders) {
             this.model.collider.render(ctx);
         }
-        if (this.model.activator && Config.dbgViewColliders) {
+        if (this.model.activator && Config.dbg.viewColliders) {
             this.model.activator.render(ctx);
         }
     }

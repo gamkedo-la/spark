@@ -14,7 +14,7 @@ class AreaView extends UxView {
         this.area = spec.area;
     }
     _render(ctx) {
-        if (!Config.dbgViewAreas) return;
+        if (!Config.dbg.viewAreas) return;
         if (this.area) this.area.render(ctx);
     }
 }
@@ -67,12 +67,10 @@ class Area extends Model {
 
     onObjUpdate(evt) {
         let actor = evt.actor;
-        Bounds.dbg = true;
         if (actor && ((this.layer !== undefined && this.layer !== actor.layer) || (!this.overlaps(actor) && !this.contains(actor)))) {
             console.log("actor: " + actor + " left: " + this);
             this.remove(actor);
         }
-        Bounds.dbg = false;
     }
 
     onObjDestroy(evt) {

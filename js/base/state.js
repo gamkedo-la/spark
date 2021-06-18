@@ -6,6 +6,7 @@ import { Generator }        from "./generator.js";
 import { Util }             from "./util.js";
 import { Bounds }           from "./bounds.js";
 import { LayeredViewMgr }   from "./layeredViewMgr.js";
+import { Config } from "./config.js";
 
 /** ========================================================================
  * Top level game state, controlling view/ctrl/model instances (e.g.: menu state, play state, etc).
@@ -19,8 +20,8 @@ class State extends Gizmo {
     cpost(spec) {
         // -- viewMgr - view manager for state, handling the render pipeline
         let xvmgr = {
-            dbg: spec.dbgView,
-        }
+            dbg: Config.dbg.ViewMgr,
+        };
         let vmgrGen = spec.vmgrGen || ((spec) => new LayeredViewMgr(spec));
         this.viewMgr = vmgrGen(xvmgr);
         // -- entities - store of all models associated w/ non-passive state

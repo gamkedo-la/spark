@@ -101,7 +101,7 @@ class Model extends Gizmo {
         if (v !== this._layer) {
             //console.log("setting layer: " + v);
             this._layer = v;
-            this.modified = true;
+            this.updated = true;
         }
     }
     get visible() {
@@ -111,7 +111,7 @@ class Model extends Gizmo {
         if (v !== this._visible) {
             //console.log(`setting ${this}.visible: ${v}`);
             this._visible = v;
-            this.modified = true;
+            this.updated = true;
         }
     }
 

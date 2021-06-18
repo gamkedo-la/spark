@@ -6,6 +6,7 @@ import { Fmt }              from "./base/fmt.js";
 class Region {
 
     constructor(spec={}) {
+        this.tag = spec.tag || "region";
         this.areas = [];
         this.objs = [];
         this.autoAreas = [];

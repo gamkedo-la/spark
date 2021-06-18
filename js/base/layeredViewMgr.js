@@ -159,6 +159,7 @@ class LayeredViewMgr extends Gizmo {
     render() {
         // handle rendering of all views
         if (this.renderall) {
+            console.log("viewmgr.renderall")
             // clear current context
             this.renderCtx.fillStyle = 'black';
             this.renderCtx.fillRect(0, 0, this.canvas.width, this.canvas.height);

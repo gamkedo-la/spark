@@ -69,9 +69,18 @@ class PlayState extends State {
 
     onKeyDown(evt) {
         //console.log("onKeyDown: " + Fmt.ofmt(evt));
-        if (evt.key === "2") Config.dbgViewColliders = !Config.dbgViewColliders;
-        if (evt.key === "3") Config.dbgViewAreas = !Config.dbgViewAreas;
-        if (evt.key === "4") Config.dbgViewGrid = !Config.dbgViewGrid;
+        if (evt.key === "2") {
+            Config.dbg.viewColliders = !Config.dbg.viewColliders;
+            this.viewMgr.renderall = true;
+        }
+        if (evt.key === "3") {
+            Config.dbg.viewAreas = !Config.dbg.viewAreas;
+            this.viewMgr.renderall = true;
+        }
+        if (evt.key === "4") {
+            Config.dbg.viewGrid = !Config.dbg.viewGrid;
+            this.viewMgr.renderall = true;
+        }
         if (evt.key === "+") this.testiters += 100;
         if (evt.key === "-") this.testiters -= 100;
         if (evt.key === "#") this.testraw = !this.testraw;

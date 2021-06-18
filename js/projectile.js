@@ -5,7 +5,7 @@ import { Config }           from "./base/config.js";
 import { Fmt } from "./base/fmt.js";
 
 class Projectile extends Model {
-    static dfltSpeed = .4;
+    static dfltSpeed = .3;
 
     // CONSTRUCTOR ---------------------------------------------------------
     cpost(spec) {

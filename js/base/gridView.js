@@ -60,9 +60,7 @@ class GridView extends UxView {
 
     _render(ctx) {
         if (!this.grid) return;
-        if (!Config.dbgViewGrid) return;
-        // grid
-        this.renderGrid(ctx);
-        this.renderIndices(ctx);
+        if (Config.dbg.viewGrid) this.renderGrid(ctx);
+        if (Config.dbg.viewGridIndices) this.renderIndices(ctx);
     }
 }

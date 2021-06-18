@@ -129,10 +129,10 @@ class UxView extends Gizmo {
         for (const child of this.__children) {
             child.render(ctx);
         }
-        // revert transform
-        this.xform.revert(ctx, false);
         // final render, specific to subclass
         this._frender(ctx);
+        // revert transform
+        this.xform.revert(ctx, false);
     }
 
     adopt(child) {

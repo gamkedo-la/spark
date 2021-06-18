@@ -4,13 +4,13 @@ import { Level }            from "../lvl.js";
 import { Area }             from "./area.js";
 import { System }           from "./system.js";
 
-
 class AreaSystem extends System {
 
     constructor(spec={}) {
         super(spec);
         this.activeAreas = [];
         this.discoveredAreas = [];
+        this.first = true;
     }
 
     iterate(ctx, e) {
@@ -19,38 +19,24 @@ class AreaSystem extends System {
         if (e.active && e instanceof(Area)) {
             // discover areas
             this.discoveredAreas.push(e);
-            /*
-            // check if area is active, and if so, check all entities bound by area to see if they are still contained within area
-            if (this.activeAreas.includes(e)) {
-                const contents = e.contents || [];
-                for (const actorid of contents) {
-                    const actor = this._gmgr.find(actorid);
-                    if (!actor || !e.bounds.overlaps(actor.bounds)) {
-                        this._feats.push(new AreaLeaveFeat(e, actor, this._gmgr.evtc));
-                    }
-                }
-            }
-            */
         }
 
-        //console.log("e: " + e);
-
         // compare given entity to check for overlap with active areas
-        // skip non-motile entities
-        //if (!Filter.motile(e)) return;
         if (e.cat !== "Model") return;
         if (e instanceof(Area)) return;
         if (e instanceof(Level)) return;
         for(const area of this.activeAreas) {
             if (area.layer !== undefined && area.layer !== e.layer) continue;
             if ((area.overlaps(e) || area.contains(e)) && !area.includes(e.gid)) {
-                //console.log(`${e} entered area: ${area}`);
+                if (this.dbg && !this.first) console.log(`${e} entered area: ${area}`);
                 area.add(e);
             }
         }
+
     }
 
     postiterate(ctx) {
+        if (this.activeAreas.length > 0) this.first = false;
         // resolve active areas
         this.activeAreas = this.discoveredAreas;
         this.discoveredAreas = [];
