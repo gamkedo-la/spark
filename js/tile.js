@@ -10,6 +10,7 @@ class Tile extends Model {
         super.cpost(spec);
         // tiles are passive if they do not have a collider and are on the base layer
         if (!this.collider && this.layer === 0) this.passive = true;
+        if (this.collider) console.log(`tile ${this} collider: ${this.collider}`);
     }
 
     iupdate(ctx) {

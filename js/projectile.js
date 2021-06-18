@@ -24,6 +24,10 @@ class Projectile extends Model {
         console.log(`projectile xsketch: ${Fmt.ofmt(this.xsketch)}`);
     }
 
+    docollision(other, overlap) {
+        console.log("projectile docollision");
+        this.destroy();
+    }
 
     /*
     iupdate(ctx) {

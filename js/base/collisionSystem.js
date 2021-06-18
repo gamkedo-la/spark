@@ -1,7 +1,6 @@
 export { CollisionSystem };
 
 import { System }       from "./system.js";
-import { Model }        from "./model.js";
 import { Bounds }       from "./bounds.js";
 
 class CollisionSystem extends System {
@@ -21,42 +20,54 @@ class CollisionSystem extends System {
         // check for collisions
         let activations = [];
         let collisions = [];
+        let actorWantsActivation = (e.doactivate !== undefined);
+        let actorWantsCollision = (e.docollision !== undefined);
+        let actorActivation = undefined;
+        let actorCollision = undefined;
+
         if (e.collider) {
             let dx = resx - e.x;
             let dy = resy - e.y;
+            let corx = 0;
+            let cory = 0;
             // -- x axis
             if (dx) {
                 let xbounds = new Bounds(e.collider.minx+dx, e.collider.miny, e.collider.width, e.collider.height);
+                console.log(`dx: ${dx} xbounds: ${xbounds} vs collider: ${e.collider}`);
                 for (const other of this.findOverlaps(xbounds, (v) => (v !== e && (v.activator || v.collider) && v.layer === e.layer))) {
                     // check overlaps w/ any activators
                     let overlap = xbounds.overlaps(other.activator);
                     if (overlap) {
-                        // trigger collision
-                        if (other.doactivate && !activations.includes(other)) {
-                            activations.push(other);
-                            other.doactivate(e, overlap);
-                        }
+                        // trigger activation
+                        if (other.doactivate && !activations.includes(other)) other.doactivate(e, overlap);
+                        if (other.doactivate || actorWantsActivation) activations.push(other);
+                        // store actor activation state
+                        if (actorWantsActivation) actorActivation = Bounds.newOrExtend(actorActivation, overlap);
                     }
                     // check overlap w/ any colliders
-                    overlap = xbounds.overlaps(other.collider);
-                    if (overlap) {
-                        // trigger collision
-                        if (other.docollision && !collisions.includes(other)) {
-                            collisions.push(other);
-                            other.docollision(e, overlap);
-                        }
-                        // handle blocking collision
-                        if (other.collider.blocking) {
-                            // moving right
+                    if (other.collider.blocking & e.collider.blocking) {
+                        overlap = xbounds.overlaps(other.collider);
+                        if (overlap) {
+                            // trigger collision
+                            if (other.docollision && !collisions.includes(other)) other.docollision(e, overlap);
+                            if (other.docollision || actorWantsCollision) collisions.push(other);
+                            // handle blocking collision
+                            // -- moving right
                             if (dx > 0) {
-                                resx -= (xbounds.maxx - overlap.minx);
-                            // moving left
+                                corx = Math.min(corx, overlap.minx-xbounds.maxx);
+                                //resx -= (xbounds.maxx - overlap.minx);
+                            // -- moving left
                             } else {
-                                resx += (overlap.maxx - xbounds.minx);
+                                corx = Math.max(corx, overlap.maxx-xbounds.minx);
+                                //resx += (overlap.maxx - xbounds.minx);
                             }
+                            console.log(`xbounds: ${xbounds} overlaps w: ${other.collider} overlap: ${overlap} resx: ${resx}`);
+                            // store actor collision state
+                            if (actorWantsCollision) actorCollision = Bounds.newOrExtend(actorCollision, overlap);
                         }
                     }
                 }
+                resx += corx;
             }
             // -- y axis
             if (dy) {
@@ -65,31 +76,48 @@ class CollisionSystem extends System {
                     // check overlaps w/ any activators
                     let overlap = ybounds.overlaps(other.activator);
                     if (overlap) {
-                        // trigger collision
-                        if (other.doactivate && !activations.includes(other)) {
-                            activations.push(other);
-                            other.doactivate(e, overlap);
-                        }
+                        // trigger activation
+                        if (other.doactivate && !activations.includes(other)) other.doactivate(e, overlap);
+                        if (other.doactivate || actorWantsActivation) activations.push(other);
+                        // store actor activation state
+                        if (actorWantsActivation) actorActivation = Bounds.newOrExtend(actorActivation, overlap);
                     }
                     // check overlap w/ any colliders
-                    overlap = ybounds.overlaps(other.collider);
-                    if (overlap) {
-                        // trigger collision
-                        if (other.docollision && !collisions.includes(other)) {
-                            collisions.push(other);
-                            other.docollision(e, overlap);
-                        }
-                        // handle blocking collision
-                        if (other.collider.blocking) {
-                            // moving down
+                    if (other.collider.blocking & e.collider.blocking) {
+                        overlap = ybounds.overlaps(other.collider);
+                        if (overlap) {
+                            // trigger collision
+                            if (other.docollision && !collisions.includes(other)) other.docollision(e, overlap);
+                            if (other.docollision || actorWantsCollision) collisions.push(other);
+                            // handle movement restriction
+                            // -- moving down
                             if (dy > 0) {
-                                resy -= (ybounds.maxy - overlap.miny);
-                            // moving up
+                                cory = Math.min(cory, overlap.miny-ybounds.maxy);
+                                //resx -= (xbounds.maxx - overlap.minx);
+                                //resy -= (ybounds.maxy - overlap.miny);
+                            // -- moving up
                             } else {
-                                resy += (overlap.maxy - ybounds.miny);
+                                cory = Math.max(cory, overlap.maxy-ybounds.miny);
+                                //resx += (overlap.maxx - xbounds.minx);
+                                //resy += (overlap.maxy - ybounds.miny);
                             }
+                            // store actor collision state
+                            if (actorWantsCollision) actorCollision = Bounds.newOrExtend(actorCollision, overlap);
                         }
                     }
+                }
+                resy += cory;
+            }
+
+            // collision/activation logic for moving object
+            if (actorWantsActivation && activations.length) {
+                for (const other in activations) {
+                    e.doactivate(other, actorActivation);
+                }
+            }
+            if (actorWantsCollision && collisions.length) {
+                for (const other in collisions) {
+                    e.docollision(other, actorCollision);
                 }
             }
 

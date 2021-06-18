@@ -10,6 +10,11 @@ import { Generator } from "./generator.js";
  * -- This is a base class that uses a simple rectangle to determine collisions.
  */
 class Collider {
+    static none =           0;
+    static player =         1;
+    static object =         2;
+    static projectile =     4;
+    static all =            Collider.player|Collider.object|Collider.projectile;
 
     // CONSTRUCTOR ---------------------------------------------------------
     constructor(spec={}) {
@@ -25,7 +30,7 @@ class Collider {
         this.height = (spec.hasOwnProperty("height")) ? spec.height : Config.tileSize;
         this.color = spec.color || "rgba(127,0,0,.4)";
         this.nbcolor = spec.nbcolor || "rgba(0,127,0,.4)";
-        this._blocking = (spec.hasOwnProperty("blocking")) ? spec.blocking : true;
+        this._blocking = (spec.hasOwnProperty("blocking")) ? spec.blocking : Collider.all;
         this._active = (spec.hasOwnProperty("active")) ? spec.active : true;
         this.getactive = spec.getactive || (() => this._active);
     }
@@ -56,7 +61,8 @@ class Collider {
         return this.y + this.offy + (this.height * .5);
     }
     get blocking() {
-        return this._blocking && this.active;
+        if (!this.active) return 0;
+        return this._blocking;
     }
     get active() {
         return this.getactive();
@@ -109,7 +115,7 @@ class ColliderSet {
         this.allowPathMask = spec.allowPathMask || 0;
         this.color = spec.color || "rgba(127,0,0,.4)";
         this.nbcolor = spec.nbcolor || "rgba(0,127,0,.4)";
-        this._blocking = (spec.hasOwnProperty("blocking")) ? spec.blocking : true;
+        this._blocking = (spec.hasOwnProperty("blocking")) ? spec.blocking : Collider.all;
         this._active = (spec.hasOwnProperty("active")) ? spec.active : true;
         this.getactive = spec.getactive || (() => this._active);
         this.items = [];
@@ -152,7 +158,8 @@ class ColliderSet {
         return this.y + this.offy + (this.height * .5);
     }
     get blocking() {
-        return this._blocking && this.active;
+        if (!this.active) return 0;
+        return this._blocking;
     }
     get active() {
         return this.getactive();
@@ -196,7 +203,7 @@ class ColliderSet {
     }
 
     toString() {
-        return Fmt.toString(this.constructor.name, this.minx, this.miny, this.width, this.height);
+        return Fmt.toString(this.constructor.name, this.minx, this.miny, this.maxx, this.maxy, this.width, this.height);
     }
 
 }

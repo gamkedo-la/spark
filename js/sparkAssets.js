@@ -1,5 +1,6 @@
 export { SparkAssets };
 
+    import { Collider } from "./base/collider.js";
 import { Direction }            from "./base/dir.js";
 import { Fmt }                  from "./base/fmt.js";
 import { ModelState }           from "./base/modelState.js";
@@ -177,7 +178,8 @@ class SparkAssets {
             Templates.tile("00m", "postUpper.s", { xxform: {dx:8} }),
             Templates.tile("00n", "postUpper.r", { xxform: {dx:8} }),
             Templates.tile("00o", "monolith", { xxform: {dx:8} }),
-            Templates.tile("00p", "relay", { xxform: {dx:8} }),
+            //Templates.tile("00p", "relay", { xcollider: {width:10, height:20, offy:10}, xxform: {dx:8} }),
+            Templates.tile("00p", "relay", { xcollider: {width:32, height:48, offx:8}, xxform: {dx:8} }),
 
             { id: "o01", tag: "woodDoor", cls: "Door", xcollider: {}, xxform: {dx: 24}, xsketch: { cls: "Media", tag: "woodDoor"} },
             { id: "o02", tag: "stool", cls: "Chair", 
@@ -200,12 +202,14 @@ class SparkAssets {
             },
 
             { tag: "spark", cls: "Projectile", 
+                xcollider: { blocking: Collider.projectile, width:8, height:8, color: "rgba(0,0,127,.5)" },
                 xsketch: { cls: "Media", tag: "spark"}, 
             },
 
             { id: "c01",    tag: "player", cls: "Character", 
                             xsketch: { cls: "Media", tag: "fairy" },
-                            xcollider: { width:15, height:16, color: "rgba(0,0,127,.5)" }, },
+                            //xcollider: { blocking: Collider.player, width:16, height:16, color: "rgba(0,0,127,.5)" }, },
+                            xcollider: { blocking: Collider.player, width:48, height:32, color: "rgba(0,0,127,.5)" }, },
             { id: "c02",    tag: "npc", cls: "Character", 
                             ctrlId: 0,
                             bedTag: "bob",

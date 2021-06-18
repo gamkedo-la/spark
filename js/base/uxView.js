@@ -129,10 +129,14 @@ class UxView extends Gizmo {
         for (const child of this.__children) {
             child.render(ctx);
         }
+        // FIXME
+        this.xform.revert(ctx, false);
+        if (this.xform.scalex !== 1|| this.xform.scaley !== 1) ctx.scale(this.xform.scalex, this.xform.scaley);
         // final render, specific to subclass
         this._frender(ctx);
         // revert transform
-        this.xform.revert(ctx, false);
+        if (this.xform.scalex !== 1|| this.xform.scaley !== 1) ctx.scale(this.xform.iscalex, this.xform.iscaley);
+        //this.xform.revert(ctx, false);
     }
 
     adopt(child) {
