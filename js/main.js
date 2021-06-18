@@ -13,8 +13,7 @@ window.onload = async function() {
     Spark.init();
 
     // create game
-    const sparkSpec = {};
-    const game = new Spark(sparkSpec);
+    const game = new Spark();
     // -- load
     await game.load();
     // -- setup

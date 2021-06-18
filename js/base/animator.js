@@ -49,7 +49,7 @@ class Animator extends Sketch {
         // otherwise... generate new sketch based on state
         let spec = this.animations[state];
         //console.log("spec: " + Fmt.ofmt(spec));
-        sketch = Generator.generate(spec);
+        sketch = (spec) ? Generator.generate(spec) : undefined;
         //console.log("sketch: " + sketch);
         // cache sketch
         if (sketch) this.sketches[state] = sketch;

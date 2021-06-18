@@ -3,7 +3,6 @@ export { State };
 import { Gizmo }            from "./gizmo.js";
 import { Store }            from "./store.js";
 import { Generator }        from "./generator.js";
-import { ViewMgr }          from "./viewMgr.js";
 import { Util }             from "./util.js";
 import { Bounds }           from "./bounds.js";
 import { LayeredViewMgr }   from "./layeredViewMgr.js";
@@ -22,19 +21,23 @@ class State extends Gizmo {
         let xvmgr = {
             dbg: spec.dbgView,
         }
-        //let vmgrGen = spec.vmgrGen || ((spec) => new ViewMgr(spec));
         let vmgrGen = spec.vmgrGen || ((spec) => new LayeredViewMgr(spec));
         this.viewMgr = vmgrGen(xvmgr);
+        // -- entities - store of all models associated w/ non-passive state
+        this.entities = new Store({getkey: (v) => v.gid});
+        // -- ctrls - store of all controllers associated w/ state
+        this.ctrls = new Store({getkey: (v) => v.gid});
+        // top level game model
+        this.model = Generator.generate(spec.xmodel);
+        this.entities.add(this.model);
+        // top level view
+        this.view = Generator.generate(spec.xview);
+        this.viewMgr.add(this.view);
         // -- events/handlers
         Util.bind(this, "onGizmoCreate", "onGizmoDestroy");
+        // top level controller is this state
         Gizmo.evtCreated.listen(this.onGizmoCreate);
         Gizmo.evtDestroyed.listen(this.onGizmoDestroy);
-        // -- entities - list of state-managed entities (model/ctrl)
-        this.entities = new Store({getkey: (v) => v.gid});
-        // initial game state
-        this.model = Generator.generate(spec.xmodel);
-        // initial UI state
-        this.view = Generator.generate(spec.xview);
     }
 
     // EVENT HANDLERS ------------------------------------------------------
@@ -44,8 +47,10 @@ class State extends Gizmo {
         let gzo = evt.actor;
         if (gzo.cat === "View") {
             this.viewMgr.add(gzo);
-        } else if (gzo.cat === "Model" || gzo.cat === "Ctrl") {
-            this.entities.add(gzo);
+        } else if (gzo.cat === "Model") {
+            if (!gzo.passive) this.entities.add(gzo);
+        } else if (gzo.cat === "Ctrl") {
+            this.ctrls.add(gzo);
         }
     }
 
@@ -54,19 +59,23 @@ class State extends Gizmo {
         let gzo = evt.actor;
         if (gzo.cat === "View") {
             this.viewMgr.remove(gzo);
-        } else if (gzo.cat === "Model" || gzo.cat === "Ctrl") {
-            this.entities.remove(gzo);
+        } else if (gzo.cat === "Model") {
+            this.entities.remove(gzo.gid);
+        } else if (gzo.cat === "Ctrl") {
+            this.ctrls.remove(gzo.gid);
         }
     }
 
     // METHODS -------------------------------------------------------------
     iupdate(ctx) {
-        // update managers
+        // view updates managed through view manager
         this.viewMgr.update(ctx);
-        // update entities
-        for (const e of this.entities) {
-            if (e.update) e.update(ctx);
+        // controller updates managed here...
+        for (const e of this.ctrls) {
+            e.update(ctx);
         }
+        // model updates are managed through systems
+        //for (const e of this.entities) { e.update(ctx); }
     }
 
     render() {

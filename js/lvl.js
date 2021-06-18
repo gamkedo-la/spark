@@ -1,4 +1,4 @@
-export { Level, LevelCtrl };
+export { Level };
 
 import { Base }             from "./base/base.js";
 import { Fmt }              from "./base/fmt.js";
@@ -12,6 +12,9 @@ import { Region }           from "./region.js";
 import { ModelView }        from "./modelView.js";
 import { Config }           from "./base/config.js";
 
+/**
+ * A level represents the entire dynamic model state for the game.
+ */
 class Level extends Model {
     cpost(spec) {
         this.name = spec.name || "lvl";
@@ -20,37 +23,19 @@ class Level extends Model {
         this.nentries = this.width * this.height;
         this.layerMap = spec.layerMap || Config.layerMap;
         this.depthMap = spec.depthMap || Config.depthMap;
+        this.assets = spec.assets || Base.instance.assets;
+        this.generator = spec.generator || Base.instance.generator;
+        this.xregions = spec.xregions || [];
 
         // grid maintains list of all interactable objects based on location
         // -- an object may be assigned more than one grid slot if it overlaps multiple grid locations
+        // -- because of this, the grid is not enumerable
         this.grid = new Grid(spec);
         this.sketchSize = spec.sketchSize || Config.tileSize;
         this.halfSize = Math.round(this.sketchSize * .5);
         this._maxx = this.sketchSize * this.width;
         this._maxy = this.sketchSize * this.height;
         this.dbg = spec.dbg;
-
-        // -- events/handlers
-        Util.bind(this, "onObjectDestroy");
-        this.__evtAdded = new EvtChannel("added", {actor: this});
-        this.__evtRemoved = new EvtChannel("removed", {actor: this});
-
-        // load level areas
-        this.assets = spec.assets || Base.instance.assets;
-        this.generator = spec.generator || Base.instance.generator;
-        let xregions = spec.xregions || [];
-        for (const xregion of xregions) {
-            let region = new Region(Object.assign({
-                assets: this.assets, 
-                generator: this.generator,
-                layerMap: this.layerMap,
-                depthMap: this.depthMap,
-                sketchSize: this.sketchSize,
-            }, xregion));
-            for (const gzo of region.areas) this.add(gzo);
-            for (const gzo of region.objs) this.add(gzo);
-        }
-
     }
 
     // PROPERTIES ----------------------------------------------------------
@@ -59,69 +44,30 @@ class Level extends Model {
     get miny() { return 0 };
     get maxy() { return this._maxy };
 
-    // EVENTS --------------------------------------------------------------
-    get evtAdded() { return this.__evtAdded; }
-    get evtRemoved() { return this.__evtRemoved; }
-
-    // EVENT HANDLERS ------------------------------------------------------
-    onObjectDestroy(evt) {
-        this.remove(evt.actor);
-    }
-
-    assignGrid(obj) {
-        if (Model.hasPos(obj)) {
-            // get grid index
-            let idx = this.idxfromxy(obj.x, obj.y);
-            if (idx != obj.gidx) {
-                this.clearGrid(obj);
-                if (!this.grid[idx]) this.grid[idx] = [];
-                this.grid[idx].push(obj);
-                obj.gidx = idx;
-            }
-        }
-    }
-
-    clearGrid(obj) {
-        if (!obj.hasOwnProperty("gidx")) return;
-        if (Model.hasPos(obj)) {
-            let garr = this.grid[obj.gidx];
-            if (garr) {
-                let idx = garr.indexOf(obj);
-                if (idx !== -1) garr.splice(idx, 1);
-            }
-        }
-    }
-
-    idxfromxy(x,y) {
-        let i = Math.floor(x/this.sketchSize);
-        let j = Math.floor(y/this.sketchSize);
-        if (i < 0) i = 0;
-        if (j < 0) j = 0;
-        if (i >= this.width) i = this.width-1;
-        if (j >= this.height) j = this.height-1;
-        return i + this.width*j;
-    }
-
+    // METHODS -------------------------------------------------------------
     add(obj) {
         // handle grid assignment...
         this.grid.add(obj);
-        // handle parent/child assignmnt...
-        this.adopt(obj);
-        // handle object destroy
-        obj.evtDestroyed.listen(this.onObjectDestroy);
-        // trigger added
-        if (this.evtAdded) this.evtAdded.trigger({target: obj});
+    }
+
+    load() {
+        // load level areas
+        for (const xregion of this.xregions) {
+            let region = new Region(Object.assign({
+                assets: this.assets, 
+                generator: this.generator,
+                layerMap: this.layerMap,
+                depthMap: this.depthMap,
+                sketchSize: this.sketchSize,
+            }, xregion));
+            //for (const gzo of region.areas) this.add(gzo);
+            //for (const gzo of region.objs) this.add(gzo);
+        }
     }
 
     remove(obj) {
         // remove grid assignment
         this.grid.remove(obj);
-        // remove parent/child assignment
-        this.orphan(obj);
-        // remove listeners
-        obj.evtDestroyed.ignore(this.onObjectDestroy);
-        // trigger removed
-        this.evtRemoved.trigger({target: obj});
     }
 
     update(ctx) {
@@ -131,6 +77,7 @@ class Level extends Model {
 
 }
 
+/*
 class LevelCtrl extends UxCtrl {
     cpre(spec) {
         spec.xview = {};
@@ -152,7 +99,7 @@ class LevelCtrl extends UxCtrl {
 
     // EVENT HANDLERS ------------------------------------------------------
     onModelAdded(evt) {
-        let obj = evt.actor;
+        let obj = evt.target;
         console.log("onModelAdded: " + obj);
         if (!obj) return;
         // add view
@@ -165,7 +112,7 @@ class LevelCtrl extends UxCtrl {
         // remove view
         let view = this.viewMap.get(obj.gid);
         if (view) {
-            view.Destroy();
+            view.destroy();
             this.viewMap.delete(obj.gid);
         }
     }
@@ -179,6 +126,7 @@ class LevelCtrl extends UxCtrl {
             let view = new AreaView(xview);
             this.viewMap.set(obj.gid, view);
         } else {
+            console.log(`add view for obj: ${obj}`);
             let xview = {
                 cls: "ModelView",
                 xsketch: obj.xsketch,
@@ -194,10 +142,12 @@ class LevelCtrl extends UxCtrl {
                 //getVisible: () => obj.visible,
                 //collider: obj.collider,
             };
-            //console.log("xview: " + Fmt.ofmt(xview));
+            console.log("xview: " + Fmt.ofmt(xview));
             let view = new ModelView(xview);
             this.viewMap.set(obj.gid, view);
         }
     }
 
 }
+
+*/

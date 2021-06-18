@@ -237,6 +237,7 @@ class World {
     }
 
     static xxlvl = {
+        cls: "Level",
         width: 32,
         height: 24,
         xregions: [
@@ -292,11 +293,12 @@ class World {
     };
 
     static xlvl = {
+        cls: "Level",
         width: 32,
         height: 24,
         xregions: [
-            //this.genRegion({width: 32, height: 24, xlayers: [{ id: '002j' }]}),
-            //this.house1,
+            this.genRegion({width: 32, height: 24, xlayers: [{ id: '002j' }]}),
+            this.house1,
             //this.vendor1,
             {
                 width: 4,

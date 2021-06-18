@@ -51,19 +51,17 @@ class Game {
     }
 
     setup() {
-        if (this.dbg) console.log("setup complete...");
         // base setup
         this.base.setup();
         // add base managers
         this.add(this.base.stateMgr);
         this.add(this.base.systemMgr);
-        this.add(this.base.viewMgr);
         this.add(Stats);
+        if (this.dbg) console.log("setup complete...");
     }
 
     add(obj) {
         if (!obj) return;
-        //console.log("game: adding base obj: " + obj);
         this.objs.push(obj);
     }
 

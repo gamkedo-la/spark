@@ -96,6 +96,7 @@ class Grid {
     }
 
     onGizmoDestroy(evt) {
+        console.log("onGizmoDestroy");
         let gzo = evt.actor;
         if (!gzo) return;
         this.remove(gzo);
@@ -223,8 +224,6 @@ class Grid {
         if (this.dbg) console.log(`grid add ${gzo} w/ idx: ${gzo.gidx}`);
         // handle gizmo updates
         gzo.evtUpdated.listen(this.onGizmoUpdate);
-        // handle gizmo destroy
-        gzo.evtDestroyed.listen(this.onGizmoDestroy);
     }
 
     *[Symbol.iterator]() {
@@ -266,8 +265,6 @@ class Grid {
             }
             // clear gizmo listens
             gzo.evtUpdated.ignore(this.onGizmoUpdate);
-            // handle gizmo destroy
-            gzo.evtDestroyed.ignore(this.onGizmoDestroy);
         }
     }
 

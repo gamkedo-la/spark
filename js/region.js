@@ -2,11 +2,10 @@ export { Region };
 
 import { Base }             from "./base/base.js";
 import { Fmt }              from "./base/fmt.js";
-import { Model }            from "./base/model.js";
 
-class Region extends Model {
+class Region {
 
-    cpost(spec) {
+    constructor(spec={}) {
         this.areas = [];
         this.objs = [];
         this.autoAreas = [];

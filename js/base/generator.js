@@ -15,7 +15,9 @@ class Generator {
 
     // STATIC METHODS ------------------------------------------------------
     static generate(spec) {
-        return this.instance.generate(spec);
+        let obj = this.instance.generate(spec);
+        if (!obj) console.error(`generator failed for ${Fmt.ofmt(spec)}`);
+        return obj;
     }
 
     // CONSTRUCTOR ---------------------------------------------------------

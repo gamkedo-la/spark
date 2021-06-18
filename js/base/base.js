@@ -41,7 +41,7 @@ import { AreaSystem }       from "./areaSystem.js";
 import { Area }             from "./area.js";
 import { CollisionSystem }  from "./collisionSystem.js";
 import { PathfindingSystem } from "./pathfindingSystem.js";
-import { DaytimeSystem } from "./daytimeSystem.js";
+import { DaytimeSystem }    from "./daytimeSystem.js";
 import { UxDaylightFilter } from "./uxDaylightFilter.js";
 import { AiDirectiveSystem } from "./ai/aiDirectiveSystem.js";
 import { AiComboInfluence, AiEnvInfluence, AiGzoInfluence } from "./ai/aiInfluence.js";
@@ -55,8 +55,9 @@ import { Atts }             from "./atts.js";
 import { EQuerySystem }     from "./eQuerySystem.js";
 import { AiPlanSystem }     from "./ai/aiPlanSystem.js";
 import { AiProcessSystem }  from "./ai/aiProcessSystem.js";
-import { ModelState } from "./modelState.js";
-import { Condition } from "./condition.js";
+import { ModelState }       from "./modelState.js";
+import { Condition }        from "./condition.js";
+import { EventSystem }      from "./eventSystem.js";
 
 class Base {
 
@@ -118,7 +119,7 @@ class Base {
         self.media = new Store({getkey: (v) => v.tag});
         // -- mediaLoader - provides functionality to load media specifications
         self.mediaLoader = new MediaLoader({
-            //dbg: true,
+            dbg: Config.dbg.MediaLoader,
             media: self.media,
             refs: spec.media || [],
             loaders: {
@@ -181,75 +182,26 @@ class Base {
         this.registry.add(ActivitySchedule);
         // ---- keyboard handler
         Keys.init({
-            dbg: false
+            dbg: Config.dbg.Keys,
         });
-        // ---- mouse system
-        this.systemMgr.adopt(new MouseSystem({iterateTTL: 50, dbg: false}));
-        // ---- controller system
-        this.systemMgr.adopt(new CtrlSystem({
-            bindings: new Bindings(this.xbindings),
-            dbg: false,
-        }));
-        // ---- movement system
-        this.systemMgr.adopt(new MoveSystem({
-            dbg: false,
-            findOverlaps: this.findOverlaps,
-        }));
-        // ---- collision system
-        this.systemMgr.adopt(new CollisionSystem({
-            dbg: false,
-            findOverlaps: this.findOverlaps,
-        }));
-        this.systemMgr.adopt(new PathFollowSystem({
-            dbg: true,
-        }));
-        // ---- action system
-        this.systemMgr.adopt(new ActionSystem({
-            dbg: true,
-        }));
-        // ---- area system
-        this.systemMgr.adopt(new AreaSystem({
-            dbg: true,
-        }));
-        // ---- pathfinding system
-        this.systemMgr.adopt(new PathfindingSystem({
-            dbg: true,
-            getgrid: (() => this.grid),
-        }));
-        // ---- daytime system
-        this.systemMgr.adopt(new DaytimeSystem({
-            getTimeScale: () => 60,
-            //dbg: true,
-        }));
-        // ---- activity schedule system
-        this.systemMgr.adopt(new ActivityScheduleSystem({
-            dbg: true,
-        }));
-        // ---- state system
-        this.systemMgr.adopt(new StateSystem({
-            dbg: false,
-        }));
-        // ---- query system
-        this.systemMgr.adopt(new EQuerySystem({
-            eQueryQ: Atts.eQueryQ,
-            dbg: true,
-        }));
-        // ---- ai directive system
-        this.systemMgr.adopt(new AiDirectiveSystem({
-            dbg: true,
-        }));
-        // ---- ai goal system
-        this.systemMgr.adopt(new AiGoalSystem({
-            dbg: true,
-        }));
-        // ---- ai plan system
-        this.systemMgr.adopt(new AiPlanSystem({
-            dbg: true,
-        }));
-        // ---- ai process system
-        this.systemMgr.adopt(new AiProcessSystem({
-            dbg: true,
-        }));
+        // ---- Systems
+        this.systemMgr.adopt(new MouseSystem({ iterateTTL: 50, dbg: Config.dbg.MouseSystem }));
+        this.systemMgr.adopt(new CtrlSystem({ bindings: new Bindings(this.xbindings), dbg: Config.dbg.CtrlSystem, }));
+        this.systemMgr.adopt(new MoveSystem({ findOverlaps: this.findOverlaps, dbg: Config.dbg.MoveSystem, }));
+        this.systemMgr.adopt(new CollisionSystem({ findOverlaps: this.findOverlaps, dbg: Config.dbg.CollisionSystem, }));
+        this.systemMgr.adopt(new PathFollowSystem({ dbg: Config.dbg.PathFollowSystem, }));
+        this.systemMgr.adopt(new ActionSystem({ dbg: Config.dbg.ActionSystem }));
+        this.systemMgr.adopt(new AreaSystem({ dbg: Config.dbg.AreaSystem }));
+        this.systemMgr.adopt(new PathfindingSystem({ getgrid: (() => this.grid), dbg: Config.dbg.PathfindingSystem, }));
+        this.systemMgr.adopt(new DaytimeSystem({ getTimeScale: () => 60, dbg: Config.dbg.DaytimeSystem, }));
+        this.systemMgr.adopt(new ActivityScheduleSystem({ dbg: Config.dbg.ActivityScheduleSystem }));
+        this.systemMgr.adopt(new StateSystem({ dbg: Config.dbg.StateSystem }));
+        this.systemMgr.adopt(new EQuerySystem({ eQueryQ: Atts.eQueryQ, dbg: Config.dbg.EQuerySystem, }));
+        this.systemMgr.adopt(new EventSystem({ dbg: Config.dbg.EventSystem, }));
+        this.systemMgr.adopt(new AiDirectiveSystem({ dbg: Config.dbg.AiDirectiveSystem, }));
+        this.systemMgr.adopt(new AiGoalSystem({ dbg: Config.dbg.AiGoalSystem, }));
+        this.systemMgr.adopt(new AiPlanSystem({ dbg: Config.dbg.AiPlanSystem, }));
+        this.systemMgr.adopt(new AiProcessSystem({ dbg: Config.dbg.AiProcessSystem, }));
     }
 
     // PROPERTIES ----------------------------------------------------------

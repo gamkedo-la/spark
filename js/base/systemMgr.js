@@ -2,6 +2,7 @@ export { SystemMgr };
 
 import { Store } from "./store.js";
 import { Gizmo } from "./gizmo.js";
+import { Stats } from "./stats.js";
 
 class SystemMgr extends Gizmo {
 
@@ -35,6 +36,7 @@ class SystemMgr extends Gizmo {
         // entity iterate
         for(const e of this.store) {
             for (const sys of this.children()) {
+                Stats.count("sys.iterate");
                 if (!sys.active) continue;
                 if (!sys.ready) continue;
                 sys.iterate(ctx, e);

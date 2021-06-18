@@ -5,7 +5,7 @@ import { Config }           from "./base/config.js";
 import { Fmt } from "./base/fmt.js";
 
 class Projectile extends Model {
-    static dfltSpeed = .2;
+    static dfltSpeed = .4;
 
     // CONSTRUCTOR ---------------------------------------------------------
     cpost(spec) {
@@ -21,6 +21,7 @@ class Projectile extends Model {
         this.origx = this.x;
         this.origy = this.y;
         console.log(`orig set to: ${this.origx},${this.origy} from ${this.x},${this.y}`);
+        console.log(`projectile xsketch: ${Fmt.ofmt(this.xsketch)}`);
     }
 
 

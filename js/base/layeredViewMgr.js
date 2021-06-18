@@ -9,17 +9,6 @@ import { Fmt }              from "./fmt.js";
 import { Camera }           from "./camera.js";
 import { Grid }             from "./grid.js";
 import { Bounds }           from "./bounds.js";
-import { Base }             from "./base.js";
-import { Vect } from "./vect.js";
-
-class Slice {
-    constructor(canvas) {
-        this.canvas = document.createElement('canvas');
-        this.canvas.width = canvas.width;
-        this.canvas.height = canvas.height;
-        this.ctx = this.canvas.getContext('2d');
-    }
-}
 
 class LayeredViewMgr extends Gizmo {
     static dfltGridX = 32;
@@ -221,6 +210,7 @@ class LayeredViewMgr extends Gizmo {
         this.sorted.remove(view);
         // remove from view updates
         view.evtUpdated.ignore(this.onViewUpdate)
+        this.updatedViews.push(view);
     }
 
     clear() {

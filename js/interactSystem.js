@@ -30,6 +30,8 @@ class InteractSystem extends System {
                 heading: e.heading,
                 x: e.x,
                 y: e.y,
+                depth: e.depth,
+                layer: e.layer,
             }
         );
         let spark = Generator.generate(xspark);
