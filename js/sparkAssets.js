@@ -177,34 +177,31 @@ class SparkAssets {
             Templates.tile("00l", "postUpper.l", { xxform: {dx:8} }),
             Templates.tile("00m", "postUpper.s", { xxform: {dx:8} }),
             Templates.tile("00n", "postUpper.r", { xxform: {dx:8} }),
-            Templates.tile("00o", "monolith", { offy: -24, xcollider: { width: 28, height: 32, offy: 4} }),
-            //Templates.tile("00p", "relay", { xcollider: {width:10, height:20, offy:10}, xxform: {dx:8} }),
-            Templates.tile("00p", "relay", { offy: -24, xcollider: {width:10, height:20, offy: 10}, }),
+            Templates.tile("00o", "monolith", { offy: -16, xcollider: { width: 28, height: 32, offy: 4} }),
+            Templates.tile("00p", "relay", { offy: -16, xcollider: {width:10, height:20, offy: 10}, }),
 
             Templates.object("o01", "woodDoor", "Door", {
-                offx: 24,
-                offy: -32,
+                offx: 24, offy: -32,
                 xcollider: { offy: 16, width:48, height:32 }, 
             }),
-            //{ id: "o01", tag: "woodDoor", cls: "Door", xcollider: {}, xxform: {dx: 24}, xsketch: { cls: "Media", tag: "woodDoor"} },
-            { id: "o02", tag: "stool", cls: "Chair", 
-                xxform: {dx:8}, 
-                xsketch: { cls: "Media", tag: "stool"}, 
-                occupiedDir: Direction.east, 
-                occupiedOffX: 10, 
-                occupiedOffY: -10 
-            },
 
-            //{ id: "o03", tag: "table", cls: "Tile", xsketch: { cls: "Media", tag: "table"} },
-            //Templates.tile("o02", "stool", {xxform: {dx:16}}),
-            Templates.tile("o03", "table", {xxform: {dx:8}}),
-            //Templates.tile("o04", "bed", {xxform: {dx:16}}),
-            { id: "o04", tag: "bed", cls: "Bed", 
-                xxform: {dx:8}, 
-                xsketch: { cls: "Media", tag: "bed"}, 
-                occupiedOffX: 8, 
-                occupiedOffY: -14 
-            },
+            Templates.object("o02", "stool", "Chair", {
+                offx: 8, offy: -12,
+                xcollider: { width: 14, height: 14 }, 
+                occupiedDir: Direction.east, 
+                occupiedOffX: 10, occupiedOffY: -14 
+            }),
+
+            Templates.tile("o03", "table", {
+                offx: 8, offy: -8,
+                xcollider: { width: 24, height: 24 }, 
+            }),
+
+            Templates.object("o04", "bed", "Bed", {
+                offx: 8, offy: -24,
+                xcollider: { width: 24, height: 48 }, 
+                occupiedOffX: 8, occupiedOffY: -14,
+            }),
 
             { tag: "spark", cls: "Projectile", 
                 xcollider: { blocking: Collider.projectile, width:8, height:8, color: "rgba(0,0,127,.5)" },
