@@ -328,8 +328,53 @@ class Templates {
 
     static tile(id, tag, spec={}) {
         let mediaTag = spec.mediaTag || tag;
+        // handle tile offsets, applying offset to both the object's collider (if any)
+        // and the object's view xform
+        let offx = spec.offx || 0;
+        let offy = spec.offy || 0;
+        if (offx || offy) {
+            if (spec.xcollider) {
+                spec.xcollider.offx = (spec.xcollider.offx) ? spec.xcollider.offx + offx : offx;
+                spec.xcollider.offy = (spec.xcollider.offy) ? spec.xcollider.offy + offy : offy;
+            }
+            if (spec.xxform) {
+                spec.xxform.dx = (spec.xxform.dx) ? spec.xxform.dx + offx : offx;
+                spec.xxform.dy = (spec.xxform.dy) ? spec.xxform.dy + offy : offy;
+            } else {
+                spec.xxform = { dx: offx, dy: offy };
+            }
+        }
         return Object.assign({
             cls: "Tile", 
+            id: id, 
+            tag: tag,           
+            xsketch: { 
+                cls: "Media", 
+                tag: mediaTag,
+            }
+        }, spec);
+    }
+
+    static object(id, tag, cls, spec={}) {
+        let mediaTag = spec.mediaTag || tag;
+        // handle object offsets, applying offset to both the object's collider (if any)
+        // and the object's view xform
+        let offx = spec.offx || 0;
+        let offy = spec.offy || 0;
+        if (offx || offy) {
+            if (spec.xcollider) {
+                spec.xcollider.offx = (spec.xcollider.offx) ? spec.xcollider.offx + offx : offx;
+                spec.xcollider.offy = (spec.xcollider.offy) ? spec.xcollider.offy + offy : offy;
+            }
+            if (spec.xxform) {
+                spec.xxform.dx = (spec.xxform.dx) ? spec.xxform.dx + offx : offx;
+                spec.xxform.dy = (spec.xxform.dy) ? spec.xxform.dy + offy : offy;
+            } else {
+                spec.xxform = { dx: offx, dy: offy };
+            }
+        }
+        return Object.assign({
+            cls: cls, 
             id: id, 
             tag: tag,           
             xsketch: { 

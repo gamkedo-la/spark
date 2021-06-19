@@ -122,6 +122,7 @@ class ModelView extends UxPanel {
         if (this.xform.height != this._sketch.height) {
             this.updated = true;
             this.xform.height = this._sketch.height;
+            /*
             if (this._sketch.height > this.tileSize) {
                 //let off = Math.round((this._sketch.height - this.tileSize)*.5);
                 let off = Math.round((this._sketch.height - this.tileSize));
@@ -129,6 +130,7 @@ class ModelView extends UxPanel {
                 //this.xform.dy = -off;
                 //console.log(`@@@ setting view ${this} height: ${this._sketch.height} off: ${off}`);
             }
+            */
             //this._wmodelY = this._xform.getWorld(new Vect(this.model.x, this.model.y)).y;
             this.lastModelY = undefined;
             this.wmodelY;

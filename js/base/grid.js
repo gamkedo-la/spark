@@ -236,11 +236,16 @@ class Grid {
 
     *findgidx(gidx, filter=(v) => true) {
         if (!Util.iterable(gidx)) gidx = [gidx];
+        let found = new Set();
         for (const idx of gidx) {
             let entries = this.grid[idx] || [];
             if (entries) {
                 for (const gzo of entries) {
-                    if (filter(gzo)) yield gzo;
+                    if (found.has(gzo.gid)) continue;
+                    if (filter(gzo)) {
+                        found.add(gzo.gid);
+                        yield gzo;
+                    }
                 }
             }
         }

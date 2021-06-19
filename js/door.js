@@ -21,7 +21,7 @@ class Door extends Model {
         // -- autoClose
         this.autoClose = (spec.hasOwnProperty("autoClose") ? spec.autoClose : true);
         // -- interactRange
-        this.interactRange = spec.interactRange || Config.tileSize * 2;
+        this.interactRange = spec.interactRange || Config.tileSize * 4;
         // -- interactable
         this.interactable = true;
     }

@@ -91,6 +91,8 @@ class Collider {
     render(renderCtx) {
         renderCtx.fillStyle = (this.blocking) ? this.color : this.nbcolor;
         renderCtx.fillRect(this.minx, this.miny, this.width, this.height);
+        renderCtx.fillStyle = "black";
+        renderCtx.fillRect(this.x-2, this.y-2, 4, 4);
     }
 
     toString() {

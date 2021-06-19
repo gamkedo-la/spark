@@ -33,7 +33,7 @@ class CollisionSystem extends System {
             // -- x axis
             if (dx) {
                 let xbounds = new Bounds(e.collider.minx+dx, e.collider.miny, e.collider.width, e.collider.height);
-                console.log(`dx: ${dx} xbounds: ${xbounds} vs collider: ${e.collider}`);
+                //console.log(`dx: ${dx} xbounds: ${xbounds} vs collider: ${e.collider}`);
                 for (const other of this.findOverlaps(xbounds, (v) => (v !== e && (v.activator || v.collider) && v.layer === e.layer))) {
                     // check overlaps w/ any activators
                     let overlap = xbounds.overlaps(other.activator);
@@ -61,7 +61,7 @@ class CollisionSystem extends System {
                                 corx = Math.max(corx, overlap.maxx-xbounds.minx);
                                 //resx += (overlap.maxx - xbounds.minx);
                             }
-                            console.log(`xbounds: ${xbounds} overlaps w: ${other.collider} overlap: ${overlap} resx: ${resx}`);
+                            //console.log(`xbounds: ${xbounds} overlaps w: ${other.collider} overlap: ${overlap} resx: ${resx}`);
                             // store actor collision state
                             if (actorWantsCollision) actorCollision = Bounds.newOrExtend(actorCollision, overlap);
                         }

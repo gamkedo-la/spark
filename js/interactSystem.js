@@ -54,7 +54,7 @@ class InteractSystem extends System {
         for (const obj of objs) {
             // FIXME: add priority system to object interaction to drive which object gets interaction
             // FIXME: only attempt to interact w/ one object at a time
-            console.log(`${e} interacts with: ${objs}`);
+            console.log(`${e} interacts with: ${obj}`);
             obj.dointeract(e);
             ok = true;
         }
