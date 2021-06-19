@@ -15,6 +15,10 @@ import { WakeFromBedScheme } from "./actions/wakeFromBed.js";
 import { Chair }            from "./chair.js";
 import { Projectile }       from "./projectile.js";
 import { Level }            from "./lvl.js";
+import { Atts }             from "./base/atts.js";
+import { Store }            from "./base/store.js";
+import { SparkBase }        from "./sparkBase.js";
+import { Condition }        from "./base/condition.js";
 
 class SparkRegistry {
     static init() {
@@ -22,6 +26,7 @@ class SparkRegistry {
         AiGoal.register("sleep");
         // -- register model states
         ModelState.register("active");
+        ModelState.register("sparked");
         ModelState.register("open");
         ModelState.register("close");
         ModelState.register("sleep");
@@ -30,6 +35,8 @@ class SparkRegistry {
         ModelState.register("seated");
         // -- register activities
         Activity.register("sleep");
+        // -- register conditions
+        Condition.register("sparked");
     }
     static setup(registry) {
         // -- register generator classes
@@ -41,10 +48,13 @@ class SparkRegistry {
         registry.add(Bed);
         registry.add(Projectile);
         registry.add(Level);
+        registry.add(SparkBase);
         // -- register schemes
         registry.add(SleepBedScheme);
         registry.add(FindBedScheme);
         registry.add(MoveScheme);
         registry.add(WakeFromBedScheme);
+        // -- setup global atts
+        Atts.sparkBases = new Store({getkey: (v) => v.gid});
     }
 }

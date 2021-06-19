@@ -20,6 +20,7 @@ class Config {
             EQuerySystem: true,
             PathfindingSystem: true,
             PathFollowSystem: true,
+            StateSystem: true,
             Stats: false,
             ViewMgr: true,
             viewAreas: false,

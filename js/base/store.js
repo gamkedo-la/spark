@@ -7,7 +7,7 @@ class Store {
 
     // CONSTRUCTOR ---------------------------------------------------------
     constructor(spec={}) {
-        this.getkey = spec.getkey || ((v) => v.id);
+        this.getkey = spec.getkey || ((v) => v.gid);
         this.items = new Map();
         let events = (spec.hasOwnProperty("events")) ? spec.events : false;
         // event channels
@@ -43,6 +43,13 @@ class Store {
             this.items.delete(key);
             this.evtRemoved.trigger({target: obj});
         }
+    }
+
+    contains(obj) {
+        if (obj) {
+            return this.items.has(this.getkey(obj));
+        }
+        return false;
     }
 
     get(key) {

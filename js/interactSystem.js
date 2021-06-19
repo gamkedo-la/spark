@@ -5,6 +5,9 @@ import { Bounds } from "./base/bounds.js";
 import { Vect } from "./base/vect.js";
 import { Generator } from "./base/generator.js";
 import { Base } from "./base/base.js";
+import { Store } from "./base/store.js";
+import { Condition } from "./base/condition.js";
+import { Mathf } from "./base/math.js";
 
 class InteractSystem extends System {
     // CONSTRUCTOR ---------------------------------------------------------
@@ -15,6 +18,7 @@ class InteractSystem extends System {
     cpost(spec) {
         super.cpost(spec);
         this.findOverlaps = spec.findOverlaps || ((v) => {return [];});
+        this.sparkBases = spec.sparkBases || new Store();
         this.assets = spec.assets || Base.instance.assets;
     }
 
@@ -23,6 +27,32 @@ class InteractSystem extends System {
     // METHODS -------------------------------------------------------------
     dospark(ctx, e) {
         console.log("dospark");
+        // check for actor spark condition
+        if (e.conditions.has(Condition.sparked)) {
+            console.log("already sparked");
+            return;
+        }
+
+        // check for spark source
+        let best = undefined;
+        let bestRange = undefined;
+        for (const src of this.sparkBases) {
+            // distance from source to actor
+            let dist = Mathf.distance(e.x, e.y, src.x, src.y);
+            console.log(`dist: ${dist}`);
+            // actor in range?
+            if (dist > src.range) continue;
+            if (!best || dist < bestRange) {
+                best = src;
+                bestRange = dist;
+            }
+        }
+        if (!best) {
+            console.log("not in range");
+            return;
+        }
+
+
         // spawn spark projectile at actor
         let xspark = Object.assign(
             this.assets.fromTag("spark"),
@@ -35,6 +65,17 @@ class InteractSystem extends System {
             }
         );
         let spark = Generator.generate(xspark);
+
+        // apply condition to source
+        // -- cleared when spark is destroyed
+        best.conditions.add(Condition.sparked);
+        spark.evtDestroyed.listen((evt) => best.conditions.delete(Condition.sparked));
+
+        // apply condition to actor
+        // -- cleared when spark is destroyed
+        //e.conditions.add(Condition.sparked);
+        //spark.evtDestroyed.listen((evt) => e.conditions.delete(Condition.sparked));
+
         console.log("spark: " + spark);
     }
 

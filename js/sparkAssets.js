@@ -52,9 +52,9 @@ class SparkAssets {
                 Templates.xsprite("postUpper.l",        0, 7, {width: 32 }),
                 Templates.xsprite("postUpper.s",        2, 7),
                 Templates.xsprite("postUpper.r",        3, 7, {width: 32 }),
-                Templates.xsprite("monolith",           5, 4, {width: 32, height: 48}),
-                Templates.xsprite("monolith.active",    7, 4, {width: 32, height: 48}),
-                Templates.xsprite("relay",              9, 4, {width: 32, height: 48}),
+                Templates.xsprite("sparkbase.idle",     5, 4, {width: 32, height: 48}),
+                Templates.xsprite("sparkbase.sparked",   7, 4, {width: 32, height: 48}),
+                Templates.xsprite("relay.idle",         9, 4, {width: 32, height: 48}),
                 Templates.xsprite("relay.active",       11, 4, {width: 32, height: 48}),
                 Templates.xsprite("spark",              0, 3),
             ]},
@@ -67,6 +67,22 @@ class SparkAssets {
             { src: "img/stuccoWalls2.png", loader: "Sheet", refs: [
                 {tag: "woodDoor.top", cls: "Sprite", width: 16*4, height: 16*2, x: 16*11, y: 16*1 },
             ]},
+
+            { tag: "sparkbase", 
+                cls: "Animator", 
+                animations: { 
+                    [ModelState.idle]: { cls: "Media", tag: "sparkbase.idle" }, 
+                    [ModelState.sparked]: { cls: "Media", tag: "sparkbase.sparked" }, 
+                },
+            },
+
+            { tag: "relay", 
+                cls: "Animator", 
+                animations: { 
+                    [ModelState.idle]: { cls: "Media", tag: "relay.idle" }, 
+                    [ModelState.active]: { cls: "Media", tag: "relay.active" }, 
+                },
+            },
 
             { tag: "woodDoor", 
                 cls: "Animator", 
@@ -177,8 +193,12 @@ class SparkAssets {
             Templates.tile("00l", "postUpper.l", { xxform: {dx:8} }),
             Templates.tile("00m", "postUpper.s", { xxform: {dx:8} }),
             Templates.tile("00n", "postUpper.r", { xxform: {dx:8} }),
-            Templates.tile("00o", "monolith", { offy: -16, xcollider: { width: 28, height: 32, offy: 4} }),
             Templates.tile("00p", "relay", { offy: -16, xcollider: {width:10, height:20, offy: 10}, }),
+
+            Templates.object("o00", "sparkbase", "SparkBase", { 
+                offy: -16, 
+                xcollider: { width: 28, height: 32, offy: 4} 
+            }),
 
             Templates.object("o01", "woodDoor", "Door", {
                 offx: 24, offy: -32,

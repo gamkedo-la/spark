@@ -13,9 +13,4 @@ class Tile extends Model {
         if (this.collider) console.log(`tile ${this} collider: ${this.collider}`);
     }
 
-    iupdate(ctx) {
-        Stats.count("tile.iupdate");
-        return super.iupdate(ctx);
-    }
-
 }
