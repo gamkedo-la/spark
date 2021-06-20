@@ -26,6 +26,8 @@ class State extends Gizmo {
         this.viewMgr = vmgrGen(xvmgr);
         // -- entities - store of all models associated w/ non-passive state
         this.entities = new Store({getkey: (v) => v.gid});
+        // -- passives - store of all models associated w/ passive state
+        this.passives = new Store({getkey: (v) => v.gid});
         // -- ctrls - store of all controllers associated w/ state
         this.ctrls = new Store({getkey: (v) => v.gid});
         // top level game model
@@ -49,7 +51,11 @@ class State extends Gizmo {
         if (gzo.cat === "View") {
             this.viewMgr.add(gzo);
         } else if (gzo.cat === "Model") {
-            if (!gzo.passive) this.entities.add(gzo);
+            if (gzo.passive) {
+                this.passives.add(gzo);
+            } else {
+                this.entities.add(gzo);
+            }
         } else if (gzo.cat === "Ctrl") {
             this.ctrls.add(gzo);
         }
@@ -61,7 +67,11 @@ class State extends Gizmo {
         if (gzo.cat === "View") {
             this.viewMgr.remove(gzo);
         } else if (gzo.cat === "Model") {
-            this.entities.remove(gzo.gid);
+            if (gzo.passive) {
+                this.passives.remove(gzo.gid);
+            } else {
+                this.entities.remove(gzo.gid);
+            }
         } else if (gzo.cat === "Ctrl") {
             this.ctrls.remove(gzo.gid);
         }

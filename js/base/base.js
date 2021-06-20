@@ -209,6 +209,10 @@ class Base {
         if (this.stateMgr.current) return this.stateMgr.current.entities;
         return undefined;
     }
+    get passives() {
+        if (this.stateMgr.current) return this.stateMgr.current.passives;
+        return undefined;
+    }
     get viewMgr() {
         if (this.stateMgr.current) return this.stateMgr.current.viewMgr;
         return undefined;
