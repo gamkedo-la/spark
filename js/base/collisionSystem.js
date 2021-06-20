@@ -49,8 +49,10 @@ class CollisionSystem extends System {
                         overlap = xbounds.overlaps(other.collider);
                         if (overlap) {
                             // trigger collision
-                            if (other.docollision && !collisions.includes(other)) other.docollision(e, overlap);
-                            if (other.docollision || actorWantsCollision) collisions.push(other);
+                            if (!collisions.includes(other)) {
+                                if (other.docollision) other.docollision(e, overlap);
+                                collisions.push(other);
+                            }
                             // handle blocking collision
                             // -- moving right
                             if (dx > 0) {
@@ -63,7 +65,7 @@ class CollisionSystem extends System {
                             }
                             //console.log(`xbounds: ${xbounds} overlaps w: ${other.collider} overlap: ${overlap} resx: ${resx}`);
                             // store actor collision state
-                            if (actorWantsCollision) actorCollision = Bounds.newOrExtend(actorCollision, overlap);
+                            actorCollision = Bounds.newOrExtend(actorCollision, overlap);
                         }
                     }
                 }
@@ -87,8 +89,10 @@ class CollisionSystem extends System {
                         overlap = ybounds.overlaps(other.collider);
                         if (overlap) {
                             // trigger collision
-                            if (other.docollision && !collisions.includes(other)) other.docollision(e, overlap);
-                            if (other.docollision || actorWantsCollision) collisions.push(other);
+                            if (!collisions.includes(other)) {
+                                if (other.docollision) other.docollision(e, overlap);
+                                collisions.push(other);
+                            }
                             // handle movement restriction
                             // -- moving down
                             if (dy > 0) {
@@ -102,7 +106,7 @@ class CollisionSystem extends System {
                                 //resy += (overlap.maxy - ybounds.miny);
                             }
                             // store actor collision state
-                            if (actorWantsCollision) actorCollision = Bounds.newOrExtend(actorCollision, overlap);
+                            actorCollision = Bounds.newOrExtend(actorCollision, overlap);
                         }
                     }
                 }
@@ -120,7 +124,10 @@ class CollisionSystem extends System {
                     e.docollision(other, actorCollision);
                 }
             }
-
+            e.collision = actorCollision;
+            if (collisions.length) {
+                e.collisionIds = collisions.map(v => v.gid);
+            }
 
         }
 

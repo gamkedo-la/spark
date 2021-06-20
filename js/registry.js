@@ -18,6 +18,7 @@ import { Level }            from "./lvl.js";
 import { Atts }             from "./base/atts.js";
 import { Store }            from "./base/store.js";
 import { SparkBase }        from "./sparkBase.js";
+import { SparkRelay }       from "./sparkRelay.js";
 import { Condition }        from "./base/condition.js";
 
 class SparkRegistry {
@@ -25,7 +26,7 @@ class SparkRegistry {
         // -- register goals
         AiGoal.register("sleep");
         // -- register model states
-        ModelState.register("active");
+        ModelState.register("powered");
         ModelState.register("sparked");
         ModelState.register("open");
         ModelState.register("close");
@@ -36,6 +37,7 @@ class SparkRegistry {
         // -- register activities
         Activity.register("sleep");
         // -- register conditions
+        Condition.register("powered");
         Condition.register("sparked");
     }
     static setup(registry) {
@@ -49,12 +51,13 @@ class SparkRegistry {
         registry.add(Projectile);
         registry.add(Level);
         registry.add(SparkBase);
+        registry.add(SparkRelay);
         // -- register schemes
         registry.add(SleepBedScheme);
         registry.add(FindBedScheme);
         registry.add(MoveScheme);
         registry.add(WakeFromBedScheme);
         // -- setup global atts
-        Atts.sparkBases = new Store({getkey: (v) => v.gid});
+        Atts.sparkSources = new Store({getkey: (v) => v.gid});
     }
 }

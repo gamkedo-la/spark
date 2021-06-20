@@ -53,9 +53,11 @@ class SparkAssets {
                 Templates.xsprite("postUpper.s",        2, 7),
                 Templates.xsprite("postUpper.r",        3, 7, {width: 32 }),
                 Templates.xsprite("sparkbase.idle",     5, 4, {width: 32, height: 48}),
-                Templates.xsprite("sparkbase.sparked",   7, 4, {width: 32, height: 48}),
-                Templates.xsprite("relay.idle",         9, 4, {width: 32, height: 48}),
-                Templates.xsprite("relay.active",       11, 4, {width: 32, height: 48}),
+                Templates.xsprite("sparkbase.sparked",  7, 4, {width: 32, height: 48}),
+                Templates.xsprite("sparkbase.powered",  9, 4, {width: 32, height: 48}),
+                Templates.xsprite("relay.idle",         11, 4, {width: 32, height: 48}),
+                Templates.xsprite("relay.sparked",      13, 4, {width: 32, height: 48}),
+                Templates.xsprite("relay.powered",      11, 7, {width: 32, height: 48}),
                 Templates.xsprite("spark",              0, 3),
             ]},
 
@@ -73,6 +75,7 @@ class SparkAssets {
                 animations: { 
                     [ModelState.idle]: { cls: "Media", tag: "sparkbase.idle" }, 
                     [ModelState.sparked]: { cls: "Media", tag: "sparkbase.sparked" }, 
+                    [ModelState.powered]: { cls: "Media", tag: "sparkbase.powered" }, 
                 },
             },
 
@@ -80,7 +83,8 @@ class SparkAssets {
                 cls: "Animator", 
                 animations: { 
                     [ModelState.idle]: { cls: "Media", tag: "relay.idle" }, 
-                    [ModelState.active]: { cls: "Media", tag: "relay.active" }, 
+                    [ModelState.sparked]: { cls: "Media", tag: "relay.sparked" }, 
+                    [ModelState.powered]: { cls: "Media", tag: "relay.powered" }, 
                 },
             },
 
@@ -193,16 +197,16 @@ class SparkAssets {
             Templates.tile("00l", "postUpper.l", { xxform: {dx:8} }),
             Templates.tile("00m", "postUpper.s", { xxform: {dx:8} }),
             Templates.tile("00n", "postUpper.r", { xxform: {dx:8} }),
-            Templates.tile("00p", "relay", { offy: -16, xcollider: {width:10, height:20, offy: 10}, }),
 
             Templates.object("o00", "sparkbase", "SparkBase", { 
+                powered: true,
                 offy: -16, 
                 xcollider: { width: 28, height: 32, offy: 4} 
             }),
 
             Templates.object("o01", "woodDoor", "Door", {
                 offx: 24, offy: -32,
-                xcollider: { offy: 16, width:48, height:32 }, 
+                xcollider: { offy: 24, width:48, height:24 }, 
             }),
 
             Templates.object("o02", "stool", "Chair", {
@@ -221,6 +225,11 @@ class SparkAssets {
                 offx: 8, offy: -24,
                 xcollider: { width: 24, height: 48 }, 
                 occupiedOffX: 8, occupiedOffY: -14,
+            }),
+
+            Templates.object("o05", "relay", "SparkRelay", { 
+                offy: -16, 
+                xcollider: {width:10, height:20, offy: 10}, 
             }),
 
             { tag: "spark", cls: "Projectile", 

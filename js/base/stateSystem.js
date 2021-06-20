@@ -16,7 +16,7 @@ class StateSystem extends System {
 
         let wantState;
 
-        // check conditions
+        // check conditions (in order of precedence)
         if (e.conditions) {
             if (e.conditions.has(Condition.asleep)) {
                 wantState = ModelState.sleep;
@@ -28,6 +28,8 @@ class StateSystem extends System {
                 wantState = ModelState.open;
             } else if (e.conditions.has(Condition.sparked)) {
                 wantState = ModelState.sparked;
+            } else if (e.conditions.has(Condition.powered)) {
+                wantState = ModelState.powered;
             }
         }
 

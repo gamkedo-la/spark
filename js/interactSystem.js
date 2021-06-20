@@ -18,7 +18,7 @@ class InteractSystem extends System {
     cpost(spec) {
         super.cpost(spec);
         this.findOverlaps = spec.findOverlaps || ((v) => {return [];});
-        this.sparkBases = spec.sparkBases || new Store();
+        this.sparkSources = spec.sparkSources || new Store();
         this.assets = spec.assets || Base.instance.assets;
     }
 
@@ -36,10 +36,11 @@ class InteractSystem extends System {
         // check for spark source
         let best = undefined;
         let bestRange = undefined;
-        for (const src of this.sparkBases) {
+        for (const src of this.sparkSources) {
+            // check for powered
+            if (!src.conditions.has(Condition.powered)) continue;
             // distance from source to actor
             let dist = Mathf.distance(e.x, e.y, src.x, src.y);
-            console.log(`dist: ${dist}`);
             // actor in range?
             if (dist > src.range) continue;
             if (!best || dist < bestRange) {
@@ -52,7 +53,6 @@ class InteractSystem extends System {
             return;
         }
 
-
         // spawn spark projectile at actor
         let xspark = Object.assign(
             this.assets.fromTag("spark"),
@@ -62,6 +62,7 @@ class InteractSystem extends System {
                 y: e.y,
                 depth: e.depth,
                 layer: e.layer,
+                srcid: best.gid,
             }
         );
         let spark = Generator.generate(xspark);
@@ -73,8 +74,8 @@ class InteractSystem extends System {
 
         // apply condition to actor
         // -- cleared when spark is destroyed
-        //e.conditions.add(Condition.sparked);
-        //spark.evtDestroyed.listen((evt) => e.conditions.delete(Condition.sparked));
+        e.conditions.add(Condition.sparked);
+        spark.evtDestroyed.listen((evt) => e.conditions.delete(Condition.sparked));
 
         console.log("spark: " + spark);
     }
