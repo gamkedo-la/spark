@@ -25,7 +25,6 @@ class Grid {
         this._maxx = this.tileSize * this.columns;
         this._maxy = this.tileSize * this.rows;
         this.dbg = spec.dbg;
-        console.log("grid w/ spec: " + Fmt.ofmt(spec));
     }
 
     get minx() { return 0 };
@@ -182,13 +181,14 @@ class Grid {
 
     getgidx(gzo) {
         let minx = 0, miny = 0, maxx = 0, maxy = 0;
-        let gidx = new GridIdx();
+        let gidx = new GridIdx([], this.idxfromxy(gzo.x, gzo.y));
         // if object has dimensions...
         if (gzo.minx !== undefined && gzo.miny !== undefined && gzo.maxx !== undefined && gzo.maxy !== undefined) {
             minx = gzo.minx;
             miny = gzo.miny;
             maxx = Math.max(gzo.minx,gzo.maxx-1);
             maxy = Math.max(gzo.miny,gzo.maxy-1);
+            gidx.primary = this.idxfromxy(maxx, maxy);
         // if object only has position...
         } else if (gzo.x !== undefined && gzo.y !== undefined) {
             minx = gzo.x;
@@ -230,6 +230,15 @@ class Grid {
         for (let i=0; i<this.nentries; i++) {
             if (this.grid[i]) {
                 yield *this.grid[i];
+            }
+        }
+    }
+
+    *getij(i, j) {
+        let idx = this.idxfromij(i, j);
+        if (this.grid[idx]) {
+            for (const view of this.grid[idx]) {
+                if (view.gidx.primary === idx) yield view;
             }
         }
     }
@@ -283,14 +292,16 @@ class Grid {
  * A grid-based object (gizmo) storage bucket which allows for quick lookups of game elements based on location.
  */
 class GridIdx {
-    constructor(values) {
+    constructor(values, primary) {
         this.values = (values) ? Array.from(values) : new Array();
+        this.primary = primary;
     }
     add(gidx) {
         this.values.push(gidx);
     }
     equals(other) {
         if (!other) return false;
+        if (other.primary !== this.primary) return false;
         if (other.values.length !== this.values.length) return false;
         for (let i=0; i<this.values.length; i++) {
             if (this.values[i] !== other.values[i]) return false;

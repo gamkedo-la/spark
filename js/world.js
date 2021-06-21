@@ -320,7 +320,7 @@ class World {
         rows: 48,
         xregions: [
             this.genRegion({columns: 64, rows: 48, xlayers: [{ id: '002j' }]}),
-            //this.house1,
+            this.house1,
             //this.vendor1,
             {
                 columns: 8,

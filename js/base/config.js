@@ -21,7 +21,7 @@ class Config {
             PathfindingSystem: true,
             PathFollowSystem: true,
             StateSystem: false,
-            Stats: false,
+            Stats: true,
             ViewMgr: true,
             viewAreas: false,
             viewColliders: false,
