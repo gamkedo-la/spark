@@ -5,18 +5,21 @@ import { Fmt } from "./base/fmt.js";
 
 class World {
 
-    static genData(width, height, id) {
-        let n = width*height;
+    static genData(columns, rows, id) {
+        let n = columns*rows;
         let a = new Array(n);
-        for (let i=0; i<n; i++) a[i] = id;
+        for (let i=0; i<n; i++) {
+            //if (i%columns === 6) a[i] = id;
+            a[i] = id;
+        }
         return a;
     }
 
     static genRegion(spec={}) {
         let xregion = {
             tag: spec.tag || "tag",
-            width: spec.width || 0,
-            height: spec.height || 0,
+            columns: spec.columns || 0,
+            rows: spec.rows || 0,
             offx: spec.offx || 0,
             offy: spec.offy || 0,
             layers: {},
@@ -27,7 +30,7 @@ class World {
             let depthTag = xlayer.depthTag || "bb";
             let id = xlayer.id;
             if (id) {
-                lspec[depthTag] = this.genData(spec.width, spec.height, id);
+                lspec[depthTag] = this.genData(spec.columns, spec.rows, id);
             }
             xregion.layers[layerTag] = lspec;
 
@@ -37,8 +40,8 @@ class World {
 
     static vendor1 = {
         tag: "vendor1",
-        width: 8,
-        height: 7,
+        columns: 8,
+        rows: 7,
         offx: 5,
         offy: 13,
         autoArea: true,
@@ -106,8 +109,8 @@ class World {
 
     static house1 = {
         tag: "house1",
-        width: 10,
-        height: 15,
+        columns: 10,
+        rows: 15,
         offx: 20,
         offy: 4,
         autoArea: true,
@@ -257,12 +260,12 @@ class World {
 
     static xxlvl = {
         cls: "Level",
-        width: 32,
-        height: 24,
+        columns: 32,
+        rows: 24,
         xregions: [
             {
-                width: 4,
-                height: 5,
+                columns: 4,
+                rows: 5,
                 layers: {
 
                     l1: {
@@ -313,36 +316,19 @@ class World {
 
     static xlvl = {
         cls: "Level",
-        width: 32,
-        height: 24,
+        columns: 64,
+        rows: 48,
         xregions: [
-            this.genRegion({width: 32, height: 24, xlayers: [{ id: '002j' }]}),
-            this.house1,
+            this.genRegion({columns: 64, rows: 48, xlayers: [{ id: '002j' }]}),
+            //this.house1,
             //this.vendor1,
             {
-                width: 8,
-                height: 4,
+                columns: 8,
+                rows: 4,
                 offx: 6,
-                offy: 4,
+                offy: 6,
                 layers: {
                     l1: {
-
-                        /*
-                        bg: [   
-                            "0003","0003","0003","0003",
-                            "0003","0003","0003","0003",
-                            "0003","0003","0003","0003",
-                            "0003","0003","0003","0003",
-                        ],
-
-                        bgo: [   
-                            "002n","002l","002l","002m",
-                            "002g","0000","0000","002f",
-                            "002g","0000","0000","002f",
-                            "002i","002d","002d","002h",
-                        ],
-                        */
-
                         fb: [   
                             "0o00","0000","0000","0000","0000","0000","0000","0000",
                             "0000","0000","0000","0000","0000","0000","0000","0000",

@@ -142,6 +142,7 @@ class SparkAssets {
             }},
 
             { src: "img/fairy.png", loader: "Sheet", refs: [
+                Templates.xsprite("fairy.static_south", 0, 0, {width: 48, height: 32}),
                 Templates.anim("fairy.idle_south", {offx:0, offy: 0, width: 48, height:32, duration: 200, frames: 4}),
                 Templates.anim("fairy.idle_north", {offx:48*1, offy: 0, width: 48, height:32, duration: 200, frames: 4}),
                 Templates.anim("fairy.idle_west", {offx:48*2, offy: 0, width: 48, height:32, duration: 200, frames: 4}),
@@ -239,7 +240,7 @@ class SparkAssets {
 
             { id: "c01",    tag: "player", cls: "Character", 
                             xxform: {dy:-8}, 
-                            xsketch: { cls: "Media", tag: "fairy" },
+                            xsketch: { cls: "Media", tag: "fairy.static_south" },
                             //xcollider: { blocking: Collider.player, width:16, height:16, color: "rgba(0,0,127,.5)" }, },
                             xcollider: { blocking: Collider.player, width:16, height:16, offy:-4, color: "rgba(0,0,127,.5)" }, },
             { id: "c02",    tag: "npc", cls: "Character", 

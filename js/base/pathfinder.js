@@ -13,7 +13,7 @@ class Pathfinder {
         this.dbg = spec.dbg;
         this.maxTries = spec.maxTries || 500;
         // FIXME: remove
-        this.grid = new Grid({width:20,height:20});
+        this.grid = new Grid({columns:20,rows:20});
     }
 
     find(from, to) {

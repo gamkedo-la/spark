@@ -4,6 +4,7 @@ import { Vect } from "./vect.js";
 import { Fmt } from "./fmt.js";
 import { Util } from "./util.js";
 import { ColliderSet } from "./collider.js";
+import { Stats } from "./stats.js";
 
 // =========================================================================
 class Bounds {
@@ -17,6 +18,7 @@ class Bounds {
     }
 
     static _overlaps(obj1, obj2, overlap=true) {
+        Stats.count("Bounds.overlaps");
         if (!this.hasBounds(obj1) || !this.hasBounds(obj2)) return false;
         let xoverlap = (obj1.minx >= obj2.minx && obj1.minx < obj2.maxx) ||
             (obj1.maxx > obj2.minx && obj1.maxx <= obj2.maxx) ||

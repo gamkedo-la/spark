@@ -12,13 +12,21 @@ import { World }            from "./world.js";
 import { GridView }         from "./base/gridView.js";
 import { Area, AreaView }   from "./base/area.js";
 import { ModelView }        from "./modelView.js";
+import { Camera } from "./base/camera.js";
 
 class PlayState extends State {
     cpre(spec) {
         super.cpre(spec);
+        let xlvl = World.xlvl;
         const media = spec.media || Base.instance.media;
         // construct the UI elements
-        spec.xview = {},
+        spec.xvmgr = {
+            cls: "LayeredViewMgr",
+            worldWidth: xlvl.columns * Config.tileSize,
+            worldHeight: xlvl.rows * Config.tileSize,
+            dbg: true,
+        };
+        spec.xview = {};
         spec.xxview = {
             cls: "UxCanvas",
             cvsid: "canvas",
@@ -43,12 +51,8 @@ class PlayState extends State {
 
     cpost(spec) {
         super.cpost(spec);
-
-        /*
-        this.ctrl = new LevelCtrl({
-            xmodel: xlvl,
-        });
-        */
+        this.camera = spec.camera || Camera.main;
+        //this.camera.dbg = true;
 
         Util.bind(this, "onKeyDown", "onClicked");
         Keys.evtKeyPressed.listen(this.onKeyDown);
@@ -60,6 +64,10 @@ class PlayState extends State {
 
         // lookup object references
         this.player = this.findFirst(v=>v.tag === "player");
+        console.log(`PlayState player is ${this.player}`);
+        // hook camera
+        this.camera.trackTarget(this.player);
+        this.camera.trackWorld(this.model);
 
     }
 

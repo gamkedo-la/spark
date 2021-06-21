@@ -58,6 +58,8 @@ import { AiProcessSystem }  from "./ai/aiProcessSystem.js";
 import { ModelState }       from "./modelState.js";
 import { Condition }        from "./condition.js";
 import { EventSystem }      from "./eventSystem.js";
+import { LayeredViewMgr }   from "./layeredViewMgr.js";
+import { ViewMgr }          from "./viewMgr.js";
 
 class Base {
 
@@ -156,6 +158,9 @@ class Base {
         this.registry.add(Shape);
         this.registry.add(Animation);
         this.registry.add(Animator);
+        // ---- View Managers
+        this.registry.add(ViewMgr);
+        this.registry.add(LayeredViewMgr);
         // ---- Views
         this.registry.add(UxView);
         this.registry.add(UxCanvas);

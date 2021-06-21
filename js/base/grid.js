@@ -13,19 +13,19 @@ class Grid {
     static dfltSize = 32;
 
     constructor(spec={}) {
-        this.width = spec.width || Grid.dfltSize;
-        this.height = spec.height || Grid.dfltSize;
-        this.nentries = this.width * this.height;
+        this.columns = spec.columns || Grid.dfltSize;
+        this.rows = spec.rows || Grid.dfltSize;
+        this.nentries = this.columns * this.rows;
         this.grid = new Array(this.nentries);
         this.tileSize = spec.tileSize || Config.tileSize;
         this.halfSize = this.tileSize * .5;
         this.diagSize = this.tileSize * Math.SQRT2;
         // -- events/handlers
         Util.bind(this, "onGizmoUpdate", "onGizmoDestroy", "heuristic");
-        this._maxx = this.tileSize * this.width;
-        this._maxy = this.tileSize * this.height;
+        this._maxx = this.tileSize * this.columns;
+        this._maxy = this.tileSize * this.rows;
         this.dbg = spec.dbg;
-        //console.log("grid w/ spec: " + Fmt.ofmt(spec));
+        console.log("grid w/ spec: " + Fmt.ofmt(spec));
     }
 
     get minx() { return 0 };
@@ -34,40 +34,40 @@ class Grid {
     get maxy() { return this._maxy };
 
     // STATIC METHODS ------------------------------------------------------
-    static ifromidx(idx, width, nentries=undefined) {
+    static ifromidx(idx, columns, nentries=undefined) {
         if (idx < 0) idx = 0;
         if (nentries && idx >= nentries) idx = nentries-1;
-        return idx % width;
+        return idx % columns;
     }
-    static jfromidx(idx, width, nentries=undefined) {
+    static jfromidx(idx, columns, nentries=undefined) {
         if (idx < 0) idx = 0;
         if (nentries && idx >= nentries) idx = nentries-1;
-        return Math.floor(idx/width);
+        return Math.floor(idx/columns);
     }
-    static ifromx(x, tileSize, width=undefined) {
+    static ifromx(x, tileSize, columns=undefined) {
         let i = Math.floor(x/tileSize);
         if (i < 0) i = 0;
-        if (width && i >= width) i = width-1;
+        if (columns && i >= columns) i = columns-1;
         return i;
     }
-    static jfromy(y, tileSize, height=undefined) {
+    static jfromy(y, tileSize, rows=undefined) {
         let j = Math.floor(y/tileSize);
         if (j < 0) j = 0;
-        if (height && j >= height) j = height-1;
+        if (rows && j >= rows) j = rows-1;
         return j;
     }
 
-    static xfromidx(idx, width, tileWidth, center=false) {
-        return (((idx % width) * tileWidth) + ((center) ? tileWidth*.5 : 0));
+    static xfromidx(idx, columns, tileWidth, center=false) {
+        return (((idx % columns) * tileWidth) + ((center) ? tileWidth*.5 : 0));
     }
-    static yfromidx(idx, width, tileHeight, center=false) {
-        return ((Math.floor(idx/width) * tileHeight) + ((center) ? tileHeight*.5 : 0));
+    static yfromidx(idx, columns, tileHeight, center=false) {
+        return ((Math.floor(idx/columns) * tileHeight) + ((center) ? tileHeight*.5 : 0));
     }
 
-    static idxfromij(i, j, width, height) {
-        if (i >= width) i = width-1;
-        if (j >= height) j = height-1;
-        return i + width*j;
+    static idxfromij(i, j, columns, rows) {
+        if (i >= columns) i = columns-1;
+        if (j >= rows) j = rows-1;
+        return i + columns*j;
     }
 
     // EVENT HANDLERS ------------------------------------------------------
@@ -105,23 +105,23 @@ class Grid {
     ifromidx(idx) {
         if (idx < 0) idx = 0;
         if (idx >= this.nentries) idx = this.nentries-1;
-        return idx % this.width;
+        return idx % this.columns;
     }
     jfromidx(idx) {
         if (idx < 0) idx = 0;
         if (idx >= this.nentries) idx = this.nentries-1;
-        return Math.floor(idx/this.width);
+        return Math.floor(idx/this.columns);
     }
     ifromx(x) {
         let i = Math.floor(x/this.tileSize);
         if (i < 0) i = 0;
-        if (i >= this.width) i = this.width-1;
+        if (i >= this.columns) i = this.columns-1;
         return i;
     }
     jfromy(y) {
         let j = Math.floor(y/this.tileSize);
         if (j < 0) j = 0;
-        if (j >= this.height) j = this.height-1;
+        if (j >= this.rows) j = this.rows-1;
         return j;
     }
 
@@ -140,42 +140,42 @@ class Grid {
         let j = Math.floor(y/this.tileSize);
         if (i < 0) i = 0;
         if (j < 0) j = 0;
-        if (i >= this.width) i = this.width-1;
-        if (j >= this.height) j = this.height-1;
-        return i + this.width*j;
+        if (i >= this.columns) i = this.columns-1;
+        if (j >= this.rows) j = this.rows-1;
+        return i + this.columns*j;
     }
 
     xfromidx(idx, center=false) {
-        return (((idx % this.width) * this.tileSize) + ((center) ? this.halfSize : 0));
+        return (((idx % this.columns) * this.tileSize) + ((center) ? this.halfSize : 0));
     }
     yfromidx(idx, center=false) {
-        return ((Math.floor(idx/this.width) * this.tileSize) + ((center) ? this.halfSize : 0));
+        return ((Math.floor(idx/this.columns) * this.tileSize) + ((center) ? this.halfSize : 0));
     }
 
     idxfromij(i,j) {
-        if (i >= this.width) i = this.width-1;
-        if (j >= this.height) j = this.height-1;
-        return i + this.width*j;
+        if (i >= this.columns) i = this.columns-1;
+        if (j >= this.rows) j = this.rows-1;
+        return i + this.columns*j;
     }
 
     idxfromdir(idx, dir) {
         switch (dir) {
             case Direction.north:
-                return (idx > this.width) ? idx-this.width : undefined;
+                return (idx > this.columns) ? idx-this.columns : undefined;
             case Direction.northEast:
-                return ((idx > this.width) && (idx%this.width < this.width)) ? idx-this.width+1 : undefined;
+                return ((idx > this.columns) && (idx%this.columns < this.columns)) ? idx-this.columns+1 : undefined;
             case Direction.east:
-                return (idx%this.width < this.width) ? idx+1 : undefined;
+                return (idx%this.columns < this.columns) ? idx+1 : undefined;
             case Direction.southEast:
-                return ((idx%this.width < this.width) && (idx < this.nentries-this.width)) ? idx+this.width+1 : undefined;
+                return ((idx%this.columns < this.columns) && (idx < this.nentries-this.columns)) ? idx+this.columns+1 : undefined;
             case Direction.south:
-                return (idx < this.nentries-this.width) ? idx+this.width : undefined;
+                return (idx < this.nentries-this.columns) ? idx+this.columns : undefined;
             case Direction.southWest:
-                return ((idx < this.nentries-this.width) && (idx%this.width > 0)) ? idx+this.width-1 : undefined;
+                return ((idx < this.nentries-this.columns) && (idx%this.columns > 0)) ? idx+this.columns-1 : undefined;
             case Direction.west:
-                return (idx%this.width > 0) ? idx-1 : undefined;
+                return (idx%this.columns > 0) ? idx-1 : undefined;
             case Direction.northWest:
-                return ((idx%this.width > 0) && (idx > this.width)) ? idx-this.width-1 : undefined;
+                return ((idx%this.columns > 0) && (idx > this.columns)) ? idx-this.columns-1 : undefined;
         }
     }
 
@@ -274,7 +274,7 @@ class Grid {
     }
 
     toString() {
-        return Fmt.toString(this.constructor.name, this.width, this.height);
+        return Fmt.toString(this.constructor.name, this.columns, this.rows);
     }
 
 }

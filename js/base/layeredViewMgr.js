@@ -9,6 +9,7 @@ import { Fmt }              from "./fmt.js";
 import { Camera }           from "./camera.js";
 import { Grid }             from "./grid.js";
 import { Bounds }           from "./bounds.js";
+import { Base } from "./base.js";
 
 class LayeredViewMgr extends Gizmo {
     static dfltGridX = 32;
@@ -30,16 +31,21 @@ class LayeredViewMgr extends Gizmo {
         this.slicedSorted = new SortedStore({cmpFcn: (v1, v2) => v1.vidx - v2.vidx});
 
         this.viewSize = spec.viewSize || (Config.tileSize*Config.renderScale);
+        this.worldWidth = spec.worldWidth || this.camera.width;
+        this.worldHeight = spec.worldHeight || this.camera.height;
+
         this.grid = new Grid({
-            width: Math.floor(this.camera.width/this.viewSize),
-            height: Math.floor(this.camera.height/this.viewSize),
+            columns: Math.floor(this.worldWidth*Config.renderScale/this.viewSize),
+            rows: Math.floor(this.worldHeight*Config.renderScale/this.viewSize),
             tileSize: this.viewSize,
             //dbg: true,
         })
         this.dbg = spec.dbg;
         this.sliceCanvas = document.createElement('canvas');
-        this.sliceCanvas.width = this.canvas.width;
-        this.sliceCanvas.height = this.canvas.height;
+        //this.sliceCanvas.width = this.canvas.width;
+        //this.sliceCanvas.height = this.canvas.height;
+        this.sliceCanvas.width = this.worldWidth * Config.renderScale;
+        this.sliceCanvas.height = this.worldHeight * Config.renderScale;
         this.sliceCtx = this.sliceCanvas.getContext('2d');
         this.sliceReady = false;
         this.sliceIdxs = {};
@@ -53,9 +59,8 @@ class LayeredViewMgr extends Gizmo {
     onViewUpdate(evt) {
         Stats.count("view.update");
         let view = evt.actor;
-        //console.log(`==================== on view update: ${view} view.min: ${view.minx},${view.miny} view.width: ${view.width}, view xform: ${view.xform} parent: ${view.xform.parent}`);
-        //console.trace();
         if (this.camera.overlaps(view)) {
+            //console.log(`==================== on view update: ${view} view.min: ${view.minx},${view.miny} view.width: ${view.width}, view xform: ${view.xform} parent: ${view.xform.parent}`);
             this.updatedViews.push(evt.actor);
         }
     }
@@ -85,7 +90,9 @@ class LayeredViewMgr extends Gizmo {
                 this.sorted.add(view);
             }
             // trigger view update
-            view.update(ctx);
+            if (view.offscreenUpdate || this.camera.overlaps(view)) {
+                view.update(ctx);
+            }
         }
 
         // prepare sliced view
@@ -94,13 +101,17 @@ class LayeredViewMgr extends Gizmo {
 
             // resolve updated views into grid indices
             for (const view of this.updatedViews) {
-                let minx = view.minx - this.camera.minx;
+                //let minx = view.minx - this.camera.minx;
+                let minx = view.minx;
                 let rminx = minx;
-                let miny = view.miny - this.camera.miny;
+                //let miny = view.miny - this.camera.miny;
+                let miny = view.miny;
                 let rminy = miny;
-                let maxx = view.maxx - this.camera.minx;
+                //let maxx = view.maxx - this.camera.minx;
+                let maxx = view.maxx;
                 let rmaxx = maxx;
-                let maxy = view.maxy - this.camera.miny;
+                //let maxy = view.maxy - this.camera.miny;
+                let maxy = view.maxy;
                 let rmaxy = maxy;
                 if (view.hasOwnProperty("lastMinX")) {
                     rminx = Math.min(view.lastMinX, minx);
@@ -146,7 +157,7 @@ class LayeredViewMgr extends Gizmo {
                         //console.log(`+++ ${gidx} check ${view}`);
                         if (!this.slicedSorted.contains(view)) {
                             this.slicedSorted.add(view);
-                            //if (view.model && view.model.tag !== "grass.j") console.log(`+++ ${gidx} add ${view}`);
+                            //console.log(`+++ ${gidx} add ${view}`);
                         }
                     }
                 }
@@ -157,24 +168,39 @@ class LayeredViewMgr extends Gizmo {
     }
 
     render() {
+        if (this.camera.minx || this.camera.miny) {
+            this.renderCtx.translate(-this.camera.minx, -this.camera.miny);
+        }
+        if (this.camera.minx !== this.lastCameraX || this.camera.miny !== this.lastCameraY) {
+            this.lastCameraX = this.camera.minx;
+            this.lastCameraY = this.camera.miny;
+            this.renderall = true;
+        }
         // handle rendering of all views
         if (this.renderall) {
-            console.log("viewmgr.renderall")
+            //console.log("viewmgr.renderall")
             // clear current context
             this.renderCtx.fillStyle = 'black';
             this.renderCtx.fillRect(0, 0, this.canvas.width, this.canvas.height);
             // render in layer/depth sorted order
             for (const view of this.sorted) {
-                view.render(this.renderCtx);
+                if (this.camera.overlaps(view)) {
+                    view.render(this.renderCtx);
+                }
             }
             this.renderall = false;
 
         // handle rendering of sliced views only
         } else if (this.sliceReady) {
+            /*
+            if (this.camera.minx || this.camera.miny) {
+                this.sliceCtx.translate(-this.camera.minx, -this.camera.miny);
+            }
+            */
             this.sliceReady = false;
             // sliced views get rendered to the slice context
             for (const view of this.slicedSorted) {
-                //console.log("view: " + view);
+                //console.log("==== render view: " + view);
                 view.render(this.sliceCtx);
             }
             this.sliceCtx.resetTransform();

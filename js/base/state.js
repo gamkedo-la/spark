@@ -19,11 +19,8 @@ class State extends Gizmo {
     }
     cpost(spec) {
         // -- viewMgr - view manager for state, handling the render pipeline
-        let xvmgr = {
-            dbg: Config.dbg.ViewMgr,
-        };
-        let vmgrGen = spec.vmgrGen || ((spec) => new LayeredViewMgr(spec));
-        this.viewMgr = vmgrGen(xvmgr);
+        let xvmgr = spec.xvmgr || { cls: "ViewMgr", dbg: Config.dbg.ViewMgr };
+        this.viewMgr = Generator.generate(xvmgr);
         // -- entities - store of all models associated w/ non-passive state
         this.entities = new Store({getkey: (v) => v.gid});
         // -- passives - store of all models associated w/ passive state
