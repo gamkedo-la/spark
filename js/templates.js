@@ -246,14 +246,27 @@ class Templates {
             xtiles.push(Templates.tile(id, tag))
         }
         return xtiles;
+    };
+
+    static wallColliders(width=8, offset=0) {
+        return {
+            g: { width: width, height: Config.tileSize, offx: offset },
+            h: { width: width, height: Config.tileSize, offx: offset },
+            e: { width: Config.tileSize, height: width, offy: offset },
+        }
     }
 
-    static wallTiles(baseId, baseTag) {
+    static wallTiles(baseId, baseTag, xcolliders={}) {
         let xtiles = [];
         for (const c of "abcdefghijklmn") {
             let id = `${baseId}${c}`;
             let tag = `${baseTag}.${c}`;
-            xtiles.push(Templates.tile(id, tag))
+            let xcollider = xcolliders[c];
+            let spec = {};
+            if (xcollider) {
+                spec.xcollider = xcollider;
+            }
+            xtiles.push(Templates.tile(id, tag, spec))
         }
         return xtiles;
     }
