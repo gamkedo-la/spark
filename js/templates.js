@@ -250,9 +250,15 @@ class Templates {
 
     static wallColliders(width=8, offset=0) {
         return {
+            d: { width: width, height: width, offy: offset },
+            e: { width: Config.tileSize, height: width, offy: offset },
+            f: { width: width, height: width, offy: offset },
             g: { width: width, height: Config.tileSize, offx: offset },
             h: { width: width, height: Config.tileSize, offx: offset },
-            e: { width: Config.tileSize, height: width, offy: offset },
+            i: { width: width, height: Config.tileSize, offx: offset },
+            j: { width: width, height: Config.tileSize, offx: offset },
+            l: { width: width, height: width, offy: offset },
+            m: { width: width, height: width, offy: offset },
         }
     }
 

@@ -59,6 +59,11 @@ class LayeredViewMgr extends Gizmo {
         Stats.count("view.update");
         let view = evt.actor;
 
+        // check for change in vidx
+        if (view.vidx !== this.vidx(view)) {
+            view.vidx = this.vidx(view);
+        }
+
         if (this.camera.overlaps(view)) {
             //console.log(`==================== on view update: ${view} view.min: ${view.minx},${view.miny} view.width: ${view.width}, view xform: ${view.xform} parent: ${view.xform.parent}`);
             this.updatedViews.push(evt.actor);
