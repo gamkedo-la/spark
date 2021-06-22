@@ -10,7 +10,7 @@ class Config {
         scale: 1,
         renderScale: 2,
         dbg : {
-            ActionSystem: true,
+            ActionSystem: false,
             ActivityScheduleSystem: true,
             AiDirectiveSystem: true,
             AiGoalSystem: true,
@@ -48,6 +48,7 @@ class Config {
         },
         actorTags: {
             player: "visible",
+            npc: "visible",
         },
     };
     static init(spec={}) {

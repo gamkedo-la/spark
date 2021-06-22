@@ -33,7 +33,7 @@ class FindBedScheme extends AiScheme {
 class FindBedPlan extends AiPlan {
     prepare(actor, state) {
         super.prepare(actor, state);
-        // prepare query to find bed w/ matching id
+        // prepare query to find bed w/ matching tag
         this.query = new EQuery((e) => (e instanceof(Bed) && e.bedTag === state.a_bedTag && e.state === ModelState.idle));
         // submit query to queue...
         this.getQueryQ().push(this.query);
@@ -62,7 +62,7 @@ class FindBedPlan extends AiPlan {
     finalize() {
         // handle failure
         if (!this.bed) {
-            if (this.dbg) console.log(`FindBedPlan: can't find bed for id: ${this.actor.bedTag}`);
+            if (this.dbg) console.log(`FindBedPlan: can't find bed for tag: ${this.actor.bedTag}`);
             return undefined;
         }
         // handle success

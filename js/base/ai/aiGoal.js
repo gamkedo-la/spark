@@ -40,7 +40,6 @@ class AiGoal {
     constructor(spec={}) {
         // -- goal
         this.goal = spec.hasOwnProperty("goal") ? spec.goal : AiGoal.none;
-        console.log("this.goal: " + this.goal + " spec.goal: " + spec.goal);
         // -- influence
         this.influence = spec.hasOwnProperty("xinfluence") ? Generator.generate(spec.xinfluence) : new AiInfluence({dfltScore: 1});
     }

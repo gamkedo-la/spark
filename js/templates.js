@@ -24,6 +24,24 @@ class Templates {
                 { goal: AiGoal.sleep },
             ]
         }
+
+        this.aiWorkDirective = { 
+            cls: "AiDirective", 
+            tag: "work", 
+            xinfluence: {
+                cls: "AiComboInfluence",
+                xinfluences: [
+                    {
+                        weight: 1,
+                        xinfluence: { cls: "AiGzoInfluence", tag: "currentActivity", scaler: (v) => (v === Activity.work) ? 1 : 0},
+                    },
+                ],
+            },
+            xgoals: [
+                { goal: AiGoal.manage },
+            ]
+        }
+
         this.aiIdleDirective = { 
             cls: "AiDirective", 
             tag: "idle", 
@@ -45,7 +63,9 @@ class Templates {
             cls: "ActivitySchedule",
             activities: [
                 { weight: .2, activity: Activity.sleep },
-                { weight: .6, activity: Activity.idle },
+                { weight: .1, activity: Activity.idle },
+                { weight: .4, activity: Activity.work },
+                { weight: .1, activity: Activity.idle },
                 { weight: .2, activity: Activity.sleep },
             ],
         }

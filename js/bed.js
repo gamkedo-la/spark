@@ -69,6 +69,7 @@ class Bed extends Model {
         actor.heading = Direction.asHeading(this.occupiedDir);
         if (actor.depth <= this.depth) actor.depth = this.depth+1;
         actor.updated = true;
+        actor.occupyId = this.gid;
     }
 
     leave(actor) {
@@ -84,6 +85,7 @@ class Bed extends Model {
         actor.y = this.actorSavedY;
         actor.depth = this.actorSavedDepth;
         actor.updated = true;
+        actor.occupyId = 0;
     }
 
 }

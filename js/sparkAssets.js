@@ -1,6 +1,6 @@
 export { SparkAssets };
 
-    import { Collider } from "./base/collider.js";
+import { Collider }             from "./base/collider.js";
 import { Direction }            from "./base/dir.js";
 import { Fmt }                  from "./base/fmt.js";
 import { ModelState }           from "./base/modelState.js";
@@ -224,8 +224,9 @@ class SparkAssets {
 
             Templates.object("o04", "bed", "Bed", {
                 offx: 8, offy: -24,
+                bedTag: "bob",
                 xcollider: { width: 24, height: 48 }, 
-                occupiedOffX: 8, occupiedOffY: -14,
+                occupiedOffX: 8, occupiedOffY: -38,
             }),
 
             Templates.object("o05", "relay", "SparkRelay", { 
@@ -250,6 +251,7 @@ class SparkAssets {
                                 cls: "AiState",
                                 xdirectives: [
                                     Templates.aiSleepDirective,
+                                    Templates.aiWorkDirective,
                                     Templates.aiIdleDirective,
                                 ],
                                 xschemes: [
@@ -259,7 +261,7 @@ class SparkAssets {
                                     "WakeFromBedScheme",
                                 ]
                             },
-                            xsketch: { cls: "Media", tag: "wizard" },
+                            xsketch: { cls: "Media", tag: "gnome" },
                             xactivitySchedule: Templates.testSchedule,
                             xcollider: { width:15, height:16, color: "rgba(0,0,127,.5)" }, },
 

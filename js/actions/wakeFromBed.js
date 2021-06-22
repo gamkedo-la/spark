@@ -13,7 +13,7 @@ class WakeFromBedScheme extends AiScheme {
         super(spec);
         this.goalPredicate = (goal) => goal !== AiGoal.sleep;
         this.preconditions.push((state) => state.a_state === ModelState.sleep);
-        this.preconditions.push((state) => state.a_linkId);
+        this.preconditions.push((state) => state.a_occupyId);
         this.effects.a_state = ModelState.idle;
         //this.effects.elink = undefined;
         this.effects[AiGoal.toString(AiGoal.idle)] = true;
@@ -21,7 +21,7 @@ class WakeFromBedScheme extends AiScheme {
 
     deriveState(env, actor, state) {
         if (!state.hasOwnProperty("state")) state.a_state = actor.state;
-        if (!state.hasOwnProperty("linkId")) state.a_linkId = actor.linkId;
+        if (!state.hasOwnProperty("occupyId")) state.a_occupyId = actor.occupyId;
     }
 
     generatePlan(spec={}) {
@@ -36,9 +36,9 @@ class WakeFromBedPlan extends AiPlan {
         console.log("=== WakeFromBed state: " + Fmt.ofmt(state));
         super.prepare(actor, state);
         // pull linked bed...
-        this.bed = this.getEntities().get(state.a_linkId);
+        this.bed = this.getEntities().get(state.a_occupyId);
         if (!this.bed) {
-            console.log("WakeFromBedPlan: can't look up bed for link: " + state.a_linkId);
+            console.log("WakeFromBedPlan: can't look up bed for link: " + state.a_occupyId);
             return false;
         }
         return true;
@@ -92,6 +92,9 @@ class WakeFromBedAction extends Action {
         //console.log("enter bed actor: " + actor);
         //console.log("enter bed bed: " + this.bed);
         this.actor = actor;
+        this.bed.leave(actor);
+        // actor gets out of bed...
+        /*
         // does bed have port
         let target;
         if (Object.getPrototypeOf(this.bed).hasOwnProperty("approaches")) {
@@ -113,6 +116,7 @@ class WakeFromBedAction extends Action {
         // update bed state
         this.bed.state = ModelState.idle;
         this.bed.elink = 0;
+        */
     }
 
     update(ctx) {

@@ -25,6 +25,7 @@ class SparkRegistry {
     static init() {
         // -- register goals
         AiGoal.register("sleep");
+        AiGoal.register("manage");
         // -- register model states
         ModelState.register("powered");
         ModelState.register("sparked");
@@ -36,6 +37,7 @@ class SparkRegistry {
         ModelState.register("seated");
         // -- register activities
         Activity.register("sleep");
+        Activity.register("work");
         // -- register conditions
         Condition.register("powered");
         Condition.register("sparked");

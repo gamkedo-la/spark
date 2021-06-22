@@ -86,7 +86,9 @@ class EnterBedAction extends Action {
         console.log("enter bed actor: " + actor);
         console.log("enter bed bed: " + this.bed);
         this.actor = actor;
-        // reposition actor into bed
+        // actor occupies bed
+        this.bed.occupy(actor);
+        /*
         actor.x = this.bed.x;
         actor.y = this.bed.y;
         actor.linkId = this.bed.gid;
@@ -96,6 +98,7 @@ class EnterBedAction extends Action {
         // update bed state
         this.bed.state = ModelState.occupied;
         this.bed.linkId = actor.gid;
+        */
     }
 
     update(ctx) {

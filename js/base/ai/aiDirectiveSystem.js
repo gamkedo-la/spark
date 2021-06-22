@@ -32,8 +32,7 @@ class AiDirectiveSystem extends System {
         for (const directive of e.ai.directives) {
             // compute score
             let score = directive.influence.score(this.env, e);
-            //console.log("influence: " + directive.influence);
-            //console.log("score: " + score);
+            //console.log(`directive: ${directive} influence: ${directive.influence} score: ${score}`);
             // check against best
             if (score > bestScore) {
                 bestScore = score;
@@ -42,10 +41,10 @@ class AiDirectiveSystem extends System {
         }
         // has directive changed?
         if (bestDirective && bestDirective !== e.ai.currentDirective) {
-            if (this.dbg) console.log(`AI: ${e} changing directive from ${e.ai.currentDirective} to ${bestDirective}`);
+            if (this.dbg) console.log(`================================================\nAI: ${e} changing directive from ${e.ai.currentDirective} to ${bestDirective}`);
             e.ai.currentDirective = bestDirective;
             e.ai.goals = Array.from(bestDirective.goals);
-            console.log("e.ai.goals: " + e.ai.goals);
+            //console.log("e.ai.goals: " + e.ai.goals);
             e.ai.currentGoal = undefined;
             e.ai.failedGoals = [];
         }
