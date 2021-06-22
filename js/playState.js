@@ -97,10 +97,11 @@ class PlayState extends State {
 
     onClicked(evt) {
         console.log("onClicked: " + Fmt.ofmt(evt));
-        let idx = this.grid.idxfromxy(evt.x, evt.y);
+        let x = evt.x/Config.renderScale;
+        let y = evt.y/Config.renderScale;
+        let idx = this.grid.idxfromxy(x, y);
         console.log("idx is: " + idx);
-        // FIXME: click is local, need world
-        let target = new LevelNode(evt.x, evt.y, 0);
+        let target = new LevelNode(x, y, 0);
 
         console.log("target: " + target);
         this.player.wantPathTo = target;
