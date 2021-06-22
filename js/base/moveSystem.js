@@ -58,16 +58,15 @@ class MoveSystem extends System {
         if (!speed) return;
         speed *= ctx.deltaTime;
         // determine desired position based on speed and heading
-        let wantx = Math.round(e.x + speed * Math.cos(e.heading));
-        let wanty = Math.round(e.y + speed * Math.sin(e.heading));
+        let wantx = e.x + speed * Math.cos(e.heading);
+        let wanty = e.y + speed * Math.sin(e.heading);
         if (wantx === e.x && wanty === e.y) {
             return;
         }
         // handle wanting new position
         e.wantx = wantx;
         e.wanty = wanty;
-        //console.log(`==== ${e} wants pos: ${e.wantx},${e.wanty}`);
-       
+        //console.log(`==== ${e} from: ${e.x},${e.y} wants pos: ${e.wantx},${e.wanty} dt: ${ctx.deltaTime} speed: ${speed} heading: ${e.heading}`);
 
     }
 

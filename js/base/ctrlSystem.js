@@ -88,7 +88,6 @@ class CtrlSystem extends System {
         //let heading = (speed === 0) ? this.dfltHeading : v.heading(true);
         let heading = (speed === 0) ? e.heading : v.heading(true);
         if (e.heading !== heading || e.speed !== speed) {
-            //console.log("heading: " + heading);
             this.feats.push(new SetSpeedHeadingFeat(e, speed, heading));
             //console.log(`e: ${e} v: ${v} speed: ${speed} heading: ${heading}`);
         }
