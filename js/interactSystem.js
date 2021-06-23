@@ -82,6 +82,7 @@ class InteractSystem extends System {
 
     dointeract(ctx, e) {
         let ok = false;
+        // FIXME: handle approaches
         // check for objects within range...
         let bounds = new Bounds(e.x-e.interactRange, e.y-e.interactRange, e.interactRange+e.interactRange, e.interactRange+e.interactRange);
         //console.log(`${e} + checks: ${bounds} range: ${e.interactRange}`);

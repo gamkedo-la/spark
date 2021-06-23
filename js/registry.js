@@ -8,7 +8,7 @@ import { AiGoal }           from "./base/ai/aiGoal.js";
 import { ModelState }       from "./base/modelState.js";
 import { Activity }         from "./base/activity.js";
 import { SleepBedScheme }   from "./actions/sleepBed.js";
-import { FindBedScheme }    from "./actions/findbed.js";
+import { FindBedScheme }    from "./actions/findBed.js";
 import { MoveScheme }       from "./actions/move.js";
 import { Bed }              from "./bed.js";
 import { WakeFromBedScheme } from "./actions/wakeFromBed.js";
@@ -20,12 +20,17 @@ import { Store }            from "./base/store.js";
 import { SparkBase }        from "./sparkBase.js";
 import { SparkRelay }       from "./sparkRelay.js";
 import { Condition }        from "./base/condition.js";
+import { Workstation }      from "./workstation.js";
 
 class SparkRegistry {
     static init() {
         // -- register goals
         AiGoal.register("sleep");
         AiGoal.register("manage");
+        AiGoal.register("eat");
+        AiGoal.register("loiter");
+        AiGoal.register("startWork");
+        AiGoal.register("stopWork");
         // -- register model states
         ModelState.register("powered");
         ModelState.register("sparked");
@@ -36,8 +41,10 @@ class SparkRegistry {
         ModelState.register("occupied");
         ModelState.register("seated");
         // -- register activities
-        Activity.register("sleep");
+        Activity.register("wake");
         Activity.register("work");
+        Activity.register("relax");
+        Activity.register("sleep");
         // -- register conditions
         Condition.register("powered");
         Condition.register("sparked");
@@ -54,6 +61,7 @@ class SparkRegistry {
         registry.add(Level);
         registry.add(SparkBase);
         registry.add(SparkRelay);
+        registry.add(Workstation);
         // -- register schemes
         registry.add(SleepBedScheme);
         registry.add(FindBedScheme);

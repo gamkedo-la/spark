@@ -1,7 +1,6 @@
 export { Tile };
 
 import { Model }            from "./base/model.js";
-import { Stats }            from "./base/stats.js";
 
 class Tile extends Model {
 

@@ -8,6 +8,63 @@ import { Fmt }                  from "./base/fmt.js";
 class Templates {
 
     static init() {
+
+        this.aiWakeDirective = { 
+            cls: "AiDirective", 
+            tag: "wake", 
+            xinfluence: {
+                cls: "AiComboInfluence",
+                xinfluences: [
+                    {
+                        weight: 1,
+                        xinfluence: { cls: "AiGzoInfluence", tag: "currentActivity", scaler: (v) => (v === Activity.wake) ? 1 : 0},
+                    },
+                ],
+            },
+            xgoals: [
+                { goal: AiGoal.idle },
+                { goal: AiGoal.eat },
+                { goal: AiGoal.loiter },
+            ]
+        }
+
+        this.aiWorkDirective = { 
+            cls: "AiDirective", 
+            tag: "work", 
+            xinfluence: {
+                cls: "AiComboInfluence",
+                xinfluences: [
+                    {
+                        weight: 1,
+                        xinfluence: { cls: "AiGzoInfluence", tag: "currentActivity", scaler: (v) => (v === Activity.work) ? 1 : 0},
+                    },
+                ],
+            },
+            xgoals: [
+                { goal: AiGoal.startWork },
+                { goal: AiGoal.manage },
+            ]
+        }
+
+        this.aiRelaxDirective = { 
+            cls: "AiDirective", 
+            tag: "relax", 
+            xinfluence: {
+                cls: "AiComboInfluence",
+                xinfluences: [
+                    {
+                        weight: 1,
+                        xinfluence: { cls: "AiGzoInfluence", tag: "currentActivity", scaler: (v) => (v === Activity.relax) ? 1 : 0},
+                    },
+                ],
+            },
+            xgoals: [
+                { goal: AiGoal.stopWork },
+                { goal: AiGoal.eat },
+                { goal: AiGoal.loiter },
+            ]
+        }
+
         this.aiSleepDirective = { 
             cls: "AiDirective", 
             tag: "sleep", 
@@ -25,48 +82,14 @@ class Templates {
             ]
         }
 
-        this.aiWorkDirective = { 
-            cls: "AiDirective", 
-            tag: "work", 
-            xinfluence: {
-                cls: "AiComboInfluence",
-                xinfluences: [
-                    {
-                        weight: 1,
-                        xinfluence: { cls: "AiGzoInfluence", tag: "currentActivity", scaler: (v) => (v === Activity.work) ? 1 : 0},
-                    },
-                ],
-            },
-            xgoals: [
-                { goal: AiGoal.manage },
-            ]
-        }
-
-        this.aiIdleDirective = { 
-            cls: "AiDirective", 
-            tag: "idle", 
-            xinfluence: {
-                cls: "AiComboInfluence",
-                xinfluences: [
-                    {
-                        weight: 1,
-                        xinfluence: { cls: "AiGzoInfluence", tag: "currentActivity", scaler: (v) => (v === Activity.idle) ? 1 : 0},
-                    },
-                ],
-            },
-            xgoals: [
-                { goal: AiGoal.idle },
-            ]
-        }
-
         this.testSchedule = {
             cls: "ActivitySchedule",
             activities: [
                 { weight: .2, activity: Activity.sleep },
-                { weight: .1, activity: Activity.idle },
+                { weight: .1, activity: Activity.wake },
                 { weight: .4, activity: Activity.work },
-                { weight: .1, activity: Activity.idle },
-                { weight: .2, activity: Activity.sleep },
+                { weight: .2, activity: Activity.relax },
+                { weight: .1, activity: Activity.sleep },
             ],
         }
     }

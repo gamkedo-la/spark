@@ -190,14 +190,12 @@ class SparkAssets {
             Templates.tile("00d", "shadow34"),
             Templates.tile("00e", "shadow"),
             Templates.tile("00f", "post"),
-            Templates.tile("00g", "post.l", { mediaTag: "post", xxform: {dx: -6} }),
-            Templates.tile("00h", "post.r", { mediaTag: "post", xxform: {dx: 5} }),
-            Templates.tile("00i", "post.s"),
-            Templates.tile("00j", "post.sr", { mediaTag: "post.s", xxform: {dx:8} }),
-            Templates.tile("00k", "vendorBench"),
-            Templates.tile("00l", "postUpper.l", { xxform: {dx:8} }),
-            Templates.tile("00m", "postUpper.s", { xxform: {dx:8} }),
-            Templates.tile("00n", "postUpper.r", { xxform: {dx:8} }),
+            Templates.tile("00g", "post.l", { mediaTag: "post", offx: -6, offy: -16, xcollider: { width: 4, height: 16, offy: 16 } }),
+            Templates.tile("00h", "post.r", { mediaTag: "post", offx: 5, offy: -16, xcollider: { width: 4, height: 16, offy: 16 } }),
+            Templates.tile("00j", "post.sr", { mediaTag: "post.s", offx: 8, offy: -16, xcollider: { width: 4, height: 16, offy: 16 } }),
+            Templates.tile("00l", "postUpper.l", { offx: 8 }),
+            Templates.tile("00m", "postUpper.s", { offx: 8 }),
+            Templates.tile("00n", "postUpper.r", { offx: 8 }),
 
             Templates.object("o00", "sparkbase", "SparkBase", { 
                 powered: true,
@@ -234,6 +232,14 @@ class SparkAssets {
                 xcollider: {width:10, height:20, offy: 10}, 
             }),
 
+            Templates.object("o06", "vendorBench", "Workstation", {
+                offy: -8,
+                approachOffsets: [
+                    {x: 0, y: -32 },
+                ],
+                xcollider: { width: 32, height: 16 },
+            }),
+
             { tag: "spark", cls: "Projectile", 
                 xcollider: { blocking: Collider.projectile, width:8, height:8, color: "rgba(0,0,127,.5)" },
                 xsketch: { cls: "Media", tag: "spark"}, 
@@ -250,9 +256,10 @@ class SparkAssets {
                             xai: { 
                                 cls: "AiState",
                                 xdirectives: [
-                                    Templates.aiSleepDirective,
+                                    Templates.aiWakeDirective,
                                     Templates.aiWorkDirective,
-                                    Templates.aiIdleDirective,
+                                    Templates.aiRelaxDirective,
+                                    Templates.aiSleepDirective,
                                 ],
                                 xschemes: [
                                     "FindBedScheme",

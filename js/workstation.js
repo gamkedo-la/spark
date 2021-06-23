@@ -1,56 +1,42 @@
-export { Chair };
+export { Workstation };
 
-import { Model }            from './base/model.js';
-import { Config }           from './base/config.js';
-import { ModelState }       from './base/modelState.js';
-import { Generator }        from './base/generator.js';
-import { OpenAction }       from './base/action.js';
-import { Direction } from './base/dir.js';
-import { Condition } from './base/condition.js';
-import { LevelNode } from './lvlGraph.js';
+import { Model }            from "./base/model.js";
+import { LevelNode } from "./lvlGraph.js";
 
-class Chair extends Model {
+class Workstation extends Model {
 
-    cpre(spec) {
-        if (!spec.hasOwnProperty("state")) spec.state = ModelState.idle;
-    }
-    constructor(spec={}) {
-        super(spec);
-        // -- empty position
-        this.emptyX = spec.emptyX || 0;
-        this.emptyY = spec.emptyY || 0;
-        // -- occupied position
-        this.occupiedX = spec.occupiedX || 0;
-        this.occupiedY = spec.occupiedY || 0;
-        // -- position
-        this.x = spec.x || 0;
-        this.y = spec.y || 0;
-        this.offx = this.emptyX;
-        this.offy = this.emptyY;
+    // CONSTRUCTOR ---------------------------------------------------------
+    cpost(spec) {
+        super.cpost(spec);
+        this._offsets = [];
+        if (spec.approachOffsets) {
+            this.approachOffsets = spec.approachOffsets;
+        } else if (spec.approachMask) {
+            this.approachMask = spec.approachMask;
+        }
+        // actor state
         this.actorSavedX = 0;
         this.actorSavedY = 0;
-        // -- approachMask (direction mask)
-        this.approachMask = spec.approachMask || Direction.cardinal;
         // -- occupied offset
         this.occupiedOffX = spec.occupiedOffX || 0;
         this.occupiedOffY = spec.occupiedOffY || 0;
         // -- occupied direction
-        this.occupiedDir = spec.occupiedDir || Direction.north;
+        this.occupiedDir = spec.occupiedDir || Direction.south;
         // -- conditions
         this.occupiedCondition = spec.occupiedCondition || Condition.occupied;
-        this.actorCondition = spec.actorCondition || Condition.seated;
+        this.actorCondition = spec.actorCondition || Condition.asleep;
         // -- interactable
         this.interactable = true;
-        // -- collider
-        if (spec.xcollider) {
-            this.collider = Generator.generate(Object.assign({"cls": "Collider", x: this.x, y: this.y}, spec.xcollider));
-        }
-        // -- actor id (who's in the bed)
+        // -- reservation tag
+        this.reserveTag = spec.reserveTag;
+        // -- actor id (actor who's currently occupying)
         this.actorId = 0;
     }
 
     get approaches() {
-        if (this.approachMask) {
+        if (this.approachOffsets) {
+            return this.approachOffsets.map((v) => new LevelNode(this.x+v.x, this.y+v.y, this.layer));
+        } else if (this.approachMask) {
             return Direction.all.filter((v) => (v & this.approachMask)).map((v) => new LevelNode(Direction.applyToX(this.x, v), Direction.applyToY(this.y, v), this.layer));
         } else {
             return [new LevelNode(this.x, this.y, this.layer)];
@@ -83,6 +69,7 @@ class Chair extends Model {
         actor.heading = Direction.asHeading(this.occupiedDir);
         if (actor.depth <= this.depth) actor.depth = this.depth+1;
         actor.updated = true;
+        actor.occupyId = this.gid;
     }
 
     leave(actor) {
@@ -98,6 +85,7 @@ class Chair extends Model {
         actor.y = this.actorSavedY;
         actor.depth = this.actorSavedDepth;
         actor.updated = true;
+        actor.occupyId = 0;
     }
 
 }

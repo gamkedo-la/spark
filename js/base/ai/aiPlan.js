@@ -12,8 +12,14 @@ class AiPlan {
     constructor(spec={}) {
         this.dbg = spec.hasOwnProperty("dbg") ? spec.dbg : false;
         this.getEntities = spec.getEntities || (() => Base.instance.entities);
+        this.findOverlaps = spec.findOverlaps || (() => Base.instance.findOverlaps);
         this.getQueryQ = spec.getQueryQ || (() => Atts.eQueryQ);
         this.getPathfinder = spec.getPathfinder || (() => Atts.pathfinder);
+    }
+
+    // PROPERTIES ----------------------------------------------------------
+    get entities() {
+        return this.getEntities();
     }
 
     // METHODS -------------------------------------------------------------

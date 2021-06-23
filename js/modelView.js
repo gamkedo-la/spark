@@ -164,11 +164,15 @@ class ModelView extends UxPanel {
     }
 
     _frender(ctx) {
-        if (this.model.collider && Config.dbg.viewColliders) {
-            this.model.collider.render(ctx);
-        }
-        if (this.model.activator && Config.dbg.viewColliders) {
-            this.model.activator.render(ctx);
+        if (Config.dbg.viewColliders) {
+            if (this.model.collider) this.model.collider.render(ctx);
+            if (this.model.activator) this.model.activator.render(ctx);
+            if (this.model.approaches) {
+                for (const approach of this.model.approaches) {
+                    ctx.fillStyle = "rgba(127,0,127,.5)";
+                    ctx.fillRect(approach.x-Config.halfSize, approach.y-Config.halfSize, Config.tileSize, Config.tileSize);
+                }
+            }
         }
     }
 
