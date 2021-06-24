@@ -234,6 +234,8 @@ class SparkAssets {
 
             Templates.object("o06", "vendorBench", "Workstation", {
                 offy: -8,
+                occupiedDir: Direction.south, 
+                occupiedOffX: 0, occupiedOffY: -24,
                 approachOffsets: [
                     {x: 0, y: -32 },
                 ],

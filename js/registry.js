@@ -48,6 +48,7 @@ class SparkRegistry {
         // -- register conditions
         Condition.register("powered");
         Condition.register("sparked");
+        Condition.register("waiting");
     }
     static setup(registry) {
         // -- register generator classes

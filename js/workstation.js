@@ -1,7 +1,9 @@
 export { Workstation };
 
+import { Direction }        from "./base/dir.js";
 import { Model }            from "./base/model.js";
-import { LevelNode } from "./lvlGraph.js";
+import { Condition }        from "./base/condition.js";
+import { LevelNode }        from "./lvlGraph.js";
 
 class Workstation extends Model {
 
@@ -24,7 +26,7 @@ class Workstation extends Model {
         this.occupiedDir = spec.occupiedDir || Direction.south;
         // -- conditions
         this.occupiedCondition = spec.occupiedCondition || Condition.occupied;
-        this.actorCondition = spec.actorCondition || Condition.asleep;
+        this.actorCondition = spec.actorCondition || Condition.working;
         // -- interactable
         this.interactable = true;
         // -- reservation tag
@@ -46,7 +48,7 @@ class Workstation extends Model {
     dointeract(actor) {
         console.log(this + " dointeract");
         if (this.conditions.has(this.occupiedCondition)) {
-            this.leave(actor);
+            if (actor.gid === this.actorId) this.leave(actor);
         } else {
             this.occupy(actor);
         }
@@ -60,14 +62,12 @@ class Workstation extends Model {
         this.offy = this.occupiedY;
         this.actorSavedX = actor.x;
         this.actorSavedY = actor.y;
-        this.actorSavedDepth = actor.depth;
         this.actorId = actor.gid;
         // update actor state
         actor.conditions.add(this.actorCondition);
         actor.x = this.x + this.occupiedOffX;
         actor.y = this.y + this.occupiedOffY;
         actor.heading = Direction.asHeading(this.occupiedDir);
-        if (actor.depth <= this.depth) actor.depth = this.depth+1;
         actor.updated = true;
         actor.occupyId = this.gid;
     }
@@ -83,7 +83,6 @@ class Workstation extends Model {
         actor.conditions.delete(this.actorCondition)
         actor.x = this.actorSavedX;
         actor.y = this.actorSavedY;
-        actor.depth = this.actorSavedDepth;
         actor.updated = true;
         actor.occupyId = 0;
     }
