@@ -222,7 +222,7 @@ class SparkAssets {
 
             Templates.object("o04", "bed", "Bed", {
                 offx: 8, offy: -24,
-                bedTag: "bob",
+                reserveTag: "bob",
                 xcollider: { width: 24, height: 48 }, 
                 occupiedOffX: 8, occupiedOffY: -38,
             }),
@@ -264,10 +264,14 @@ class SparkAssets {
                                     Templates.aiSleepDirective,
                                 ],
                                 xschemes: [
-                                    "FindBedScheme",
+                                    "WantBedScheme",
+                                    "FindScheme",
                                     "MoveScheme",
-                                    "SleepBedScheme",
-                                    "WakeFromBedScheme",
+                                    "OccupyScheme",
+                                    "SleepAtBedScheme",
+                                    "WakeScheme",
+                                    "WantWorkstationScheme",
+                                    "WorkAtStationScheme",
                                 ]
                             },
                             xsketch: { cls: "Media", tag: "gnome" },

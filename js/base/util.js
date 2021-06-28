@@ -61,7 +61,8 @@ class Util {
 
     static iterable(obj) {
         if (obj == null) return false;
-        return typeof obj[Symbol.iterator] === 'function';
+        if (typeof obj[Symbol.iterator] === 'function') return true;
+        return false;
     }
 
     static empty(obj) {

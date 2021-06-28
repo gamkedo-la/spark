@@ -12,7 +12,7 @@ class AiPlan {
     constructor(spec={}) {
         this.dbg = spec.hasOwnProperty("dbg") ? spec.dbg : false;
         this.getEntities = spec.getEntities || (() => Base.instance.entities);
-        this.findOverlaps = spec.findOverlaps || (() => Base.instance.findOverlaps);
+        this.findOverlaps = spec.findOverlaps || Base.instance.findOverlaps;
         this.getQueryQ = spec.getQueryQ || (() => Atts.eQueryQ);
         this.getPathfinder = spec.getPathfinder || (() => Atts.pathfinder);
     }
@@ -26,6 +26,7 @@ class AiPlan {
     prepare(actor, state) {
         this.actor = actor;
         this.state = Object.assign({}, state);
+        return true;
     }
 
     update(ctx) {

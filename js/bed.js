@@ -43,6 +43,10 @@ class Bed extends Model {
         }
     }
 
+    get isOccupied() {
+        return this.actorId != 0;
+    }
+
     dointeract(actor) {
         console.log(this + " dointeract");
         if (this.conditions.has(this.occupiedCondition)) {

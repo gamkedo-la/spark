@@ -4,6 +4,7 @@ import { AiScheme }         from "../base/ai/aiScheme.js";
 import { AiPlan }           from "../base/ai/aiPlan.js";
 import { AiProcess }        from "../base/ai/aiProcess.js";
 import { LevelNode }        from "../lvlGraph.js";
+import { Util }             from "../base/util.js";
 import { Fmt } from "../base/fmt.js";
 
 class MoveScheme extends AiScheme {
@@ -12,16 +13,12 @@ class MoveScheme extends AiScheme {
         this.goalPredicate = (goal) => true;
         this.preconditions.push((state) => state.v_targetTag !== undefined);
         this.preconditions.push((state) => state.v_locationTag !== state.v_targetTag);
+        this.effects.push((state) => state.v_locationTag = state.v_targetTag);
+        this.effects.push((state) => state.v_targetTag = undefined);
     }
 
     deriveState(env, actor, state) {
-        if (!state.hasOwnProperty("pos")) state.a_pos = new LevelNode(actor.x, actor.y, actor.layer);
-    }
-
-    check(actor, state) {
-        this.effects.v_locationTag = state.v_targetTag;
-        this.effects.v_targetTag = undefined;
-        return super.check(actor, state);
+        if (!state.hasOwnProperty("a_pos")) state.a_pos = new LevelNode(actor.x, actor.y, actor.layer);
     }
 
     generatePlan(spec={}) {
@@ -45,22 +42,28 @@ class MovePlan extends AiPlan {
 
     update(ctx) {
         // find path to target ...
-        // -- does target have a port list?
-        let targets;
-        if (Object.getPrototypeOf(this.state.v_target).hasOwnProperty("approaches")) {
-            //console.log("=== has ports property");
-            targets = this.state.v_target.approaches;
-            //console.log("ports: " + Fmt.ofmt(targets));
-        } else {
-            //console.log("=== does not have ports property");
+        // -- consider if target has defined approaches
+        let targets = [];
+        let approaches = this.state.v_target.approaches;
+        if (approaches) {
+            for (const approach of approaches) {
+                //console.log(`considering approach: ${approach}`);
+                // is approach viable?
+                if (!Util.empty(this.findOverlaps(approach, (v => v !== this.actor && v !== this.state.v_target && v.collider && (v.collider.blocking & this.actor.collider.blocking))))) continue;
+                //console.log(`push approach: ${approach}`);
+                targets.push(approach);
+            }
+        }
+        if (!targets.length) {
             targets = [ new LevelNode(this.state.v_target.x, this.state.v_target.y, this.state.v_target.layer) ];
         }
+
         // iterate through possible targets, find best path
         let best;
         let bestPath;
         for (const target of targets) {
             let pathinfo = this.getPathfinder().find(this.state.a_pos, target);
-            //console.log(`pathfinder from ${this.state.a_pos} to ${target} gives: ${Fmt.ofmt(pathinfo)}`);
+            console.log(`pathfinder from ${this.state.a_pos} to ${target} gives: ${Fmt.ofmt(pathinfo)}`);
             if (!pathinfo) continue;
             if (!best || pathinfo.cost < bestPath.cost) {
                 best = target;
@@ -80,7 +83,7 @@ class MovePlan extends AiPlan {
         }
         //console.log("move pathinfo: " + Fmt.ofmt(this.pathinfo));
         // handle success
-        this.state.v_target = undefined;
+        //this.state.v_target = undefined;
         this.state.a_pos = this.target;
         return {
             effects: this.state,

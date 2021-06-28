@@ -7,11 +7,7 @@ import { Tile }             from "./tile.js";
 import { AiGoal }           from "./base/ai/aiGoal.js";
 import { ModelState }       from "./base/modelState.js";
 import { Activity }         from "./base/activity.js";
-import { SleepBedScheme }   from "./actions/sleepBed.js";
-import { FindBedScheme }    from "./actions/findBed.js";
-import { MoveScheme }       from "./actions/move.js";
 import { Bed }              from "./bed.js";
-import { WakeFromBedScheme } from "./actions/wakeFromBed.js";
 import { Chair }            from "./chair.js";
 import { Projectile }       from "./projectile.js";
 import { Level }            from "./lvl.js";
@@ -21,6 +17,14 @@ import { SparkBase }        from "./sparkBase.js";
 import { SparkRelay }       from "./sparkRelay.js";
 import { Condition }        from "./base/condition.js";
 import { Workstation }      from "./workstation.js";
+import { WakeScheme } from "./actions/wake.js";
+import { WantWorkstationScheme } from "./actions/wantWorkstation.js";
+import { WorkAtStationScheme } from "./actions/workAtStation.js";
+import { WantBedScheme }    from "./actions/wantBed.js";
+import { FindScheme }       from "./actions/find.js";
+import { MoveScheme }       from "./actions/move.js";
+import { OccupyScheme }     from "./actions/occupy.js";
+import { SleepAtBedScheme } from "./actions/sleepAtBed.js";
 
 class SparkRegistry {
     static init() {
@@ -64,10 +68,14 @@ class SparkRegistry {
         registry.add(SparkRelay);
         registry.add(Workstation);
         // -- register schemes
-        registry.add(SleepBedScheme);
-        registry.add(FindBedScheme);
+        registry.add(WantBedScheme);
+        registry.add(FindScheme);
         registry.add(MoveScheme);
-        registry.add(WakeFromBedScheme);
+        registry.add(OccupyScheme);
+        registry.add(SleepAtBedScheme);
+        registry.add(WakeScheme);
+        registry.add(WantWorkstationScheme);
+        registry.add(WorkAtStationScheme);
         // -- setup global atts
         Atts.sparkSources = new Store({getkey: (v) => v.gid});
     }

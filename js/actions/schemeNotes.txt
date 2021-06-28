@@ -1,0 +1,72 @@
+
+WantBed (sleep)
+    - !a_conditions.has(Condition.sleep)
+    - a_bedTag != undefined
+    - v_wantTag == undefined
+    - v_locationTag != bed
+    => v_wantTag = bed
+
+Find (any)
+    - v_wantTag != undefined
+    - v_targetTag == undefined
+    - v_locationTag != v_wantTag
+    => v_targetTag = v_wantTag
+
+Move (any)
+    - v_targetTag != undefined
+    - v_locationTag != v_targetTag
+    => v_locationTag = v_targetTag
+    => v_targetTag = undefined
+
+Occupy (any)
+    - v_occupyTag == undefined
+    - v_locationTag == v_wantTag
+    => v_occupyTag = v_wantTag
+
+SleepAtBed (sleep)
+    - v_occupyTag == v_wantTag
+    => a_conditions.add(Condition.sleep)
+    => sleep = true
+
+WantWorkstation (manage)
+    - !a_conditions.has(Condition.working)
+    - a_bedTag != undefined
+    - v_wantTag == undefined
+    - v_locationTag != workstation
+    => v_wantTag = workstation
+
+WorkAtStation (manage)
+    - v_occupyTag == v_wantTag
+    => a_conditions.add(Condition.working)
+    => manage = true
+
+Wake (!sleep)
+    - a_conditions.has(Condition.sleep)
+    => a_conditions.delete(Condition.sleep)
+
+Leave (any)
+    - a_occupyId != undefined
+    => a_occupyId = undefined
+
+WantFood (eat)
+    - !a_conditions.has(Condition.eating)
+    - v_wantTag == undefined
+    - v_locationTag != food
+    => v_wantTag = food
+
+GatherFood (eat)
+    - a_gathered == undefined
+    - v_locationTag == food
+    => a_gathered = food
+
+WantSeat (any)
+    - v_wantTag == undefined
+    - v_locationTag != seat
+    => v_wantTag = seat
+
+EatAtSeat (eat)
+    - v_wantTag != undefined
+    - a_gathered == food
+    - v_occupyTag == seat
+    => a_conditions.add(Condition.eating)
+    => eat = true

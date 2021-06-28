@@ -10,7 +10,7 @@ class Stats {
     static last = {};
 
     static get enabled() {
-        return Config.dbg.Stats;
+        return Config.dbg && Config.dbg.Stats;
     }
 
     static count(key) {

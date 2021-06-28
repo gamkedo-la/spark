@@ -1,69 +1,70 @@
-export { UseWorkstationScheme };
+export { WakeScheme };
 
 import { AiScheme }         from "../base/ai/aiScheme.js";
 import { AiGoal }           from "../base/ai/aiGoal.js";
 import { AiPlan }           from "../base/ai/aiPlan.js";
 import { AiProcess }        from "../base/ai/aiProcess.js";
 import { Condition }        from "../base/condition.js";
-import { OccupyAction }     from "./occupy.js";
+import { Fmt }              from "../base/fmt.js";
+import { LeaveAction }      from "./leave.js";
 
-class UseWorkstationScheme extends AiScheme {
+class WakeScheme extends AiScheme {
     constructor(spec={}) {
         super(spec);
-        this.goalPredicate = (goal) => goal === AiGoal.manage;
-        this.preconditions.push((state) => state.v_locationTag === "workstation");
-        this.preconditions.push((state) => !state.conditions.has(Condition.working));
-        this.effects.a_conditions.add(Condition.working);
+        this.goalPredicate = (goal) => goal !== AiGoal.sleep;
+        this.preconditions.push((state) => state.a_conditions.has(Condition.asleep));
+        this.preconditions.push((state) => state.a_occupyId);
+        this.effects.push((state) => state.a_conditions.delete(Condition.asleep));
+        this.effects.push((state) => state.a_occupyId = 0);
     }
 
     deriveState(env, actor, state) {
+        if (!state.hasOwnProperty("a_occupyId")) state.a_occupyId = actor.occupyId;
         if (!state.hasOwnProperty("a_conditions")) state.a_conditions = new Set(actor.conditions);
     }
 
     generatePlan(spec={}) {
-        return new UseWorkstationPlan(spec);
+        return new WakePlan(spec);
     }
 
 }
 
-class UseWorkstationPlan extends AiPlan {
+class WakePlan extends AiPlan {
 
     prepare(actor, state) {
+        console.log("=== WakePlan state: " + Fmt.ofmt(state));
         super.prepare(actor, state);
-        if (!this.state.v_workstation) {
-            console.log("UseWorkstationPlan: state missing workstation");
-            return false;
-        }
-        if (this.state.v_bed.conditions.has(Condition.occupied)) {
-            console.log("UseWorkstationPlan: workstation is occupied");
+        // pull linked target...
+        this.target = this.getEntities().get(state.a_occupyId);
+        if (!this.target) {
+            console.log("WakePlan: can't look up target for link: " + state.a_occupyId);
             return false;
         }
         return true;
     }
 
     finalize() {
-        // handle success
         return {
             effects: this.state,
             utility: 1,
             cost: 1,
             processes: [
-                new UseWorkstationProcess({workstation: this.state.v_workstation}),
+                new WakeProcess({target: this.target}),
             ]
         }
     }
 
 }
 
-class UseWorkstationProcess extends AiProcess {
+class WakeProcess extends AiProcess {
     constructor(spec={}) {
         super(spec);
-        this.workstation = spec.workstation;
+        this.target = spec.target;
     }
 
     prepare(actor) {
         this.actions = [
-            new OccupyAction({target: this.workstation}),
+            new LeaveAction({target: this.target}),
         ];
         // set actor's action queue to be the individual actions from movement...
         actor.actions = this.actions.slice(0);

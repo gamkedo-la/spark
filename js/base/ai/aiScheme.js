@@ -8,7 +8,7 @@ class AiScheme {
     // CONSTRUCTOR ---------------------------------------------------------
     constructor(spec={}) {
         this.preconditions = spec.preconditions || [];
-        this.effects = Object.assign({}, spec.effects);
+        this.effects = spec.effects || [];
         this.goalPredicate = spec.goalPredicate || ((v) => true);
     }
 

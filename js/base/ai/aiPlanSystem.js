@@ -39,10 +39,17 @@ class AiPlanSystem extends System {
             // check scheme for viability...
             let sinfo = scheme.check(actor, parent.state);
             // if not viable skip...
-            if (!sinfo) continue;
+            if (!sinfo) {
+                console.log(`scheme: ${scheme} not viable for state: ${Fmt.ofmt(parent.state)}`);
+                continue;
+            }
             console.log(`scheme: ${scheme} gives: ${Fmt.ofmt(sinfo)}`);
             // apply effects
-            let state = Object.assign({}, parent.state, sinfo.effects);
+            let state = Object.assign({}, parent.state);
+            if (state.hasOwnProperty("a_conditions")) state.a_conditions = new Set(state.a_conditions);
+            for (const effect of sinfo.effects) {
+                effect(state);
+            }
             // create plan associated w/ scheme
             // FIXME: pass thru dbg
             let plan = scheme.generatePlan({dbg: true});
@@ -88,6 +95,7 @@ class AiPlanSystem extends System {
             for (let node=snode; node.parent; node=node.parent) {
                 solution.plans.unshift(node.plan);
             }
+            console.log(`=====> pushing solution ${solution}`);
             solutions.push(solution);
         }
         return solutions;
@@ -122,7 +130,13 @@ class AiPlanSystem extends System {
                 return;
             }
             // update solution state
-            solution.state = Object.assign(solution.state, planInfo.effects);
+            let state = Object.assign({}, solution.state, planInfo.effects);
+            /*
+            for (const effect of planInfo.effects) {
+                effect(state);
+            }
+            */
+            solution.state = state;
             // cost is summed
             solution.cost += planInfo.cost;
             // utility is averaged

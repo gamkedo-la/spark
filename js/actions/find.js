@@ -1,43 +1,40 @@
-export { FindWorkstationScheme };
+export { FindScheme };
 
-import { AiGoal }           from "../base/ai/aiGoal.js";
 import { AiPlan }           from "../base/ai/aiPlan.js";
 import { AiScheme }         from "../base/ai/aiScheme.js";
 import { EQuery }           from "../base/eQuery.js";
 import { Fmt }              from "../base/fmt.js";
 import { Mathf }            from "../base/math.js";
-import { Util }             from "../base/util.js";
-import { Workstation }      from "../workstation.js";
 
 
-class FindWorkstationScheme extends AiScheme {
+class FindScheme extends AiScheme {
     constructor(spec={}) {
         super(spec);
-        this.goalPredicate = (goal) => goal === AiGoal.manage;
-        this.preconditions.push((state) => state.a_workstationTag !== undefined);
+        this.goalPredicate = spec.goalPredicate || ((v) => true);
+        this.preconditions.push((state) => state.v_wantTag !== undefined);
         this.preconditions.push((state) => state.v_targetTag === undefined);
-        this.preconditions.push((state) => state.v_locationTag !== "workstation");
-        this.effects.v_targetTag = "workstation";
-    }
-
-    deriveState(env, actor, state) {
-        if (!state.hasOwnProperty("workstationTag")) state.a_workstationTag = actor.workstationTag;
+        this.preconditions.push((state) => state.v_locationTag !== state.v_wantTag);
+        this.effects.push((state) => state.v_targetTag = state.v_wantTag);
     }
 
     generatePlan(spec={}) {
-        return new FindWorkstationPlan(spec);
+        return new FindPlan(spec);
     }
 
 }
 
-class FindWorkstationPlan extends AiPlan {
+class FindPlan extends AiPlan {
     prepare(actor, state) {
         super.prepare(actor, state);
-        // prepare query to find workstation w/ matching tag
-        this.query = new EQuery((e) => (e instanceof(Workstation) && e.reserveTag === state.a_workstationTag && !e.conditions.has(e.occupiedCondition)));
+        // prepare query to find target w/ matching tag
+        console.log(`find plan wantTag: ${state.v_wantTag} reserveTag: ${state.a_reserveTag}`);
+        this.query = new EQuery((e) => (
+            e.cls === state.v_wantTag) && 
+            (!e.reserveTag || (e.reserveTag === state.a_reserveTag)) && 
+            !e.isOccupied);
         // submit query to queue...
         this.getQueryQ().push(this.query);
-        this.target;
+        this.target = undefined;
         return true;
     }
 
@@ -54,7 +51,9 @@ class FindWorkstationPlan extends AiPlan {
                 best = target;
             }
         }
+
         // find best approach to target
+        /*
         let bestApproach = best;
         let bestApproachDist;
         if (best.approaches) {
@@ -69,8 +68,10 @@ class FindWorkstationPlan extends AiPlan {
                 }
             }
         }
+        */
+
         this.target = best;
-        this.approach = bestApproach;
+        //this.approach = bestApproach;
         this.cost = bestDist;
         return true;
     }
@@ -78,12 +79,12 @@ class FindWorkstationPlan extends AiPlan {
     finalize() {
         // handle failure
         if (!this.target) {
-            if (this.dbg) console.log(`FindWorkstationPlan: can't find workstation for tag: ${this.actor.workstationTag}`);
+            if (this.dbg) console.log(`FindPlan: can't find object for tag: ${this.state.v_wantTag}`);
             return undefined;
         }
         // handle success
-        this.state.v_target = this.approach;
-        this.state.v_workstation = this.target;
+        //this.state.v_approach = this.approach;
+        this.state.v_target = this.target;
         return {
             effects: this.state,
             utility: 1,
