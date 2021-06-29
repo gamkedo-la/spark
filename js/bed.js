@@ -29,8 +29,8 @@ class Bed extends Model {
         this.actorCondition = spec.actorCondition || Condition.asleep;
         // -- interactable
         this.interactable = true;
-        // -- bed tag
-        this.bedTag = spec.hasOwnProperty("bedTag") ? spec.bedTag : undefined;
+        // -- reserve tag
+        this.reserveTag = spec.hasOwnProperty("reserveTag") ? spec.reserveTag : undefined;
         // -- actor id (who's in the bed)
         this.actorId = 0;
     }

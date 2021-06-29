@@ -1,54 +1,49 @@
-export { WakeScheme };
+export { LeaveWorkstationScheme };
 
 import { AiScheme }         from "../base/ai/aiScheme.js";
-import { AiGoal }           from "../base/ai/aiGoal.js";
 import { AiPlan }           from "../base/ai/aiPlan.js";
 import { AiProcess }        from "../base/ai/aiProcess.js";
-import { Condition }        from "../base/condition.js";
 import { Fmt }              from "../base/fmt.js";
-import { LeaveAction }      from "./leave.js";
+import { Condition } from "../base/condition.js";
 import { LevelNode } from "../lvlGraph.js";
+import { LeaveAction } from "./leave.js";
 
-class WakeScheme extends AiScheme {
+class LeaveWorkstationScheme extends AiScheme {
     constructor(spec={}) {
         super(spec);
-        this.goalPredicate = (goal) => goal !== AiGoal.sleep;
-        this.preconditions.push((state) => state.a_conditions.has(Condition.asleep));
+        this.preconditions.push((state) => state.a_conditions.has(Condition.working));
         this.preconditions.push((state) => state.a_occupyId);
-        this.effects.push((state) => state.a_conditions.delete(Condition.asleep));
+        this.effects.push((state) => state.a_conditions.delete(Condition.working));
         this.effects.push((state) => state.a_occupyId = 0);
     }
 
     deriveState(env, actor, state) {
-        if (!state.hasOwnProperty("a_occupyId")) state.a_occupyId = actor.occupyId;
         if (!state.hasOwnProperty("a_conditions")) state.a_conditions = new Set(actor.conditions);
+        if (!state.hasOwnProperty("a_occupyId")) state.a_occupyId = actor.occupyId;
     }
 
     generatePlan(spec={}) {
-        return new WakePlan(spec);
+        return new LeaveWorkstationPlan(spec);
     }
 
 }
 
-class WakePlan extends AiPlan {
+class LeaveWorkstationPlan extends AiPlan {
 
     prepare(actor, state) {
-        console.log("=== WakePlan state: " + Fmt.ofmt(state));
         super.prepare(actor, state);
-        // pull linked target...
+        // pull linked bed...
         this.target = this.getEntities().get(actor.occupyId);
         if (!this.target) {
-            console.log("WakePlan: can't look up target for link: " + actor.occupyId);
+            console.log("LeaveWorkstationPlan: can't look up target for link: " + actor.occupyId);
             return false;
         }
         return true;
     }
 
     finalize() {
-        // update actor position
         let effects = [];
         if (this.target.actorSavedX && this.target.actorSavedY) {
-            console.log(`actor position updated to ${this.target.actorSavedX},${this.target.actorSavedY}`);
             effects.push((state) => {
                 state.a_pos = new LevelNode(this.target.actorSavedX, this.target.actorSavedY, this.actor.layer)
             });
@@ -58,14 +53,14 @@ class WakePlan extends AiPlan {
             utility: 1,
             cost: 1,
             processes: [
-                new WakeProcess({target: this.target}),
+                new LeaveWorkstationProcess({target: this.target}),
             ]
         }
     }
 
 }
 
-class WakeProcess extends AiProcess {
+class LeaveWorkstationProcess extends AiProcess {
     constructor(spec={}) {
         super(spec);
         this.target = spec.target;

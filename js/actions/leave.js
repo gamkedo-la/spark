@@ -13,7 +13,7 @@ class LeaveAction extends Action {
         console.log(`leave action actor: ${actor} target: ${this.target}}`);
         this.actor = actor;
         // check that target is occupied by actor
-        if (this.target.actorId === actor.gid) {
+        if (this.target.actorId !== actor.gid) {
             console.log(`actor: ${actor} cannot leave: ${this.target} -- not occupied`);
             this.ok = false;
         } else {

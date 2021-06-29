@@ -251,10 +251,11 @@ class SparkAssets {
                             xxform: {dy:-8}, 
                             xsketch: { cls: "Media", tag: "fairy" },
                             //xcollider: { blocking: Collider.player, width:16, height:16, color: "rgba(0,0,127,.5)" }, },
-                            xcollider: { blocking: Collider.player, width:16, height:16, offy:-4, color: "rgba(0,0,127,.5)" }, },
+                            xcollider: { blocking: Collider.player, width:14, height:10, offy:0, color: "rgba(0,0,127,.5)" }, },
             { id: "c02",    tag: "npc", cls: "Character", 
                             ctrlId: 0,
                             bedTag: "bob",
+                            workstationTag: "bob",
                             xai: { 
                                 cls: "AiState",
                                 xdirectives: [
@@ -272,6 +273,7 @@ class SparkAssets {
                                     "WakeScheme",
                                     "WantWorkstationScheme",
                                     "WorkAtStationScheme",
+                                    "LeaveWorkstationScheme",
                                 ]
                             },
                             xsketch: { cls: "Media", tag: "gnome" },

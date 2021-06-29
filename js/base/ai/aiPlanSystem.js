@@ -8,10 +8,11 @@ import { AiGoal }               from "./aiGoal.js";
 import { AiSolution }           from "./aiSolution.js";
 
 class AiPlanNode {
-    constructor(parent, depth, state, plan) {
+    constructor(parent, depth, state, effects, plan) {
         this.parent = parent;
         this.depth = depth;
         this.state = state;
+        this.effects = effects;
         this.plan = plan;
     }
 }
@@ -47,14 +48,12 @@ class AiPlanSystem extends System {
             // apply effects
             let state = Object.assign({}, parent.state);
             if (state.hasOwnProperty("a_conditions")) state.a_conditions = new Set(state.a_conditions);
-            for (const effect of sinfo.effects) {
-                effect(state);
-            }
+            if (sinfo.effects) sinfo.effects.forEach((effect) => effect(state));
             // create plan associated w/ scheme
             // FIXME: pass thru dbg
             let plan = scheme.generatePlan({dbg: true});
             // create node for plan associated with scheme
-            let node = new AiPlanNode(parent, parent.depth+1, state, plan);
+            let node = new AiPlanNode(parent, parent.depth+1, state, sinfo.effects, plan);
             // check for goal state
             let goalTag = AiGoal.toString(goal);
             if (state[goalTag] === true) {
@@ -84,16 +83,17 @@ class AiPlanSystem extends System {
         console.log("initial state: " + Fmt.ofmt(state));
         // determine AI plan solution based on goal and viable schemes...
         let snodes = [];  // solution nodes
-        let parent = new AiPlanNode(undefined, 0, state, undefined);
+        let parent = new AiPlanNode(undefined, 0, state, undefined, undefined);
         let found = AiPlanSystem._build(env, actor, viableSchemes, goal, parent, snodes);
         if (!found) return [];
         // each solution is translated into a list of AiPlans
         let solutions = [];
         for (const snode of snodes) {
-            let solution = new AiSolution(snode.state);
+            let solution = new AiSolution(state);
             // walk plan node from solution node back to root
             for (let node=snode; node.parent; node=node.parent) {
                 solution.plans.unshift(node.plan);
+                solution.planEffects.unshift(node.effects);
             }
             console.log(`=====> pushing solution ${solution}`);
             solutions.push(solution);
@@ -108,6 +108,8 @@ class AiPlanSystem extends System {
 
         while (solution.currentIndex < solution.plans.length) {
             let plan = solution.plans[solution.currentIndex];
+            // prepare plan state
+            //console.log(`======== plan system state before: ${Fmt.ofmt(solution.state)}`);
             // prepare
             if (!plan.prepared && !plan.prepare(e, solution.state)) {
                 // handle prep failure
@@ -130,13 +132,20 @@ class AiPlanSystem extends System {
                 return;
             }
             // update solution state
-            let state = Object.assign({}, solution.state, planInfo.effects);
+            // -- apply state effects from planning
+            let planEffects = solution.planEffects[solution.currentIndex];
+            if (planEffects) {
+                planEffects.forEach((effect) => effect(solution.state));
+            }
+            // -- apply state effects from preparation
+            if (planInfo.effects) planInfo.effects.forEach((effect) => effect(solution.state));
             /*
+            let state = Object.assign({}, solution.state, planInfo.effects);
             for (const effect of planInfo.effects) {
                 effect(state);
             }
-            */
             solution.state = state;
+            */
             // cost is summed
             solution.cost += planInfo.cost;
             // utility is averaged

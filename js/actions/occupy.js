@@ -40,7 +40,6 @@ class OccupyPlan extends AiPlan {
     finalize() {
         // handle success
         return {
-            effects: this.state,
             utility: 1,
             cost: 1,
             processes: [

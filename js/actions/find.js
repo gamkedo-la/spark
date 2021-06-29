@@ -52,26 +52,7 @@ class FindPlan extends AiPlan {
             }
         }
 
-        // find best approach to target
-        /*
-        let bestApproach = best;
-        let bestApproachDist;
-        if (best.approaches) {
-            for (const approach of best.approaches) {
-                // is approach occupied?
-                if (!Util.empty(this.findOverlaps(approach, (v !== this.actor && v.collider && (v.collider.blocking & this.actor.collider.blocking))))) continue;
-                let dist = Mathf.distance(this.actor.x, this.actor.y, approach.x, approach.y);
-                if (bestApproachDist === undefined || dist<bestApproachDist) {
-                    bestApproachDist = dist;
-                    bestDist = dist;
-                    bestApproach = approach;
-                }
-            }
-        }
-        */
-
         this.target = best;
-        //this.approach = bestApproach;
         this.cost = bestDist;
         return true;
     }
@@ -83,10 +64,11 @@ class FindPlan extends AiPlan {
             return undefined;
         }
         // handle success
-        //this.state.v_approach = this.approach;
-        this.state.v_target = this.target;
+        let effects = [
+            (state) => state.v_target = this.target,
+        ];
         return {
-            effects: this.state,
+            effects: effects,
             utility: 1,
             cost: this.cost,
         }

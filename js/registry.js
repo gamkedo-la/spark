@@ -25,6 +25,7 @@ import { FindScheme }       from "./actions/find.js";
 import { MoveScheme }       from "./actions/move.js";
 import { OccupyScheme }     from "./actions/occupy.js";
 import { SleepAtBedScheme } from "./actions/sleepAtBed.js";
+import { LeaveWorkstationScheme } from "./actions/leaveWorkstation.js";
 
 class SparkRegistry {
     static init() {
@@ -76,6 +77,7 @@ class SparkRegistry {
         registry.add(WakeScheme);
         registry.add(WantWorkstationScheme);
         registry.add(WorkAtStationScheme);
+        registry.add(LeaveWorkstationScheme);
         // -- setup global atts
         Atts.sparkSources = new Store({getkey: (v) => v.gid});
     }

@@ -11,6 +11,7 @@ class AiSolution {
     constructor(state) {
         this.state = state;
         this.plans = [];
+        this.planEffects = [];
         this.processes = [];
         this.currentIndex = 0;
         this.cost = 0;

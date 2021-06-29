@@ -28,6 +28,7 @@ class MoveScheme extends AiScheme {
 
 class MovePlan extends AiPlan {
     prepare(actor, state) {
+        console.log(`MovePlan prepare state ${Fmt.ofmt(state)}`);
         super.prepare(actor, state);
         if (!this.state.v_target) {
             console.log("MovePlan: state missing entity target");
@@ -78,15 +79,17 @@ class MovePlan extends AiPlan {
     finalize() {
         // handle failure
         if (!this.pathinfo) {
-            if (this.dbg) console.log("MovePlan failed: no path to target: " + this.target);
+            if (this.dbg) console.log("MovePlan failed: no path to target: " + this.state.v_target);
             return false;
         }
         //console.log("move pathinfo: " + Fmt.ofmt(this.pathinfo));
         // handle success
         //this.state.v_target = undefined;
-        this.state.a_pos = this.target;
+        let effects = [
+            (state) => state.a_pos = this.target,
+        ];
         return {
-            effects: this.state,
+            effects: effects,
             utility: 1,
             cost: this.pathinfo.cost,
             processes: [

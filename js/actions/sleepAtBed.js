@@ -23,7 +23,6 @@ class SleepAtBedPlan extends AiPlan {
     finalize() {
         // handle success
         return {
-            effects: this.state,
             utility: 1,
             cost: 1,
         }
