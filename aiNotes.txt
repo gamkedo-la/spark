@@ -1,0 +1,95 @@
+DATA STRUCTURES -----------------------------------------------------
+
+AiInfluence:
+    - A predicate function returning a score used in priority calculations
+
+AiDirective
+    - Top level segmentation of AI behavior
+    - Includes set of prioritized goals associated w/ directive and a scoring system for determining priority for directive
+    - Examples:
+        Rest
+        Eat
+        Work
+
+AIGoal:
+    - Represents an AI state where a desired condition has been met.
+    - Examples:
+        Sleep
+        EatMeal
+        Manage (manage a work task)
+
+Action:
+    - The abstruct super class to everything an NPC will do.  From moving to interacting with their world, everything is an action.
+    - Examples:
+        Move to a target
+        Open a door
+        Get into bed
+        Go to sleep
+
+AiScheme:
+    - Another abstract class that is used as a predicate system for planing AI actions.  Most actions will also have an associated scheme that is used to plan
+      that action.  For example, the move action is tied to a move scheme, which has a predicate that says you must have a target location planned before you can move
+      to that location.  Some schemes don't have related actions, but instead provide nodes in the overall AI branch/graph logic.  For example, there could be a 
+      "want bed" scheme that is only valid for the sleep goal, that is used to set predicate state that the NPC is looking for a bed when it wants to sleep.  There is 
+      no corresponding action, but instead is used to drive other schemes that look for and move to a target.
+    - AiSchemes are static through the AI planning process.  Their job is solely to provide the predicates and effects that drive the planning process.
+
+AiPlan:
+    - An abstract class that is used to track planning state associated with an AiScheme.  Once a sequence of AiSchemes has been found that provide a solution to an 
+      AiGoal, each scheme is translated into an AiPlan so that system state can be further interrogated.  This includes expensive operations like pathfinding, or querying
+      global entity state, that shouldn't be done in the predicate logic of the AiScheme.
+    - The AiPlan is responsible for determing if the proposed solution (AiSolution) is actually feasible based on current game state.
+
+AiProcess:
+    - Another abstract class tied to an AiScheme.  If the scheme will result in an action (or actions) that the NPC should carry out, the AiProcess class is used to track 
+      the NPC's progress against the assigned actions.
+
+AiSolution:
+    - All of the state associated with a proposed set of schemes, plans and processes that comes out of the AI planning process.  Each solution represents one
+      path to achieve a goal.  The AI planning process can actually derive multiple solutions with different utility and cost.
+    - The AiSolution is used for multiple AI systems for tracking state of the solution from planning out the solution to walking through the processes that drive NPC actions.
+
+AI State:
+    - This is a simple JS object, which you will see referenced in the AI scheme and planning code.
+    - It represents game and scheme state that is relevant to the AI predicate logic and planning process.
+    - Each scheme is responsible for providing a method that derives AI state that the scheme is concerned with.
+    - Besides game state, "virtual" or scheme state is also used to pass state variables from one scheme to another.
+
+    - State variable naming scheme
+
+    v_<var> - virtual variable (set and used by AI schemes only)
+    a_<var> - actor variable
+    e_<var> - environment variable
+
+SYSTEMS -------------------------------------------------------------
+
+AiDirectiveSystem
+    - The AI system used to decide which AI directive should be active at a given time for each NPC.
+    - For Spark, this is driven by activity schedules assigned to each NPC.
+    - Assigns the "Current Directive" which includes the list of prioritized goals for the NPC.
+
+AiGoalSystem
+    - The AI system used to decide which AI goal should be active at a given time.
+    - The goals can be prioritized, and we may end up using some priority system for Spark, right now, all goals have the same priority and are then treated as an ordered list.
+    - Tracks which goals have failed to achieve a solution and assigns those goals to the "penalty box" for a period of time.  This allows the AI system to disregard those 
+      goals and try other goals associated with the current directive.  Eventually the goals will come out of the penalty box based on a timer.
+
+AiPlanSystem
+    - Each NPC has a list of AiSchemes assigned
+    - Each scheme has a goal predicate that is used to determine if the scheme is applicable for a specified goal
+    - Planning system filters out the NPC assigned schemes for the current goal assigned to the NPC.
+    - An initial AI state is derived using the current actor and game state using the viable schemes derive state functions.
+    - From viable schemes, the preconditions (predicates) and effects for each scheme is used against the initial AI state to build out a AI decision graph looking for
+      solutions that provide the current goal as an effect.
+    - Once potential solutions have been found using predicate logic, the solutions are further processed to convert the AISchemes to AiPlans, where each plan in each solution
+      is processed through completion.  Note: this does not occur in a single update cycle.  The planning process can carry across multiple update cycles as other systems
+      (like the entity query system) can be used to lookup plan state.  If any solution fails (e.g.: no path to some target or other fail condition), that solution is removed 
+      from the tracked solutions.
+    - Once all solution plans have been processed, a final solution is selected.  The solution with the greatest utility and lowest cost will be used.
+    - The selected solution is then translated from AiPlans to AiProcesses.
+
+AiProcessSystem
+    - The AI process system tracks the current progress of the NPC against the actions associated with each assigned AiProcess within the selected AiSolution.
+    - Each AiProcess has associated actions.  Those actions are assigned to the NPC (and will be processed by the ActionSystem).
+    - As each action is finished, the AI Process system watches state.  If actions fail, the rest of the solution is tossed, and state is updated to indicate that the 
+      solution failed.  This triggers the whole AI goal and plan process again.

@@ -1,0 +1,92 @@
+================================================================================
+Gizmos
+
+Nearly all game state is managed through a base object called a "Gizmo".  Game state consists of a number of categories for subclasses underneath Gizmos, which includes:
+- Model:    State representing the game model, whether that's the character, tiles, doors, or any other object.
+- View:     State representing the visual representation of the game.  This includes the UI as well as the sprites used to represent the tiles and other objects in the game.
+- State:    Top-level game state used to manage the major game features.  This includes the menu system, as well as the play state.
+- System:   Implementation of majority of game logic.  Systems perform specific tasks on game model state (aka entities).
+- Manager:  There are a few top-level managers in the game that are response for managing and controlling game state.  This includes the State manager, the System manager, 
+            and View manager.
+
+Hierarchy - One important concept is that Gizmo's allow for nesting state, so that a top-level object can have dependent children, and those dependent children 
+will be updated and rendered when the top-level object is updated and rendered.  This feature is used primarily for UI/View state.
+
+================================================================================
+Code Entry Points
+
+Top level code entry is through the Game object (game.js) and is called from the main loop.  Each iteration of the main loop calls two entry points:
+
+x  game.update(ctx) - given an update context, which includes a deltaTime variable, update game state.
+x  game.render() - render the current game state.
+
+Each of these iterates through the set of top level objects the game tracks and performs the update for each object (if applicable) and the render 
+for each top-level object (if applicable).
+
+How this all breaks down is dependent on the object assignment within the game.  This will be described based on object type below.
+
+----------------------------------------
+StateMgr - Top level state manager, controls current State and manages any non-active queued/stored state.
+
+Update/Render to top-level State object is called.
+
+x game.update(ctx)
+    -> game.objects(*).update(ctx)
+        -> StateMgr.update(ctx)
+
+x game.render()
+    -> game.objects(*).render()
+        -> StateMgr.render()
+
+----------------------------------------
+State - Top level game state, whether it's the main menu, the title screen, or the game state, only one is active at a time, and only the active/current state is updated/rendered.
+
+x game.update(ctx)
+    -> game.objects(*).update(ctx)
+        -> StateMgr.update(ctx)
+            -> <CurrentState>.update(ctx)
+
+x game.render()
+    -> game.objects(*).render()
+        -> StateMgr.render()
+            -> <CurrentState>.render()
+
+----------------------------------------
+Model
+
+There is no global update thread that is executed on the game model state.  Instead, all updates to game state are driven through the game systems.  
+The game system call tree looks something like this:
+
+x game.update(ctx)
+    -> game.objects(*).update(ctx)
+        -> SystemMgr.update(ctx)
+            -> For each system in SystemMgr.Systems  => NOTE: not every system is executed every frame
+                -> For each entity in <CurrentState> (StateMgr._currentState)
+                    -> <System>.iterate(entity)
+
+Game model state is also not rendered directly.  Instead UxView instances are created to render game model state.  How views map to models is game dependent.
+
+----------------------------------------
+UxView
+
+View updates and rendering is complicated, as it is highly dependent on optimizations done in the view manager.  In general, though, all updates and rendering of 
+individual views would occur in the view manager update and render cycle.  Each State has it's own view manager, so the call tree looks like:
+
+x game.update(ctx)
+    -> game.objects(*).update(ctx)
+        -> StateMgr.update(ctx)
+            -> <CurrentState>.update(ctx)
+                -> <CurrentState>.ViewMgr.update(ctx)
+                    -> For View in ViewMgr
+                        -> View.update(ctx)
+
+Besides managing the views, the view manager is also responsible for managing the rendering context.  The standard view manager (LayeredViewMgr) will render the views
+to an offscreen canvas as needed, then copy updated sections of the offscreen canvas to the game canvas.  So the call tree for individual views looks like:
+
+x game.render()
+    -> game.objects(*).render()
+        -> StateMgr.render()
+            -> <CurrentState>.render()
+                -> <CurrentState>.ViewMgr.render()
+                    -> For View in ViewMgr
+                        -> View.render(ViewMgr.OffscreenCtx)
