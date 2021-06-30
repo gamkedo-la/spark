@@ -28,7 +28,7 @@ class MoveScheme extends AiScheme {
 
 class MovePlan extends AiPlan {
     prepare(actor, state) {
-        console.log(`MovePlan prepare state ${Fmt.ofmt(state)}`);
+        //console.log(`MovePlan prepare state ${Fmt.ofmt(state)}`);
         super.prepare(actor, state);
         if (!this.state.v_target) {
             console.log("MovePlan: state missing entity target");
@@ -64,7 +64,7 @@ class MovePlan extends AiPlan {
         let bestPath;
         for (const target of targets) {
             let pathinfo = this.getPathfinder().find(this.state.a_pos, target);
-            console.log(`pathfinder from ${this.state.a_pos} to ${target} gives: ${Fmt.ofmt(pathinfo)}`);
+            //console.log(`pathfinder from ${this.state.a_pos} to ${target} gives: ${Fmt.ofmt(pathinfo)}`);
             if (!pathinfo) continue;
             if (!best || pathinfo.cost < bestPath.cost) {
                 best = target;
@@ -109,7 +109,7 @@ class MoveProcess extends AiProcess {
     prepare(actor) {
         // set actor's action queue to be the individual actions from movement process...
         actor.actions = this.actions.slice(0);
-        console.log("move actor actions: " + actor.actions);
+        //console.log("move actor actions: " + actor.actions);
         return true;
     }
 

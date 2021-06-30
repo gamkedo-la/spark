@@ -41,10 +41,10 @@ class AiPlanSystem extends System {
             let sinfo = scheme.check(actor, parent.state);
             // if not viable skip...
             if (!sinfo) {
-                console.log(`scheme: ${scheme} not viable for state: ${Fmt.ofmt(parent.state)}`);
+                //console.log(`scheme: ${scheme} not viable for state: ${Fmt.ofmt(parent.state)}`);
                 continue;
             }
-            console.log(`scheme: ${scheme} gives: ${Fmt.ofmt(sinfo)}`);
+            //console.log(`scheme: ${scheme} gives: ${Fmt.ofmt(sinfo)}`);
             // apply effects
             let state = Object.assign({}, parent.state);
             if (state.hasOwnProperty("a_conditions")) state.a_conditions = new Set(state.a_conditions);
@@ -73,14 +73,14 @@ class AiPlanSystem extends System {
     static buildPlans(env, actor, schemes, goal) {
         // filter schemes based on goal
         let viableSchemes = schemes.filter((scheme) => scheme.match(goal));
-        console.log(`schemes: ${schemes} viableSchemes: ${viableSchemes}`);
+        //console.log(`schemes: ${schemes} viableSchemes: ${viableSchemes}`);
         if (!viableSchemes || viableSchemes.length === 0) return [];
         // build initial state based on schemes
         let state = {};
         for (const scheme of schemes) {
             scheme.deriveState(env, actor, state);
         }
-        console.log("initial state: " + Fmt.ofmt(state));
+        //console.log("initial state: " + Fmt.ofmt(state));
         // determine AI plan solution based on goal and viable schemes...
         let snodes = [];  // solution nodes
         let parent = new AiPlanNode(undefined, 0, state, undefined, undefined);

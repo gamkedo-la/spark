@@ -43,7 +43,6 @@ class AiGoalSystem extends System {
 
         // handle failed goal ...
         if (e.ai.currentGoal && e.ai.goalState === AiGoal.gfail) {
-            console.log("failed goal: " + e.ai.currentGoal);
             // add goal to penalty box...
             e.ai.failedGoals[e.ai.currentGoal.goal] = this.failTTL;
             //.push({ ttl: this.failTTL, goal: e.ai.currentGoal });
@@ -62,12 +61,12 @@ class AiGoalSystem extends System {
         for (const goal of e.ai.goals) {
             // check against penalty box...
             if (goal.goal in e.ai.failedGoals) {
-                console.log(`skipping goal: ${goal} in penalty box`);
+                //console.log(`skipping goal: ${goal} in penalty box`);
                 continue;
             }
             // compute score
             let score = goal.influence.score(this.getenv(), e);
-            console.log("goal: " + goal + " score: " + score);
+            //console.log("goal: " + goal + " score: " + score);
             // check against best
             if (score > bestScore) {
                 bestScore = score;

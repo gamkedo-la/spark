@@ -9,6 +9,7 @@ class WantWorkstationScheme extends AiScheme {
     constructor(spec={}) {
         super(spec);
         this.goalPredicate = (goal) => goal === AiGoal.manage;
+        this.preconditions.push((state) => !state.a_conditions.has(Condition.working));
         this.preconditions.push((state) => !state.a_conditions.has(Condition.asleep));
         this.preconditions.push((state) => state.a_reserveTag !== undefined);
         this.preconditions.push((state) => state.v_wantTag === undefined);

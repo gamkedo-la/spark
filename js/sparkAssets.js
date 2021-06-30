@@ -224,7 +224,7 @@ class SparkAssets {
                 offx: 8, offy: -24,
                 reserveTag: "bob",
                 xcollider: { width: 24, height: 48 }, 
-                occupiedOffX: 8, occupiedOffY: -38,
+                occupiedOffX: 8, occupiedOffY: -22,
             }),
 
             Templates.object("o05", "relay", "SparkRelay", { 
@@ -247,38 +247,41 @@ class SparkAssets {
                 xsketch: { cls: "Media", tag: "spark"}, 
             },
 
-            { id: "c01",    tag: "player", cls: "Character", 
-                            xxform: {dy:-8}, 
-                            xsketch: { cls: "Media", tag: "fairy" },
-                            //xcollider: { blocking: Collider.player, width:16, height:16, color: "rgba(0,0,127,.5)" }, },
-                            xcollider: { blocking: Collider.player, width:14, height:10, offy:0, color: "rgba(0,0,127,.5)" }, },
-            { id: "c02",    tag: "npc", cls: "Character", 
-                            ctrlId: 0,
-                            bedTag: "bob",
-                            workstationTag: "bob",
-                            xai: { 
-                                cls: "AiState",
-                                xdirectives: [
-                                    Templates.aiWakeDirective,
-                                    Templates.aiWorkDirective,
-                                    Templates.aiRelaxDirective,
-                                    Templates.aiSleepDirective,
-                                ],
-                                xschemes: [
-                                    "WantBedScheme",
-                                    "FindScheme",
-                                    "MoveScheme",
-                                    "OccupyScheme",
-                                    "SleepAtBedScheme",
-                                    "WakeScheme",
-                                    "WantWorkstationScheme",
-                                    "WorkAtStationScheme",
-                                    "LeaveWorkstationScheme",
-                                ]
-                            },
-                            xsketch: { cls: "Media", tag: "gnome" },
-                            xactivitySchedule: Templates.testSchedule,
-                            xcollider: { width:15, height:16, color: "rgba(0,0,127,.5)" }, },
+            Templates.object("c01", "player", "Character", {
+                mediaTag: "fairy",
+                offy: -8,
+                xcollider: { blocking: Collider.player, width:14, height:10, offy:8, color: "rgba(0,0,127,.5)" },
+            }),
+
+            Templates.object("c02", "npc", "Character", {
+                mediaTag: "gnome",
+                ctrlId: 0,
+                offy: -16,
+                bedTag: "bob",
+                workstationTag: "bob",
+                xcollider: { blocking: Collider.player, width:14, height:16, offy:16, color: "rgba(0,0,127,.5)" },
+                xactivitySchedule: Templates.testSchedule,
+                xai: { 
+                    cls: "AiState",
+                    xdirectives: [
+                        Templates.aiWakeDirective,
+                        Templates.aiWorkDirective,
+                        Templates.aiRelaxDirective,
+                        Templates.aiSleepDirective,
+                    ],
+                    xschemes: [
+                        "WantBedScheme",
+                        "FindScheme",
+                        "MoveScheme",
+                        "OccupyScheme",
+                        "SleepAtBedScheme",
+                        "WakeScheme",
+                        "WantWorkstationScheme",
+                        "WorkAtStationScheme",
+                        "LeaveWorkstationScheme",
+                    ]
+                },
+            }),
 
         ];
 

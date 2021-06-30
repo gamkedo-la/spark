@@ -27,7 +27,6 @@ class FindPlan extends AiPlan {
     prepare(actor, state) {
         super.prepare(actor, state);
         // prepare query to find target w/ matching tag
-        console.log(`find plan wantTag: ${state.v_wantTag} reserveTag: ${state.a_reserveTag}`);
         this.query = new EQuery((e) => (
             e.cls === state.v_wantTag) && 
             (!e.reserveTag || (e.reserveTag === state.a_reserveTag)) && 
@@ -39,7 +38,6 @@ class FindPlan extends AiPlan {
     }
 
     update(ctx) {
-        //console.log("update query: " + Fmt.ofmt(this.query));
         if (!this.query.done) return false;
         // find best match...
         let bestDist;
