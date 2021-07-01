@@ -77,7 +77,7 @@ class AreaSystem extends System {
                     obj.visible = false;
                     if (obj.passive) {
                         obj.evtUpdated.trigger();
-                        console.log("triggering update");
+                        //console.log("triggering update");
                     }
                 }
             // area marked as invisible, but should be visible

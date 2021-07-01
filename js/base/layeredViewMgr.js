@@ -212,7 +212,6 @@ class LayeredViewMgr extends Gizmo {
         this.renderCtx.resetTransform();
         // render ui views
         if (this.uiUpdated) {
-            console.log("ui render");
             this.uiUpdated = false;
             //this.uiCtx.fillRect(0, 0, this.canvas.width, this.canvas.height);
             this.uiCtx.clearRect(0, 0, this.uiCanvas.width, this.uiCanvas.height);
