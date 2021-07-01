@@ -31,7 +31,7 @@ class PlayState extends State {
         spec.xview = {
             cls: "UxCanvas",
             cvsid: "canvas",
-            ui: false,
+            ui: true,
             tag: "cvs.0",
             depth: 30,
             xchildren: [

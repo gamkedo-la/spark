@@ -7,7 +7,14 @@
 		<title>Spark</title>
 	</head>
 	<body style="background-color: black;">
-		<center><canvas id="canvas" width="1024" height="768" style="background-color: black;"></canvas></center>
+		<center>
+		<div style="position: relative;">
+			<canvas id="canvas" width="1024" height="768" 
+				style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
+			<canvas id="uicanvas" width="1024" height="768" 
+				style="position: absolute; left: 0; top: 0; z-index: 1;"></canvas>
+		</div>
+		</center>
 		<script type="module" src="js/main.js"></script>
 	</body>
 </html>

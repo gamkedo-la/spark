@@ -6,6 +6,7 @@ export { Config };
 class Config {
     static dflts = {
         dfltCanvasId: "canvas",
+        dfltUiCanvasId: "uicanvas",
         tileSize: 16,
         scale: 1,
         renderScale: 2,

@@ -42,6 +42,10 @@ class LayeredViewMgr extends Gizmo {
         this.sliceCanvas.width = this.worldWidth * Config.renderScale;
         this.sliceCanvas.height = this.worldHeight * Config.renderScale;
         this.sliceCtx = this.sliceCanvas.getContext('2d');
+        let uicvsid = spec.uicvsid || Config.dfltUiCanvasId;
+        this.uiCanvas = spec.uiCanvas || document.getElementById(uicvsid);
+        this.uiCtx = this.uiCanvas.getContext('2d');
+        this.uiUpdated = false;
         this.sliceReady = false;
         this.sliceIdxs = {};
         this.updatedViews = [];
@@ -91,7 +95,7 @@ class LayeredViewMgr extends Gizmo {
         }
         // update ui views
         for (const view of this.uiViews) {
-            view.update(ctx);
+            this.uiUpdated |= view.update(ctx);
         }
         // prepare sliced view
         if (!this.sliceReady) {
@@ -207,8 +211,14 @@ class LayeredViewMgr extends Gizmo {
         // restore transform matrix (clears any xform apply/revert floating point deltas)
         this.renderCtx.resetTransform();
         // render ui views
-        for (const view of this.uiViews) {
-            view.render(this.renderCtx);
+        if (this.uiUpdated) {
+            console.log("ui render");
+            this.uiUpdated = false;
+            //this.uiCtx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+            this.uiCtx.clearRect(0, 0, this.uiCanvas.width, this.uiCanvas.height);
+            for (const view of this.uiViews) {
+                view.render(this.uiCtx);
+            }
         }
     }
 
