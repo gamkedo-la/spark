@@ -1,0 +1,15 @@
+This game is using some experimentation with a more data-driven style of development borrowing some concepts from Entity Component System (ECS) architectures.
+
+ECS attempts to separate the implementation of game logic from the data used to model the game.  Entities hold data as Components, and Systems are used to implement logic, applying rules to match with Entities that have a given set of Components to achieve a simple task.  The intent is to keep the game logic as simple as possible, where a system just needs to know about the specific pieces of data that it needs to do it's job, and not be concerned about how that data is stored or managed.  At the same time, your game model just needs to store data specific to an object.  It doesn't need the logic of how that data will be used.
+
+I've taken this approach for implementing the majority of the demo, with some notable exceptions (which I'll get to).  However I've simplified a little, as there are really no components attached to entities, just normal JS attributes.  I've implemented simple data classes, like Tiles, Doors, and Characters where the class implementations mostly are only including the data definitions and methods that directly manage that data.  At the same time, there are system classes that deal with specific logic pieces, like a MoveSystem for handling entity movement, a CollisionSystem that calculates collisions, etc.
+
+For all of the game model entities, there is no typical "update" thread.  Instead, data manipulation is handled through the systems which are tied to the games global update thread.
+
+The notable exception is that not all game objects are treated as "entities".  Entities are used for tracking game model state, but there are other types of objects that are used within the game.  These include a "View" category, which is used to track all of the on-screen rendering of both game model state as well as UI state.  There is also a top-level game state category, used to track global game state as the game transitions between menus and play states.  See the Game State Management card for more info.
+
+---
+ 
+The Game State is a top-level class that is used to control the behavior of and management of all of the model and UI view state associated with a game mode.  As the game starts up, a title screen will be used to display game info while the assets load and to initialize things like the audio context (which requires player interaction to load).  This title screen will be managed by a game state.  After the player advances from the title screen, a main menu will be shown.  This main menu will be another game state where all of the UI elements for the main menu will be tracked.  The main play mode will also be treated as a separate game state.
+
+As stated, each game state tracks all of the views and model state for that segment of the game.  Switching between game states means that the old state will no longer be hooked up to the game update and render calls, as the update and render operations go through the current game state to update and render the game.

@@ -93,3 +93,24 @@ AiProcessSystem
     - Each AiProcess has associated actions.  Those actions are assigned to the NPC (and will be processed by the ActionSystem).
     - As each action is finished, the AI Process system watches state.  If actions fail, the rest of the solution is tossed, and state is updated to indicate that the 
       solution failed.  This triggers the whole AI goal and plan process again.
+
+
+The AI framework drives all of the NPC behavior.  At the moment, it is primarily based on activity schedule assigned to each NPC that drives the available actions for each NPC.  The framework figures out action dependencies to come up solutions for how to achieve different goals assigned to the NPC.  For example, if the NPC has a goal to sleep, then the AI logic can figure out a) what bed to sleep in, how to move to the bed, and then drive the action to get into bed and go to sleep.
+
+**Directives** - top-level segmentation of AI behavior, driven by activity schedule assigned to each NPC.   Contains list of prioritized AI goals associated w/ the directive that will each be checked for viability during AI processing.
+
+**Goals** - Goals are assigned to directives and are also used to determine the available actions to an NPC, as many actions are gated by a goal (the act of going to sleep is tied to the sleep or rest goal).
+
+**Actions** - Ultimately everything that an NPC can do is tied to an action.  Going to bed, getting up in the morning, going to work, eating, moving, etc. are all actions.  Actions are derived from AI planning using predicate logic based on the goal state and the AI schemes that have been assigned to the NPC.
+
+**Schemes** - Schemes, plans and processes are all linked together and are the building blocks of how the AI engine works.  Schemes are used to define predicate logic that allows for the chaining of schemes together to achieve a goal based on actor and environment state (the AI solution).  
+
+**Plans** - Plans are used to further advance the AI state once a specific chain of schemes has been determined.  Plans allow for more intensive interrogation of world state (like querying which entities match a specific condition, or pathfinding).  Plans are used to ensure that the planned AI solution is feasible before acting upon it.  
+
+**Processes** - Finally, the AI Process is utilized while the NPC follows the set of actions associated with each step of the AI solution.  It ties back the action state to the AI state, so that if an action fails to complete, appropriate AI logic can takeover to ensure the NPC doesn't try to do the same thing over and over again.
+
+Schemes, Plans, and Processes are typically all tied together for a specific action.  For example, movement has a MoveScheme that defines the predicate logic that is needed in order to move (the npc needs to want to move to a specific location or object).  Assuming the MoveScheme logic is met, a MovePlan is generated.  This MovePlan has logic that performs pathfinding from the actor's current location and the target location.  If the planning phase is successful, there is a MoveProcess that is created that keeps track of the pathfinding results and the actions associated with the NPC following the path.
+
+The predicate logic is all based on AI state derived from the current actor state and environment state.  Each Scheme defines a set of preconditions that are checked against the current state as well as a set of side effects that are applied if the Schemes preconditions are met.  In this way a decision graph can be created that leads to a desired solution.  The decision graph ends when a Scheme provides a side effect that marks a goal as being met.
+
+This is a somewhat brief overview of a complex topic.  I am happy to further explain and help out anyone that is looking to help out on AI.
