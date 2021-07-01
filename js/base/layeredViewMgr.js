@@ -26,23 +26,19 @@ class LayeredViewMgr extends Gizmo {
         this.renderCtx = this.canvas.getContext("2d");
         this.maxDepth = spec.maxDepth || 100;
         this.yscale = spec.hasOwnProperty("yscale") ? spec.yscale : .25;
-        //this.sorted = new SortedStore({cmpFcn: (v1, v2) => v1.vidx - v2.vidx});
         this.slicedSorted = new SortedStore({cmpFcn: (v1, v2) => v1.vidx - v2.vidx});
-
         this.viewSize = spec.viewSize || (Config.tileSize*Config.renderScale);
         this.worldWidth = spec.worldWidth || this.camera.width;
         this.worldHeight = spec.worldHeight || this.camera.height;
-
         this.grid = new Grid({
             columns: Math.floor(this.worldWidth*Config.renderScale/this.viewSize),
             rows: Math.floor(this.worldHeight*Config.renderScale/this.viewSize),
             tileSize: this.viewSize,
             //dbg: true,
         })
+        this.uiViews = [];
         this.dbg = spec.dbg;
         this.sliceCanvas = document.createElement('canvas');
-        //this.sliceCanvas.width = this.canvas.width;
-        //this.sliceCanvas.height = this.canvas.height;
         this.sliceCanvas.width = this.worldWidth * Config.renderScale;
         this.sliceCanvas.height = this.worldHeight * Config.renderScale;
         this.sliceCtx = this.sliceCanvas.getContext('2d');
@@ -58,12 +54,10 @@ class LayeredViewMgr extends Gizmo {
     onViewUpdate(evt) {
         Stats.count("view.update");
         let view = evt.actor;
-
         // check for change in vidx
         if (view.vidx !== this.vidx(view)) {
             view.vidx = this.vidx(view);
         }
-
         if (this.camera.overlaps(view)) {
             //console.log(`==================== on view update: ${view} view.min: ${view.minx},${view.miny} view.width: ${view.width}, view xform: ${view.xform} parent: ${view.xform.parent}`);
             this.updatedViews.push(evt.actor);
@@ -95,11 +89,13 @@ class LayeredViewMgr extends Gizmo {
         for (const view of this.getOnscreenViews()) {
             view.update(ctx);
         }
-
+        // update ui views
+        for (const view of this.uiViews) {
+            view.update(ctx);
+        }
         // prepare sliced view
         if (!this.sliceReady) {
             this.sliceIdxs = {};
-
             // resolve updated views into grid indices
             for (const view of this.updatedViews) {
                 //let minx = view.minx - this.camera.minx;
@@ -140,7 +136,6 @@ class LayeredViewMgr extends Gizmo {
                 //console.log("idxs are: " + Object.keys(this.sliceIdxs));
             }
             this.updatedViews = [];
-
             // resolve views to render
             if (this.sliceReady) {
                 // -- all views that overlap with the resolved grid indices must be rerendered
@@ -163,9 +158,7 @@ class LayeredViewMgr extends Gizmo {
                     }
                 }
             }
-
         }
-
     }
 
     render() {
@@ -193,14 +186,8 @@ class LayeredViewMgr extends Gizmo {
                 view.render(this.renderCtx);
             }
             this.renderall = false;
-
         // handle rendering of sliced views only
         } else if (this.sliceReady) {
-            /*
-            if (this.camera.minx || this.camera.miny) {
-                this.sliceCtx.translate(-this.camera.minx, -this.camera.miny);
-            }
-            */
             this.sliceReady = false;
             // sliced views get rendered to the slice context
             for (const view of this.slicedSorted) {
@@ -219,29 +206,42 @@ class LayeredViewMgr extends Gizmo {
         }
         // restore transform matrix (clears any xform apply/revert floating point deltas)
         this.renderCtx.resetTransform();
+        // render ui views
+        for (const view of this.uiViews) {
+            view.render(this.renderCtx);
+        }
     }
 
     add(view) {
         // ignore views that are not roots
         if (!view || view.parent) return;
-        //if (this.dbg) console.log(`adding view ${view} w/ vidx: ${view.vidx}`);
-        // listen for view updates
-        view.evtUpdated.listen(this.onViewUpdate)
-        // assign index
-        let vidx = this.vidx(view);
-        view.vidx = vidx;
-        //console.log(`add view ${view} with vidx: ${view.vidx} y: ${view.y}`);
-        //this.sorted.add(view);
-        this.grid.add(view);
+        if (view.ui) {
+            this.uiViews.push(view);
+        } else {
+            //if (this.dbg) console.log(`adding view ${view} w/ vidx: ${view.vidx}`);
+            // listen for view updates
+            view.evtUpdated.listen(this.onViewUpdate)
+            // assign index
+            let vidx = this.vidx(view);
+            view.vidx = vidx;
+            //console.log(`add view ${view} with vidx: ${view.vidx} y: ${view.y}`);
+            //this.sorted.add(view);
+            this.grid.add(view);
+        }
     }
 
     remove(view) {
         if (this.dbg) console.log("removing view: " + view);
-        this.grid.remove(view);
-        //this.sorted.remove(view);
-        // remove from view updates
-        view.evtUpdated.ignore(this.onViewUpdate)
-        this.updatedViews.push(view);
+        if (view.ui) {
+            let idx = this.uiViews.indexOf(view);
+            if (idx !== -1) this.uiViews.splice(idx, 1);
+        } else {
+            this.grid.remove(view);
+            //this.sorted.remove(view);
+            // remove from view updates
+            view.evtUpdated.ignore(this.onViewUpdate)
+            this.updatedViews.push(view);
+        }
     }
 
     clear() {

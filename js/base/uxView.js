@@ -23,6 +23,7 @@ class UxView extends Gizmo {
         this._visible = spec.hasOwnProperty("visible") ? spec.visible : true;
         this._depth = spec.hasOwnProperty("depth") ? spec.depth : ((spec.hasOwnProperty("dfltDepth")) ? spec.dfltDepth : 0);
         this.layer = spec.hasOwnProperty("layer") ? spec.layer : ((spec.hasOwnProperty("dfltLayer")) ? spec.dfltLayer : 0);
+        this.ui = spec.ui || false;
         this.mouseOver = false;
         this.mouseDown = false;
         this.dbg = spec.dbg;

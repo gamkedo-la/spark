@@ -82,8 +82,6 @@ class State extends Gizmo {
         for (const e of this.ctrls) {
             e.update(ctx);
         }
-        // model updates are managed through systems
-        //for (const e of this.entities) { e.update(ctx); }
     }
 
     render() {

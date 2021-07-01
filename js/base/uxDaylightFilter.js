@@ -11,7 +11,7 @@ class UxDaylightFilter extends UxPanel {
         color: new Color(0,0,0,0),
     };
     static minAlpha = 0;
-    static maxAlpha = .75;
+    static maxAlpha = .55;
 
     // CONSTRUCTOR ---------------------------------------------------------
     cpre(spec={}) {

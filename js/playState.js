@@ -22,30 +22,33 @@ class PlayState extends State {
         // construct the UI elements
         spec.xvmgr = {
             cls: "LayeredViewMgr",
+            //cls: "ViewMgr",
             worldWidth: xlvl.columns * Config.tileSize,
             worldHeight: xlvl.rows * Config.tileSize,
             dbg: true,
         };
-        spec.xview = {};
-        spec.xxview = {
+        //spec.xview = {};
+        spec.xview = {
             cls: "UxCanvas",
             cvsid: "canvas",
+            ui: false,
             tag: "cvs.0",
+            depth: 30,
             xchildren: [
-                /*
                 {
                     tag: "daylight.filter",
                     cls: "UxDaylightFilter",
                 },
-                */
                 {
                     cls: "UxPanel",
                     tag: "mainPanel",
                     xsketch: media.get("btnGoldTranS1"),
+                    //xsketch: {},
                 }
             ],
         };
         spec.xmodel = World.xlvl;
+        //spec.xmodel = { cls: "Level" };
     }
 
 
@@ -66,7 +69,7 @@ class PlayState extends State {
         this.player = this.findFirst(v=>v.tag === "player");
         console.log(`PlayState player is ${this.player}`);
         // hook camera
-        this.camera.trackTarget(this.player);
+        if (this.player) this.camera.trackTarget(this.player);
         this.camera.trackWorld(this.model);
 
     }
