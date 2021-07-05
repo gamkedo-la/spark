@@ -4,11 +4,23 @@ import { AiGoal }               from "./base/ai/aiGoal.js";
 import { Activity }             from "./base/activity.js";
 import { Config }               from "./base/config.js";
 import { Fmt }                  from "./base/fmt.js";
+import { Color }                from "./base/color.js";
 
 class Templates {
 
-    static init() {
+    static editorPanel(tag, spec={}) {
+        let xxform = spec.xxform || {};
+        let xchildren = spec.xchildren || [];
+        return {
+            cls: "UxPanel",
+            tag: tag,
+            xxform: xxform,
+            xsketch: { cls: 'Rect', color: new Color(0,20,100,1), borderWidth: 10, borderColor: new Color(255,0,0,.5) },
+            xchildren: xchildren,
+        }
+    }
 
+    static init() {
         this.aiWakeDirective = { 
             cls: "AiDirective", 
             tag: "wake", 
