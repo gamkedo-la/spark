@@ -8,16 +8,88 @@ import { Color }                from "./base/color.js";
 
 class Templates {
 
-    static editorPanel(tag, spec={}) {
+    static emptyPanel(tag, spec={}) {
         let xxform = spec.xxform || {};
         let xchildren = spec.xchildren || [];
         return {
             cls: "UxPanel",
             tag: tag,
             xxform: xxform,
+            xsketch: {},
+            xchildren: xchildren,
+        }
+    }
+
+    static editorTitle(tag, text, spec={}) {
+        let xxform = spec.xxform || {};
+        return {
+            cls: "UxText",
+            ui: true,
+            tag: tag,
+            xxform: xxform,
+            xtext: { color: new Color(0,255,0,.75), text: text, },
+        }
+    }
+
+    static editorSelectButton(tag, text, spec={}) {
+        let xxform = spec.xxform || {};
+        return {
+            cls: "UxPanel",
+            ui: true,
+            xxform: xxform,
+            xsketch: { cls: 'Rect', color: new Color(0,0,0,0) },
+            xchildren: [
+                {
+                    cls: "UxPanel",
+                    tag: `${tag}.select`,
+                    ui: true,
+                    xxform: {offset: 3},
+                    xsketch: { cls: 'Rect', borderWidth: 5, color: Color.zero, borderColor: new Color(0,255,0,.5) },
+                },
+                Templates.editorButton(`${tag}.button`, text ),
+            ],
+        };
+    }
+
+    static editorPanel(tag, spec={}) {
+        let xxform = spec.xxform || {};
+        let xchildren = spec.xchildren || [];
+        return {
+            cls: "UxPanel",
+            tag: tag,
+            ui: true,
+            xxform: xxform,
             xsketch: { cls: 'Rect', color: new Color(0,20,100,1), borderWidth: 10, borderColor: new Color(255,0,0,.5) },
             xchildren: xchildren,
         }
+    }
+
+    static editorButton(tag, text, spec={}) {
+        let xxform = spec.xxform || {};
+        return {
+            cls: "UxButton",
+            tag: tag,
+            ui: true,
+            xxform: xxform,
+            xtext: { color: new Color(0,255,0,.75), text: text, },
+            xpressed: { cls: 'Rect', color: new Color(50,50,50,1), borderWidth: 5, borderColor: new Color(0,0,0,1) },
+            xunpressed: { cls: 'Rect', color: new Color(50,50,50,.5), borderWidth: 5, borderColor: new Color(0,0,0,1) },
+            xhighlight: { cls: 'Rect', color: new Color(50,50,50,.75), borderWidth: 5, borderColor: new Color(0,0,0,1) },
+        };
+    }
+
+    static editorOverlayButton(tag, text, spec={}) {
+        let xxform = spec.xxform || {};
+        return {
+            cls: "UxButton",
+            tag: tag,
+            ui: true,
+            xxform: xxform,
+            xtext: { color: new Color(0,255,0,.75), text: text, },
+            xpressed: { cls: 'Rect', color: new Color(0,0,0,0), borderWidth: 5, borderColor: new Color(0,0,0,1) },
+            xunpressed: { cls: 'Rect', color: new Color(0,0,0,0), borderWidth: 5, borderColor: new Color(0,0,0,1) },
+            xhighlight: { cls: 'Rect', color: new Color(0,0,0,0), borderWidth: 5, borderColor: new Color(0,0,0,1) },
+        };
     }
 
     static init() {

@@ -28,7 +28,7 @@ class Character extends Model {
         // -- bed
         this.bedTag = spec.hasOwnProperty("bedTag") ? spec.bedTag : undefined;
         //console.log("char spec: " + Fmt.ofmt(spec));
-        console.log(`char ${this} collider: ${this.collider}`);
+        //console.log(`char ${this} collider: ${this.collider}`);
     }
 
     toString() {

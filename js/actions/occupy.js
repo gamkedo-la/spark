@@ -82,7 +82,7 @@ class OccupyAction extends Action {
     }
 
     start(actor) {
-        console.log(`occupy action actor: ${actor} target: ${this.target}}`);
+        //console.log(`occupy action actor: ${actor} target: ${this.target}}`);
         this.actor = actor;
         // check that target can be occupied
         if (!this.target.occupy || this.target.conditions.has(this.target.occupiedCondition)) {

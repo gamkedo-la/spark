@@ -12,6 +12,7 @@ class AiProcessSystem extends System {
     cpre(spec) {
         super.cpre(spec);
         spec.iterateTTL = spec.iterateTTL || AiProcessSystem.dfltIterateTTL;
+        spec.fixedPredicate = spec.fixedPredicate || ((e) => e.cat === "Model" && e.ai);
     }
     cpost(spec) {
         super.cpost(spec);

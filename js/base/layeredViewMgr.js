@@ -9,6 +9,7 @@ import { Fmt }              from "./fmt.js";
 import { Camera }           from "./camera.js";
 import { Grid }             from "./grid.js";
 import { Bounds }           from "./bounds.js";
+import { MouseSystem }      from "./mouse.js";
 
 class LayeredViewMgr extends Gizmo {
     static dfltGridX = 32;
@@ -52,6 +53,7 @@ class LayeredViewMgr extends Gizmo {
         this.renderall = true;
         // bind event handlers
         Util.bind(this, "onViewUpdate");
+        this.mouseSystem = new MouseSystem({ dbg: Config.dbg.MouseSystem });
     }
 
     // EVENT HANDLERS ------------------------------------------------------
@@ -89,8 +91,12 @@ class LayeredViewMgr extends Gizmo {
     }
 
     iupdate(ctx) {
+        // update mouse system
+        this.mouseSystem.update(ctx);
         // update managed views that are on screen
         for (const view of this.getOnscreenViews()) {
+            // check for mouse changes...
+            this.mouseSystem.iterate(ctx, view);
             view.update(ctx);
         }
         // update ui views

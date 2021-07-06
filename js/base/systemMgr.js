@@ -34,11 +34,11 @@ class SystemMgr extends Gizmo {
             sys.update(ctx);
         }
         // entity iterate
-        for(const e of this.store) {
-            for (const sys of this.children()) {
+        for (const sys of this.children()) {
+            if (!sys.active) continue;
+            if (!sys.ready) continue;
+            for(const e of this.store.find(sys.fixedPredicate)) {
                 Stats.count("sys.iterate");
-                if (!sys.active) continue;
-                if (!sys.ready) continue;
                 sys.iterate(ctx, e);
             }
         }

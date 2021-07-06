@@ -19,12 +19,12 @@ class SparkSystem extends System {
     cpre(spec) {
         super.cpre(spec);
         spec.iterateTTL = spec.iterateTTL || 0;
+        spec.fixedPredicate = spec.fixedPredicate || ((e) => e.cat === "Model" && !e.passive);
     }
     cpost(spec) {
         super.cpost(spec);
         this.sparkSources = spec.sparkSources || new Store();
         this.getentities = spec.getentities || (() => Base.instance.entities);
-        console.log(`sparksystem spec: ${Fmt.ofmt(spec)}`);
     }
 
     // PROPERTIES ----------------------------------------------------------

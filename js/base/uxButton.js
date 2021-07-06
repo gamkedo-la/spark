@@ -86,10 +86,10 @@ class UxButton extends UxView {
     onMouseClick(evt) {
         //console.log("onMouseClick");
         const mousePos = Mouse.pos;
-        const localMousePos = this.xform.getLocal(mousePos);
+        //const localMousePos = this.xform.getLocal(mousePos);
         //console.log(`pos: ${mousePos} local: ${localMousePos}`);
-        if (this.bounds.contains(localMousePos)) {
-            //console.log("clicked button...");
+        if (this.bounds.contains(mousePos)) {
+            console.log("clicked button...");
             //if (this._pressedSound) this._pressedSound.play();
             this.evtClicked.trigger();
         }

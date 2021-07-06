@@ -15,6 +15,7 @@ class DaytimeSystem extends System {
     cpre(spec) {
         super.cpre(spec);
         spec.iterateTTL = spec.iterateTTL || DaytimeSystem.dfltIterateTTL;
+        spec.fixedPredicate = spec.fixedPredicate || ((e) => false);
     }
     cpost(spec) {
         super.cpost(spec);

@@ -48,7 +48,7 @@ class Bed extends Model {
     }
 
     dointeract(actor) {
-        console.log(this + " dointeract");
+        //console.log(this + " dointeract");
         if (this.conditions.has(this.occupiedCondition)) {
             this.leave(actor);
         } else {
@@ -57,7 +57,7 @@ class Bed extends Model {
     }
 
     occupy(actor) {
-        console.log(`${this} occupy actor: ${actor}`);
+        //console.log(`${this} occupy actor: ${actor}`);
         // update chair state
         this.conditions.add(this.occupiedCondition);
         this.offx = this.occupiedX;
@@ -77,7 +77,7 @@ class Bed extends Model {
     }
 
     leave(actor) {
-        console.log(`${this} leave actor: ${actor}`);
+        //console.log(`${this} leave actor: ${actor}`);
         // update chair state
         this.conditions.delete(this.occupiedCondition);
         this.offx = this.emptyX;

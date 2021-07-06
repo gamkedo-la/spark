@@ -26,6 +26,7 @@ class AiPlanSystem extends System {
     cpre(spec) {
         super.cpre(spec);
         spec.iterateTTL = spec.iterateTTL || AiPlanSystem.dfltIterateTTL;
+        spec.fixedPredicate = spec.fixedPredicate || ((e) => e.cat === "Model" && e.ai);
     }
     cpost(spec) {
         super.cpost(spec);
@@ -95,7 +96,7 @@ class AiPlanSystem extends System {
                 solution.plans.unshift(node.plan);
                 solution.planEffects.unshift(node.effects);
             }
-            console.log(`=====> pushing solution ${solution}`);
+            //console.log(`=====> pushing solution ${solution}`);
             solutions.push(solution);
         }
         return solutions;

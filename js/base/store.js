@@ -1,4 +1,4 @@
-export { Store, KvStore, SortedStore }
+export { Store, KvStore, SortedStore, CachingFindStore }
 
 import { Fmt } from "./fmt.js";
 import { EvtChannel } from "./event.js";
@@ -167,6 +167,52 @@ class SortedStore extends Store {
         for (const obj of this.items) {
             yield obj;
         }
+    }
+
+}
+
+class CachingFindStore extends Store {
+
+    // CONSTRUCTOR ---------------------------------------------------------
+    constructor(spec={}) {
+        super(spec);
+        this.searchCache = new Map();
+    }
+
+    *find(filter=(v) => true, cache=true) {
+        if (!cache) {
+            yield *super.find(filter);
+            return;
+        }
+        if (!this.searchCache.has(filter)) {
+            let entries = [];
+            this.searchCache.set(filter, entries);
+            for (const e of super.find(filter)) {
+                entries.push(e);
+                yield e;
+            }
+        } else {
+            yield *this.searchCache.get(filter);
+        }
+    }
+
+    add(obj) {
+        if (obj) {
+            super.add(obj);
+            this.searchCache.clear();
+        }
+    }
+
+    remove(obj) {
+        if (obj) {
+            super.remove(obj);
+            this.searchCache.clear();
+        }
+    }
+    
+    clear(destroy=true) {
+        super.clear(destroy);
+        this.searchCache.clear();
     }
 
 }

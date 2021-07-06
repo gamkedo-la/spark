@@ -1,12 +1,12 @@
 export { State };
 
 import { Gizmo }            from "./gizmo.js";
-import { Store }            from "./store.js";
+import { CachingFindStore, Store }            from "./store.js";
 import { Generator }        from "./generator.js";
 import { Util }             from "./util.js";
 import { Bounds }           from "./bounds.js";
-import { LayeredViewMgr }   from "./layeredViewMgr.js";
-import { Config } from "./config.js";
+import { Config }           from "./config.js";
+import { Fmt }              from "./fmt.js";
 
 /** ========================================================================
  * Top level game state, controlling view/ctrl/model instances (e.g.: menu state, play state, etc).
@@ -21,12 +21,8 @@ class State extends Gizmo {
         // -- viewMgr - view manager for state, handling the render pipeline
         let xvmgr = spec.xvmgr || { cls: "ViewMgr", dbg: Config.dbg.ViewMgr };
         this.viewMgr = Generator.generate(xvmgr);
-        // -- entities - store of all models associated w/ non-passive state
-        this.entities = new Store({getkey: (v) => v.gid});
-        // -- passives - store of all models associated w/ passive state
-        this.passives = new Store({getkey: (v) => v.gid});
-        // -- ctrls - store of all controllers associated w/ state
-        this.ctrls = new Store({getkey: (v) => v.gid});
+        // -- entities - store of all models/ctrls associated w/ state
+        this.entities = new CachingFindStore({getkey: (v) => v.gid});
         // top level game model
         this.model = Generator.generate(spec.xmodel);
         this.entities.add(this.model);
@@ -47,14 +43,12 @@ class State extends Gizmo {
         let gzo = evt.actor;
         if (gzo.cat === "View") {
             this.viewMgr.add(gzo);
-        } else if (gzo.cat === "Model") {
-            if (gzo.passive) {
-                this.passives.add(gzo);
-            } else {
+            // FIXME: may need to reassess how entities/views are split
+            //if (gzo.ui) {
                 this.entities.add(gzo);
-            }
-        } else if (gzo.cat === "Ctrl") {
-            this.ctrls.add(gzo);
+            //}
+        } else if (gzo.cat === "Model" || gzo.cat === "Ctrl") {
+            this.entities.add(gzo);
         }
     }
 
@@ -63,14 +57,11 @@ class State extends Gizmo {
         let gzo = evt.actor;
         if (gzo.cat === "View") {
             this.viewMgr.remove(gzo);
-        } else if (gzo.cat === "Model") {
-            if (gzo.passive) {
-                this.passives.remove(gzo.gid);
-            } else {
+            if (gzo.ui) {
                 this.entities.remove(gzo.gid);
             }
-        } else if (gzo.cat === "Ctrl") {
-            this.ctrls.remove(gzo.gid);
+        } else if (gzo.cat === "Model" || gzo.cat === "Ctrl") {
+            this.entities.remove(gzo.gid);
         }
     }
 
@@ -79,7 +70,7 @@ class State extends Gizmo {
         // view updates managed through view manager
         this.viewMgr.update(ctx);
         // controller updates managed here...
-        for (const e of this.ctrls) {
+        for (const e of this.entities.find((v) => v.cat === "Ctrl")) {
             e.update(ctx);
         }
     }

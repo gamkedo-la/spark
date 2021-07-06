@@ -7,16 +7,20 @@ import { System }           from "./system.js";
 
 class AreaSystem extends System {
 
-    constructor(spec={}) {
-        super(spec);
+    cpre(spec) {
+        super.cpre(spec);
+        spec.fixedPredicate = spec.fixedPredicate || ((e) => e.cat === "Model" && !e.passive);
+    }
+    cpost(spec) {
+        super.cpost(spec);
         this.activeAreas = [];
         this.discoveredAreas = [];
         this.first = true;
-        this.getPassives = spec.getPassives || (() => Base.instance.passives);
+        this.getEntities = spec.getEntities || (() => Base.instance.entities);
     }
 
-    get passives() {
-        return this.getPassives();
+    get entities() {
+        return this.getEntities();
     }
 
     iterate(ctx, e) {
@@ -59,7 +63,7 @@ class AreaSystem extends System {
             }
             // first time only... check for passive tiles
             if (first) {
-                for (const e of this.passives) {
+                for (const e of this.entities.find((v) => v.cat === "Model" && v.passive, false)) {
                     if (area.layer !== undefined && area.layer !== e.layer) continue;
                     if ((area.overlaps(e) || area.contains(e)) && !area.includes(e.gid)) {
                         if (this.dbg && !this.first) console.log(`${e} entered area: ${area}`);

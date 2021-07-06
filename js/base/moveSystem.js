@@ -1,42 +1,14 @@
-export { MoveSystem, SetPosFeat };
+export { MoveSystem };
 
 import { System }       from "./system.js";
-import { Feat }         from "./feat.js";
 import { Model }        from "./model.js";
-import { Bounds }       from "./bounds.js";
-import { ModelState } from "./modelState.js";
-
-class SetPosFeat extends Feat {
-    constructor(target, x, y) {
-        super();
-        this.target = target;
-        this.x = x;
-        this.y = y;
-    }
-    execute() {
-        if (this.target) {
-            this.target.x = this.x;
-            this.target.y = this.y;
-        }
-    }
-}
-
-class SetStateFeat extends Feat {
-    constructor(target, state) {
-        super();
-        this.target = target;
-        this.state = state;
-    }
-    execute() {
-        if (this.target) this.target.state = this.state;
-    }
-}
 
 class MoveSystem extends System {
     cpre(spec) {
         super.cpre(spec);
         spec.iterateTTL = spec.iterateTTL || 0;
         this.findOverlaps = spec.findOverlaps || ((v) => {return [];});
+        spec.fixedPredicate = spec.fixedPredicate || ((e) => e.cat === "Model" && !e.passive);
     }
 
     // METHODS -------------------------------------------------------------

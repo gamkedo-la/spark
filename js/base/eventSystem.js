@@ -8,6 +8,7 @@ import { System }               from "./system.js";
 class EventSystem extends System {
     cpre(spec) {
         spec.iterateTTL = spec.iterateTTL || 0;
+        spec.fixedPredicate = spec.fixedPredicate || ((e) => e.cat === "Model" && !e.passive);
         super.cpre(spec);
     }
 

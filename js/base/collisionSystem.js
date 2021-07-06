@@ -8,6 +8,7 @@ class CollisionSystem extends System {
         super.cpre(spec);
         spec.iterateTTL = spec.iterateTTL || 0;
         this.findOverlaps = spec.findOverlaps || ((v) => {return [];});
+        spec.fixedPredicate = spec.fixedPredicate || ((e) => e.cat === "Model" && !e.passive);
     }
 
     // METHODS -------------------------------------------------------------

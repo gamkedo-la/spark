@@ -44,7 +44,6 @@ class Camera {
         this.getWorldMaxX = spec.getWorldMaxX || (() => this.width);
         this.getWorldMaxY = spec.getWorldMaxY || (() => this.height);
         Util.bind(this, "onTargetUpdate");
-        console.log(`camera dim: ${this.width},${this.height}`);
     }
 
     // PROPERTIES ----------------------------------------------------------

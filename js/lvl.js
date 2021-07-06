@@ -21,7 +21,7 @@ class Level extends Model {
         this.assets = spec.assets || Base.instance.assets;
         this.generator = spec.generator || Base.instance.generator;
         this.xregions = spec.xregions || [];
-        console.log(`level rows ${this.rows} columns: ${this.columns} nenties ${this.nentries}`);
+        //console.log(`level rows ${this.rows} columns: ${this.columns} nenties ${this.nentries}`);
 
         // grid maintains list of all interactable objects based on location
         // -- an object may be assigned more than one grid slot if it overlaps multiple grid locations

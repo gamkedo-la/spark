@@ -16,6 +16,7 @@ class System extends Gizmo {
         this.ready = false;
         this.feats = [];
         this.dbg = spec.hasOwnProperty("dbg") ? spec.dbg : false;
+        this.fixedPredicate = spec.fixedPredicate || ((v) => true);
     }
 
     // METHODS -------------------------------------------------------------

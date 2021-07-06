@@ -21,7 +21,7 @@ class Region {
         let layers = spec.layers || {}
         let xareas = spec.xareas || [];
 
-        console.log(` region rows ${rows} columns ${columns}`);
+        //console.log(` region rows ${rows} columns ${columns}`);
 
         this.tileSize = spec.tileSize || Config.tileSize;
         this.halfSize = Math.round(this.tileSize * .5);

@@ -35,7 +35,6 @@ import { Bindings }         from "./bindings.js";
 import { Config }           from "./config.js";
 import { Collider, ColliderSet } from "./collider.js";
 import { StateMgr }         from "./stateMgr.js";
-import { PathFollowSystem } from "./pathFollowSystem.js";
 import { ActionSystem }     from "./actionSystem.js";
 import { AreaSystem }       from "./areaSystem.js";
 import { Area }             from "./area.js";
@@ -190,11 +189,10 @@ class Base {
             dbg: Config.dbg.Keys,
         });
         // ---- Systems
-        this.systemMgr.adopt(new MouseSystem({ iterateTTL: 50, dbg: Config.dbg.MouseSystem }));
+        //this.systemMgr.adopt(new MouseSystem({ iterateTTL: 50, dbg: Config.dbg.MouseSystem }));
         this.systemMgr.adopt(new CtrlSystem({ bindings: new Bindings(this.xbindings), dbg: Config.dbg.CtrlSystem, }));
         this.systemMgr.adopt(new MoveSystem({ findOverlaps: this.findOverlaps, dbg: Config.dbg.MoveSystem, }));
         this.systemMgr.adopt(new CollisionSystem({ findOverlaps: this.findOverlaps, dbg: Config.dbg.CollisionSystem, }));
-        this.systemMgr.adopt(new PathFollowSystem({ dbg: Config.dbg.PathFollowSystem, }));
         this.systemMgr.adopt(new ActionSystem({ dbg: Config.dbg.ActionSystem }));
         this.systemMgr.adopt(new AreaSystem({ dbg: Config.dbg.AreaSystem }));
         this.systemMgr.adopt(new PathfindingSystem({ getgrid: (() => this.grid), dbg: Config.dbg.PathfindingSystem, }));
@@ -212,10 +210,6 @@ class Base {
     // PROPERTIES ----------------------------------------------------------
     get entities() {
         if (this.stateMgr.current) return this.stateMgr.current.entities;
-        return undefined;
-    }
-    get passives() {
-        if (this.stateMgr.current) return this.stateMgr.current.passives;
         return undefined;
     }
     get viewMgr() {

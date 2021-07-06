@@ -1,9 +1,9 @@
-export { CtrlSystem, SetSpeedHeadingFeat };
+export { CtrlSystem };
 
 import { System }       from "./system.js";
-import { Feat }         from "./feat.js";
 import { Bindings }     from "./bindings.js";
 import { Vect }         from "./vect.js";
+import { Feat }         from "./feat.js";
 import { Mathf }        from "./math.js";
 import { Condition } from "./condition.js";
 
@@ -28,6 +28,7 @@ class CtrlSystem extends System {
     cpre(spec) {
         super.cpre(spec);
         spec.iterateTTL = spec.iterateTTL || 0;
+        spec.fixedPredicate = spec.fixedPredicate || ((e) => e.cat === "Model" && e.ctrlId);
     }
     cpost(spec) {
         super.cpost(spec);
@@ -88,6 +89,8 @@ class CtrlSystem extends System {
         //let heading = (speed === 0) ? this.dfltHeading : v.heading(true);
         let heading = (speed === 0) ? e.heading : v.heading(true);
         if (e.heading !== heading || e.speed !== speed) {
+            //e.speed = this.speed;
+            //e.heading = this.heading;
             this.feats.push(new SetSpeedHeadingFeat(e, speed, heading));
             //console.log(`e: ${e} v: ${v} speed: ${speed} heading: ${heading}`);
         }

@@ -18,6 +18,11 @@ class Mouse {
 class MouseSystem extends System {
 
     // CONSTRUCTOR ---------------------------------------------------------
+    cpre(spec) {
+        super.cpre(spec);
+        spec.iterateTTL = spec.iterateTTL || 0;
+        spec.fixedPredicate = spec.fixedPredicate || ((e) => e.cat === "View" && !e.passive);
+    }
     cpost(spec={}) {
         super.cpost(spec);
         let cvsid = spec.cvsid || "canvas";
@@ -82,12 +87,13 @@ class MouseSystem extends System {
         if (!e.active) return;
         // skip non-view entities
         if (e.cat !== "View") return;
+        //console.log(`iterate: ${e}`);
 
-        // convert to local position
-        let lpos = e.xform.getLocal(new Vect(Mouse.x, Mouse.y));
+        // current mouse position (in world coords)
+        let wpos = new Vect(Mouse.x, Mouse.y);
 
-        // determine if view bounds contains mouse point
-        const contains = e.bounds.contains(lpos);
+        // determine if view bounds contains mouse point (bounds is in world coords)
+        const contains = e.bounds.contains(wpos);
         if (e.mouseOver && !contains) {
             e.mouseOver = false;
             e.evtMouseLeft.trigger();

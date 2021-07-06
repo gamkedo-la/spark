@@ -15,6 +15,7 @@ class ActivityScheduleSystem extends System {
     cpre(spec) {
         super.cpre(spec);
         spec.iterateTTL = spec.iterateTTL || ActivityScheduleSystem.dfltIterateTTL;
+        spec.fixedPredicate = spec.fixedPredicate || ((e) => e.cat === "Model" && !e.passive);
     }
     cpost(spec) {
         super.cpost(spec);

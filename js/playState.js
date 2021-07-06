@@ -12,7 +12,7 @@ import { World }            from "./world.js";
 import { GridView }         from "./base/gridView.js";
 import { Area, AreaView }   from "./base/area.js";
 import { ModelView }        from "./modelView.js";
-import { Camera } from "./base/camera.js";
+import { Camera }           from "./base/camera.js";
 
 class PlayState extends State {
     cpre(spec) {
@@ -33,7 +33,7 @@ class PlayState extends State {
             cvsid: "canvas",
             ui: true,
             tag: "cvs.0",
-            depth: 30,
+            //depth: 30,
             xchildren: [
                 {
                     tag: "daylight.filter",
@@ -115,10 +115,12 @@ class PlayState extends State {
         super.onGizmoCreate(evt);
         let gzo = evt.actor;
         if (gzo.cat === "Model") {
-            // add to level
-            this.model.add(gzo);
-            // add view
-            this.addView(gzo);
+            if (this.model) {
+                // add to level
+                this.model.add(gzo);
+                // add view
+                this.addView(gzo);
+            }
         }
     }
 

@@ -64,7 +64,7 @@ class Pathfinder {
             if (this.dbg) console.log(`q: ${queue}`);
             // FIXME: remove
             if (tries++ > this.maxTries) {
-                console.log("reached max path tries, giving up");
+                if (this.dbg) console.log("reached max path tries, giving up");
                 break;
             }
             //break;

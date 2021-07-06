@@ -27,7 +27,7 @@ class Door extends Model {
     }
 
     dointeract(actor) {
-        console.log(this + " dointeract");
+        //console.log(this + " dointeract");
         if (this.conditions.has(Condition.opened)) {
             this.close();
         } else {
@@ -36,13 +36,13 @@ class Door extends Model {
     }
 
     open() {
-        console.log(this + " open");
+        //console.log(this + " open");
         if (this.collider) this.collider.active = false;
         this.conditions.add(Condition.opened);
     }
 
     close() {
-        console.log(this + " close");
+        //console.log(this + " close");
         if (this.collider) this.collider.active = true;
         this.conditions.delete(Condition.opened);
     }

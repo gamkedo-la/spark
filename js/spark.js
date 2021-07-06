@@ -63,7 +63,7 @@ class Spark extends Game {
         // ---- auto close
         this.base.systemMgr.adopt(new AutoCloseSystem({ findOverlaps: this.base.findOverlaps, dbg: false, }));
         // ---- spark system
-        this.base.systemMgr.adopt(new SparkSystem({ sparkSources: Atts.sparkSources, dbg: true, }));
+        this.base.systemMgr.adopt(new SparkSystem({ sparkSources: Atts.sparkSources, dbg: false, }));
 
         // initialize and start master game state
         let state = new PlayState();
