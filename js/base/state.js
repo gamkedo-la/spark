@@ -23,17 +23,15 @@ class State extends Gizmo {
         this.viewMgr = Generator.generate(xvmgr);
         // -- entities - store of all models/ctrls associated w/ state
         this.entities = new CachingFindStore({getkey: (v) => v.gid});
-        // top level game model
-        this.model = Generator.generate(spec.xmodel);
-        this.entities.add(this.model);
-        // top level view
-        this.view = Generator.generate(spec.xview);
-        this.viewMgr.add(this.view);
         // -- events/handlers
         Util.bind(this, "onGizmoCreate", "onGizmoDestroy");
         // top level controller is this state
         Gizmo.evtCreated.listen(this.onGizmoCreate);
         Gizmo.evtDestroyed.listen(this.onGizmoDestroy);
+        // top level game model
+        this.model = Generator.generate(spec.xmodel);
+        // top level view
+        this.view = Generator.generate(spec.xview);
     }
 
     // EVENT HANDLERS ------------------------------------------------------
@@ -57,9 +55,9 @@ class State extends Gizmo {
         let gzo = evt.actor;
         if (gzo.cat === "View") {
             this.viewMgr.remove(gzo);
-            if (gzo.ui) {
+            //if (gzo.ui) {
                 this.entities.remove(gzo.gid);
-            }
+            //}
         } else if (gzo.cat === "Model" || gzo.cat === "Ctrl") {
             this.entities.remove(gzo.gid);
         }

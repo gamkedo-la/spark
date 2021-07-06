@@ -62,7 +62,7 @@ class Gizmo {
         this.__children = [];
         if (spec.hasOwnProperty("xchildren")) {
             for (const xchild of spec.xchildren) {
-                //xchild.parent = this;
+                xchild.parent = this;
                 let child = Generator.generate(xchild);
                 if (child) this.adopt(child);
             }
@@ -136,12 +136,15 @@ class Gizmo {
     }
 
     adopt(child) {
-        // avoid cycles in parent
-        if (Hierarchy.findInRoot(this, (v) => v === child)) return;
+        // ensure child is orphaned
+        let parent = child.parent;
+        if (parent) {
+            child.orphan();
+            // avoid cycles in parent
+            if (Hierarchy.findInRoot(parent, (v) => v === child)) return;
+        }
         // avoid cycles in child
         if (Hierarchy.find(child, (v) => v === this)) return;
-        // ensure child is orphaned
-        child.orphan();
         // assign parent/child links
         child.__parent = this;
         this.__children.push(child);
