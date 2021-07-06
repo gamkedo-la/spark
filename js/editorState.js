@@ -1,4 +1,4 @@
-export { EditorState };
+export { UxEditorView, EditorState };
 
 import { State }            from "./base/state.js";
 import { Base }             from "./base/base.js";
@@ -16,11 +16,62 @@ import { Camera } from "./base/camera.js";
 import { Color } from "./base/color.js";
 import { Templates } from "./templates.js";
 import { Hierarchy } from "./base/hierarchy.js";
+import { Generator } from "./base/generator.js";
+import { UxPanel } from "./base/uxPanel.js";
+
+class UxEditorView extends UxPanel {
+    cpost(spec) {
+        super.cpost(spec);
+        this.xregion = spec.xregion;
+    }
+
+    renderGrid(ctx) {
+        ctx.strokeStyle = "rgba(255,255,0,.25";
+        ctx.lineWidth = 1;
+        // vertical
+        for (let i=0; i<=this.xregion.columns; i++) {
+            ctx.beginPath()
+            ctx.moveTo(i*Config.tileSize,0);
+            ctx.lineTo(i*Config.tileSize,Config.tileSize*this.xregion.rows);
+            ctx.stroke();
+        }
+        // horizontal
+        for (let i=0; i<=this.xregion.rows; i++) {
+            ctx.beginPath()
+            ctx.moveTo(0,i*Config.tileSize);
+            ctx.lineTo(Config.tileSize*this.xregion.columns,i*Config.tileSize);
+            ctx.stroke();
+        }
+    }
+
+    buildViews() {
+        // FIXME
+        let xview = {
+            cls: "ModelView",
+            xsketch: obj.xsketch,
+            xxform: Object.assign({scalex:Config.renderScale, scaley:Config.renderScale}, obj.xxform),
+            model: obj,
+        };
+        view = new ModelView(xview);
+    }
+
+    _render(ctx) {
+        super._render(ctx);
+		//ctx.translate(-camera.x, -camera.y);
+        if (Config.renderScale !== 1) {
+            ctx.scale(Config.renderScale, Config.renderScale);
+        }
+        this.renderGrid(ctx);
+        if (Config.renderScale !== 1) ctx.scale(1/Config.renderScale, 1/Config.renderScale);
+		//ctx.translate(camera.x, camera.y);
+    }
+}
 
 class EditorState extends State {
     cpre(spec) {
         super.cpre(spec);
         let xlvl = World.xlvl;
+        let xregion = World.vendor1;
         const media = spec.media || Base.instance.media;
         // construct the UI elements
         spec.xvmgr = {
@@ -37,6 +88,13 @@ class EditorState extends State {
             ui: true,
             xchildren: [
                 Templates.editorPanel("gridPanel", { xxform: { right: .3, bottom: .3 }, xchildren: [
+                    {
+                        cls: "UxEditorView",
+                        tag: "editorView",
+                        xregion: xregion,
+                        xsketch: {},
+                        xxform: { offset: 10 },
+                    }
                 ]}),
                 Templates.editorPanel("widgetPanel", { xxform: { left: .7, bottom: .3 }, xchildren: [
                     Templates.editorTitle("title", "Spark Editor", { xxform: { offset: 10, bottom: .9 }}),
@@ -48,20 +106,20 @@ class EditorState extends State {
                     ]}),
                     Templates.editorTitle("layerTitle", "Selected Layer/Depth", { xxform: { offset: 10, bottom: .7, top: .2 }}),
                     Templates.emptyPanel("layerButtons", { xxform: { top: .3, left: .15, right: .15, bottom: .025 }, xchildren: [
-                        Templates.editorButton("l1.bgButton", "layer1 background", { xxform: { top: 0/12, bottom: 1-1/12 }}),
-                        Templates.editorButton("l1.bgoButton", "layer1 bg overlay", { xxform: { top: 1/12, bottom: 1-2/12 }}),
-                        Templates.editorButton("l1.fgButton", "layer1 foreground", { xxform: { top: 2/12, bottom: 1-3/12 }}),
-                        Templates.editorButton("l1.fgoButton", "layer1 fg overlay", { xxform: { top: 3/12, bottom: 1-4/12 }}),
+                        Templates.editorSelectButton("l1.bg", "layer1 background", { xxform: { top: 0/12, bottom: 1-1/12 }}),
+                        Templates.editorSelectButton("l1.bgo", "layer1 bg overlay", { xxform: { top: 1/12, bottom: 1-2/12 }}),
+                        Templates.editorSelectButton("l1.fg", "layer1 foreground", { xxform: { top: 2/12, bottom: 1-3/12 }}),
+                        Templates.editorSelectButton("l1.fgo", "layer1 fg overlay", { xxform: { top: 3/12, bottom: 1-4/12 }}),
 
-                        Templates.editorButton("l2.bgButton", "layer2 background", { xxform: { top: 4/12, bottom: 1-5/12 }}),
-                        Templates.editorButton("l2.bgoButton", "layer2 bg overlay", { xxform: { top: 5/12, bottom: 1-6/12 }}),
-                        Templates.editorButton("l2.fgButton", "layer2 foreground", { xxform: { top: 6/12, bottom: 1-7/12 }}),
-                        Templates.editorButton("l2.fgoButton", "layer2 fg overlay", { xxform: { top: 7/12, bottom: 1-8/12 }}),
+                        Templates.editorSelectButton("l2.bg", "layer2 background", { xxform: { top: 4/12, bottom: 1-5/12 }}),
+                        Templates.editorSelectButton("l2.bgo", "layer2 bg overlay", { xxform: { top: 5/12, bottom: 1-6/12 }}),
+                        Templates.editorSelectButton("l2.fg", "layer2 foreground", { xxform: { top: 6/12, bottom: 1-7/12 }}),
+                        Templates.editorSelectButton("l2.fgo", "layer2 fg overlay", { xxform: { top: 7/12, bottom: 1-8/12 }}),
 
-                        Templates.editorButton("l3.bgButton", "layer3 background", { xxform: { top: 8/12, bottom: 1-9/12 }}),
-                        Templates.editorButton("l3.bgoButton", "layer3 bg overlay", { xxform: { top: 9/12, bottom: 1-10/12 }}),
-                        Templates.editorButton("l3.fgButton", "layer3 foreground", { xxform: { top: 10/12, bottom: 1-11/12 }}),
-                        Templates.editorButton("l3.fgoButton", "layer3 fg overlay", { xxform: { top: 11/12, bottom: 1-12/12 }}),
+                        Templates.editorSelectButton("l3.bg", "layer3 background", { xxform: { top: 8/12, bottom: 1-9/12 }}),
+                        Templates.editorSelectButton("l3.bgo", "layer3 bg overlay", { xxform: { top: 9/12, bottom: 1-10/12 }}),
+                        Templates.editorSelectButton("l3.fg", "layer3 foreground", { xxform: { top: 10/12, bottom: 1-11/12 }}),
+                        Templates.editorSelectButton("l3.fgo", "layer3 fg overlay", { xxform: { top: 11/12, bottom: 1-12/12 }}),
                     ]}),
                 ]}),
                 Templates.editorPanel("tilePanel", { xxform: { top: .7 }, xchildren: [
@@ -82,7 +140,7 @@ class EditorState extends State {
                         Templates.editorSelectButton("helpTile.4", "5", { xxform: { top: .8 }}),
                     ]}),
 
-                    Templates.emptyPanel("availableTileButtons", { xxform: { offset: 15, left: .25 }, xchildren: [
+                    Templates.emptyPanel("tileButtonsPanel", { xxform: { offset: 15, left: .2 }, xchildren: [
                     ]}),
 
                 ]}),
@@ -96,46 +154,44 @@ class EditorState extends State {
     cpost(spec) {
         super.cpost(spec);
         this.camera = spec.camera || Camera.main;
+        this.assets = spec.assets || Base.instance.assets;   
 
-        console.log(`main view: ${this.view} xform: ${this.view.xform} min: ${this.view.minx},${this.view.miny} max: ${this.view.maxx},${this.view.maxy}`);
-
-        Util.bind(this, "onKeyDown", "onClicked");
+        Util.bind(this, "onKeyDown", "onClicked", "onTileSelected");
         Keys.evtKeyPressed.listen(this.onKeyDown);
         Mouse.evtClicked.listen(this.onClicked)
 
-        // load level objects
-        //this.model.load();
         // setup state
         this.toolMode = "paint";
+        this.layerMode = "l1.fg";
+        this.tileButtons = [];
+
+        this.xregion = World.vendor1;
 
         // lookup object references
+        // wire callbacks
         this.gridPanel = Hierarchy.find(this.view, v=>v.tag === "gridPanel");
+        this.tileButtonsPanel = Hierarchy.find(this.view, v=>v.tag === "tileButtonsPanel");
         for (const tool of ["paint", "fill", "get", "delete"]) {
             this[`${tool}Select`] = Hierarchy.find(this.view, v=>v.tag === `${tool}.select`);
             this[`${tool}Button`] = Hierarchy.find(this.view, v=>v.tag === `${tool}.button`);
             this[`${tool}Button`].evtClicked.listen((evt) => this.toolMode = tool);
-            console.log(`tool: ${tool}`);
         }
-        this.paintSelect = Hierarchy.find(this.view, v=>v.tag === "paint.select");
-        this.paintButton = Hierarchy.find(this.view, v=>v.tag === "paint.button");
-        this.fillSelect = Hierarchy.find(this.view, v=>v.tag === "fill.select");
-        this.fillButton = Hierarchy.find(this.view, v=>v.tag === "fill.button");
+        for (const layer of ["l1", "l2", "l3"]) {
+            for (const depth of ["bg", "bgo", "fg", "fgo"]) {
+                this[`${layer}${depth}Select`] = Hierarchy.find(this.view, v=>v.tag === `${layer}.${depth}.select`);
+                this[`${layer}${depth}Button`] = Hierarchy.find(this.view, v=>v.tag === `${layer}.${depth}.button`);
+                this[`${layer}${depth}Button`].evtClicked.listen((evt) => this.layerMode = `${layer}.${depth}`);
+            }
+        }
 
-        // wire callbacks
-        //this.paintButton.evtClicked.listen((evt) => this.toolMode = "paint");
-        //this.fillButton.evtClicked.listen((evt) => this.toolMode = "fill" );
-        //this.paintSelect = this.findFirst(v=>v.tag === "paint.select");
-        //this.paintButton = this.findFirst(v=>v.tag === "paint.button");
-        //this.fillSelect = this.findFirst(v=>v.tag === "fill.select");
-        //this.fillButton = this.findFirst(v=>v.tag === "fill.button");
-        console.log(`grid panel: ${this.gridPanel}`);
-        console.log(`paint select: ${this.paintSelect}`);
-        console.log(`paint button: ${this.paintButton}`);
         // hook camera
         //if (this.player) this.camera.trackTarget(this.player);
         //this.camera.trackWorld(this.model);
 
         console.log(`view is ${this.view}`);
+
+        // build out dynamic UI elements
+        this.buildTileButtons();
 
     }
 
@@ -173,9 +229,14 @@ class EditorState extends State {
         */
     }
 
+    onTileSelected(evt) {
+        console.log("onTileSelected: " + Fmt.ofmt(evt));
+    }
+
     iupdate(ctx) {
         super.iupdate(ctx);
         this.updateToolPanel(ctx);
+        this.updateLayerPanel(ctx);
     }
 
     /*
@@ -237,6 +298,60 @@ class EditorState extends State {
             this.fillSelect.visible = (this.toolMode === "fill");
             this.getSelect.visible = (this.toolMode === "get");
             this.deleteSelect.visible = (this.toolMode === "delete");
+        }
+    }
+
+    updateLayerPanel(ctx) {
+        if (this.layerMode !== this.lastLayerMode) {
+            this.lastLayerMode = this.layerMode;
+            for (const layer of ["l1", "l2", "l3"]) {
+                for (const depth of ["bg", "bgo", "fg", "fgo"]) {
+                    this[`${layer}${depth}Select`].visible = (this.layerMode === `${layer}.${depth}`);
+                }
+            }
+        }
+    }
+
+    destroyTileButtons() {
+        for (const b of this.tileButtons) {
+            b.destroy();
+        }
+        this.tileButtons = [];
+    }
+
+    buildTileButtons() {
+        this.destroyTileButtons();
+        let row = 0;
+        let col = 0;
+        let maxCols = Math.floor(this.tileButtonsPanel.width/40);
+        let colStep = 1/maxCols;
+        let maxRows = Math.floor(this.tileButtonsPanel.height/40);
+        let rowStep = 1/maxRows;
+        // add button for rest of tileset assets
+        for (const asset of this.assets) {
+            if (!asset.id || !asset.xsketch) continue;
+            let bspec = {
+                cls: "UxButton",
+                dfltDepth: this.tileButtonsPanel.depth + 1,
+                dfltLayer: this.tileButtonsPanel.layer,
+                parent: this.tileButtonsPanel,
+                xxform: {parent: this.tileButtonsPanel.xform, left: col*colStep, right: 1-(col+1)*colStep, top: row*rowStep, bottom: 1-(row+1)*rowStep},
+                xunpressed: Object.assign({}, asset.xsketch, { lockRatio: true, xfitter: { cls: "FitToParent" } }),
+                xtext: {text: " " + asset.id.toString() + " ", color: new Color(255,255,0,.175)},
+            };
+            //console.log(`bspec: ${Fmt.ofmt(bspec)}`);
+            let b = Generator.generate(bspec);
+            if (b) {
+                b.assetId = asset.id;
+                b.evtClicked.listen(this.onTileSelected);
+                this.tileButtonsPanel.adopt(b);
+                col++;
+                if (col >= maxCols) {
+                    row++;
+                    col = 0;
+                }
+                this.tileButtons.push(b);
+            }
         }
     }
 

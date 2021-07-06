@@ -26,6 +26,7 @@ import { MoveScheme }       from "./actions/move.js";
 import { OccupyScheme }     from "./actions/occupy.js";
 import { SleepAtBedScheme } from "./actions/sleepAtBed.js";
 import { LeaveWorkstationScheme } from "./actions/leaveWorkstation.js";
+import { UxEditorView } from "./editorState.js";
 
 class SparkRegistry {
     static init() {
@@ -56,6 +57,8 @@ class SparkRegistry {
         Condition.register("waiting");
     }
     static setup(registry) {
+        // -- register view classes
+        registry.add(UxEditorView);
         // -- register generator classes
         registry.add(Tile);
         registry.add(Character);

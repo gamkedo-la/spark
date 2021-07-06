@@ -19,7 +19,7 @@ class Config {
             AiProcessSystem: false,
             AreaSystem: false,
             EQuerySystem: false,
-            MouseSystem: true,
+            MouseSystem: false,
             PathfindingSystem: false,
             StateSystem: false,
             Stats: false,

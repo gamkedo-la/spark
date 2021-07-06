@@ -138,13 +138,14 @@ class PlayState extends State {
         if (obj instanceof(Area)) {
             let xview = {
                 area: obj,
+                xxform: Object.assign({scalex:Config.renderScale, scaley:Config.renderScale}, obj.xxform),
             }
             view = new AreaView(xview);
         } else {
             let xview = {
                 cls: "ModelView",
                 xsketch: obj.xsketch,
-                xxform: Object.assign({scalex:2, scaley:2}, obj.xxform),
+                xxform: Object.assign({scalex:Config.renderScale, scaley:Config.renderScale}, obj.xxform),
                 model: obj,
             };
             view = new ModelView(xview);
