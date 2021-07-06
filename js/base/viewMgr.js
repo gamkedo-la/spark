@@ -2,7 +2,6 @@ export { ViewMgr };
 
 import { SortedStore }      from "./store.js";
 import { Gizmo }            from "./gizmo.js";
-import { MouseSystem }      from "./mouse.js";
 import { Config }           from "./config.js";
 
 class ViewMgr extends Gizmo {
@@ -21,7 +20,6 @@ class ViewMgr extends Gizmo {
         this.yscale = spec.hasOwnProperty("yscale") ? spec.yscale : .25;
         this.sorted = new SortedStore({cmpFcn: (v1, v2) => v1.vidx - v2.vidx});
         this.dbg = spec.dbg;
-        this.mouseSystem = new MouseSystem({ dbg: Config.dbg.MouseSystem });
     }
 
     // METHODS -------------------------------------------------------------
@@ -31,12 +29,8 @@ class ViewMgr extends Gizmo {
     }
 
     update(ctx) {
-        // update mouse system
-        this.mouseSystem.update(ctx);
         // update all managed views
         for(const view of this.sorted) {
-            // check for mouse changes...
-            this.mouseSystem.iterate(ctx, view);
             // check for change in rootness
             if (view.parent) {
                 this.sorted.remove(view);

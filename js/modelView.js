@@ -14,6 +14,7 @@ class ModelView extends UxPanel {
     // CONSTRUCTOR ---------------------------------------------------------
     cpre(spec) {
         super.cpre(spec);
+        spec.wantMouse = spec.hasOwnProperty("wantMouse") ? spec.wantMouse : false;
         if (spec.xsketch && !spec.xsketch.xfitter) spec.xsketch.xfitter = {};
     }
     cpost(spec) {

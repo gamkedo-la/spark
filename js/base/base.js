@@ -189,7 +189,7 @@ class Base {
             dbg: Config.dbg.Keys,
         });
         // ---- Systems
-        //this.systemMgr.adopt(new MouseSystem({ iterateTTL: 50, dbg: Config.dbg.MouseSystem }));
+        this.systemMgr.adopt(new MouseSystem({ iterateTTL: 50, dbg: Config.dbg.MouseSystem }));
         this.systemMgr.adopt(new CtrlSystem({ bindings: new Bindings(this.xbindings), dbg: Config.dbg.CtrlSystem, }));
         this.systemMgr.adopt(new MoveSystem({ findOverlaps: this.findOverlaps, dbg: Config.dbg.MoveSystem, }));
         this.systemMgr.adopt(new CollisionSystem({ findOverlaps: this.findOverlaps, dbg: Config.dbg.CollisionSystem, }));
