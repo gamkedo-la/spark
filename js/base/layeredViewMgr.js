@@ -215,10 +215,10 @@ class LayeredViewMgr extends Gizmo {
             this.uiUpdated = false;
             //this.uiCtx.fillRect(0, 0, this.canvas.width, this.canvas.height);
             this.uiCtx.clearRect(0, 0, this.uiCanvas.width, this.uiCanvas.height);
-            console.log("ui updated");
+            //console.log("ui updated");
             for (const view of this.uiViews) {
                 view.render(this.uiCtx);
-                console.log(`render ui view: ${view}`);
+                //console.log(`render ui view: ${view}`);
             }
         }
     }
@@ -226,7 +226,7 @@ class LayeredViewMgr extends Gizmo {
     add(view) {
         // ignore views that are not roots
         if (!view || view.parent) return;
-        if (view.cls !== "ModelView") console.log(`adding view: ${view}`);
+        //if (view.cls !== "ModelView") console.log(`adding view: ${view}`);
         if (view.ui) {
             this.uiViews.push(view);
         } else {

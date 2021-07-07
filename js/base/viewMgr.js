@@ -62,7 +62,7 @@ class ViewMgr extends Gizmo {
     add(view) {
         // ignore views that are not roots
         if (!view || view.parent) return;
-        if (this.dbg) console.log("adding view: " + view);
+        //if (this.dbg) console.log("adding view: " + view);
         // assign index
         let vidx = this.vidx(view);
         view.vidx = vidx;
@@ -70,7 +70,7 @@ class ViewMgr extends Gizmo {
     }
 
     remove(view) {
-        if (this.dbg) console.log("removing view: " + view);
+        //if (this.dbg) console.log("removing view: " + view);
         this.sorted.remove(view);
     }
 

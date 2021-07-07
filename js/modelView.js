@@ -153,6 +153,7 @@ class ModelView extends UxPanel {
     }
 
     _render(ctx) {
+        //console.log(`model view render @ min ${this._xform.minx},${this._xform.miny} model: ${this.model.x},${this.model.y}`);
         if (this._sketch) this._sketch.render(ctx, this._xform.minx + this.model.x, this._xform.miny + this.model.y);
         // FIXME: remove
         //console.log(`render ${this}: min: ${this._xform.minx + this.model.x},${this._xform.miny + this.model.y} dim: ${this._xform.width},${this._xform.height}`);

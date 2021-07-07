@@ -56,7 +56,7 @@ class UxCanvas extends UxView {
     onWindowResize() {
         let width = window.innerWidth;
         let height = window.innerHeight;
-        console.log("trying to resize to: " + width + "," + height);
+        //console.log("trying to resize to: " + width + "," + height);
         this.cvs.width = width;
         this.cvs.height = height;
         this.xform.width = width;

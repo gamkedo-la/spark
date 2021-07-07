@@ -22,7 +22,10 @@ import { UxPanel } from "./base/uxPanel.js";
 class UxEditorView extends UxPanel {
     cpost(spec) {
         super.cpost(spec);
+        this.camera = spec.camera || Camera.main;
         this.xregion = spec.xregion;
+        this.assets = spec.assets || Base.instance.assets;   
+        this.tileViews = [];
     }
 
     renderGrid(ctx) {
@@ -45,25 +48,81 @@ class UxEditorView extends UxPanel {
     }
 
     buildViews() {
-        // FIXME
-        let xview = {
-            cls: "ModelView",
-            xsketch: obj.xsketch,
-            xxform: Object.assign({scalex:Config.renderScale, scaley:Config.renderScale}, obj.xxform),
-            model: obj,
-        };
-        view = new ModelView(xview);
+        // FIXME: offx/offy to be removed
+        let columns = this.xregion.columns || 0;
+        let rows = this.xregion.rows || 0;
+        let offx=0;
+        let offy=0;
+        //let offx=this.width*.5/Config.renderScale;
+        //let offy=this.height*.5/Config.renderScale;
+        // parse layers and layer data
+        for (const layer of Object.keys(Config.layerMap)) {
+            //console.log(`layer: ${layer}`);
+            let layerId = Config.layerMap[layer];
+            let layerInfo = this.xregion.layers[layer];
+            if (!layerInfo) continue;
+            for (const depth of Object.keys(Config.depthMap)) {
+                let depthData = layerInfo[depth];
+                //console.log(`depth: ${depth} ${(depthData) ? "" : " - skipping"}`);
+                if (!depthData) continue;
+                let depthId = Config.depthMap[depth];
+                for (let i=0; i<columns; i++) {
+                    for (let j=0; j<rows; j++) {
+                        let idx = i + columns*j;
+                        let id = depthData[idx];
+                        if (!id) continue;
+                        let flags = id[0];
+                        let assetId = id.slice(1);
+                        let xobj = this.assets.fromId(assetId);
+                        if (xobj) {
+                            let x = offx + (i*Config.tileSize) + Config.halfSize;
+                            let y = offy + ((j-layerId)*Config.tileSize) + Config.halfSize;
+                            //console.log(`pos: ${x},${y}`);
+                            xobj = Object.assign({
+                                x: x, 
+                                y: y, 
+                                depth: depthId,
+                                layer: layerId,
+                            }, xobj);
+                            let obj = Generator.generate(xobj);
+                            //console.log(`xobj: ${Fmt.ofmt(xobj)}`);
+                            let xview = {
+                                cls: "ModelView",
+                                xsketch: obj.xsketch,
+                                xxform: Object.assign({border: .5}, obj.xxform),
+                                model: obj,
+                            };
+                            //console.log(`xview: ${Fmt.ofmt(xview)}`);
+                            let view = new ModelView(xview);
+                            this.adopt(view);
+                            //console.log(`view.xform: ${view.xform} xform.stretch: ${view.xform.stretchx},${view.xform.stretchy} xform.dim: ${view.xform.width},${view.xform.height} xform.ddim: ${view.xform._dwidth},${view.xform._dheight} xform.orig: ${view.xform._origx},${view.xform._origy} xform.do: ${view.xform.dox},${view.xform.doy} min: ${view.minx},${view.miny}`);
+                            this.tileViews.push(view);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    iupdate(ctx) {
+        let updated = false;
+        if (!this.firstUpdate) {
+            this.firstUpdate = true;
+            this.buildViews();
+            updated = true;
+        }
+        return updated|super.iupdate(ctx);
     }
 
     _render(ctx) {
         super._render(ctx);
-		//ctx.translate(-camera.x, -camera.y);
-        if (Config.renderScale !== 1) {
-            ctx.scale(Config.renderScale, Config.renderScale);
-        }
+		//ctx.translate(-this.camera.minx, -this.camera.miny);
+        //if (Config.renderScale !== 1) {
+            //ctx.scale(Config.renderScale, Config.renderScale);
+        //}
         this.renderGrid(ctx);
-        if (Config.renderScale !== 1) ctx.scale(1/Config.renderScale, 1/Config.renderScale);
-		//ctx.translate(camera.x, camera.y);
+        //if (Config.renderScale !== 1) ctx.scale(1/Config.renderScale, 1/Config.renderScale);
+		//ctx.translate(this.camera.minx, this.camera.miny);
     }
 }
 
@@ -90,10 +149,12 @@ class EditorState extends State {
                 Templates.editorPanel("gridPanel", { xxform: { right: .3, bottom: .3 }, xchildren: [
                     {
                         cls: "UxEditorView",
-                        tag: "editorView",
+                        tag: "editorPanel",
                         xregion: xregion,
                         xsketch: {},
-                        xxform: { offset: 10 },
+                        xxform: { dx: -xregion.columns*Config.halfSize, dy: -xregion.rows*Config.halfSize, offset: 10, scalex: Config.renderScale, scaley: Config.renderScale },
+                        //xxform: { dx: -xregion.columns*Config.halfSize, dy: -xregion.rows*Config.halfSize, offset: 10 },
+                        //xxform: { origx: .5, origy: .5, offset: 0 },
                     }
                 ]}),
                 Templates.editorPanel("widgetPanel", { xxform: { left: .7, bottom: .3 }, xchildren: [
@@ -156,20 +217,24 @@ class EditorState extends State {
         this.camera = spec.camera || Camera.main;
         this.assets = spec.assets || Base.instance.assets;   
 
-        Util.bind(this, "onKeyDown", "onClicked", "onTileSelected");
+        Util.bind(this, "onKeyDown", "onClicked", "onTileSelected", "onCanvasResized");
         Keys.evtKeyPressed.listen(this.onKeyDown);
         Mouse.evtClicked.listen(this.onClicked)
+        this.view.evtResized.listen(this.onCanvasResized);
 
         // setup state
         this.toolMode = "paint";
         this.layerMode = "l1.fg";
         this.tileButtons = [];
+        this.levelViews = [];
 
         this.xregion = World.vendor1;
 
         // lookup object references
         // wire callbacks
         this.gridPanel = Hierarchy.find(this.view, v=>v.tag === "gridPanel");
+        this.editorPanel = Hierarchy.find(this.view, v=>v.tag === "editorPanel");
+        console.log(`editor panel: ${this.editorPanel}`);
         this.tileButtonsPanel = Hierarchy.find(this.view, v=>v.tag === "tileButtonsPanel");
         for (const tool of ["paint", "fill", "get", "delete"]) {
             this[`${tool}Select`] = Hierarchy.find(this.view, v=>v.tag === `${tool}.select`);
@@ -187,11 +252,14 @@ class EditorState extends State {
         // hook camera
         //if (this.player) this.camera.trackTarget(this.player);
         //this.camera.trackWorld(this.model);
+        //this.camera._x = -32;
+        //this.camera._y = -32;
 
         console.log(`view is ${this.view}`);
 
         // build out dynamic UI elements
         this.buildTileButtons();
+        //this.buildViews();
 
     }
 
@@ -227,6 +295,10 @@ class EditorState extends State {
         let idx = this.grid.idxfromxy(x, y);
         console.log("idx is: " + idx);
         */
+    }
+
+    onCanvasResized(evt) {
+        this.buildTileButtons();
     }
 
     onTileSelected(evt) {
