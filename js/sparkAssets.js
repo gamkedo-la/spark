@@ -44,6 +44,9 @@ class SparkAssets {
                     { x: 16*3, y: 16*1, width: 16, height: 16 },
                     { x: 16*4, y: 16*1, width: 16, height: 16 }
                 ]},
+                { tag: "shrub",      cls: "VarSprite", variations: [
+                    { x: 16*0, y: 16*2, width: 16, height: 16 }
+                ]},
             ]},
 
             { src: "img/object1.png", loader: "Sheet", refs: [
@@ -212,6 +215,7 @@ class SparkAssets {
             Templates.tile("00m", "postUpper.s", { offx: 8 }),
             Templates.tile("00n", "postUpper.r", { offx: 8 }),
             Templates.tile("00o", "rock"), 
+            Templates.tile("00p", "shrub"),
 
             Templates.object("o00", "sparkbase", "SparkBase", { 
                 powered: true,
