@@ -31,6 +31,21 @@ class SparkAssets {
             Templates.wallMedia("img/stuccoWalls2.png", "stuccoWalls2", {"height": 16, "width": 16}),
             Templates.roofMedia("img/roof.png", "roof.l", "roof.r", "roof.f", "roof.b", {"height": 16, "width": 16}),
 
+            { src: "img/terrain2.png", loader: "Sheet", refs: [
+                { tag: "rock",      cls: "VarSprite", variations: [
+                    { x: 16*0, y: 16*0, width: 16, height: 16 },
+                    { x: 16*1, y: 16*0, width: 16, height: 16 },
+                    { x: 16*2, y: 16*0, width: 16, height: 16 },
+                    { x: 16*3, y: 16*0, width: 16, height: 16 },
+                    { x: 16*4, y: 16*0, width: 16, height: 16 },
+                    { x: 16*0, y: 16*1, width: 16, height: 16 },
+                    { x: 16*1, y: 16*1, width: 16, height: 16 },
+                    { x: 16*2, y: 16*1, width: 16, height: 16 },
+                    { x: 16*3, y: 16*1, width: 16, height: 16 },
+                    { x: 16*4, y: 16*1, width: 16, height: 16 }
+                ]},
+            ]},
+
             { src: "img/object1.png", loader: "Sheet", refs: [
                 {tag: "stool", cls: "Sprite", width: 16*2, height: 16*3, x: 16*0, y: 16*0 },
                 {tag: "table", cls: "Sprite", width: 16*2, height: 16*3, x: 16*2, y: 16*0 },
@@ -196,6 +211,7 @@ class SparkAssets {
             Templates.tile("00l", "postUpper.l", { offx: 8 }),
             Templates.tile("00m", "postUpper.s", { offx: 8 }),
             Templates.tile("00n", "postUpper.r", { offx: 8 }),
+            Templates.tile("00o", "rock"), 
 
             Templates.object("o00", "sparkbase", "SparkBase", { 
                 powered: true,
