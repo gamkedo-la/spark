@@ -18,6 +18,9 @@ import { Templates } from "./templates.js";
 import { Hierarchy } from "./base/hierarchy.js";
 import { Generator } from "./base/generator.js";
 import { UxPanel } from "./base/uxPanel.js";
+import { Vect } from "./base/vect.js";
+import { Bounds } from "./base/bounds.js";
+import { Grid } from "./base/grid.js";
 
 class UxEditorView extends UxPanel {
     cpost(spec) {
@@ -25,7 +28,7 @@ class UxEditorView extends UxPanel {
         this.camera = spec.camera || Camera.main;
         this.xregion = spec.xregion;
         this.assets = spec.assets || Base.instance.assets;   
-        this.tileViews = [];
+        this.tileViews = {};
     }
 
     renderGrid(ctx) {
@@ -58,14 +61,12 @@ class UxEditorView extends UxPanel {
         // parse layers and layer data
         for (const layer of Object.keys(Config.layerMap)) {
             //console.log(`layer: ${layer}`);
-            let layerId = Config.layerMap[layer];
             let layerInfo = this.xregion.layers[layer];
             if (!layerInfo) continue;
             for (const depth of Object.keys(Config.depthMap)) {
                 let depthData = layerInfo[depth];
                 //console.log(`depth: ${depth} ${(depthData) ? "" : " - skipping"}`);
                 if (!depthData) continue;
-                let depthId = Config.depthMap[depth];
                 for (let i=0; i<columns; i++) {
                     for (let j=0; j<rows; j++) {
                         let idx = i + columns*j;
@@ -73,35 +74,51 @@ class UxEditorView extends UxPanel {
                         if (!id) continue;
                         let flags = id[0];
                         let assetId = id.slice(1);
-                        let xobj = this.assets.fromId(assetId);
-                        if (xobj) {
-                            let x = offx + (i*Config.tileSize) + Config.halfSize;
-                            let y = offy + ((j-layerId)*Config.tileSize) + Config.halfSize;
-                            //console.log(`pos: ${x},${y}`);
-                            xobj = Object.assign({
-                                x: x, 
-                                y: y, 
-                                depth: depthId,
-                                layer: layerId,
-                            }, xobj);
-                            let obj = Generator.generate(xobj);
-                            //console.log(`xobj: ${Fmt.ofmt(xobj)}`);
-                            let xview = {
-                                cls: "ModelView",
-                                xsketch: obj.xsketch,
-                                xxform: Object.assign({border: .5}, obj.xxform),
-                                model: obj,
-                            };
-                            //console.log(`xview: ${Fmt.ofmt(xview)}`);
-                            let view = new ModelView(xview);
-                            this.adopt(view);
-                            //console.log(`view.xform: ${view.xform} xform.stretch: ${view.xform.stretchx},${view.xform.stretchy} xform.dim: ${view.xform.width},${view.xform.height} xform.ddim: ${view.xform._dwidth},${view.xform._dheight} xform.orig: ${view.xform._origx},${view.xform._origy} xform.do: ${view.xform.dox},${view.xform.doy} min: ${view.minx},${view.miny}`);
-                            this.tileViews.push(view);
-                        }
+                        this.assignTile(layer, depth, i, j, assetId);
                     }
                 }
             }
         }
+    }
+
+    assignTile(layer, depth, i, j, id) {
+        // handle clean up of any old view...
+        let key = `${layer}.${depth}.${i}.${j}`;
+        if (this.tileViews[key]) {
+            let view = this.tileViews[key];
+            if (view.model) view.model.destroy();
+            view.destroy();
+            delete this.tileViews[key];
+        }
+
+        let layerId = Config.layerMap[layer];
+        let depthId = Config.depthMap[depth];
+
+        let xobj = this.assets.fromId(id);
+        if (xobj) {
+            let x = (i*Config.tileSize) + Config.halfSize;
+            let y = ((j-layerId)*Config.tileSize) + Config.halfSize;
+            xobj = Object.assign({
+                x: x, 
+                y: y, 
+                depth: depthId,
+                layer: layerId,
+            }, xobj);
+            let obj = Generator.generate(xobj);
+            //console.log(`xobj: ${Fmt.ofmt(xobj)}`);
+            let xview = {
+                cls: "ModelView",
+                xsketch: obj.xsketch,
+                xxform: Object.assign({border: .5}, obj.xxform),
+                model: obj,
+            };
+            //console.log(`xview: ${Fmt.ofmt(xview)}`);
+            let view = new ModelView(xview);
+            this.adopt(view);
+            //console.log(`view.xform: ${view.xform} xform.stretch: ${view.xform.stretchx},${view.xform.stretchy} xform.dim: ${view.xform.width},${view.xform.height} xform.ddim: ${view.xform._dwidth},${view.xform._dheight} xform.orig: ${view.xform._origx},${view.xform._origy} xform.do: ${view.xform.dox},${view.xform.doy} min: ${view.minx},${view.miny}`);
+            this.tileViews[key] = view;
+        }
+
     }
 
     iupdate(ctx) {
@@ -114,8 +131,8 @@ class UxEditorView extends UxPanel {
         return updated|super.iupdate(ctx);
     }
 
-    _render(ctx) {
-        super._render(ctx);
+    _frender(ctx) {
+        super._frender(ctx);
 		//ctx.translate(-this.camera.minx, -this.camera.miny);
         //if (Config.renderScale !== 1) {
             //ctx.scale(Config.renderScale, Config.renderScale);
@@ -158,15 +175,15 @@ class EditorState extends State {
                     }
                 ]}),
                 Templates.editorPanel("widgetPanel", { xxform: { left: .7, bottom: .3 }, xchildren: [
-                    Templates.editorTitle("title", "Spark Editor", { xxform: { offset: 10, bottom: .9 }}),
-                    Templates.emptyPanel("mainButtons", { xxform: { offset: 15, top: .1, bottom: .8 }, xchildren: [
+                    Templates.editorText(null, "Spark Editor", { xxform: { offset: 10, bottom: .9 }}),
+                    Templates.panel("mainButtons", { xxform: { offset: 15, top: .1, bottom: .8 }, xchildren: [
                         Templates.editorButton("newButton", "new", { xxform: { right: .75 }}),
                         Templates.editorButton("loadButton", "load", { xxform: { left: .25, right: .5 }}),
                         Templates.editorButton("editButton", "edit", { xxform: { left: .5, right: .25 }}),
                         Templates.editorButton("saveButton", "save", { xxform: { left: .75 }}),
                     ]}),
-                    Templates.editorTitle("layerTitle", "Selected Layer/Depth", { xxform: { offset: 10, bottom: .7, top: .2 }}),
-                    Templates.emptyPanel("layerButtons", { xxform: { top: .3, left: .15, right: .15, bottom: .025 }, xchildren: [
+                    Templates.editorText(null, "Selected Layer/Depth", { xxform: { offset: 10, bottom: .7, top: .2 }}),
+                    Templates.panel("layerButtons", { xxform: { top: .3, left: .15, right: .15, bottom: .025 }, xchildren: [
                         Templates.editorSelectButton("l1.bg", "layer1 background", { xxform: { top: 0/12, bottom: 1-1/12 }}),
                         Templates.editorSelectButton("l1.bgo", "layer1 bg overlay", { xxform: { top: 1/12, bottom: 1-2/12 }}),
                         Templates.editorSelectButton("l1.fg", "layer1 foreground", { xxform: { top: 2/12, bottom: 1-3/12 }}),
@@ -185,7 +202,7 @@ class EditorState extends State {
                 ]}),
                 Templates.editorPanel("tilePanel", { xxform: { top: .7 }, xchildren: [
 
-                    Templates.emptyPanel("toolButtons", { xxform: { offset: 15, right: .85 }, xchildren: [
+                    Templates.panel("toolButtons", { xxform: { offset: 15, right: .85 }, xchildren: [
                         Templates.editorSelectButton("paint", "paint", { xxform: { bottom: .8 }}),
                         Templates.editorSelectButton("fill", "fill", { xxform: { top:.2, bottom: .6 }}),
                         Templates.editorSelectButton("get", "get", { xxform: { top:.4, bottom: .4 }}),
@@ -193,15 +210,20 @@ class EditorState extends State {
                         Templates.editorButton("filter", "filter", { xxform: { top: .8 }}),
                     ]}),
 
-                    Templates.emptyPanel("selectTileButtons", { xxform: { offset: 15, left: .15, right: .8 }, xchildren: [
-                        Templates.editorSelectButton("currentTile", "1", { xxform: { bottom: .8 }}),
-                        Templates.editorSelectButton("helpTile.1", "2", { xxform: { top: .2, bottom: .6 }}),
-                        Templates.editorSelectButton("helpTile.2", "3", { xxform: { top: .4, bottom: .4 }}),
-                        Templates.editorSelectButton("helpTile.3", "4", { xxform: { top: .6, bottom: .2 }}),
-                        Templates.editorSelectButton("helpTile.4", "5", { xxform: { top: .8 }}),
+                    Templates.panel("selectTileButtons", { xxform: { offset: 15, left: .14, right: .8 }, xchildren: [
+                        Templates.panel("currentTile", { xxform: { bottom: .8 }}),
+                        Templates.editorText(null, "1", { xxform: { offset: 5, bottom: .8 }}),
+                        Templates.panel("helpTile1", { xxform: { top: .2, bottom: .6 }}),
+                        Templates.editorText(null, "2", { xxform: { offset: 5, top: .2, bottom: .6 }}),
+                        Templates.panel("helpTile2", { xxform: { top: .4, bottom: .4 }}),
+                        Templates.editorText(null, "3", { xxform: { offset: 5, top: .4, bottom: .4 }}),
+                        Templates.panel("helpTile3", { xxform: { top: .6, bottom: .2 }}),
+                        Templates.editorText(null, "4", { xxform: { offset: 5, top: .6, bottom: .2 }}),
+                        Templates.panel("helpTile4", { xxform: { top: .8 }}),
+                        Templates.editorText(null, "5", { xxform: { offset: 5, top: .8 }}),
                     ]}),
 
-                    Templates.emptyPanel("tileButtonsPanel", { xxform: { offset: 15, left: .2 }, xchildren: [
+                    Templates.panel("tileButtonsPanel", { xxform: { offset: 15, left: .2 }, xchildren: [
                     ]}),
 
                 ]}),
@@ -227,6 +249,7 @@ class EditorState extends State {
         this.layerMode = "l1.fg";
         this.tileButtons = [];
         this.levelViews = [];
+        this.selectedTile = "003";
 
         this.xregion = World.vendor1;
 
@@ -248,6 +271,11 @@ class EditorState extends State {
                 this[`${layer}${depth}Button`].evtClicked.listen((evt) => this.layerMode = `${layer}.${depth}`);
             }
         }
+        this.currentTile = Hierarchy.find(this.view, v=>v.tag === "currentTile");
+        this.helpTile1 = Hierarchy.find(this.view, v=>v.tag === "helpTile1");
+        this.helpTile2 = Hierarchy.find(this.view, v=>v.tag === "helpTile2");
+        this.helpTile3 = Hierarchy.find(this.view, v=>v.tag === "helpTile3");
+        this.helpTile4 = Hierarchy.find(this.view, v=>v.tag === "helpTile4");
 
         // hook camera
         //if (this.player) this.camera.trackTarget(this.player);
@@ -288,7 +316,28 @@ class EditorState extends State {
     }
 
     onClicked(evt) {
-        console.log("onClicked: " + Fmt.ofmt(evt));
+        console.log(`onClicked: ${Fmt.ofmt(evt)}`);
+        console.log(`editorPanel pos: ${this.editorPanel.x},${this.editorPanel.y} min: ${this.editorPanel.minx},${this.editorPanel.miny} max: ${this.editorPanel.maxx},${this.editorPanel.maxy}`);
+        console.log(`editorPanel xform.min ${this.editorPanel.xform.minx},${this.editorPanel.xform.miny} max: ${this.editorPanel.xform.maxx},${this.editorPanel.xform.maxy}`);
+        let localMousePos = this.editorPanel.xform.getLocal(new Vect(evt.x, evt.y))
+        let minx = this.editorPanel.xform.centerx - this.xregion.columns*Config.halfSize;
+        let miny = this.editorPanel.xform.centery - this.xregion.rows*Config.halfSize;
+        let maxx = this.editorPanel.xform.centerx + this.xregion.columns*Config.halfSize;
+        let maxy = this.editorPanel.xform.centery + this.xregion.rows*Config.halfSize;
+        console.log(`localMousePos: ${localMousePos} min: ${minx},${miny} max: ${maxx},${maxy}`);
+        let bounds = new Bounds(0, 0, this.xregion.columns*Config.tileSize, this.xregion.rows*Config.tileSize);
+        if (bounds.contains(localMousePos)) {
+            console.log("contains");
+            // assign the tile...
+            let i = Grid.ifromx(localMousePos.x, Config.tileSize, this.xregion.columns);
+            let j = Grid.jfromy(localMousePos.y, Config.tileSize, this.xregion.rows);
+            let fields = this.layerMode.split(".");
+            let layer = fields[0];
+            let depth = fields[1];
+            this.assignTile(layer, depth, i, j, this.selectedTile);
+        }
+        //let minx = this.xregion.columns*
+        //xxform: { dx: -xregion.columns*Config.halfSize, dy: -xregion.rows*Config.halfSize, offset: 10, scalex: Config.renderScale, scaley: Config.renderScale },
         /*
         let x = evt.x/Config.renderScale;
         let y = evt.y/Config.renderScale;
@@ -302,11 +351,13 @@ class EditorState extends State {
     }
 
     onTileSelected(evt) {
-        console.log("onTileSelected: " + Fmt.ofmt(evt));
+        console.log(`onTileSelected: ${Fmt.ofmt(evt)} assetId: ${evt.actor.assetId}`);
+        this.selectedTile = evt.actor.assetId;
     }
 
     iupdate(ctx) {
         super.iupdate(ctx);
+        this.updateSelectedTile(ctx);
         this.updateToolPanel(ctx);
         this.updateLayerPanel(ctx);
     }
@@ -362,6 +413,41 @@ class EditorState extends State {
     }
     */
 
+    assignTile(layer, depth, i, j, id, flags="0") {
+        // pull layer
+        let layerData;
+        if (!this.xregion.layers.hasOwnProperty(layer)) {
+            layerData = {};
+            this.xregion.layers[layer] = layer;
+        } else {
+            layerData = this.xregion.layers[layer];
+        }
+        // pull depth
+        let depthData;
+        if (!layerData.hasOwnProperty(depth)) {
+            depthData = new Array(this.xregion.columns*this.xregion.rows);
+            layerData[depth] = depthData;
+        } else {
+            depthData = layerData[depth];
+        }
+        // assign tile to region
+        let idx = Grid.idxfromij(i, j, this.xregion.columns, this.xregion.rows);
+        depthData[idx] = `${flags}${id}`;
+        // update view
+        this.editorPanel.assignTile(layer, depth, i, j, id);
+    }
+
+    updateSelectedTile(ctx) {
+        if (this.selectedTile !== this.lastSelectedTile) {
+            this.lastSelectedTile = this.selectedTile;
+            let xobj = this.assets.fromId(this.selectedTile);
+            if (!xobj) return;
+            let sketch = Generator.generate(Object.assign({}, xobj.xsketch, { xfitter: { cls: "FitToParent" }}));
+            if (!sketch) return;
+            console.log(`xsketch: ${Fmt.ofmt(xobj.xsketch)}`);
+            this.currentTile.sketch = sketch;
+        }
+    }
 
     updateToolPanel(ctx) {
         if (this.toolMode !== this.lastToolMode) {

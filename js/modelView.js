@@ -167,6 +167,9 @@ class ModelView extends UxPanel {
 
     _frender(ctx) {
         if (Config.dbg.viewColliders) {
+            // colliders "render" in world coords
+            this.xform.revert(ctx, false);
+            if (this.xform.scalex !== 1|| this.xform.scaley !== 1) ctx.scale(this.xform.scalex, this.xform.scaley);
             if (this.model.collider) this.model.collider.render(ctx);
             if (this.model.activator) this.model.activator.render(ctx);
             if (this.model.approaches) {
@@ -175,6 +178,9 @@ class ModelView extends UxPanel {
                     ctx.fillRect(approach.x-Config.halfSize, approach.y-Config.halfSize, Config.tileSize, Config.tileSize);
                 }
             }
+            // restore transform
+            if (this.xform.scalex !== 1|| this.xform.scaley !== 1) ctx.scale(this.xform.iscalex, this.xform.iscaley);
+            this.xform.apply(ctx, false);
         }
     }
 

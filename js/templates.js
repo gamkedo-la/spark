@@ -8,19 +8,20 @@ import { Color }                from "./base/color.js";
 
 class Templates {
 
-    static emptyPanel(tag, spec={}) {
+    static panel(tag, spec={}) {
         let xxform = spec.xxform || {};
         let xchildren = spec.xchildren || [];
+        let xsketch = spec.xsketch || {};
         return {
             cls: "UxPanel",
             tag: tag,
             xxform: xxform,
-            xsketch: {},
+            xsketch: xsketch,
             xchildren: xchildren,
         }
     }
 
-    static editorTitle(tag, text, spec={}) {
+    static editorText(tag, text, spec={}) {
         let xxform = spec.xxform || {};
         return {
             cls: "UxText",
