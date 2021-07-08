@@ -42,7 +42,6 @@ class UxToggle extends UxView {
             this, "_pressed", this.onSketchUpdate );
         Sketch.link( Generator.generate(Object.assign({parent: this}, UxToggle.dfltIcon, spec.icon)), 
             this, "_icon", this.onSketchUpdate );
-        console.log(`icon: ${this._icon}`);
         this._pressedSound = spec.pressedSound;
         this._value = (spec.hasOwnProperty("value")) ? spec.value : true;
         this._sketch = (this._value) ? this._pressed : this._unpressed;
@@ -123,8 +122,8 @@ class UxToggle extends UxView {
         if (this.bounds.contains(mousePos)) {
             //console.log("clicked button...");
             //if (this._pressedSound) this._pressedSound.play();
-            this.evtClicked.trigger();
             this.value = !this.value;
+            this.evtClicked.trigger({value: this.value});
         }
     }
     onSketchUpdate(evt) {

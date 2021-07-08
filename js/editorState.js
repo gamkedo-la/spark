@@ -29,6 +29,7 @@ class UxEditorView extends UxPanel {
         this.xregion = spec.xregion;
         this.assets = spec.assets || Base.instance.assets;   
         this.tileViews = {};
+        this.visibility = {};
     }
 
     renderGrid(ctx) {
@@ -79,6 +80,25 @@ class UxEditorView extends UxPanel {
                 }
             }
         }
+    }
+
+    assignVisibility(layer, depth, value) {
+        let layerId = Config.layerMap[layer];
+        let depthId = Config.depthMap[depth];
+        let tag = `${layer}.${depth}`;
+        if (this.visibility[tag] != value) {
+            this.visibility[tag] = value;
+            for (const view of Object.values(this.tileViews)) {
+                if (view.model && view.model.layer === layerId && view.model.depth === depthId) {
+                    view.model.visible = value;
+                }
+            }
+        }
+    }
+
+    getVisibility(layer, depth) {
+        let tag = `${layer}.${depth}`;
+        return this.visibility[tag];
     }
 
     assignTile(layer, depth, i, j, id) {
@@ -281,6 +301,8 @@ class EditorState extends State {
                 this[`${layer}${depth}Select`] = Hierarchy.find(this.view, v=>v.tag === `${layer}.${depth}.select`);
                 this[`${layer}${depth}Button`] = Hierarchy.find(this.view, v=>v.tag === `${layer}.${depth}.button`);
                 this[`${layer}${depth}Button`].evtClicked.listen((evt) => this.layerMode = `${layer}.${depth}`);
+                let toggle = Hierarchy.find(this.view, v=>v.tag === `${layer}.${depth}.tog`);
+                toggle.evtClicked.listen(((l, d) => (evt) => this.editorPanel.assignVisibility(l, d, evt.value))(layer, depth));
             }
         }
         this.currentTile = Hierarchy.find(this.view, v=>v.tag === "currentTile");
@@ -329,14 +351,10 @@ class EditorState extends State {
 
     onClicked(evt) {
         console.log(`onClicked: ${Fmt.ofmt(evt)}`);
-        console.log(`editorPanel pos: ${this.editorPanel.x},${this.editorPanel.y} min: ${this.editorPanel.minx},${this.editorPanel.miny} max: ${this.editorPanel.maxx},${this.editorPanel.maxy}`);
-        console.log(`editorPanel xform.min ${this.editorPanel.xform.minx},${this.editorPanel.xform.miny} max: ${this.editorPanel.xform.maxx},${this.editorPanel.xform.maxy}`);
+        //console.log(`editorPanel pos: ${this.editorPanel.x},${this.editorPanel.y} min: ${this.editorPanel.minx},${this.editorPanel.miny} max: ${this.editorPanel.maxx},${this.editorPanel.maxy}`);
+        //console.log(`editorPanel xform.min ${this.editorPanel.xform.minx},${this.editorPanel.xform.miny} max: ${this.editorPanel.xform.maxx},${this.editorPanel.xform.maxy}`);
         let localMousePos = this.editorPanel.xform.getLocal(new Vect(evt.x, evt.y))
-        let minx = this.editorPanel.xform.centerx - this.xregion.columns*Config.halfSize;
-        let miny = this.editorPanel.xform.centery - this.xregion.rows*Config.halfSize;
-        let maxx = this.editorPanel.xform.centerx + this.xregion.columns*Config.halfSize;
-        let maxy = this.editorPanel.xform.centery + this.xregion.rows*Config.halfSize;
-        console.log(`localMousePos: ${localMousePos} min: ${minx},${miny} max: ${maxx},${maxy}`);
+        //console.log(`localMousePos: ${localMousePos} min: ${minx},${miny} max: ${maxx},${maxy}`);
         let bounds = new Bounds(0, 0, this.xregion.columns*Config.tileSize, this.xregion.rows*Config.tileSize);
         if (bounds.contains(localMousePos)) {
             console.log("contains");
