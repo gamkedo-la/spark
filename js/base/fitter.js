@@ -9,6 +9,9 @@ class Fitter {
         this.bottom = spec.bottom || 0;
         this.left = spec.left || 0;
         this.right = spec.right || 0;
+        if (spec.border) {
+            this.left = this.right = this.top = this.bottom = spec.border;
+        }
         // the target object whose size is being adjusted by the fitter
         this.target = spec.target || {};
         // the reference object (if any) whose size is being used as a reference

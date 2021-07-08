@@ -18,6 +18,25 @@ class Sketch {
         return new Sketch();
     }
 
+    // STATIC METHODS ------------------------------------------------------
+    static link(sketch, parent, tag, cb) {
+        if (parent[tag]) Sketch.unlink(parent[tag], parent, tag, cb);
+        if (sketch) {
+            sketch.parent = parent;
+            sketch.evtUpdated.listen(cb);
+        }
+        parent[tag] = sketch;
+        return sketch;
+    }
+
+    static unlink(sketch, parent, tag, cb) {
+        if (sketch) {
+            sketch.evtUpdated.ignore(cb);
+            sketch.parent = undefined;
+        }
+        parent[tag] = undefined;
+    }
+
     // CONSTRUCTOR ---------------------------------------------------------
     /**
      * create a new sketch

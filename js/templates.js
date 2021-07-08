@@ -32,6 +32,20 @@ class Templates {
         }
     }
 
+    static editorToggle(tag, spec={}) {
+        let xxform = spec.xxform || {};
+        return {
+            cls: "UxToggle",
+            ui: true,
+            tag: tag,
+            xpressed: { cls: 'Rect', color: new Color(50,50,50,1), borderWidth: 5, borderColor: new Color(0,0,0,1) },
+            xunpressed: { cls: 'Rect', color: new Color(50,50,50,.5), borderWidth: 5, borderColor: new Color(0,0,0,1) },
+            xhighlight: { cls: 'Rect', color: new Color(50,50,50,.75), borderWidth: 5, borderColor: new Color(0,0,0,1) },
+            xxform: xxform,
+            xtext: { color: new Color(0,255,0,.75), text: "X", },
+        }
+    }
+
     static editorSelectButton(tag, text, spec={}) {
         let xxform = spec.xxform || {};
         return {

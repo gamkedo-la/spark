@@ -1,5 +1,6 @@
 export { Shape };
-import { Sketch } from "./sketch.js";
+import { Fmt }              from "./fmt.js";
+import { Sketch }           from "./sketch.js";
 
 /** ========================================================================
  * A shape is a simple sketch primitive utilizing js Path2D to render a shape
@@ -16,6 +17,8 @@ class Shape extends Sketch {
         let verts = spec.verts || [{x:0,y:0}, {x:20,y:0}, {x:20,y:20}, {x:0,y:20}];
         let [path, min, max] = this.toPath(verts)
         this.path = path;
+        this.dx = -min.x;
+        this.dy = -min.y;
         this._width = max.x-min.x;
         this._height = max.y-min.y;
     }
@@ -39,7 +42,13 @@ class Shape extends Sketch {
     }
 
     _render(ctx, x=0, y=0) {
-        if (x || y) ctx.translate(x, y);
+        if (x+this.dx || y+this.dy) ctx.translate(x+this.dx, y+this.dy);
+        let scalex, scaley;
+        if ((this._width && this._height) && (this.width != this._width || this.height != this._height)) {
+            scalex = this.width/this._width;
+            scaley = this.height/this._height;
+            ctx.scale(scalex, scaley);
+        }
         if (this.fill) {
             ctx.fillStyle = this.color;
             ctx.fill(this.path);
@@ -49,6 +58,9 @@ class Shape extends Sketch {
             ctx.strokeStyle = this.borderColor;
             ctx.stroke(this.path);
         }
-        if (x || y) ctx.translate(-x, -y);
+        if (scalex || scaley) {
+            ctx.scale(1/scalex, 1/scaley);
+        }
+        if (x+this.dx || y+this.dy) ctx.translate(-(x+this.dx), -(y+this.dy));
     }    
 }

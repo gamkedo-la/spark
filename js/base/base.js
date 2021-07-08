@@ -31,6 +31,7 @@ import { UxPanel }          from "./uxPanel.js";
 import { UxButton }         from "./uxButton.js";
 import { UxText }           from "./uxText.js";
 import { UxInput }          from "./uxInput.js";
+import { UxToggle }         from "./uxToggle.js";
 import { Bindings }         from "./bindings.js";
 import { Config }           from "./config.js";
 import { Collider, ColliderSet } from "./collider.js";
@@ -168,6 +169,7 @@ class Base {
         this.registry.add(UxText);
         this.registry.add(UxInput);
         this.registry.add(UxDaylightFilter);
+        this.registry.add(UxToggle);
         // ---- Fitters
         this.registry.add(Fitter);
         this.registry.add(FitToParent);
