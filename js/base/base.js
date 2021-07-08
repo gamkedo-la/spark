@@ -60,6 +60,7 @@ import { Condition }        from "./condition.js";
 import { EventSystem }      from "./eventSystem.js";
 import { LayeredViewMgr }   from "./layeredViewMgr.js";
 import { ViewMgr }          from "./viewMgr.js";
+import { AudioMgr }         from "./audioMgr.js";
 
 class Base {
 
@@ -139,6 +140,8 @@ class Base {
         self.stateMgr = new StateMgr();
         // -- systemMgr - the global system manager
         self.systemMgr = new SystemMgr({getStore: () => self.entities});
+        // -- audio manager - manages audio contexts for playing game sounds and music
+        self.audioMgr = new AudioMgr();
         // -- key bindings
         self.xbindings = spec.xbindings;
         return self;
