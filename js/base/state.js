@@ -7,6 +7,7 @@ import { Util }             from "./util.js";
 import { Bounds }           from "./bounds.js";
 import { Config }           from "./config.js";
 import { Fmt }              from "./fmt.js";
+import { Base }             from "./base.js";
 
 /** ========================================================================
  * Top level game state, controlling view/ctrl/model instances (e.g.: menu state, play state, etc).
@@ -18,6 +19,8 @@ class State extends Gizmo {
         super(spec);
     }
     cpost(spec) {
+        // -- stateMgr - state manager responsible for managing all states
+        this.stateMgr = spec.stateMgr || Base.instance.stateMgr;
         // -- viewMgr - view manager for state, handling the render pipeline
         let xvmgr = spec.xvmgr || { cls: "ViewMgr", dbg: Config.dbg.ViewMgr };
         this.viewMgr = Generator.generate(xvmgr);
@@ -32,6 +35,19 @@ class State extends Gizmo {
         this.model = Generator.generate(spec.xmodel);
         // top level view
         this.view = Generator.generate(spec.xview);
+        // -- visible
+        this._visible = spec.hasOwnProperty("visible") ? spec.visible : true;
+    }
+
+    // PROPETIES -----------------------------------------------------------
+    get visible() {
+        return this._visible;
+    }
+    set visible(v) {
+        if (v !== this._visible) {
+            this._visible = v;
+            this.updated = true;
+        }
     }
 
     // EVENT HANDLERS ------------------------------------------------------

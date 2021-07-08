@@ -62,10 +62,19 @@ class StateMgr extends Gizmo {
     }
 
     update(ctx) {
+        // update pushed states first...
+        for (let i=this.stack.length-1; i>=0; i--) {
+            if (this.stack[i] && this.stack[i].active) this.stack[i].update(ctx);
+        }
         if (this._current) this._current.update(ctx);
     }
 
     render() {
+        // render pushed states first...
+        for (let i=this.stack.length-1; i>=0; i--) {
+            if (this.stack[i] && this.stack[i].visible) this.stack[i].render();
+        }
+        // render current state
         if (this._current) this._current.render();
     }
 

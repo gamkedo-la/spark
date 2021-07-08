@@ -6,21 +6,19 @@ import { Keys }             from "./base/keys.js";
 import { Util }             from "./base/util.js";
 import { Fmt }              from "./base/fmt.js";
 import { Config }           from "./base/config.js";
-import { LevelNode }        from "./lvlGraph.js";
 import { Mouse }            from "./base/mouse.js";
 import { World }            from "./world.js";
-import { GridView }         from "./base/gridView.js";
-import { Area, AreaView }   from "./base/area.js";
 import { ModelView }        from "./modelView.js";
-import { Camera } from "./base/camera.js";
-import { Color } from "./base/color.js";
-import { Templates } from "./templates.js";
-import { Hierarchy } from "./base/hierarchy.js";
-import { Generator } from "./base/generator.js";
-import { UxPanel } from "./base/uxPanel.js";
-import { Vect } from "./base/vect.js";
-import { Bounds } from "./base/bounds.js";
-import { Grid } from "./base/grid.js";
+import { Camera }           from "./base/camera.js";
+import { Color }            from "./base/color.js";
+import { Templates }        from "./templates.js";
+import { Hierarchy }        from "./base/hierarchy.js";
+import { Generator }        from "./base/generator.js";
+import { UxPanel }          from "./base/uxPanel.js";
+import { Vect }             from "./base/vect.js";
+import { Bounds }           from "./base/bounds.js";
+import { Grid }             from "./base/grid.js";
+import { Text }             from "./base/text.js";
 
 class UxEditorView extends UxPanel {
     cpost(spec) {
@@ -271,7 +269,7 @@ class EditorState extends State {
         this.camera = spec.camera || Camera.main;
         this.assets = spec.assets || Base.instance.assets;   
 
-        Util.bind(this, "onKeyDown", "onClicked", "onTileSelected", "onCanvasResized");
+        Util.bind(this, "onKeyDown", "onClicked", "onTileSelected", "onCanvasResized", "onSave");
         Keys.evtKeyPressed.listen(this.onKeyDown);
         Mouse.evtClicked.listen(this.onClicked)
         this.view.evtResized.listen(this.onCanvasResized);
@@ -310,6 +308,8 @@ class EditorState extends State {
         this.helpTile2 = Hierarchy.find(this.view, v=>v.tag === "helpTile2");
         this.helpTile3 = Hierarchy.find(this.view, v=>v.tag === "helpTile3");
         this.helpTile4 = Hierarchy.find(this.view, v=>v.tag === "helpTile4");
+        this.saveButton = Hierarchy.find(this.view, v=>v.tag === "saveButton");
+        this.saveButton.evtClicked.listen(this.onSave);
 
         // hook camera
         //if (this.player) this.camera.trackTarget(this.player);
@@ -332,7 +332,7 @@ class EditorState extends State {
     */
 
     onKeyDown(evt) {
-        console.log("onKeyDown: " + Fmt.ofmt(evt));
+        console.log("EditorState onKeyDown: " + Fmt.ofmt(evt));
         /*
         if (evt.key === "2") {
             Config.dbg.viewColliders = !Config.dbg.viewColliders;
@@ -350,7 +350,7 @@ class EditorState extends State {
     }
 
     onClicked(evt) {
-        console.log(`onClicked: ${Fmt.ofmt(evt)}`);
+        console.log("EditorState onClicked: " + Fmt.ofmt(evt));
         //console.log(`editorPanel pos: ${this.editorPanel.x},${this.editorPanel.y} min: ${this.editorPanel.minx},${this.editorPanel.miny} max: ${this.editorPanel.maxx},${this.editorPanel.maxy}`);
         //console.log(`editorPanel xform.min ${this.editorPanel.xform.minx},${this.editorPanel.xform.miny} max: ${this.editorPanel.xform.maxx},${this.editorPanel.xform.maxy}`);
         let localMousePos = this.editorPanel.xform.getLocal(new Vect(evt.x, evt.y))
@@ -385,63 +385,28 @@ class EditorState extends State {
         this.selectedTile = evt.actor.assetId;
     }
 
+    /*
+    <div id="lvl-generate-modal" class="popup-modal shadow" data-popup-modal="lvl">
+        <b style="color:red" class="popup-modal__close">X</b>
+        <b style="color:red" class="popup-modal__copy">#</b>
+        <p id="lvl-text">Level Data</p>
+    </div>  
+    */
+
+    onSave() {
+        console.log("onSave");
+        this.active = false;
+        // create new controller for equip menu
+        this.stateMgr.push(new EditorSaveState({xregion: this.xregion}));
+        console.log(`state is visible: ${this.visible}`);
+    }
+
     iupdate(ctx) {
         super.iupdate(ctx);
         this.updateSelectedTile(ctx);
         this.updateToolPanel(ctx);
         this.updateLayerPanel(ctx);
     }
-
-    /*
-    onGizmoCreate(evt) {
-        if (!this.active) return;
-        super.onGizmoCreate(evt);
-        let gzo = evt.actor;
-        if (gzo.cat === "Model") {
-            // add to level
-            this.model.add(gzo);
-            // add view
-            this.addView(gzo);
-        }
-    }
-
-    onGizmoDestroy(evt) {
-        if (!this.active) return;
-        super.onGizmoDestroy(evt);
-        let gzo = evt.actor;
-        if (gzo.cat === "Model") {
-            this.model.remove(gzo);
-        }
-    }
-    */
-
-    /*
-    addView(obj) {
-        let view;
-        if (obj instanceof(Area)) {
-            let xview = {
-                area: obj,
-            }
-            view = new AreaView(xview);
-        } else {
-            let xview = {
-                cls: "ModelView",
-                xsketch: obj.xsketch,
-                xxform: Object.assign({scalex:2, scaley:2}, obj.xxform),
-                model: obj,
-            };
-            view = new ModelView(xview);
-        }
-        // rig model destroy to view destroy
-        if (view) obj.evtDestroyed.listen((evt) => view.destroy());
-    }
-    */
-
-    /*
-    *findOverlaps(bounds, filter=(v) => true) {
-        yield *this.grid.findOverlaps(bounds, filter);
-    }
-    */
 
     assignTile(layer, depth, i, j, id, flags="0") {
         // pull layer
@@ -541,6 +506,131 @@ class EditorState extends State {
                 this.tileButtons.push(b);
             }
         }
+    }
+
+}
+
+class EditorSaveState extends State {
+    cpre(spec) {
+        super.cpre(spec);
+        spec.xview = {
+            cls: "UxCanvas",
+            cvsid: "canvas",
+            resize: true,
+            xchildren: [
+                Templates.editorPanel(null, { xxform: { offset: -10, left: .15, right: .15, top: .05, bottom: .05}}),
+                Templates.editorButton("copyButton", "copy", { xxform: { left: .65, right: .25, top: .9, bottom: .05 }}),
+                Templates.editorButton("backButton", "back", { xxform: { left: .75, right: .15, top: .9, bottom: .05 }}),
+            ],
+        };
+    }
+
+    cpost(spec) {
+        super.cpost(spec);
+        this.xregion = spec.xregion;
+        Util.bind(this, "onKeyDown", "onCopy", "onBack");
+        Keys.evtKeyPressed.listen(this.onKeyDown);
+        let div = document.createElement('div');
+        div.style.height = "90%";
+        div.style.width = "70%";
+        div.style.background = "rgba(0,0,0,0)";
+        div.style.position = "absolute";
+        div.style.left = "50%";
+        div.style.top = "50%";
+        div.style.transform = "translate(-50%, -50%)";
+        div.style.padding = "5px";
+        div.style.pointerEvents = "none";
+        div.style.transition = "all 300ms ease-in-out";
+        div.style.zIndex = "1011";
+        this.text = document.createElement("p");
+        this.text.innerHTML = "<pre>" + this.pprintRegion(this.xregion) + "</pre>";
+        this.text.style.color = "yellow";
+        div.appendChild(this.text);
+        document.body.appendChild(div)
+        this.div = div;
+        let copyButton = Hierarchy.find(this.view, v=>v.tag === "copyButton");
+        copyButton.evtClicked.listen(this.onCopy);
+        let backButton = Hierarchy.find(this.view, v=>v.tag === "backButton");
+        backButton.evtClicked.listen(this.onBack);
+    }
+
+    onKeyDown(evt) {
+        if (!this.active) return;
+        console.log("EditorSaveState onKeyDown: " + Fmt.ofmt(evt));
+        if (evt.key === "z" || evt.key === "x" || evt.key === "Escape")  {
+            this.onBack();
+        }
+    }
+
+    onCopy(evt) {
+        console.log("onCopy");
+        // hackety hack hack... can't figure out a way to directly copy from text element being displayed... so create a text area and copy from there
+        var elem = document.createElement("textarea");
+        document.body.appendChild(elem);
+        elem.value = this.text.innerText;
+        elem.select();
+        document.execCommand("copy");
+        document.body.removeChild(elem);
+        alert("copied to clipboard");
+    }
+
+    onBack(evt) {
+        // restore last controller
+        this.stateMgr.pop();
+        this.stateMgr.current.active = true;
+        // tear down state
+        this.destroy();
+    }
+
+    pprintArray(arr, width=16, indent=0, spaces=3) {
+        let str = " ".repeat(indent);
+        let col = 0;
+        for (var v of arr) {
+            if (col >= width) {
+                str += "\n" + " ".repeat(indent);
+                col = 0;
+            }
+            if (v === null) v = 0;
+            if (v === undefined) v = 0;
+            let s = `"${v}"`.padStart(spaces, " ");
+            str += (s + ",");
+            col++;
+        }
+        str += "\n";
+        return str;
+    }
+
+    pprintRegion(xregion) {
+        let str = 
+            `static ${xregion.tag} = {\n` +
+            `    tag: "${xregion.tag}",\n` +
+            `    columns: ${xregion.columns},\n` +
+            `    rows: ${xregion.rows},\n` +
+            `    autoArea: true,\n` +
+            `    layers: [\n`;
+        for (const layer of Object.keys(Config.layerMap)) {
+            let layerInfo = this.xregion.layers[layer];
+            if (!layerInfo) continue;
+            str += `        ${layer}: {\n`;
+            for (const depth of Object.keys(Config.depthMap)) {
+                let depthData = layerInfo[depth];
+                if (!depthData) continue;
+                str += `            ${depth}: [\n`;
+                str += this.pprintArray(depthData, xregion.columns, 16);
+                str += `            ],\n`;
+            }
+            str += `        },\n`;
+        }
+        str += `    ],\n`;
+        str += `}`;
+        return str;
+    }
+
+    destroy() {
+        if (this.div) this.div.remove();
+        if (this.view) this.view.destroy();
+        Keys.evtKeyPressed.ignore(this.onKeyDown);
+        super.destroy();
     }
 
 }
