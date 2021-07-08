@@ -21,6 +21,18 @@ class Templates {
         }
     }
 
+    static titleText(tag, text, spec={}) {
+        let xxform = spec.xxform || {};
+        let color = spec.color || "rgba(0,167,167,1)"
+        return {
+            cls: "UxText",
+            ui: true,
+            tag: tag,
+            xxform: xxform,
+            xtext: { color: color, text: text, },
+        }
+    }
+
     static editorText(tag, text, spec={}) {
         let xxform = spec.xxform || {};
         return {

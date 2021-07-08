@@ -10,6 +10,7 @@ import { Templates }        from "./templates.js";
 import { Base }             from "./base/base.js";
 import { SparkSystem }      from "./sparkSystem.js";
 import { Atts }             from "./base/atts.js";
+import { TitleState } from "./titleState.js";
 
 /** ========================================================================
  * Main Spark Game Specification and Setup
@@ -66,7 +67,8 @@ class Spark extends Game {
         this.base.systemMgr.adopt(new SparkSystem({ sparkSources: Atts.sparkSources, dbg: false, }));
 
         // initialize and start master game state
-        let state = new PlayState();
+        //let state = new PlayState();
+        let state = new TitleState();
         this.base.stateMgr.push(state);
     }
 

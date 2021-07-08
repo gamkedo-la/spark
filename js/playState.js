@@ -158,5 +158,11 @@ class PlayState extends State {
         yield *this.grid.findOverlaps(bounds, filter);
     }
 
+    destroy() {
+        Keys.evtKeyPressed.ignore(this.onKeyDown);
+        Mouse.evtClicked.ignore(this.onClicked);
+        super.destroy();
+    }
+
 
 }
