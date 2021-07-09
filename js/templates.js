@@ -26,7 +26,6 @@ class Templates {
         let color = spec.color || "rgba(0,167,167,1)"
         return {
             cls: "UxText",
-            ui: true,
             tag: tag,
             xxform: xxform,
             xtext: { color: color, text: text, },
@@ -37,18 +36,24 @@ class Templates {
         let xxform = spec.xxform || {};
         return {
             cls: "UxText",
-            ui: true,
             tag: tag,
             xxform: xxform,
             xtext: { color: new Color(0,255,0,.75), text: text, },
         }
     }
 
+    static editorInput(tag, text, spec={}) {
+        return Object.assign({
+            cls: "UxInput",
+            tag: tag,
+            xtext: { color: new Color(0,255,0,.75), text: text, },
+        }, spec);
+    }
+
     static editorToggle(tag, spec={}) {
         let xxform = spec.xxform || {};
         return {
             cls: "UxToggle",
-            ui: true,
             tag: tag,
             xpressed: { cls: 'Rect', color: new Color(50,50,50,1), borderWidth: 5, borderColor: new Color(0,0,0,1) },
             xunpressed: { cls: 'Rect', color: new Color(50,50,50,.5), borderWidth: 5, borderColor: new Color(0,0,0,1) },

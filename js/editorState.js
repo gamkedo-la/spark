@@ -283,7 +283,7 @@ class EditorState extends State {
         this.camera = spec.camera || Camera.main;
         this.assets = spec.assets || Base.instance.assets;   
 
-        Util.bind(this, "onKeyDown", "onClicked", "onTileSelected", "onCanvasResized", "onSave", "onLoad", "assignRegion");
+        Util.bind(this, "onKeyDown", "onClicked", "onTileSelected", "onCanvasResized", "onSave", "onLoad", "assignRegion", "onNew");
         Keys.evtKeyPressed.listen(this.onKeyDown);
         Mouse.evtClicked.listen(this.onClicked)
         this.view.evtResized.listen(this.onCanvasResized);
@@ -322,10 +322,12 @@ class EditorState extends State {
         this.helpTile2 = Hierarchy.find(this.view, v=>v.tag === "helpTile2");
         this.helpTile3 = Hierarchy.find(this.view, v=>v.tag === "helpTile3");
         this.helpTile4 = Hierarchy.find(this.view, v=>v.tag === "helpTile4");
-        this.saveButton = Hierarchy.find(this.view, v=>v.tag === "saveButton");
-        this.saveButton.evtClicked.listen(this.onSave);
+        this.newButton = Hierarchy.find(this.view, v=>v.tag === "newButton");
+        this.newButton.evtClicked.listen(this.onNew);
         this.loadButton = Hierarchy.find(this.view, v=>v.tag === "loadButton");
         this.loadButton.evtClicked.listen(this.onLoad);
+        this.saveButton = Hierarchy.find(this.view, v=>v.tag === "saveButton");
+        this.saveButton.evtClicked.listen(this.onSave);
 
         // hook camera
         //if (this.player) this.camera.trackTarget(this.player);
@@ -360,14 +362,9 @@ class EditorState extends State {
     }
 
     onClicked(evt) {
-        console.log("EditorState onClicked: " + Fmt.ofmt(evt));
-        //console.log(`editorPanel pos: ${this.editorPanel.x},${this.editorPanel.y} min: ${this.editorPanel.minx},${this.editorPanel.miny} max: ${this.editorPanel.maxx},${this.editorPanel.maxy}`);
-        //console.log(`editorPanel xform.min ${this.editorPanel.xform.minx},${this.editorPanel.xform.miny} max: ${this.editorPanel.xform.maxx},${this.editorPanel.xform.maxy}`);
         let localMousePos = this.editorPanel.xform.getLocal(new Vect(evt.x, evt.y))
-        //console.log(`localMousePos: ${localMousePos} min: ${minx},${miny} max: ${maxx},${maxy}`);
         let bounds = new Bounds(0, 0, this.xregion.columns*Config.tileSize, this.xregion.rows*Config.tileSize);
         if (bounds.contains(localMousePos)) {
-            console.log("contains");
             // assign the tile...
             let i = Grid.ifromx(localMousePos.x, Config.tileSize, this.xregion.columns);
             let j = Grid.jfromy(localMousePos.y, Config.tileSize, this.xregion.rows);
@@ -380,14 +377,6 @@ class EditorState extends State {
                 this.assignTile(layer, depth, i, j, "000");
             }
         }
-        //let minx = this.xregion.columns*
-        //xxform: { dx: -xregion.columns*Config.halfSize, dy: -xregion.rows*Config.halfSize, offset: 10, scalex: Config.renderScale, scaley: Config.renderScale },
-        /*
-        let x = evt.x/Config.renderScale;
-        let y = evt.y/Config.renderScale;
-        let idx = this.grid.idxfromxy(x, y);
-        console.log("idx is: " + idx);
-        */
     }
 
     onCanvasResized(evt) {
@@ -408,10 +397,16 @@ class EditorState extends State {
 
     onLoad() {
         console.log("onLoad");
-        console.log(`values: ${Object.keys(WorldGen)}`)
         this.active = false;
         // create new controller for menu
         this.stateMgr.push(new EditorLoadState({assignRegion: this.assignRegion}));
+    }
+
+    onNew() {
+        console.log("onNew");
+        this.active = false;
+        // create new controller for menu
+        this.stateMgr.push(new EditorNewState({assignRegion: this.assignRegion}));
     }
 
     iupdate(ctx) {
@@ -535,6 +530,75 @@ class EditorState extends State {
                 this.tileButtons.push(b);
             }
         }
+    }
+
+}
+
+class EditorNewState extends State {
+    cpre(spec) {
+        super.cpre(spec);
+        spec.xview = {
+            cls: "UxCanvas",
+            cvsid: "canvas",
+            resize: true,
+            xchildren: [
+                Templates.editorPanel(null, { xxform: { border: .2 }, xchildren: [
+                    Templates.editorText(null, "New Level", { xxform: { offset: 10, bottom: .9 }}),
+                    Templates.editorPanel(null, { xxform: { top: .1, bottom: .1}, xchildren: [
+                        Templates.editorText(null, "name:", { xxform: { bottom: .8, right: .6, left: .05, otop: 20, obottom:10}}),
+                        Templates.editorInput("nameInput", "lvl", { xxform: { bottom: .8, left: .4, offset: 10}}),
+                        Templates.editorText(null, "columns:", { xxform: { top: .2, bottom: .6, right: .6, left: .05, otop: 20, obottom:10}}),
+                        Templates.editorInput("columnsInput", "8", { xxform: { top: .2, bottom: .6, left: .4, offset: 10}, charset: '0123456789'}),
+                        Templates.editorText(null, "rows:", { xxform: { top: .4, bottom: .4, right: .6, left: .05, otop: 20, obottom:10}}),
+                        Templates.editorInput("rowsInput", "8", { xxform: { top: .4, bottom: .4, left: .4, offset: 10}, charset: '0123456789'}),
+                    ]}),
+                    Templates.editorButton("okButton", "ok", { xxform: { left: .6, right: .25, top: .9, offset: 10 }}),
+                    Templates.editorButton("backButton", "back", { xxform: { left: .75, right: .1, top: .9, offset: 10 }}),
+                ]}),
+            ],
+        };
+    }
+
+    cpost(spec) {
+        super.cpost(spec);
+        this.assignRegion = spec.assignRegion || ((region) => false);
+        Util.bind(this, "onKeyDown", "onOk", "onBack");
+        Keys.evtKeyPressed.listen(this.onKeyDown);
+        //this.lvlPanel = Hierarchy.find(this.view, v=>v.tag === "lvlPanel");
+        let backButton = Hierarchy.find(this.view, v=>v.tag === "backButton");
+        backButton.evtClicked.listen(this.onBack);
+    }
+
+    onKeyDown(evt) {
+        if (!this.active) return;
+        if (evt.key === "z" || evt.key === "x" || evt.key === "Escape")  {
+            this.onBack();
+        }
+    }
+
+    onBack(evt) {
+        // restore last controller
+        this.stateMgr.pop();
+        this.stateMgr.current.active = true;
+        // tear down state
+        this.destroy();
+    }
+
+    destroy() {
+        if (this.view) this.view.destroy();
+        Keys.evtKeyPressed.ignore(this.onKeyDown);
+        super.destroy();
+    }
+
+    onOk(evt) {
+        console.log("onOk: " + Fmt.ofmt(evt));
+        /*
+        if (!confirm("Loading new level will erase current level data, OK to proceed?")) return;
+        // assign region
+        this.assignRegion(evt.actor.lvlName);
+        // close window
+        this.onBack();
+        */
     }
 
 }
