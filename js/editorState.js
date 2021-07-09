@@ -283,7 +283,7 @@ class EditorState extends State {
         this.camera = spec.camera || Camera.main;
         this.assets = spec.assets || Base.instance.assets;   
 
-        Util.bind(this, "onKeyDown", "onClicked", "onTileSelected", "onCanvasResized", "onSave", "onLoad", "assignRegion", "onNew");
+        Util.bind(this, "onKeyDown", "onClicked", "onTileSelected", "onCanvasResized", "onSave", "onLoad", "assignRegion", "onNew", "onEdit");
         Keys.evtKeyPressed.listen(this.onKeyDown);
         Mouse.evtClicked.listen(this.onClicked)
         this.view.evtResized.listen(this.onCanvasResized);
@@ -326,6 +326,8 @@ class EditorState extends State {
         this.newButton.evtClicked.listen(this.onNew);
         this.loadButton = Hierarchy.find(this.view, v=>v.tag === "loadButton");
         this.loadButton.evtClicked.listen(this.onLoad);
+        this.editButton = Hierarchy.find(this.view, v=>v.tag === "editButton");
+        this.editButton.evtClicked.listen(this.onEdit);
         this.saveButton = Hierarchy.find(this.view, v=>v.tag === "saveButton");
         this.saveButton.evtClicked.listen(this.onSave);
 
@@ -409,6 +411,13 @@ class EditorState extends State {
         this.stateMgr.push(new EditorNewState({assignRegion: this.assignRegion}));
     }
 
+    onEdit() {
+        console.log("onEdit");
+        this.active = false;
+        // create new controller for menu
+        this.stateMgr.push(new EditorEditState({xregion: this.xregion, assignRegion: this.assignRegion}));
+    }
+
     iupdate(ctx) {
         super.iupdate(ctx);
         this.updateSelectedTile(ctx);
@@ -441,14 +450,6 @@ class EditorState extends State {
     }
 
     assignRegion(xregion) {
-        /*
-        console.log(`assign region: ${regionName}`);
-        // lookup region
-        let xregion = WorldGen[regionName];
-        if (!xregion) {
-            console.error(`cannot load region for: ${regionName}`);
-        }
-        */
         // update editor panel xform
         this.editorPanel.xform.dx = -xregion.columns*Config.halfSize;
         this.editorPanel.xform.dy = -xregion.rows*Config.halfSize;
@@ -623,6 +624,126 @@ class EditorNewState extends State {
 
 }
 
+class EditorEditState extends State {
+    cpre(spec) {
+        super.cpre(spec);
+        let xregion = spec.xregion;
+        spec.xview = {
+            cls: "UxCanvas",
+            cvsid: "canvas",
+            resize: true,
+            xchildren: [
+                Templates.editorPanel(null, { xxform: { border: .2 }, xchildren: [
+                    Templates.editorText(null, "Edit Level", { xxform: { offset: 10, bottom: .9 }}),
+                    Templates.editorPanel(null, { xxform: { top: .1, bottom: .1}, xchildren: [
+                        Templates.editorText(null, "name:",                                 { xxform: { top: 0/7, bottom: 1-1/7, right: .6, left: .05, otop: 20, obottom:10}}),
+                        Templates.editorInput("nameInput", xregion.tag,                     { xxform: { top: 0/7, bottom: 1-1/7, left: .4, offset: 10}}),
+                        Templates.editorText(null, "columns:",                              { xxform: { top: 1/7, bottom: 1-2/7, right: .6, left: .05, otop: 20, obottom:10}}),
+                        Templates.editorInput("columnsInput", xregion.columns.toString(),   { xxform: { top: 1/7, bottom: 1-2/7, left: .4, offset: 10}, charset: '0123456789'}),
+                        Templates.editorText(null, "rows:",                                 { xxform: { top: 2/7, bottom: 1-3/7, right: .6, left: .05, otop: 20, obottom:10}}),
+                        Templates.editorInput("rowsInput", xregion.rows.toString(),         { xxform: { top: 2/7, bottom: 1-3/7, left: .4, offset: 10}, charset: '0123456789'}),
+                        Templates.editorText(null, "x offset:",                             { xxform: { top: 3/7, bottom: 1-4/7, right: .6, left: .05, otop: 20, obottom:10}}),
+                        Templates.editorInput("offxInput", xregion.offx.toString(),         { xxform: { top: 3/7, bottom: 1-4/7, left: .4, offset: 10}, charset: '0123456789'}),
+                        Templates.editorText(null, "y offset:",                             { xxform: { top: 4/7, bottom: 1-5/7, right: .6, left: .05, otop: 20, obottom:10}}),
+                        Templates.editorInput("offyInput", xregion.offy.toString(),         { xxform: { top: 4/7, bottom: 1-5/7, left: .4, offset: 10}, charset: '0123456789'}),
+                        Templates.editorText(null, "x shift:",                              { xxform: { top: 5/7, bottom: 1-6/7, right: .6, left: .05, otop: 20, obottom:10}}),
+                        Templates.editorInput("shiftxInput", "0",                           { xxform: { top: 5/7, bottom: 1-6/7, left: .4, offset: 10}, charset: '0123456789-'}),
+                        Templates.editorText(null, "y shift:",                              { xxform: { top: 6/7, bottom: 1-7/7, right: .6, left: .05, otop: 20, obottom:10}}),
+                        Templates.editorInput("shiftyInput", "0",                           { xxform: { top: 6/7, bottom: 1-7/7, left: .4, offset: 10}, charset: '0123456789-'}),
+                    ]}),
+                    Templates.editorButton("okButton", "ok", { xxform: { left: .6, right: .25, top: .9, offset: 10 }}),
+                    Templates.editorButton("backButton", "back", { xxform: { left: .75, right: .1, top: .9, offset: 10 }}),
+                ]}),
+            ],
+        };
+    }
+
+    cpost(spec) {
+        super.cpost(spec);
+        this.assignRegion = spec.assignRegion || ((region) => false);
+        this.xregion = spec.xregion;
+        Util.bind(this, "onKeyDown", "onOk", "onBack");
+        Keys.evtKeyPressed.listen(this.onKeyDown);
+        this.nameInput = Hierarchy.find(this.view, v=>v.tag === "nameInput");
+        this.columnsInput = Hierarchy.find(this.view, v=>v.tag === "columnsInput");
+        this.rowsInput = Hierarchy.find(this.view, v=>v.tag === "rowsInput");
+        this.offxInput = Hierarchy.find(this.view, v=>v.tag === "offxInput");
+        this.offyInput = Hierarchy.find(this.view, v=>v.tag === "offyInput");
+        this.shiftxInput = Hierarchy.find(this.view, v=>v.tag === "shiftxInput");
+        this.shiftyInput = Hierarchy.find(this.view, v=>v.tag === "shiftyInput");
+        let okButton = Hierarchy.find(this.view, v=>v.tag === "okButton");
+        okButton.evtClicked.listen(this.onOk);
+        let backButton = Hierarchy.find(this.view, v=>v.tag === "backButton");
+        backButton.evtClicked.listen(this.onBack);
+    }
+
+    onKeyDown(evt) {
+        if (!this.active) return;
+        if (evt.key === "z" || evt.key === "x" || evt.key === "Escape")  {
+            this.onBack();
+        }
+    }
+
+    onBack(evt) {
+        // restore last controller
+        this.stateMgr.pop();
+        this.stateMgr.current.active = true;
+        // tear down state
+        this.destroy();
+    }
+
+    destroy() {
+        if (this.view) this.view.destroy();
+        Keys.evtKeyPressed.ignore(this.onKeyDown);
+        super.destroy();
+    }
+
+    onOk(evt) {
+        console.log("onOk: " + Fmt.ofmt(evt));
+        if (!confirm("Creating new level will erase current level data, OK to proceed?")) return;
+        // build empty region
+        let xregion = {
+            tag: this.nameInput.text,
+            columns: Math.min(Config.maxRegionSize, parseInt(this.columnsInput.text)),
+            rows: Math.min(Config.maxRegionSize, parseInt(this.rowsInput.text)),
+            offx: parseInt(this.offxInput.text) || 0,
+            offy: parseInt(this.offyInput.text) || 0,
+            autoArea: true,
+            layers: {},
+        }
+        let shiftx = parseInt(this.shiftxInput.text) || 0;
+        let shifty = parseInt(this.shiftyInput.text) || 0;
+        // rebuild layer data
+        for (const layer of Object.keys(Config.layerMap)) {
+            let layerInfo = this.xregion.layers[layer];
+            if (!layerInfo) continue;
+            let newLayerInfo = {};
+            for (const depth of Object.keys(Config.depthMap)) {
+                let depthData = layerInfo[depth];
+                if (!depthData) continue;
+                let newDepthData = new Array(xregion.rows*xregion.columns);
+                for (let i=0; i<this.xregion.columns; i++) {
+                    for (let j=0; j<this.xregion.rows; j++) {
+                        let ni = i+shiftx;
+                        let nj = j+shifty;
+                        if (ni >= 0 && ni < xregion.columns && nj >= 0 && nj < xregion.rows) {
+                            let idx = Grid.idxfromij(i, j, this.xregion.columns, this.xregion.rows);
+                            let nidx = Grid.idxfromij(ni, nj, xregion.columns, xregion.rows);
+                            newDepthData[nidx] = depthData[idx];
+                        }
+                    }
+                }
+                newLayerInfo[depth] = newDepthData;
+            }
+            xregion.layers[layer] = newLayerInfo;
+        }
+        // assign region
+        this.assignRegion(xregion);
+        // close window
+        this.onBack();
+    }
+
+}
 class EditorLoadState extends State {
     cpre(spec) {
         super.cpre(spec);

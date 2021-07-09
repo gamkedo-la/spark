@@ -41,7 +41,7 @@ class UxInput extends UxView {
         this.cursorBlinkRate = spec.cursorBlinkRate || 500;
         this.cursorBlinkTTL = this.cursorBlinkRate;
         this.cursorOn = true;
-        this.charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+        this.charset = spec.charset || 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
         this._text = new Text(Object.assign({parent: this}, UxInput.dfltText, spec.xtext)); 
         this.textOffset = spec.textOffset || 5;
         this._active = false;
