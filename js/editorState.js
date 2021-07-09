@@ -18,8 +18,7 @@ import { UxPanel }          from "./base/uxPanel.js";
 import { Vect }             from "./base/vect.js";
 import { Bounds }           from "./base/bounds.js";
 import { Grid }             from "./base/grid.js";
-import { Text }             from "./base/text.js";
-import { WorldGen } from "./worldGen.js";
+import { WorldGen }         from "./worldGen.js";
 
 class UxEditorView extends UxPanel {
     cpost(spec) {
@@ -375,7 +374,11 @@ class EditorState extends State {
             let fields = this.layerMode.split(".");
             let layer = fields[0];
             let depth = fields[1];
-            this.assignTile(layer, depth, i, j, this.selectedTile);
+            if (this.toolMode === "paint") {
+                this.assignTile(layer, depth, i, j, this.selectedTile);
+            } else if (this.toolMode === "delete") {
+                this.assignTile(layer, depth, i, j, "000");
+            }
         }
         //let minx = this.xregion.columns*
         //xxform: { dx: -xregion.columns*Config.halfSize, dy: -xregion.rows*Config.halfSize, offset: 10, scalex: Config.renderScale, scaley: Config.renderScale },
