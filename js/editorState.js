@@ -19,6 +19,7 @@ import { Vect }             from "./base/vect.js";
 import { Bounds }           from "./base/bounds.js";
 import { Grid }             from "./base/grid.js";
 import { Text }             from "./base/text.js";
+import { WorldGen } from "./worldGen.js";
 
 class UxEditorView extends UxPanel {
     cpost(spec) {
@@ -80,6 +81,14 @@ class UxEditorView extends UxPanel {
         }
     }
 
+    destroyViews() {
+        for (const view of Object.values(this.tileViews)) {
+            if (view.model) view.model.destroy();
+            view.destroy();
+        }
+        this.tileViews = {};
+    }
+
     assignVisibility(layer, depth, value) {
         let layerId = Config.layerMap[layer];
         let depthId = Config.depthMap[depth];
@@ -139,6 +148,12 @@ class UxEditorView extends UxPanel {
 
     }
 
+    assignRegion(xregion) {
+        this.destroyViews();
+        this.xregion = xregion;
+        this.buildViews();
+    }
+
     iupdate(ctx) {
         let updated = false;
         if (!this.firstUpdate) {
@@ -165,7 +180,7 @@ class EditorState extends State {
     cpre(spec) {
         super.cpre(spec);
         let xlvl = World.xlvl;
-        let xregion = World.vendor1;
+        let xregion = WorldGen.vendor1;
         const media = spec.media || Base.instance.media;
         // construct the UI elements
         spec.xvmgr = {
@@ -269,7 +284,7 @@ class EditorState extends State {
         this.camera = spec.camera || Camera.main;
         this.assets = spec.assets || Base.instance.assets;   
 
-        Util.bind(this, "onKeyDown", "onClicked", "onTileSelected", "onCanvasResized", "onSave");
+        Util.bind(this, "onKeyDown", "onClicked", "onTileSelected", "onCanvasResized", "onSave", "onLoad", "assignRegion");
         Keys.evtKeyPressed.listen(this.onKeyDown);
         Mouse.evtClicked.listen(this.onClicked)
         this.view.evtResized.listen(this.onCanvasResized);
@@ -281,7 +296,7 @@ class EditorState extends State {
         this.levelViews = [];
         this.selectedTile = "003";
 
-        this.xregion = World.vendor1;
+        this.xregion = WorldGen.vendor1;
 
         // lookup object references
         // wire callbacks
@@ -310,6 +325,8 @@ class EditorState extends State {
         this.helpTile4 = Hierarchy.find(this.view, v=>v.tag === "helpTile4");
         this.saveButton = Hierarchy.find(this.view, v=>v.tag === "saveButton");
         this.saveButton.evtClicked.listen(this.onSave);
+        this.loadButton = Hierarchy.find(this.view, v=>v.tag === "loadButton");
+        this.loadButton.evtClicked.listen(this.onLoad);
 
         // hook camera
         //if (this.player) this.camera.trackTarget(this.player);
@@ -324,12 +341,6 @@ class EditorState extends State {
         //this.buildViews();
 
     }
-
-    /*
-    get grid() {
-        return this.model.grid;
-    }
-    */
 
     onKeyDown(evt) {
         console.log("EditorState onKeyDown: " + Fmt.ofmt(evt));
@@ -385,20 +396,19 @@ class EditorState extends State {
         this.selectedTile = evt.actor.assetId;
     }
 
-    /*
-    <div id="lvl-generate-modal" class="popup-modal shadow" data-popup-modal="lvl">
-        <b style="color:red" class="popup-modal__close">X</b>
-        <b style="color:red" class="popup-modal__copy">#</b>
-        <p id="lvl-text">Level Data</p>
-    </div>  
-    */
-
     onSave() {
         console.log("onSave");
         this.active = false;
-        // create new controller for equip menu
+        // create new controller for menu
         this.stateMgr.push(new EditorSaveState({xregion: this.xregion}));
-        console.log(`state is visible: ${this.visible}`);
+    }
+
+    onLoad() {
+        console.log("onLoad");
+        console.log(`values: ${Object.keys(WorldGen)}`)
+        this.active = false;
+        // create new controller for menu
+        this.stateMgr.push(new EditorLoadState({assignRegion: this.assignRegion}));
     }
 
     iupdate(ctx) {
@@ -430,6 +440,22 @@ class EditorState extends State {
         depthData[idx] = `${flags}${id}`;
         // update view
         this.editorPanel.assignTile(layer, depth, i, j, id);
+    }
+
+    assignRegion(regionName) {
+        console.log(`assign region: ${regionName}`);
+        // lookup region
+        let xregion = WorldGen[regionName];
+        if (!xregion) {
+            console.error(`cannot load region for: ${regionName}`);
+        }
+        // update editor panel xform
+        this.editorPanel.xform.dx = -xregion.columns*Config.halfSize;
+        this.editorPanel.xform.dy = -xregion.rows*Config.halfSize;
+        // inform editor panel of region change
+        this.editorPanel.assignRegion(xregion);
+        this.xregion = xregion;
+        //xxform: { dx: -xregion.columns*Config.halfSize, dy: -xregion.rows*Config.halfSize, offset: 10, scalex: Config.renderScale, scaley: Config.renderScale },
     }
 
     updateSelectedTile(ctx) {
@@ -506,6 +532,91 @@ class EditorState extends State {
                 this.tileButtons.push(b);
             }
         }
+    }
+
+}
+
+class EditorLoadState extends State {
+    cpre(spec) {
+        super.cpre(spec);
+        spec.xview = {
+            cls: "UxCanvas",
+            cvsid: "canvas",
+            resize: true,
+            xchildren: [
+                Templates.editorPanel(null),
+                Templates.editorText(null, "Load Level", { xxform: { top: .025, bottom: .915}}),
+                Templates.editorPanel(null, { xxform: { top: .1, bottom: .1}, xchildren: [
+                    Templates.panel("lvlPanel", { xxform: { offset: 10 }, }),
+                ]}),
+                Templates.editorButton("backButton", "back", { xxform: { left: .75, right: .1, top: .9, offset: 20 }}),
+            ],
+        };
+    }
+
+    cpost(spec) {
+        super.cpost(spec);
+        this.assignRegion = spec.assignRegion || ((region) => false);
+        Util.bind(this, "onKeyDown", "onLvlSelect", "onBack");
+        Keys.evtKeyPressed.listen(this.onKeyDown);
+        this.lvlPanel = Hierarchy.find(this.view, v=>v.tag === "lvlPanel");
+        let backButton = Hierarchy.find(this.view, v=>v.tag === "backButton");
+        backButton.evtClicked.listen(this.onBack);
+
+        // build out level buttons
+        let row = 0;
+        let col = 0;
+        let maxCols = 4;
+        let colStep = 1/maxCols;
+        let maxRows = Math.floor(this.lvlPanel.height/40);
+        let rowStep = 1/maxRows;
+        for (const lvlName of Object.keys(WorldGen)) {
+            let bspec = Templates.editorButton(null, lvlName, {
+                xxform: {left: col*colStep, right: 1-(col+1)*colStep, top: row*rowStep, bottom: 1-(row+1)*rowStep, offset: 5},
+            });
+            let b = Generator.generate(bspec);
+            if (b) {
+                b.lvlName = lvlName;
+                b.evtClicked.listen(this.onLvlSelect);
+                this.lvlPanel.adopt(b);
+                col++;
+                if (col >= maxCols) {
+                    row++;
+                    col = 0;
+                }
+            }
+        }
+
+    }
+
+    onKeyDown(evt) {
+        if (!this.active) return;
+        if (evt.key === "z" || evt.key === "x" || evt.key === "Escape")  {
+            this.onBack();
+        }
+    }
+
+    onBack(evt) {
+        // restore last controller
+        this.stateMgr.pop();
+        this.stateMgr.current.active = true;
+        // tear down state
+        this.destroy();
+    }
+
+    destroy() {
+        if (this.view) this.view.destroy();
+        Keys.evtKeyPressed.ignore(this.onKeyDown);
+        super.destroy();
+    }
+
+    onLvlSelect(evt) {
+        console.log("onLvlSelect: " + Fmt.ofmt(evt));
+        if (!confirm("Loading new level will erase current level data, OK to proceed?")) return;
+        // assign region
+        this.assignRegion(evt.actor.lvlName);
+        // close window
+        this.onBack();
     }
 
 }
