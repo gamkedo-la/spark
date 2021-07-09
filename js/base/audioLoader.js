@@ -38,10 +38,11 @@ class AudioLoader {
     async load(spec) {
         const src = Util.objKeyValue(spec, "src", "undefined");
         const tag = Util.objKeyValue(spec, "tag", "undefined");
-        return AudioLoader.load(this.audioCtx, src, {tag: tag}).then( rec => {
+        return AudioLoader.load(this.audioCtx, src, spec).then( rec => {
             // build final Sprite spec
             const spec = {
                 tag: rec.tag,
+                loop: rec.loop,
                 cls: "Audio",
                 audio: rec.audio,
             }

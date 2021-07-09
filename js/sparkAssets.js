@@ -13,6 +13,8 @@ class SparkAssets {
         this.media = [
             { src: "snd/doorClosing.mp3", loader: "Audio", tag: "doorClosing" },
             { src: "snd/doorOpenning.mp3", loader: "Audio", tag: "doorOpening" },
+            // FIXME: for now music would be added the same as normal audio, but using the "loop" variable
+            //{ src: "snd/testsong.mp3", loader: "Audio", tag: "testsong", loop: true },
             { src: "img/terrain1.png", loader: "Sheet", refs: [
                 { tag: "road",      cls: "VarSprite", variations: [
                     { x: 16*0, y: 16*0, width: 16, height: 16 },

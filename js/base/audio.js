@@ -13,6 +13,7 @@ class Audio {
         this.tag = spec.tag || "audio";
         this.audioCtx = spec.audioCtx || Base.instance.audioMgr.audioCtx;
         this.buffer = spec.audio;
+        this.loop = spec.hasOwnProperty("loop") ? spec.loop : false;
     }
 
     // PROPERTIES ----------------------------------------------------------
@@ -25,6 +26,7 @@ class Audio {
         const src = this.audioCtx.createBufferSource();
         src.buffer = this.buffer;
         src.connect(this.audioCtx.destination);
+        src.loop = this.loop;
         src.start(0);
     }
 
