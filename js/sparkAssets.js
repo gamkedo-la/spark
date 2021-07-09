@@ -11,6 +11,8 @@ const moveDuration = 90;
 class SparkAssets {
     static init() {
         this.media = [
+            { src: "snd/doorClosing.mp3", loader: "Audio", tag: "doorClosing" },
+            { src: "snd/doorOpenning.mp3", loader: "Audio", tag: "doorOpening" },
             { src: "img/terrain1.png", loader: "Sheet", refs: [
                 { tag: "road",      cls: "VarSprite", variations: [
                     { x: 16*0, y: 16*0, width: 16, height: 16 },
@@ -227,6 +229,8 @@ class SparkAssets {
 
             Templates.object("o01", "woodDoor", "Door", {
                 offx: 24, offy: -32,
+                xopenSfx: { cls: "Media", tag: "doorOpening"}, 
+                xcloseSfx: { cls: "Media", tag: "doorClosing"}, 
                 xcollider: { offy: 24, width:48, height:24 }, 
             }),
 

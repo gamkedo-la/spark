@@ -6,6 +6,7 @@ import { ModelState }       from './base/modelState.js';
 import { OpenAction }       from './base/action.js';
 import { Condition } from './base/condition.js';
 import { Fmt } from './base/fmt.js';
+import { Generator } from './base/generator.js';
 
 class Door extends Model {
     cpre(spec) {
@@ -24,6 +25,9 @@ class Door extends Model {
         this.interactRange = spec.interactRange || Config.tileSize * 4;
         // -- interactable
         this.interactable = true;
+        // sounds
+        if (spec.xopenSfx) this.openSfx = Generator.generate(spec.xopenSfx);
+        if (spec.xcloseSfx) this.closeSfx = Generator.generate(spec.xcloseSfx);
     }
 
     dointeract(actor) {
@@ -39,12 +43,14 @@ class Door extends Model {
         //console.log(this + " open");
         if (this.collider) this.collider.active = false;
         this.conditions.add(Condition.opened);
+        if (this.openSfx) this.openSfx.play();
     }
 
     close() {
         //console.log(this + " close");
         if (this.collider) this.collider.active = true;
         this.conditions.delete(Condition.opened);
+        if (this.closeSfx) this.closeSfx.play();
     }
 
     bypassAction() {

@@ -5,6 +5,7 @@ import { Util }             from "./util.js";
 import { MediaLoader }      from "./mediaLoader.js";
 import { ImageLoader }      from "./imageLoader.js";
 import { SheetLoader }      from "./sheetLoader.js";
+import { AudioLoader }      from "./audioLoader.js";
 import { Store }            from "./store.js";
 import { Assets }           from "./assets.js";
 import { Generator }        from "./generator.js";
@@ -18,6 +19,7 @@ import { Shape }            from "./shape.js";
 import { Rect }             from "./rect.js";
 import { Animation }        from "./animation.js";
 import { Animator }         from "./animator.js";
+import { Audio }            from "./audio.js";
 import { Fitter, FitToParent } from "./fitter.js";
 import { SystemMgr }        from "./systemMgr.js";
 import { Keys }             from "./keys.js";
@@ -116,6 +118,8 @@ class Base {
         }
         // -- bind functions
         Util.bind(self, "findOverlaps", "find", "findFirst");
+        // -- audio manager - manages audio contexts for playing game sounds and music
+        self.audioMgr = new AudioMgr();
         // -- registry - mapping of class names to actual class implementation
         self.registry = new Store({getkey: (v)=>v.prototype.constructor.name});
         // -- media - mapping of tag to loaded media specifications
@@ -128,6 +132,7 @@ class Base {
             loaders: {
                 "Image": new ImageLoader({scale:Config.scale}),
                 "Sheet": new SheetLoader({scale:Config.scale}),
+                "Audio": new AudioLoader(),
             }
         });
         // -- assets - mapping of tag or id to asset specifications
@@ -140,8 +145,6 @@ class Base {
         self.stateMgr = new StateMgr();
         // -- systemMgr - the global system manager
         self.systemMgr = new SystemMgr({getStore: () => self.entities});
-        // -- audio manager - manages audio contexts for playing game sounds and music
-        self.audioMgr = new AudioMgr();
         // -- key bindings
         self.xbindings = spec.xbindings;
         return self;
@@ -161,6 +164,7 @@ class Base {
         this.registry.add(Shape);
         this.registry.add(Animation);
         this.registry.add(Animator);
+        this.registry.add(Audio);
         // ---- View Managers
         this.registry.add(ViewMgr);
         this.registry.add(LayeredViewMgr);

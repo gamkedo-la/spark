@@ -13,6 +13,7 @@ import { GridView }         from "./base/gridView.js";
 import { Area, AreaView }   from "./base/area.js";
 import { ModelView }        from "./modelView.js";
 import { Camera }           from "./base/camera.js";
+import { Generator } from "./base/generator.js";
 
 class PlayState extends State {
     cpre(spec) {
@@ -91,6 +92,13 @@ class PlayState extends State {
         if (evt.key === "4") {
             Config.dbg.viewGrid = !Config.dbg.viewGrid;
             this.viewMgr.renderall = true;
+        }
+        if (evt.key === "5") {
+            let spec = Base.instance.media.get("doorClosing");
+            let sound = Generator.generate(spec);
+            console.log(`spec: ${Fmt.ofmt(spec)}`);
+            console.log(`sound: ${Fmt.ofmt(sound)}`);
+            sound.play();
         }
         if (evt.key === "+") this.testiters += 100;
         if (evt.key === "-") this.testiters -= 100;
