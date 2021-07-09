@@ -440,13 +440,15 @@ class EditorState extends State {
         this.editorPanel.assignTile(layer, depth, i, j, id);
     }
 
-    assignRegion(regionName) {
+    assignRegion(xregion) {
+        /*
         console.log(`assign region: ${regionName}`);
         // lookup region
         let xregion = WorldGen[regionName];
         if (!xregion) {
             console.error(`cannot load region for: ${regionName}`);
         }
+        */
         // update editor panel xform
         this.editorPanel.xform.dx = -xregion.columns*Config.halfSize;
         this.editorPanel.xform.dy = -xregion.rows*Config.halfSize;
@@ -545,12 +547,16 @@ class EditorNewState extends State {
                 Templates.editorPanel(null, { xxform: { border: .2 }, xchildren: [
                     Templates.editorText(null, "New Level", { xxform: { offset: 10, bottom: .9 }}),
                     Templates.editorPanel(null, { xxform: { top: .1, bottom: .1}, xchildren: [
-                        Templates.editorText(null, "name:", { xxform: { bottom: .8, right: .6, left: .05, otop: 20, obottom:10}}),
-                        Templates.editorInput("nameInput", "lvl", { xxform: { bottom: .8, left: .4, offset: 10}}),
-                        Templates.editorText(null, "columns:", { xxform: { top: .2, bottom: .6, right: .6, left: .05, otop: 20, obottom:10}}),
-                        Templates.editorInput("columnsInput", "8", { xxform: { top: .2, bottom: .6, left: .4, offset: 10}, charset: '0123456789'}),
-                        Templates.editorText(null, "rows:", { xxform: { top: .4, bottom: .4, right: .6, left: .05, otop: 20, obottom:10}}),
-                        Templates.editorInput("rowsInput", "8", { xxform: { top: .4, bottom: .4, left: .4, offset: 10}, charset: '0123456789'}),
+                        Templates.editorText(null, "name:",         { xxform: { top: 0/5, bottom: 1-1/5, right: .6, left: .05, otop: 20, obottom:10}}),
+                        Templates.editorInput("nameInput", "lvl",   { xxform: { top: 0/5, bottom: 1-1/5, left: .4, offset: 10}}),
+                        Templates.editorText(null, "columns:",      { xxform: { top: 1/5, bottom: 1-2/5, right: .6, left: .05, otop: 20, obottom:10}}),
+                        Templates.editorInput("columnsInput", "8",  { xxform: { top: 1/5, bottom: 1-2/5, left: .4, offset: 10}, charset: '0123456789'}),
+                        Templates.editorText(null, "rows:",         { xxform: { top: 2/5, bottom: 1-3/5, right: .6, left: .05, otop: 20, obottom:10}}),
+                        Templates.editorInput("rowsInput", "8",     { xxform: { top: 2/5, bottom: 1-3/5, left: .4, offset: 10}, charset: '0123456789'}),
+                        Templates.editorText(null, "x offset:",     { xxform: { top: 3/5, bottom: 1-4/5, right: .6, left: .05, otop: 20, obottom:10}}),
+                        Templates.editorInput("offxInput", "0",     { xxform: { top: 3/5, bottom: 1-4/5, left: .4, offset: 10}, charset: '0123456789'}),
+                        Templates.editorText(null, "y offset:",     { xxform: { top: 4/5, bottom: 1-5/5, right: .6, left: .05, otop: 20, obottom:10}}),
+                        Templates.editorInput("offyInput", "0",     { xxform: { top: 4/5, bottom: 1-5/5, left: .4, offset: 10}, charset: '0123456789'}),
                     ]}),
                     Templates.editorButton("okButton", "ok", { xxform: { left: .6, right: .25, top: .9, offset: 10 }}),
                     Templates.editorButton("backButton", "back", { xxform: { left: .75, right: .1, top: .9, offset: 10 }}),
@@ -564,7 +570,13 @@ class EditorNewState extends State {
         this.assignRegion = spec.assignRegion || ((region) => false);
         Util.bind(this, "onKeyDown", "onOk", "onBack");
         Keys.evtKeyPressed.listen(this.onKeyDown);
-        //this.lvlPanel = Hierarchy.find(this.view, v=>v.tag === "lvlPanel");
+        this.nameInput = Hierarchy.find(this.view, v=>v.tag === "nameInput");
+        this.columnsInput = Hierarchy.find(this.view, v=>v.tag === "columnsInput");
+        this.rowsInput = Hierarchy.find(this.view, v=>v.tag === "rowsInput");
+        this.offxInput = Hierarchy.find(this.view, v=>v.tag === "offxInput");
+        this.offyInput = Hierarchy.find(this.view, v=>v.tag === "offyInput");
+        let okButton = Hierarchy.find(this.view, v=>v.tag === "okButton");
+        okButton.evtClicked.listen(this.onOk);
         let backButton = Hierarchy.find(this.view, v=>v.tag === "backButton");
         backButton.evtClicked.listen(this.onBack);
     }
@@ -592,13 +604,21 @@ class EditorNewState extends State {
 
     onOk(evt) {
         console.log("onOk: " + Fmt.ofmt(evt));
-        /*
-        if (!confirm("Loading new level will erase current level data, OK to proceed?")) return;
+        if (!confirm("Creating new level will erase current level data, OK to proceed?")) return;
+        // build empty region
+        let xregion = {
+            tag: this.nameInput.text,
+            columns: Math.min(Config.maxRegionSize, parseInt(this.columnsInput.text)),
+            rows: Math.min(Config.maxRegionSize, parseInt(this.rowsInput.text)),
+            offx: parseInt(this.offxInput.text),
+            offy: parseInt(this.offyInput.text),
+            autoArea: true,
+            layers: {},
+        }
         // assign region
-        this.assignRegion(evt.actor.lvlName);
+        this.assignRegion(xregion);
         // close window
         this.onBack();
-        */
     }
 
 }
@@ -680,8 +700,14 @@ class EditorLoadState extends State {
     onLvlSelect(evt) {
         console.log("onLvlSelect: " + Fmt.ofmt(evt));
         if (!confirm("Loading new level will erase current level data, OK to proceed?")) return;
+        // look up region
+        let regionName = evt.actor.lvlName;
+        let xregion = WorldGen[regionName];
+        if (!xregion) {
+            console.error(`cannot load region for: ${regionName}`);
+        }
         // assign region
-        this.assignRegion(evt.actor.lvlName);
+        this.assignRegion(xregion);
         // close window
         this.onBack();
     }

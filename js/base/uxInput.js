@@ -112,8 +112,7 @@ class UxInput extends UxView {
     // EVENT HANDLERS ------------------------------------------------------
     onMouseClick(evt) {
         const mousePos = Mouse.pos;
-        const localMousePos = this.xform.getLocal(mousePos);
-        if (this.bounds.contains(localMousePos)) {
+        if (this.bounds.contains(mousePos)) {
             // activate/deactivate
             this._active = (!this._active);
             if (this._active) {

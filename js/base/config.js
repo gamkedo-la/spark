@@ -5,6 +5,7 @@ export { Config };
  */
 class Config {
     static dflts = {
+        maxRegionSize: 32,
         dfltCanvasId: "canvas",
         dfltUiCanvasId: "uicanvas",
         tileSize: 16,
