@@ -49,9 +49,10 @@ class SparkAssets {
                     { x: 16*4, y: 16*1, width: 16, height: 16 }
                 ]},
                 { tag: "shrub",      cls: "VarSprite", variations: [
-                    { x: 16*0, y: 16*2, width: 16, height: 16 },
-                    { x: 16*1, y: 16*2, width: 32, height: 32 },
-                    { x: 16*3, y: 16*2, width: 32, height: 32 }
+                   // { x: 16*0, y: 16*2, width: 16, height: 16 },
+                   // { x: 16*1, y: 16*2, width: 32, height: 32 },
+                   // { x: 16*3, y: 16*2, width: 32, height: 32 },
+                    { x: 16*5, y: 16*2, width: 32, height: 32 },
                 ]},
             ]},
 
