@@ -55,7 +55,7 @@ class CtrlSystem extends System {
         }
 
         // check for conditions preventing movement
-        if (e.conditions.has(Condition.seated) || e.conditions.has(Condition.asleep)) {
+        if (e.conditions.has(Condition.seated) || e.conditions.has(Condition.asleep) || e.conditions.has(Condition.cast)) {
             e.speed = 0;
             return;
         }

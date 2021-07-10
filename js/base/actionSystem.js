@@ -40,6 +40,9 @@ class ActionSystem extends System {
             }
 
         } else if (e.actions && e.actions.length) {
+            // start a new set of actions... stop moving
+            e.speed = 0;
+
             // start next action
             e.currentAction = e.actions.shift();
             if (e.currentAction) {

@@ -60,36 +60,9 @@ class InteractSystem extends System {
         let actions = [];
         // -- wait for animation to complete
         actions.push(new WaitAction({ttl: 400}));
+        // -- cast the spark
         actions.push(new SparkAction({src: best}));
         e.actions = actions;
-
-        /*
-        // spawn spark projectile at actor
-        let xspark = Object.assign(
-            this.assets.fromTag("spark"),
-            {
-                heading: e.heading,
-                x: e.x,
-                y: e.y,
-                depth: e.depth,
-                layer: e.layer,
-                srcid: best.gid,
-            }
-        );
-        let spark = Generator.generate(xspark);
-
-        // apply condition to source
-        // -- cleared when spark is destroyed
-        best.conditions.add(Condition.sparked);
-        spark.evtDestroyed.listen((evt) => best.conditions.delete(Condition.sparked));
-
-        // apply condition to actor
-        // -- cleared when spark is destroyed
-        e.conditions.add(Condition.sparked);
-        spark.evtDestroyed.listen((evt) => e.conditions.delete(Condition.sparked));
-
-        console.log("spark: " + spark);
-        */
 
     }
 

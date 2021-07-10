@@ -157,6 +157,7 @@ class SparkAction extends Action {
         // apply condition to actor
         // -- cleared when spark is destroyed
         this.actor.conditions.delete(Condition.cast);
+        console.log(`removing cast condition`);
         this.actor.conditions.add(Condition.sparked);
         spark.evtDestroyed.listen((evt) => this.actor.conditions.delete(Condition.sparked));
 

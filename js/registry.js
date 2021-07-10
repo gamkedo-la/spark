@@ -40,6 +40,10 @@ class SparkRegistry {
         // -- register model states
         ModelState.register("powered");
         ModelState.register("sparked");
+        ModelState.register("sparked_south");
+        ModelState.register("sparked_north");
+        ModelState.register("sparked_west");
+        ModelState.register("sparked_east");
         ModelState.register("open");
         ModelState.register("close");
         ModelState.register("sleep");
