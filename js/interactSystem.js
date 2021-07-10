@@ -8,6 +8,7 @@ import { Base } from "./base/base.js";
 import { Store } from "./base/store.js";
 import { Condition } from "./base/condition.js";
 import { Mathf } from "./base/math.js";
+import { SparkAction, WaitAction } from "./base/action.js";
 
 class InteractSystem extends System {
     // CONSTRUCTOR ---------------------------------------------------------
@@ -54,6 +55,15 @@ class InteractSystem extends System {
             return;
         }
 
+        // spark will be executed as an actor action...
+        e.conditions.add(Condition.cast);
+        let actions = [];
+        // -- wait for animation to complete
+        actions.push(new WaitAction({ttl: 400}));
+        actions.push(new SparkAction({src: best}));
+        e.actions = actions;
+
+        /*
         // spawn spark projectile at actor
         let xspark = Object.assign(
             this.assets.fromTag("spark"),
@@ -79,6 +89,8 @@ class InteractSystem extends System {
         spark.evtDestroyed.listen((evt) => e.conditions.delete(Condition.sparked));
 
         console.log("spark: " + spark);
+        */
+
     }
 
     dointeract(ctx, e) {

@@ -27,6 +27,8 @@ class StateSystem extends System {
                 wantState = ModelState.occupied;
             } else if (e.conditions.has(Condition.opened)) {
                 wantState = ModelState.open;
+            } else if (e.conditions.has(Condition.cast)) {
+                wantState = ModelState.cast;
             } else if (e.conditions.has(Condition.sparked)) {
                 wantState = ModelState.sparked;
             } else if (e.conditions.has(Condition.powered)) {

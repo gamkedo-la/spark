@@ -46,6 +46,11 @@ class SparkRegistry {
         ModelState.register("sleep_south");
         ModelState.register("occupied");
         ModelState.register("seated");
+        ModelState.register("cast");
+        ModelState.register("cast_south");
+        ModelState.register("cast_north");
+        ModelState.register("cast_west");
+        ModelState.register("cast_east");
         // -- register activities
         Activity.register("wake");
         Activity.register("work");
@@ -55,6 +60,7 @@ class SparkRegistry {
         Condition.register("powered");
         Condition.register("sparked");
         Condition.register("waiting");
+        Condition.register("cast");
     }
     static setup(registry) {
         // -- register view classes

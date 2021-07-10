@@ -1,8 +1,11 @@
-export { Action, MoveToAction, OpenAction, DummyAction };
+export { Action, MoveToAction, OpenAction, DummyAction, WaitAction, SparkAction };
 
+import { Base }             from "./base.js";
+import { Condition }        from "./condition.js";
 import { Fmt }              from "./fmt.js";
-import { ModelState } from "./modelState.js";
-import { Vect } from "./vect.js";
+import { Generator }        from "./generator.js";
+import { ModelState }       from "./modelState.js";
+import { Vect }             from "./vect.js";
 
 class Action {
     constructor(spec={}) {
@@ -95,5 +98,78 @@ class OpenAction extends Action {
 
     toString() {
         return Fmt.toString(this.constructor.name, this.target);
+    }
+}
+
+
+class WaitAction extends Action {
+    static dfltTTL = 100;
+    constructor(spec={}) {
+        super(spec);
+        this.ttl = spec.ttl || WaitAction.defaultTTL;
+    }
+
+    start(actor) {
+        this.actor = actor;
+    }
+
+    update(ctx) {
+        this.ttl -= ctx.deltaTime;
+        if (this.ttl <= 0) {
+            this.done = true;
+        }
+        return this.done;
+    }
+
+    toString() {
+        return Fmt.toString(this.constructor.name, this.ttl);
+    }
+}
+
+class SparkAction extends Action {
+    constructor(spec={}) {
+        super(spec);
+        this.src = spec.src;
+        this.assets = spec.assets || Base.instance.assets;
+    }
+
+    start(actor) {
+        this.actor = actor;
+        // spawn spark projectile at actor
+        let xspark = Object.assign(
+            this.assets.fromTag("spark"),
+            {
+                heading: this.actor.heading,
+                x: this.actor.x,
+                y: this.actor.y,
+                depth: this.actor.depth,
+                layer: this.actor.layer,
+                srcid: this.src.gid,
+            }
+        );
+        let spark = Generator.generate(xspark);
+
+        // apply condition to source
+        // -- cleared when spark is destroyed
+        this.src.conditions.add(Condition.sparked);
+        spark.evtDestroyed.listen((evt) => this.src.conditions.delete(Condition.sparked));
+
+        // apply condition to actor
+        // -- cleared when spark is destroyed
+        this.actor.conditions.delete(Condition.cast);
+        this.actor.conditions.add(Condition.sparked);
+        spark.evtDestroyed.listen((evt) => this.actor.conditions.delete(Condition.sparked));
+
+        console.log("spark: " + spark);
+
+    }
+
+    update(ctx) {
+        this.done = true;
+        return this.done;
+    }
+
+    toString() {
+        return Fmt.toString(this.constructor.name, this.src);
     }
 }

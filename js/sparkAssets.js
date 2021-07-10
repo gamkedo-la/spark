@@ -179,6 +179,10 @@ class SparkAssets {
                 Templates.anim("fairy.fly_north", {offx:48*9, offy: 0, width: 48, height:32, duration: 50, frames: 6}),
                 Templates.anim("fairy.fly_west", {offx:48*10, offy: 0, width: 48, height:32, duration: 50, frames: 6}),
                 Templates.anim("fairy.fly_east", {offx:48*11, offy: 0, width: 48, height:32, duration: 50, frames: 6}),
+                Templates.anim("fairy.cast_south", {offx:48*12, offy: 0, width: 48, height:32, duration: 50, frames: 8, loop: false}),
+                Templates.anim("fairy.cast_north", {offx:48*13, offy: 0, width: 48, height:32, duration: 50, frames: 8, loop: false}),
+                Templates.anim("fairy.cast_west", {offx:48*14, offy: 0, width: 48, height:32, duration: 50, frames: 8, loop: false}),
+                Templates.anim("fairy.cast_east", {offx:48*15, offy: 0, width: 48, height:32, duration: 50, frames: 8, loop: false}),
             ]},
 
             { tag: "fairy",               cls: "Animator", animations: {
@@ -191,6 +195,10 @@ class SparkAssets {
                     [ModelState.walk_north]:   { cls: "Media", tag: "fairy.fly_north" },
                     [ModelState.walk_west]:    { cls: "Media", tag: "fairy.fly_west" },
                     [ModelState.walk_east]:    { cls: "Media", tag: "fairy.fly_east" },
+                    [ModelState.cast_south]:   { cls: "Media", tag: "fairy.cast_south" },
+                    [ModelState.cast_north]:   { cls: "Media", tag: "fairy.cast_north" },
+                    [ModelState.cast_west]:    { cls: "Media", tag: "fairy.cast_west" },
+                    [ModelState.cast_east]:    { cls: "Media", tag: "fairy.cast_east" },
                     'idle_south:walk_south':   { cls: "Media", tag: "fairy.takeoff_south" },
                     'idle_north:walk_north':   { cls: "Media", tag: "fairy.takeoff_north" },
                     'idle_east:walk_east':   { cls: "Media", tag: "fairy.takeoff_east" },
