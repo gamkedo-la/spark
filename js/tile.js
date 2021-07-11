@@ -9,7 +9,7 @@ class Tile extends Model {
         super.cpost(spec);
         // tiles are passive if they do not have a collider
         if (!this.collider) this.passive = true;
-        //if (this.collider) console.log(`tile ${this} collider: ${this.collider}`);
+        this.sparkable = spec.hasOwnProperty("sparkable") ? spec.sparkable : false;
     }
 
 }

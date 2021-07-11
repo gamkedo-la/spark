@@ -76,6 +76,10 @@ class SparkSystem extends System {
                     obj.srcid = e.srcid;
                     hitRelay = true;
                 }
+                // -- sparkable
+                if (obj.sparkable) {
+                    obj.conditions.add(Condition.sparked);
+                }
                 console.log(`spark collided w: ${id}:${obj}`);
             }
             // if we did not hit a relay, spark chain is broken
