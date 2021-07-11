@@ -2,21 +2,6 @@ export { Particle, ParticleGroup, ParticleEmitter };
 
 import { Fmt } from "./fmt.js";
 
-class TtlCondition {
-    constructor() {
-        this.tag = "ttl";
-        this.ttl = spec.ttl || 0;
-        this.value = false;
-    }
-
-    update(p, ctx) {
-        this.ttl -= ctx.deltaTime;
-        if (this.ttl <= 0) {
-            this.value = true;
-        }
-    }
-}
-
 /** ========================================================================
  * The base particle class
  */
@@ -201,4 +186,19 @@ class ParticleEmitter {
         }
     }
 
+}
+
+class TtlCondition {
+    constructor() {
+        this.tag = "ttl";
+        this.ttl = spec.ttl || 0;
+        this.value = false;
+    }
+
+    update(p, ctx) {
+        this.ttl -= ctx.deltaTime;
+        if (this.ttl <= 0) {
+            this.value = true;
+        }
+    }
 }

@@ -1,7 +1,7 @@
-import { ParticleGroup } from "./particles";
-import { UxView } from "./uxView";
-
 export { GameFx };
+
+import { ParticleGroup }            from "./particles.js";
+import { UxView }                   from "./uxView.js";
 
 /**
  * A visual game effect...
@@ -10,18 +10,21 @@ class GameFx extends UxView {
 
     cpost(spec) {
         super.cpost(spec);
-
         this.getx = spec.getx;
         this.gety = spec.gety;
 
-        this.donePredicate = spec.donePredicate || ((p) => false);
+        if (spec.donePredicate) {
+            this.donePredicate = ((fx) => fx.ctrls.length === 0 || spec.donePredicate(fx));
+        } else {
+            this.donePredicate = ((fx) => fx.ctrls.length === 0);
+        }
+        this.donePredicate = (fx) => fx.ctrls.length === 0 || (fx.spec.donePredicate || ((p) => false));
         this.conditions = {};
         if (spec.conditions) {
             spec.conditions.array.forEach(element => {
                 this.conditions[element.tag] = element;
             });
         }
-
         // controllers... 
         // -- emitters or other objects acting as a controller of the effect.  controllers are executed until they are done, then popped from list
         this.ctrls = [];
@@ -31,7 +34,6 @@ class GameFx extends UxView {
         // children...
         // -- any particles or dependent effects that need to be part of the update/rendering sequence
         this.dependents = new ParticleGroup();
-        this.waitOnChild = (spec.hasOwnProperty("waitOnChild")) ? spec.waitOnChild : true;
     }
 
     get x() {
@@ -42,79 +44,55 @@ class GameFx extends UxView {
     }
 
     update(ctx) {
-        // don't update if done
-        if (this.done) return;
+        // update conditions
+        for (const condition of Object.values(this.conditions)) {
+            condition.update(this, ctx);
+        }
 
-        // check for end of life of fx
-        if (!this.eol && this.geteol(ctx)) {
-            if (this.dbg) console.log("setting eol");
-            this.eol = true;
-        }
         // iterate through controllers
-        for (let i=this.ctrls.length-1; i>=0; i--) {
-            // if controller is done, or fx eol... remove ctrl
-            if (this.ctrls[i].done || this.eol) {
-                this.ctrls[i].destroy();
-                this.ctrls.pop();
-                if (this.dbg) console.log("controller is done");
-            // otherwise, update top controller
-            } else {
-                this.ctrls[i].update(ctx);
-                break;
-            }
-        }
-        // if no controllers left, transition to eol
-        if (this.ctrls.length === 0) {
-            this.eol = true;
-            if (this.dbg) console.log("all controllers are done, eol");
-        }
-        // if eol, iterate through finishers
-        if (this.eol) {
-            for (let i=this.finishers.length-1; i>=0; i--) {
-                // if finisher is done, remove
-                if (this.finishers[i].done) {
-                    this.finishers[i].destroy();
-                    this.finishers.pop();
-                // otherwise, update top finisher
+        if (!this.done) {
+            let ctrl = this.ctrls[0];
+            while (ctrl) {
+                ctrl.update(ctx);
+                if (ctrl.done) {
+                    this.ctrls.pop();
+                    ctrl = this.ctrls[0];
                 } else {
-                    this.finishers[i].update(ctx);
                     break;
                 }
             }
         }
-        // if no finishers left, transition to done
-        if (this.eol && this.finishers.length === 0 && !this.waitOnChild) {
-            this.done = true;
-            this.destroy();
-        // otherwise... update children
-        } else {
-            for (let i=this.children.length-1; i>=0; i--) {
-                // check for done
-                if (this.children[i].done) {
-                    this.children.splice(i, 1);
-                // or update
+
+        // if eol, iterate through finishers
+        if (this.done) {
+            let finisher = this.finishers[0];
+            while (finisher) {
+                finisher.update(ctx);
+                if (finisher.done) {
+                    this.finishers.pop();
+                    finisher = this.finisher[0];
                 } else {
-                    this.children[i].update(ctx);
+                    break;
                 }
             }
-            if (this.eol && this.children.length === 0) {
-                this.done = true;
+            // if no controllers left, transition to eol
+            if (this.finishers.length === 0) {
+                // destroy the fx
                 this.destroy();
+                return true;
             }
         }
+
+        // update dependents
+        this.dependents.update(ctx);
+
+        // fx will always mark updated
+        return true;
     }
 
     render(ctx) {
         // render dependents
         this.dependents.render(ctx, this.x, this.y);
-    }
-
-    destroy() {
-        //console.log("fx destroy: " + this);
-    }
-
-    toString() { 
-        return Fmt.toString(this.constructor.name);
     }
 
 }
