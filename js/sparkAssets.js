@@ -57,6 +57,19 @@ class SparkAssets {
                 ]},
             ]},
 
+            { src: "img/flowerpot1.png", loader: "Sheet", refs: [
+              { tag: "flowerpot",      cls: "VarSprite", variations: [
+                  { x: 16*0, y: 16*0, width: 32, height: 32 },
+                  { x: 16*2, y: 16*0, width: 32, height: 32 },
+                  { x: 16*4, y: 16*0, width: 32, height: 32 },
+                  { x: 16*6, y: 16*0, width: 32, height: 32 },
+                  { x: 16*0, y: 16*2, width: 32, height: 32 },
+                  { x: 16*2, y: 16*2, width: 32, height: 32 },
+                  { x: 16*4, y: 16*2, width: 32, height: 32 },
+                  { x: 16*6, y: 16*2, width: 32, height: 32 },
+              ]},
+            ]},
+
             { src: "img/object1.png", loader: "Sheet", refs: [
                 {tag: "stool", cls: "Sprite", width: 16*2, height: 16*3, x: 16*0, y: 16*0 },
                 {tag: "table", cls: "Sprite", width: 16*2, height: 16*3, x: 16*2, y: 16*0 },
@@ -236,6 +249,7 @@ class SparkAssets {
             Templates.tile("00n", "postUpper.r", { offx: 8 }),
             Templates.tile("00o", "rock"), 
             Templates.tile("00p", "shrub"),
+            Templates.tile("00q", "flowerpot"),
 
             Templates.object("o00", "sparkbase", "SparkBase", { 
                 powered: true,
