@@ -60,8 +60,11 @@ class SparkAssets {
                    // { x: 16*1, y: 16*2, width: 32, height: 32 },
                    // { x: 16*3, y: 16*2, width: 32, height: 32 },
                     { x: 16*5, y: 16*2, width: 32, height: 32 },
-                    { x: 16*7, y: 16*2, width: 32, height: 32 },
+                    { x: 16*7, y: 16*2, width: 32, height: 32 }
                 ]},
+                { tag: "seaShell",      cls: "VarSprite", variations: [
+                     { x: 16*0, y: 16*4, width: 16, height: 16 }
+                 ]},
             ]},
 
             { src: "img/flowerpot1.png", loader: "Sheet", refs: [
@@ -268,6 +271,7 @@ class SparkAssets {
             Templates.tile("00p", "shrub"),
             Templates.tile("00q", "flowerpot", { xcollider: { width: 24, height: 24}, sparkable: true}),
             Templates.tile("00r", "wildFlower"), 
+            Templates.tile("00s", "seaShell"),
 
             Templates.object("o00", "sparkbase", "SparkBase", { 
                 powered: true,
