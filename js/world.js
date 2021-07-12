@@ -101,6 +101,7 @@ class World {
         rows: 48,
         xregions: [
             this.genRegion({columns: 64, rows: 48, xlayers: [{ id: '002j' }]}),
+            WorldGen.patch1,
             WorldGen.house1,
             WorldGen.vendor1,
             {

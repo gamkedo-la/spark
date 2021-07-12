@@ -28,6 +28,7 @@ class SparkAssets {
                     { x: 16*2, y: 16*1, width: 16, height: 16 },
                     { x: 16*3, y: 16*1, width: 16, height: 16 },
                 ]},
+                Templates.varSpriteRef("sand", [[0,2], [1,2], [2,2], [3,2]], ),
 
             ]},
             Templates.overlayMedia("img/grass.png", "grass", {"height": 16, "width": 16}),
@@ -237,6 +238,7 @@ class SparkAssets {
 
         this.assets = [
 
+            Templates.tile("002", "sand"),
             Templates.tile("003", "road"),
             Templates.tile("004", "brickFloor"),
             Templates.tile("005", "woodDoor.top", { offx: 24, offy: -8}),
