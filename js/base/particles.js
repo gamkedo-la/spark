@@ -1,4 +1,4 @@
-export { Particle, ParticleGroup, ParticleEmitter };
+export { Particle, ParticleGroup, ParticleEmitter, TtlCondition };
 
 import { Fmt } from "./fmt.js";
 
@@ -15,17 +15,13 @@ class Particle {
         this.x = spec.x || 0;
         this.y = spec.y || 0;
         this.donePredicate = spec.donePredicate || ((p) => false);
-        this.conditions = {};
-        if (spec.conditions) {
-            spec.conditions.array.forEach(element => {
-                this.conditions[element.tag] = element;
-            });
-        }
+        this.conditions = Object.assign({}, spec.conditions);
+        //console.log(`conditions: ${Fmt.ofmt(this.conditions)} spec: ${Fmt.ofmt(spec)}`);
     }
 
     // PROPERTIES ----------------------------------------------------------
     get done() {
-        return this.donePredicate();
+        return this.donePredicate(this);
     }
 
     // METHODS -------------------------------------------------------------
@@ -122,12 +118,7 @@ class ParticleEmitter {
         this.gettte();
 
         this.donePredicate = spec.donePredicate || ((p) => false);
-        this.conditions = {};
-        if (spec.conditions) {
-            spec.conditions.array.forEach(element => {
-                this.conditions[element.tag] = element;
-            });
-        }
+        this.conditions = Object.assign({}, spec.conditions);
 
     }
 
@@ -136,7 +127,7 @@ class ParticleEmitter {
      * Indicates if the emitter has completed its life-cycle (and can be discarded)
      */
     get done() {
-        return this.donePredicate();
+        return this.donePredicate(this);
     }
 
     // METHODS -------------------------------------------------------------
@@ -189,8 +180,7 @@ class ParticleEmitter {
 }
 
 class TtlCondition {
-    constructor() {
-        this.tag = "ttl";
+    constructor(spec={}) {
         this.ttl = spec.ttl || 0;
         this.value = false;
     }

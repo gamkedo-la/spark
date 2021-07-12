@@ -8,6 +8,54 @@ import { Mouse }            from "./base/mouse.js";
 import { State }            from "./base/state.js";
 import { Util }             from "./base/util.js";
 import { Fmt }              from "./base/fmt.js";
+import { TestFx }           from "./sparkFx.js";
+import { Config }           from "./base/config.js";
+import { Vect }             from "./base/vect.js";
+import { TtlCondition }     from "./base/particles.js";
+import { Hierarchy }        from "./base/hierarchy.js";
+import { UxView }           from "./base/uxView.js";
+
+class PlayFxView extends UxView {
+    cpost(spec) {
+        super.cpost(spec);
+        //let fx = new TestFx({ xxform: {border: .5, scalex: Config.renderScale, scaley: Config.renderScale}} );
+        //this.adopt(fx);
+        this.radius = Math.min(this.xform.width, this.xform.height) * .75;
+        //console.log(`xform dim: ${this.xform.width},${this.xform.height}`);
+        //console.log(`parent dim: ${this.xform.parent.width},${this.parent.xform.height}`);
+        //console.log(`min: ${this.minx},${this.miny}`);
+        //console.log(`max: ${this.maxx},${this.maxy}`);
+        this.angle = 0;
+        this.angleRate = .001;
+        this.dotx = Math.cos(this.angle) * this.radius;
+        this.doty = Math.sin(this.angle) * this.radius;
+        let fx2 = new TestFx({ absolutePosition: false, xxform: {border: .5, scalex: Config.renderScale, scaley: Config.renderScale}, getx: (() => this.dotx/Config.renderScale), gety: (() => this.doty/Config.renderScale) });
+        this.adopt(fx2);
+        this.color = "white";
+        this.size = 3;
+    }
+
+    iupdate(ctx) {
+        if (!this.first) {
+            this.first = true;
+            this.radius = Math.min(this.parent.xform.width, this.parent.xform.height) * .45;
+        }
+        //console.log(`parent dim: ${this.parent.xform.width},${this.parent.xform.height}`);
+        this.angle += ctx.deltaTime * this.angleRate;
+        if (this.angle > Math.PI*2) this.angle -= Math.PI*2
+        this.dotx = Math.cos(this.angle) * this.radius;
+        this.doty = Math.sin(this.angle) * this.radius;
+        return true;
+    }
+
+    _render(ctx, x=0, y=0) {
+        if (this._sketch) this._sketch.render(ctx, this.xform.minx, this.xform.miny);
+        ctx.beginPath();
+        ctx.arc(this.dotx, this.doty, this.size, 0, Math.PI*2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+    }
+}
 
 class ParticlesState extends State {
     cpre(spec) {
@@ -17,7 +65,12 @@ class ParticlesState extends State {
             cvsid: "canvas",
             resize: true,
             xchildren: [
-                Templates.editorPanel(null, { xxform: {}}),
+                Templates.editorPanel(null, { xxform: {}, xchildren: [
+                    Templates.editorPanel("particlePanel", { xxform: {right: .2}, xchildren: [
+                        { cls: "PlayFxView" },
+                    ]}),
+                    Templates.editorPanel("buttonPanel", { xxform: {left: .8}} ),
+                ]}),
                 //Templates.editorButton("copyButton", "copy", { xxform: { left: .65, right: .25, top: .9, bottom: .05 }}),
                 //Templates.editorButton("backButton", "back", { xxform: { left: .75, right: .15, top: .9, bottom: .05 }}),
             ],
@@ -29,6 +82,14 @@ class ParticlesState extends State {
         Util.bind(this, "onKeyDown", "onClick");
         Keys.evtKeyPressed.listen(this.onKeyDown);
         Mouse.evtClicked.listen(this.onClick);
+        this.particlePanel = Hierarchy.find(this.view, v=>v.tag === "particlePanel");
+        console.log(`pp pos: ${this.particlePanel.x},${this.particlePanel.y}`);
+        //let fx = new TestFx({ xxform: {border: .5, scalex: Config.renderScale, scaley: Config.renderScale}} );
+        //let fx = new TestFx({ depth: 10, xxform: {border: .5, scalex: Config.renderScale, scaley: Config.renderScale} });
+        //let fx = new TestFx({ xxform: {border: .5, parent: this.particlePanel.xform} });
+        //let fx = new TestFx({ xxform: {border: .5}});
+        //this.particlePanel.adopt(fx);
+        //console.log(`fx xform: ${fx.xform} fx.dim ${fx.width},${fx.height} min: ${fx.xform.minx},${fx.xform.miny}`);
     }
 
     onKeyDown(evt) {
@@ -39,6 +100,16 @@ class ParticlesState extends State {
     onClick(evt) {
         //if (!this.active) return;
         console.log("ParticlesState onClick: " + Fmt.ofmt(evt));
+        let local = new Vect(evt.x/Config.renderScale, evt.y/Config.renderScale);
+        let xfx = {
+            conditions: { ttl: new TtlCondition({ttl: 1000})},
+            donePredicate: ((fx) => fx.conditions.ttl.value ),
+            depth: 10,
+            xxform: {scalex: Config.renderScale, scaley: Config.renderScale},
+            getx: () => local.x,
+            gety: () => local.y,
+        };
+        let fx = new TestFx(xfx);
     }
 
     destroy() {
@@ -71,8 +142,8 @@ class Particles extends Game {
     constructor() {
         // build out game spec
         const spec = { 
-            media: SparkAssets.media, 
-            assets: SparkAssets.assets,
+            //media: SparkAssets.media, 
+            //assets: SparkAssets.assets,
         };
         super(spec);
     }
@@ -82,6 +153,7 @@ class Particles extends Game {
         super.setup();
         // -- register Spark classes
         SparkRegistry.setup(this.base.registry);
+        this.base.registry.add(PlayFxView);
         // -- register systems
         // initialize and start master game state
         let state = new ParticlesState();

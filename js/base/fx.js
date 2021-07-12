@@ -12,19 +12,15 @@ class GameFx extends UxView {
         super.cpost(spec);
         this.getx = spec.getx;
         this.gety = spec.gety;
+        this.absolutePosition = spec.absolutePosition || false;
 
         if (spec.donePredicate) {
-            this.donePredicate = ((fx) => fx.ctrls.length === 0 || spec.donePredicate(fx));
+            this.donePredicate = ((fx) => (fx.ctrls.length === 0 || spec.donePredicate(fx)));
         } else {
             this.donePredicate = ((fx) => fx.ctrls.length === 0);
         }
-        this.donePredicate = (fx) => fx.ctrls.length === 0 || (fx.spec.donePredicate || ((p) => false));
-        this.conditions = {};
-        if (spec.conditions) {
-            spec.conditions.array.forEach(element => {
-                this.conditions[element.tag] = element;
-            });
-        }
+        //this.donePredicate = ((fx) => (fx.ctrls.length === 0 || (fx.spec.donePredicate || ((p) => false))));
+        this.conditions = Object.assign({}, spec.conditions);
         // controllers... 
         // -- emitters or other objects acting as a controller of the effect.  controllers are executed until they are done, then popped from list
         this.ctrls = [];
@@ -34,6 +30,11 @@ class GameFx extends UxView {
         // children...
         // -- any particles or dependent effects that need to be part of the update/rendering sequence
         this.dependents = new ParticleGroup();
+    }
+
+    // PROPERTIES ----------------------------------------------------------
+    get done() {
+        return this.donePredicate(this);
     }
 
     get x() {
@@ -90,9 +91,23 @@ class GameFx extends UxView {
         return true;
     }
 
+    // override UxView render method to take control over apply xform
     render(ctx) {
+        // don't render if not visible
+        if (!this.visible) return;
+        // apply transform
+        if (!this.absolutePosition) this.xform.apply(ctx, false);
+        // private render, specific to subclass
+        this._render(ctx);
+        if (!this.absolutePosition) this.xform.revert(ctx, false);
+    }
+
+    _render(ctx) {
         // render dependents
-        this.dependents.render(ctx, this.x, this.y);
+        let x = (this.getx) ? this.getx() + this.xform.minx : this.xform.minx;
+        let y = (this.gety) ? this.gety() + this.xform.miny : this.xform.miny;
+        //console.log(`fx render @ ${x},${y}`);
+        this.dependents.render(ctx, x, y);
     }
 
 }
