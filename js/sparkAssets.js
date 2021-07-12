@@ -58,17 +58,26 @@ class SparkAssets {
             ]},
 
             { src: "img/flowerpot1.png", loader: "Sheet", refs: [
-              { tag: "flowerpot",      cls: "VarSprite", variations: [
-                  // { x: 16*0, y: 16*0, width: 32, height: 32 },
-                  // { x: 16*2, y: 16*0, width: 32, height: 32 }, // this 2nd frame shows
-                  // { x: 16*4, y: 16*0, width: 32, height: 32 },
-                  // { x: 16*6, y: 16*0, width: 32, height: 32 },
-                  // { x: 16*0, y: 16*2, width: 32, height: 32 },
-                  // { x: 16*2, y: 16*2, width: 32, height: 32 },
-                  // { x: 16*4, y: 16*2, width: 32, height: 32 },
-                  { x: 16*6, y: 16*2, width: 32, height: 32 },
-              ]},
+                { tag: "flowerpot.idle",  cls: "Sprite", x: 16*0, y: 16*0, width: 16*2, height: 16*2 },
+                { tag: "flowerpot.sparked", cls: "Animation", loop: false, cels: [
+                    { x: 16*0, y: 16*0, width: 32, height: 32, duration: 100 },
+                    { x: 16*2, y: 16*0, width: 32, height: 32, duration: 150 }, 
+                    { x: 16*4, y: 16*0, width: 32, height: 32, duration: 150 },
+                    { x: 16*6, y: 16*0, width: 32, height: 32, duration: 150 },
+                    { x: 16*0, y: 16*2, width: 32, height: 32, duration: 150 },
+                    { x: 16*2, y: 16*2, width: 32, height: 32, duration: 150 },
+                    { x: 16*4, y: 16*2, width: 32, height: 32, duration: 150 },
+                    { x: 16*6, y: 16*2, width: 32, height: 32, duration: 100 },
+                ]},
             ]},
+
+            { tag: "flowerpot", 
+                cls: "Animator", 
+                animations: { 
+                    [ModelState.idle]: { cls: "Media", tag: "flowerpot.idle" }, 
+                    [ModelState.sparked]: { cls: "Media", tag: "flowerpot.sparked" }, 
+                },
+            },
 
             { src: "img/object1.png", loader: "Sheet", refs: [
                 {tag: "stool", cls: "Sprite", width: 16*2, height: 16*3, x: 16*0, y: 16*0 },
@@ -249,7 +258,7 @@ class SparkAssets {
             Templates.tile("00n", "postUpper.r", { offx: 8 }),
             Templates.tile("00o", "rock"), 
             Templates.tile("00p", "shrub"),
-            Templates.tile("00q", "flowerpot"),
+            Templates.tile("00q", "flowerpot", { xcollider: { width: 24, height: 24}, sparkable: true}),
 
             Templates.object("o00", "sparkbase", "SparkBase", { 
                 powered: true,
