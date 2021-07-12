@@ -18,18 +18,14 @@ import { UxView }           from "./base/uxView.js";
 class PlayFxView extends UxView {
     cpost(spec) {
         super.cpost(spec);
-        //let fx = new TestFx({ xxform: {border: .5, scalex: Config.renderScale, scaley: Config.renderScale}} );
-        //this.adopt(fx);
+        let fx = new TestFx();
+        this.adopt(fx);
         this.radius = Math.min(this.xform.width, this.xform.height) * .75;
-        //console.log(`xform dim: ${this.xform.width},${this.xform.height}`);
-        //console.log(`parent dim: ${this.xform.parent.width},${this.parent.xform.height}`);
-        //console.log(`min: ${this.minx},${this.miny}`);
-        //console.log(`max: ${this.maxx},${this.maxy}`);
         this.angle = 0;
         this.angleRate = .001;
         this.dotx = Math.cos(this.angle) * this.radius;
         this.doty = Math.sin(this.angle) * this.radius;
-        let fx2 = new TestFx({ absolutePosition: false, xxform: {border: .5, scalex: Config.renderScale, scaley: Config.renderScale}, getx: (() => this.dotx/Config.renderScale), gety: (() => this.doty/Config.renderScale) });
+        let fx2 = new TestFx({ getorigx: (() => this.dotx/Config.renderScale), getorigy: (() => this.doty/Config.renderScale) });
         this.adopt(fx2);
         this.color = "white";
         this.size = 3;

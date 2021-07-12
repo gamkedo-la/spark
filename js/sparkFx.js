@@ -2,8 +2,6 @@ import { GameFx }               from "./base/fx.js";
 import { ParticleEmitter }      from "./base/particles.js";
 import { FadeParticle }         from "./sparkParticles.js";
 
-ParticleEmitter
-
 export { TestFx };
 
 class TestFx extends GameFx {
@@ -11,13 +9,13 @@ class TestFx extends GameFx {
         super.cpost(spec);
 
         this.ctrls.push(new ParticleEmitter({
-            interval: 150,
-            count: 1,
+            interval: 50,
+            count: 3,
             group: this.dependents,
             generator: (e) => {
                 return new FadeParticle({
-                    x: (spec.absolutePosition) ? this.x : 0,
-                    y: (spec.absolutePosition) ? this.y : 0,
+                    x: (spec.getorigx) ? this.getorigx() : 0,
+                    y: (spec.getorigy) ? this.getorigy() : 0,
                 });
             },
         }));

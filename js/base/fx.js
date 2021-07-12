@@ -1,5 +1,7 @@
 export { GameFx };
 
+import { Config }                   from "./config.js";
+import { Fmt } from "./fmt.js";
 import { ParticleGroup }            from "./particles.js";
 import { UxView }                   from "./uxView.js";
 
@@ -8,10 +10,16 @@ import { UxView }                   from "./uxView.js";
  */
 class GameFx extends UxView {
 
+    cpre(spec) {
+        if (!spec.xxform) spec.xxform = {border: .5, scalex: Config.renderScale, scaley: Config.renderScale};
+        super.cpre(spec);
+    }
     cpost(spec) {
         super.cpost(spec);
         this.getx = spec.getx;
         this.gety = spec.gety;
+        this.getorigx = spec.getorigx;
+        this.getorigy = spec.getorigy;
         this.absolutePosition = spec.absolutePosition || false;
 
         if (spec.donePredicate) {
@@ -89,17 +97,6 @@ class GameFx extends UxView {
 
         // fx will always mark updated
         return true;
-    }
-
-    // override UxView render method to take control over apply xform
-    render(ctx) {
-        // don't render if not visible
-        if (!this.visible) return;
-        // apply transform
-        if (!this.absolutePosition) this.xform.apply(ctx, false);
-        // private render, specific to subclass
-        this._render(ctx);
-        if (!this.absolutePosition) this.xform.revert(ctx, false);
     }
 
     _render(ctx) {
