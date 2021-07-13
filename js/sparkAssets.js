@@ -32,6 +32,7 @@ class SparkAssets {
 
             ]},
             Templates.overlayMedia("img/grass.png", "grass", {"height": 16, "width": 16}),
+            Templates.overlayMedia("img/ocean.png", "ocean", {"height": 16, "width": 16}),
             Templates.wallMedia("img/stuccoWalls1.png", "stuccoWalls1", {"height": 16, "width": 16, offy:16}),
             Templates.wallMedia("img/stuccoWalls2.png", "stuccoWalls2", {"height": 16, "width": 16}),
             Templates.roofMedia("img/roof.png", "roof.l", "roof.r", "roof.f", "roof.b", {"height": 16, "width": 16}),
@@ -72,24 +73,24 @@ class SparkAssets {
             ]},
 
             { src: "img/flowerpot1.png", loader: "Sheet", refs: [
-                { tag: "flowerpot.idle",  cls: "Sprite", x: 16*0, y: 16*0, width: 16*2, height: 16*2 },
-                { tag: "flowerpot.sparked", cls: "Animation", loop: false, cels: [
-                    { x: 16*0, y: 16*0, width: 32, height: 32, duration: 100 },
-                    { x: 16*2, y: 16*0, width: 32, height: 32, duration: 150 }, 
-                    { x: 16*4, y: 16*0, width: 32, height: 32, duration: 150 },
-                    { x: 16*6, y: 16*0, width: 32, height: 32, duration: 150 },
-                    { x: 16*0, y: 16*2, width: 32, height: 32, duration: 150 },
-                    { x: 16*2, y: 16*2, width: 32, height: 32, duration: 150 },
-                    { x: 16*4, y: 16*2, width: 32, height: 32, duration: 150 },
-                    { x: 16*6, y: 16*2, width: 32, height: 32, duration: 100 },
+                { tag: "flowerpot1.idle",  cls: "Sprite", x: 16*0, y: 16*0, width: 16*2, height: 16*2 },
+                { tag: "flowerpot1.sparked", cls: "Animation", loop: false, cels: [
+                    { x: 16*0, y: 16*0, width: 32, height: 32, duration: 400 },
+                    { x: 16*2, y: 16*0, width: 32, height: 32, duration: 700 }, 
+                    { x: 16*4, y: 16*0, width: 32, height: 32, duration: 900 },
+                    { x: 16*6, y: 16*0, width: 32, height: 32, duration: 900 },
+                    { x: 16*0, y: 16*2, width: 32, height: 32, duration: 900 },
+                    { x: 16*2, y: 16*2, width: 32, height: 32, duration: 900 },
+                    { x: 16*4, y: 16*2, width: 32, height: 32, duration: 900 },
+                    { x: 16*6, y: 16*2, width: 32, height: 32, duration: 200 },
                 ]},
             ]},
 
-            { tag: "flowerpot", 
+            { tag: "flowerpot1", 
                 cls: "Animator", 
                 animations: { 
-                    [ModelState.idle]: { cls: "Media", tag: "flowerpot.idle" }, 
-                    [ModelState.sparked]: { cls: "Media", tag: "flowerpot.sparked" }, 
+                    [ModelState.idle]: { cls: "Media", tag: "flowerpot1.idle" }, 
+                    [ModelState.sparked]: { cls: "Media", tag: "flowerpot1.sparked" }, 
                 },
             },
 
@@ -273,7 +274,7 @@ class SparkAssets {
             Templates.tile("00n", "postUpper.r", { offx: 8 }),
             Templates.tile("00o", "rock"), 
             Templates.tile("00p", "shrub"),
-            Templates.tile("00q", "flowerpot", { xcollider: { width: 24, height: 24}, sparkable: true}),
+            Templates.tile("00q", "flowerpot1", { xcollider: { width: 24, height: 24}, sparkable: true}),
             Templates.tile("00r", "wildFlower"), 
             Templates.tile("00s", "seaShell"),
 
@@ -368,6 +369,7 @@ class SparkAssets {
         ];
 
         this.assets = this.assets.concat(Templates.overlayTiles("02", "grass"));
+        this.assets = this.assets.concat(Templates.overlayTiles("03", "ocean"));
         this.assets = this.assets.concat(Templates.wallTiles("05", "stuccoWalls1", Templates.wallColliders()));
         this.assets = this.assets.concat(Templates.wallTiles("06", "stuccoWalls2"));
         this.assets = this.assets.concat(Templates.frontRoofTiles("rf", "roof.f"));
