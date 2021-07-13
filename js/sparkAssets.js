@@ -32,6 +32,7 @@ class SparkAssets {
 
             ]},
             Templates.overlayMedia("img/grass.png", "grass", {"height": 16, "width": 16}),
+            Templates.overlayMedia("img/ocean.png", "ocean", {"height": 16, "width": 16}),
             Templates.wallMedia("img/stuccoWalls1.png", "stuccoWalls1", {"height": 16, "width": 16, offy:16}),
             Templates.wallMedia("img/stuccoWalls2.png", "stuccoWalls2", {"height": 16, "width": 16}),
             Templates.roofMedia("img/roof.png", "roof.l", "roof.r", "roof.f", "roof.b", {"height": 16, "width": 16}),
@@ -365,6 +366,7 @@ class SparkAssets {
         ];
 
         this.assets = this.assets.concat(Templates.overlayTiles("02", "grass"));
+        this.assets = this.assets.concat(Templates.overlayTiles("03", "ocean"));
         this.assets = this.assets.concat(Templates.wallTiles("05", "stuccoWalls1", Templates.wallColliders()));
         this.assets = this.assets.concat(Templates.wallTiles("06", "stuccoWalls2"));
         this.assets = this.assets.concat(Templates.frontRoofTiles("rf", "roof.f"));
