@@ -72,7 +72,6 @@ class Animation extends Sprite {
         if (this.cidx >= this.cels.length) {
             if (this.loop) {
                 this.cidx = 0;
-                //console.log("looping");
             } else {
                 this._done = true;
                 this.cidx = this.cels.length-1;
@@ -89,7 +88,7 @@ class Animation extends Sprite {
      * @param {*} ctx 
      */
     iupdate(ctx) {
-        if (this.done) return;
+        if (this.done) return false;
         if (this.step) {
             if (this.step === "next") this.advance();
             if (this.step === "prev" && this.cidx > 0) this.cidx--;
@@ -102,7 +101,6 @@ class Animation extends Sprite {
             this.advance();
             this.updated = true;
         }
-        //console.log("animation.iupdate updated: " + this.updated);
         return this.updated;
     }
 

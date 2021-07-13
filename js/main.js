@@ -7,6 +7,7 @@ window.onload = async function() {
     window.AudioContext = window.AudioContext || window.webkitAudioContext;
     let lastUpdate = Math.round(performance.now());
     let loopID = 0;
+    let frame = 0;
     const maxDeltaTime = 1000/20;
 
     // static initialization of any game global state
@@ -28,9 +29,12 @@ window.onload = async function() {
     }
 
     function loop(hts) {
+        frame++;
+        if (frame > Number.MAX_SAFE_INTEGER) frame = 0;
         // compute delta time
         let ctx = {
             deltaTime: getDeltaTime(Math.round(hts)),
+            frame: frame,
         }
         game.update(ctx);
         game.render();

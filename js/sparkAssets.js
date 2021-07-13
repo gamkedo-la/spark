@@ -91,6 +91,19 @@ class SparkAssets {
                 },
             },
 
+            { src: "img/testocean.png", loader: "Sheet", refs: [
+                { tag: "testocean", cls: "SyncAnimation", syncTag: "waves", loop: true, cels: [
+                    { x: 16*1, y: 16*1, width: 16, height: 16, ttl: 200 },
+                    { x: 16*2, y: 16*1, width: 16, height: 16, ttl: 200 },
+                    { x: 16*3, y: 16*1, width: 16, height: 16, ttl: 200 },
+                    { x: 16*4, y: 16*1, width: 16, height: 16, ttl: 200 },
+                    { x: 16*5, y: 16*1, width: 16, height: 16, ttl: 200 },
+                    { x: 16*6, y: 16*1, width: 16, height: 16, ttl: 200 },
+                    { x: 16*7, y: 16*1, width: 16, height: 16, ttl: 200 },
+                    { x: 16*8, y: 16*1, width: 16, height: 16, ttl: 200 },
+                ]},
+            ]},
+
             { src: "img/object1.png", loader: "Sheet", refs: [
                 {tag: "stool", cls: "Sprite", width: 16*2, height: 16*3, x: 16*0, y: 16*0 },
                 {tag: "table", cls: "Sprite", width: 16*2, height: 16*3, x: 16*2, y: 16*0 },
@@ -274,6 +287,7 @@ class SparkAssets {
             Templates.tile("00q", "flowerpot1", { xcollider: { width: 24, height: 24}, sparkable: true}),
             Templates.tile("00r", "wildFlower"), 
             Templates.tile("00s", "seaShell"),
+            Templates.tile("00t", "testocean"),
 
             Templates.object("o00", "sparkbase", "SparkBase", { 
                 powered: true,

@@ -51,7 +51,7 @@ class ImageLoader {
             img.addEventListener("load", () => { 
                 return resolve( Object.assign({}, {img: img}, data)) 
             });
-            img.addEventListener("error", err => { console.log("error: " + err); reject(err) });
+            img.addEventListener("error", err => { console.log("error: " + Fmt.ofmt(err)); reject(err) });
             img.src = src;
         });
         if (scale !== 1) {

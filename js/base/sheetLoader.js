@@ -102,7 +102,8 @@ class SheetLoader {
             const animSpec = {
                 tag: ref.tag, 
                 loop: ref.loop,
-                cls: "Animation", 
+                syncTag: ref.syncTag,
+                cls: ref.cls, 
                 cels: [],
             }
             for (const cel of (ref.cels || [])) {
@@ -155,7 +156,7 @@ class SheetLoader {
                     promise = this.loadSprite(sheet, ref);
                 } else if (ref.cls === "VarSprite") {
                     promise = this.loadVarSprite(sheet, ref);
-                } else if (ref.cls === "Animation") {
+                } else if (ref.cls === "Animation" || ref.cls === "SyncAnimation") {
                     promise = this.loadAnimation(sheet, ref);
                 } else {
                     console.error("invalid reference (cls): " + Fmt.ofmt(ref));

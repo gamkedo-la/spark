@@ -63,6 +63,7 @@ import { EventSystem }      from "./eventSystem.js";
 import { LayeredViewMgr }   from "./layeredViewMgr.js";
 import { ViewMgr }          from "./viewMgr.js";
 import { AudioMgr }         from "./audioMgr.js";
+import { SyncAnimation }    from "./syncAnimation.js";
 
 class Base {
 
@@ -163,6 +164,7 @@ class Base {
         this.registry.add(Rect);
         this.registry.add(Shape);
         this.registry.add(Animation);
+        this.registry.add(SyncAnimation);
         this.registry.add(Animator);
         this.registry.add(Audio);
         // ---- View Managers
