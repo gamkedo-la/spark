@@ -65,8 +65,11 @@ class SparkAssets {
                 ]},
                 { tag: "seaShell",      cls: "VarSprite", variations: [
                      { x: 16*0, y: 16*4, width: 16, height: 16 },
-                     { x: 16*1, y: 16*4, width: 16, height: 16 }
-                ]},
+                     { x: 16*1, y: 16*4, width: 16, height: 16 },
+                     { x: 16*2, y: 16*4, width: 16, height: 16 },
+                     { x: 16*3, y: 16*4, width: 16, height: 16 },
+                     { x: 16*4, y: 16*4, width: 16, height: 16 }
+                ]}
             ]},
 
             { src: "img/flowerpot1.png", loader: "Sheet", refs: [
