@@ -68,7 +68,11 @@ class SparkAssets {
                      { x: 16*1, y: 16*4, width: 16, height: 16 },
                      { x: 16*2, y: 16*4, width: 16, height: 16 },
                      { x: 16*3, y: 16*4, width: 16, height: 16 },
-                     { x: 16*4, y: 16*4, width: 16, height: 16 }
+                     { x: 16*4, y: 16*4, width: 16, height: 16 },
+                     { x: 16*5, y: 16*4, width: 16, height: 16 },
+                     { x: 16*6, y: 16*4, width: 16, height: 16 },
+                     { x: 16*7, y: 16*4, width: 16, height: 16 },
+                     { x: 16*8, y: 16*4, width: 16, height: 16 } 
                 ]}
             ]},
 
