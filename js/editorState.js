@@ -931,8 +931,10 @@ class EditorSaveState extends State {
             `    tag: "${xregion.tag}",\n` +
             `    columns: ${xregion.columns},\n` +
             `    rows: ${xregion.rows},\n` +
+            `    offx: ${xregion.offx},\n` +
+            `    offy: ${xregion.offy},\n` +
             `    autoArea: true,\n` +
-            `    layers: [\n`;
+            `    layers: {\n`;
         for (const layer of Object.keys(Config.layerMap)) {
             let layerInfo = this.xregion.layers[layer];
             if (!layerInfo) continue;
@@ -946,8 +948,8 @@ class EditorSaveState extends State {
             }
             str += `        },\n`;
         }
-        str += `    ],\n`;
-        str += `}`;
+        str += `    },\n`;
+        str += `};`;
         return str;
     }
 
