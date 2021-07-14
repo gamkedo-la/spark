@@ -14,6 +14,8 @@ import { Area, AreaView }   from "./base/area.js";
 import { ModelView }        from "./modelView.js";
 import { Camera }           from "./base/camera.js";
 import { Generator } from "./base/generator.js";
+import { UxGloom } from "./uxGloom.js";
+import { Templates } from "./templates.js";
 
 class PlayState extends State {
     cpre(spec) {
@@ -44,8 +46,15 @@ class PlayState extends State {
                     cls: "UxPanel",
                     tag: "mainPanel",
                     xsketch: media.get("btnGoldTranS1"),
-                    //xsketch: {},
-                }
+                },
+                Templates.panel("dbgPanel", {xxform: { left: .8, right: .025, top: .025, bottom: .7 }, xchildren: [
+                    //Templates.dbgText(null, "1 - hide debug", { xxform: { top: 0/6, bottom: 1-1/6 }}),
+                    Templates.dbgText(null, "2 - show colliders", { xxform: { top: 1/6, bottom: 1-2/6 }}),
+                    Templates.dbgText(null, "3 - show areas", { xxform: { top: 2/6, bottom: 1-3/6 }}),
+                    Templates.dbgText(null, "4 - show grid", { xxform: { top: 3/6, bottom: 1-4/6 }}),
+                    Templates.dbgText(null, "5 - hide night", { xxform: { top: 4/6, bottom: 1-5/6 }}),
+                    Templates.dbgText(null, "6 - hide gloom", { xxform: { top: 5/6, bottom: 1-6/6 }}),
+                ]}),
             ],
         };
         spec.xmodel = World.xlvl;
@@ -61,7 +70,10 @@ class PlayState extends State {
         Util.bind(this, "onKeyDown", "onClicked");
         Keys.evtKeyPressed.listen(this.onKeyDown);
         Mouse.evtClicked.listen(this.onClicked)
-        let gridView = new GridView({depth: 10, grid: this.grid, xxform: {scalex: 2, scaley: 2}});
+        let gridView = new GridView({depth: 10, grid: this.grid, xxform: {scalex: Config.renderScale, scaley: Config.renderScale}});
+        let gloomView = new UxGloom({tag: "gloom", depth: 10, xxform: {dx: 16*5, dy: 16*6, origx: 0, origy: 0, border: .5, width: 16*15, height: 16*15, scalex: Config.renderScale, scaley: Config.renderScale}});
+        //let gloomView = new UxGloom({tag: "gloom", depth: 10, xxform: {origx: 0, origy: 0, border: .5, width: 16*10, height: 16*10  }});
+        console.log(`gloomView.xform: ${gloomView.xform} dim: ${gloomView.width},${gloomView.height} min: ${gloomView.minx},${gloomView.miny} max: ${gloomView.maxx},${gloomView.maxy}`);
 
         // load level objects
         this.model.load();
@@ -98,11 +110,12 @@ class PlayState extends State {
             this.viewMgr.renderall = true;
         }
         if (evt.key === "5") {
-            let spec = Base.instance.media.get("doorClosing");
-            let sound = Generator.generate(spec);
-            console.log(`spec: ${Fmt.ofmt(spec)}`);
-            console.log(`sound: ${Fmt.ofmt(sound)}`);
-            sound.play();
+            Config.dbg.hideNight = !Config.dbg.hideNight;
+            this.viewMgr.renderall = true;
+        }
+        if (evt.key === "6") {
+            Config.dbg.hideGloom = !Config.dbg.hideGloom;
+            this.viewMgr.renderall = true;
         }
         if (evt.key === "+") this.testiters += 100;
         if (evt.key === "-") this.testiters -= 100;

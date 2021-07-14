@@ -32,6 +32,17 @@ class Templates {
         }
     }
 
+    static dbgText(tag, text, spec={}) {
+        let xxform = spec.xxform || {};
+        let color = spec.color || "rgba(167,0,0,.6)"
+        return {
+            cls: "UxText",
+            tag: tag,
+            xxform: xxform,
+            xtext: { color: color, text: text, },
+        }
+    }
+
     static editorText(tag, text, spec={}) {
         let xxform = spec.xxform || {};
         return {

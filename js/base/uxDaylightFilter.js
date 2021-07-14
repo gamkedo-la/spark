@@ -2,6 +2,7 @@ export { UxDaylightFilter };
 
 import { Atts }             from "./atts.js";
 import { Color }            from "./color.js";
+import { Config } from "./config.js";
 import { Mathf }            from "./math.js";
 import { UxPanel }          from "./uxPanel.js";
 
@@ -28,7 +29,7 @@ class UxDaylightFilter extends UxPanel {
     // METHODS -------------------------------------------------------------
     iupdate(ctx) {
         // update sketch color based on current light
-        let light = this.getLight();
+        let light = (Config.dbg.hideNight) ? 1 : this.getLight();
         if (light != this.lastLight) {
             this.lastLight = light;
             let alpha = Mathf.lerp(0, 1, this.maxAlpha, this.minAlpha, light);

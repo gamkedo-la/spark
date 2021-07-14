@@ -27,6 +27,7 @@ import { OccupyScheme }     from "./actions/occupy.js";
 import { SleepAtBedScheme } from "./actions/sleepAtBed.js";
 import { LeaveWorkstationScheme } from "./actions/leaveWorkstation.js";
 import { UxEditorView } from "./editorState.js";
+import { UxGloom } from "./uxGloom.js";
 
 class SparkRegistry {
     static init() {
@@ -68,6 +69,7 @@ class SparkRegistry {
     }
     static setup(registry) {
         // -- register view classes
+        registry.add(UxGloom);
         registry.add(UxEditorView);
         // -- register generator classes
         registry.add(Tile);

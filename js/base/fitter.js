@@ -24,20 +24,24 @@ class Fitter {
     }
 
     get x() {
-        const ref = this.ref;
-        return ref.width * this.left;
+        return this.width * this.left;
     }
 
     get y() {
-        const ref = this.ref;
-        return ref.height * this.top;
+        return this.height * this.top;
     }
 
     get width() {
+        if (this.ref.xform) {
+            return this.ref.xform.width * (1-(this.left+this.right));
+        }
         return this.ref.width * (1-(this.left+this.right));
     }
 
     get height() {
+        if (this.ref.xform) {
+            return this.ref.xform.height * (1-(this.top+this.bottom));
+        }
         return this.ref.height * (1-(this.top+this.bottom));
     }
 

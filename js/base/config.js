@@ -29,6 +29,8 @@ class Config {
             viewColliders: false,
             viewGrid: false,
             viewGridIndices: true,
+            hideNight: false,
+            hideGloom: false,
         },
         layerMap: {
             l1:     0,
