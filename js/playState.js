@@ -71,8 +71,22 @@ class PlayState extends State {
         Keys.evtKeyPressed.listen(this.onKeyDown);
         Mouse.evtClicked.listen(this.onClicked)
         let gridView = new GridView({depth: 10, grid: this.grid, xxform: {scalex: Config.renderScale, scaley: Config.renderScale}});
-        let gloomView = new UxGloom({tag: "gloom", depth: 10, xxform: {dx: 16*5, dy: 16*6, origx: 0, origy: 0, border: .5, width: 16*15, height: 16*15, scalex: Config.renderScale, scaley: Config.renderScale}});
-        //let gloomView = new UxGloom({tag: "gloom", depth: 10, xxform: {origx: 0, origy: 0, border: .5, width: 16*10, height: 16*10  }});
+        console.log(`columns: ${this.model.columns}`);
+        let gloomView = new UxGloom({
+            tag: "gloom", 
+            depth: 10, 
+            xxform: {
+                dx: 16*0, 
+                dy: 16*0, 
+                origx: 0, 
+                origy: 0, 
+                border: .5, 
+                width: 16*32, 
+                height: 16*24, 
+                scalex: Config.renderScale, 
+                scaley: Config.renderScale
+            },
+        });
         console.log(`gloomView.xform: ${gloomView.xform} dim: ${gloomView.width},${gloomView.height} min: ${gloomView.minx},${gloomView.miny} max: ${gloomView.maxx},${gloomView.maxy}`);
 
         // load level objects
