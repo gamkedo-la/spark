@@ -52,14 +52,16 @@ class UxGloom extends UxView {
             // render gloom layer
             this.ctx.fillStyle = `rgba(0,0,0,${this.gloomPct})`;
             this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-            // render spark sources as exclusions based on their range
+            // render spark sources as exclusions based on their range (use gradient to smooth edge)
             this.ctx.globalCompositeOperation = "destination-out";
             for (const src of this.trackedSources) {
                 this.ctx.beginPath();
                 let lpos = this.xform.getLocal(new Vect(src.x*Config.renderScale, src.y*Config.renderScale));
-                this.ctx.arc(lpos.x, lpos.y, src.range, 0, Math.PI*2);
-                this.ctx.fillStyle = "white";
-                this.ctx.fill();
+                for (let i=0; i<5; i++) {
+                    this.ctx.arc(lpos.x, lpos.y, src.range+((i*2)-6), 0, Math.PI*2);
+                    this.ctx.fillStyle = `rgba(255,255,255,${1-(i)/5})`;
+                    this.ctx.fill();
+                }
             }
             this.ctx.globalCompositeOperation = "source-over";
             this.rebuild = false;
