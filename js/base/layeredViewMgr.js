@@ -81,9 +81,15 @@ class LayeredViewMgr extends Gizmo {
         let minj = this.grid.jfromy(this.camera.miny);
         let maxi = this.grid.ifromx(this.camera.maxx);
         let maxj = this.grid.jfromy(this.camera.maxy);
+        let seen = new Set();
         for (let j=minj; j<=maxj; j++) {
             for (let i=mini; i<=maxi; i++) {
-                yield *this.grid.getij(i,j);
+                for (const view of this.grid.getij(i,j)) {
+                    if (!seen.has(view.gid)) {
+                        seen.add(view.gid);
+                        yield view;
+                    }
+                }
             }
         }
     }

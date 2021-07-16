@@ -214,10 +214,6 @@ class Grid {
 
     add(gzo) {
         let gidx = this.getgidx(gzo);
-        if (gzo.tag == "gloom") {
-            console.log(`gloom gidx: ${gidx}`);
-            console.log(`gzo.xform: ${gzo.xform} dim: ${gzo.width},${gzo.height} min: ${gzo.minx},${gzo.miny} max: ${gzo.maxx},${gzo.maxy}`);
-        }
         // assign object to grid
         for (const idx of gidx) {
             if (!this.grid[idx]) this.grid[idx] = [];
@@ -241,9 +237,12 @@ class Grid {
     *getij(i, j) {
         let idx = this.idxfromij(i, j);
         if (this.grid[idx]) {
+            yield *this.grid[idx];
+            /*
             for (const view of this.grid[idx]) {
                 if (view.gidx.primary === idx) yield view;
             }
+            */
         }
     }
 

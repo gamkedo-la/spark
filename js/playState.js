@@ -69,9 +69,8 @@ class PlayState extends State {
 
         Util.bind(this, "onKeyDown", "onClicked");
         Keys.evtKeyPressed.listen(this.onKeyDown);
-        Mouse.evtClicked.listen(this.onClicked)
+        Mouse.evtClicked.listen(this.onClicked);
         let gridView = new GridView({depth: 10, grid: this.grid, xxform: {scalex: Config.renderScale, scaley: Config.renderScale}});
-        console.log(`columns: ${this.model.columns}`);
         let gloomView = new UxGloom({
             tag: "gloom", 
             depth: 10, 
@@ -81,20 +80,19 @@ class PlayState extends State {
                 origx: 0, 
                 origy: 0, 
                 border: .5, 
-                width: 16*32, 
-                height: 16*24, 
+                width: 16*this.model.columns, 
+                height: 16*this.model.rows, 
                 scalex: Config.renderScale, 
                 scaley: Config.renderScale
             },
         });
-        console.log(`gloomView.xform: ${gloomView.xform} dim: ${gloomView.width},${gloomView.height} min: ${gloomView.minx},${gloomView.miny} max: ${gloomView.maxx},${gloomView.maxy}`);
 
         // load level objects
         this.model.load();
 
         // lookup object references
         this.player = this.findFirst(v=>v.tag === "player");
-        console.log(`PlayState player is ${this.player}`);
+        //console.log(`PlayState player is ${this.player}`);
         // hook camera
         if (this.player) this.camera.trackTarget(this.player);
         this.camera.trackWorld(this.model);

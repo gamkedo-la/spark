@@ -301,7 +301,6 @@ class EditorState extends State {
         // wire callbacks
         this.gridPanel = Hierarchy.find(this.view, v=>v.tag === "gridPanel");
         this.editorPanel = Hierarchy.find(this.view, v=>v.tag === "editorPanel");
-        console.log(`editor panel: ${this.editorPanel}`);
         this.tileButtonsPanel = Hierarchy.find(this.view, v=>v.tag === "tileButtonsPanel");
         for (const tool of ["paint", "fill", "get", "delete"]) {
             this[`${tool}Select`] = Hierarchy.find(this.view, v=>v.tag === `${tool}.select`);

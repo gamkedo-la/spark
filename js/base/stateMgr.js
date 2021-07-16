@@ -33,7 +33,6 @@ class StateMgr extends Gizmo {
     // swap current state w/ new state
     swap(ctrl) {
         let old = this._current;
-        console.log("old: " + old);
         this._current = ctrl;
         if (old && old.destroy) old.destroy();
     }
