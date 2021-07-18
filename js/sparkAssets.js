@@ -345,7 +345,7 @@ class SparkAssets {
                 xcollider: { width: 32, height: 16 },
             }),
 
-            { tag: "spark", cls: "Projectile", 
+            { tag: "spark", cls: "SparkProjectile", 
                 xcollider: { blocking: Collider.projectile, width:8, height:8, color: "rgba(0,0,127,.5)" },
                 xsketch: { cls: "Media", tag: "spark"}, 
             },

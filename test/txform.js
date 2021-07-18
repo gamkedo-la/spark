@@ -1,5 +1,6 @@
-import { Vect } from "../js/base/vect.js";
-import { XForm } from "../js/base/xform.js";
+import { Vect }             from "../js/base/vect.js";
+import { XForm }            from "../js/base/xform.js";
+import { Fmt }              from "../js/base/fmt.js";
 
 let suite = describe("an xform", () => {
     let root;
@@ -19,5 +20,24 @@ let suite = describe("an xform", () => {
             expect(rslt).toEqual(test.xLocal);
         })
     }
+
+    // static transform tests
+    let staticXformTests = [
+        {xxform: {}, minx: -0, miny: -0, maxx: 0, maxy: 0, wminx: 0, wminy: 0,  wmaxx: 0, wmaxy: 0},
+    ]
+    for (const test of staticXformTests) {
+        it(`static xform of ${Fmt.ofmt(test.xxform)}`, ()=>{
+            let xform = new XForm(test.xxform);
+            expect(xform.wminx).toEqual(test.wminx);
+            expect(xform.wminy).toEqual(test.wminy);
+            expect(xform.wmaxx).toEqual(test.wmaxx);
+            expect(xform.wmaxy).toEqual(test.wmaxy);
+            expect(xform.minx).toEqual(test.minx);
+            expect(xform.miny).toEqual(test.miny);
+            expect(xform.maxx).toEqual(test.maxx);
+            expect(xform.maxy).toEqual(test.maxy);
+        });
+    }
+
 
 });

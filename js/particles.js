@@ -8,7 +8,7 @@ import { Mouse }            from "./base/mouse.js";
 import { State }            from "./base/state.js";
 import { Util }             from "./base/util.js";
 import { Fmt }              from "./base/fmt.js";
-import { TestFx }           from "./sparkFx.js";
+import { TestFx, SparkFx }  from "./sparkFx.js";
 import { Config }           from "./base/config.js";
 import { Vect }             from "./base/vect.js";
 import { TtlCondition }     from "./base/particles.js";
@@ -18,14 +18,15 @@ import { UxView }           from "./base/uxView.js";
 class PlayFxView extends UxView {
     cpost(spec) {
         super.cpost(spec);
-        let fx = new TestFx();
+        let fx = new SparkFx();
         this.adopt(fx);
         this.radius = Math.min(this.xform.width, this.xform.height) * .75;
         this.angle = 0;
         this.angleRate = .001;
         this.dotx = Math.cos(this.angle) * this.radius;
         this.doty = Math.sin(this.angle) * this.radius;
-        let fx2 = new TestFx({ getorigx: (() => this.dotx/Config.renderScale), getorigy: (() => this.doty/Config.renderScale) });
+        //let fx2 = new TestFx({ getorigx: (() => this.dotx/Config.renderScale), getorigy: (() => this.doty/Config.renderScale) });
+        let fx2 = new SparkFx({ getorigx: (() => this.dotx/Config.renderScale), getorigy: (() => this.doty/Config.renderScale) });
         this.adopt(fx2);
         this.color = "white";
         this.size = 3;
@@ -79,13 +80,6 @@ class ParticlesState extends State {
         Keys.evtKeyPressed.listen(this.onKeyDown);
         Mouse.evtClicked.listen(this.onClick);
         this.particlePanel = Hierarchy.find(this.view, v=>v.tag === "particlePanel");
-        console.log(`pp pos: ${this.particlePanel.x},${this.particlePanel.y}`);
-        //let fx = new TestFx({ xxform: {border: .5, scalex: Config.renderScale, scaley: Config.renderScale}} );
-        //let fx = new TestFx({ depth: 10, xxform: {border: .5, scalex: Config.renderScale, scaley: Config.renderScale} });
-        //let fx = new TestFx({ xxform: {border: .5, parent: this.particlePanel.xform} });
-        //let fx = new TestFx({ xxform: {border: .5}});
-        //this.particlePanel.adopt(fx);
-        //console.log(`fx xform: ${fx.xform} fx.dim ${fx.width},${fx.height} min: ${fx.xform.minx},${fx.xform.miny}`);
     }
 
     onKeyDown(evt) {

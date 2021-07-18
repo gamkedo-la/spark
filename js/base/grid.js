@@ -221,6 +221,7 @@ class Grid {
         }
         // assign gizmo gidx
         gzo.gidx = gidx;
+        if (gzo.cls === `SparkFx`) console.log(`grid add ${gzo} w/ idx: ${gzo.gidx} pos: ${gzo.x},${gzo.y} min: ${gzo.minx},${gzo.miny} max: ${gzo.maxx},${gzo.maxy}`);
         if (this.dbg) console.log(`grid add ${gzo} w/ idx: ${gzo.gidx}`);
         // handle gizmo updates
         gzo.evtUpdated.listen(this.onGizmoUpdate);

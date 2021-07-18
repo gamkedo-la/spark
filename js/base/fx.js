@@ -20,14 +20,11 @@ class GameFx extends UxView {
         this.gety = spec.gety;
         this.getorigx = spec.getorigx;
         this.getorigy = spec.getorigy;
-        this.absolutePosition = spec.absolutePosition || false;
-
         if (spec.donePredicate) {
             this.donePredicate = ((fx) => (fx.ctrls.length === 0 || spec.donePredicate(fx)));
         } else {
             this.donePredicate = ((fx) => fx.ctrls.length === 0);
         }
-        //this.donePredicate = ((fx) => (fx.ctrls.length === 0 || (fx.spec.donePredicate || ((p) => false))));
         this.conditions = Object.assign({}, spec.conditions);
         // controllers... 
         // -- emitters or other objects acting as a controller of the effect.  controllers are executed until they are done, then popped from list
@@ -45,11 +42,25 @@ class GameFx extends UxView {
         return this.donePredicate(this);
     }
 
+    get minx() {
+        return (this.getx) ? this.getx() + this._xform.wminx : this._xform.wminx;
+    }
+    get miny() {
+        return (this.gety) ? this.gety() + this._xform.wminy : this._xform.wminy;
+    }
+
+    get maxx() {
+        return (this.getx) ? this.getx() + this._xform.wmaxx : this._xform.wmaxx;
+    }
+    get maxy() {
+        return (this.gety) ? this.gety() + this._xform.wmaxy : this._xform.wmaxy;
+    }
+
     get x() {
-        return (this.getx) ? this.getx() + this._xform.wcenterx: + this._xform.wcenterx;
+        return (this.getx) ? this.getx() + this._xform.wcenterx : this._xform.wcenterx;
     }
     get y() {
-        return (this.gety) ? this.gety() + this._xform.wcentery: + this._xform.wcentery;
+        return (this.gety) ? this.gety() + this._xform.wcentery : this._xform.wcentery;
     }
 
     update(ctx) {

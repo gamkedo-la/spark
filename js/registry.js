@@ -9,7 +9,7 @@ import { ModelState }       from "./base/modelState.js";
 import { Activity }         from "./base/activity.js";
 import { Bed }              from "./bed.js";
 import { Chair }            from "./chair.js";
-import { Projectile }       from "./projectile.js";
+import { Projectile, SparkProjectile }       from "./projectile.js";
 import { Level }            from "./lvl.js";
 import { Atts }             from "./base/atts.js";
 import { Store }            from "./base/store.js";
@@ -79,6 +79,7 @@ class SparkRegistry {
         registry.add(Stairs);
         registry.add(Bed);
         registry.add(Projectile);
+        registry.add(SparkProjectile);
         registry.add(Level);
         registry.add(SparkBase);
         registry.add(SparkRelay);
