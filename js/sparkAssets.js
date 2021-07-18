@@ -85,14 +85,14 @@ class SparkAssets {
             { src: "img/flowerpot1.png", loader: "Sheet", refs: [
                 { tag: "flowerpot1.idle",  cls: "Sprite", x: 16*0, y: 16*0, width: 16*2, height: 16*2 },
                 { tag: "flowerpot1.sparked", cls: "Animation", loop: false, cels: [
-                    { x: 16*0, y: 16*0, width: 32, height: 32, duration: 400 },
-                    { x: 16*2, y: 16*0, width: 32, height: 32, duration: 700 }, 
-                    { x: 16*4, y: 16*0, width: 32, height: 32, duration: 900 },
-                    { x: 16*6, y: 16*0, width: 32, height: 32, duration: 900 },
-                    { x: 16*0, y: 16*2, width: 32, height: 32, duration: 900 },
-                    { x: 16*2, y: 16*2, width: 32, height: 32, duration: 900 },
-                    { x: 16*4, y: 16*2, width: 32, height: 32, duration: 900 },
-                    { x: 16*6, y: 16*2, width: 32, height: 32, duration: 200 },
+                    { x: 16*0, y: 16*0, width: 32, height: 32, ttl: 400 },
+                    { x: 16*2, y: 16*0, width: 32, height: 32, ttl: 700 }, 
+                    { x: 16*4, y: 16*0, width: 32, height: 32, ttl: 900 },
+                    { x: 16*6, y: 16*0, width: 32, height: 32, ttl: 900 },
+                    { x: 16*0, y: 16*2, width: 32, height: 32, ttl: 900 },
+                    { x: 16*2, y: 16*2, width: 32, height: 32, ttl: 900 },
+                    { x: 16*4, y: 16*2, width: 32, height: 32, ttl: 900 },
+                    { x: 16*6, y: 16*2, width: 32, height: 32, ttl: 200 },
                 ]},
             ]},
 
