@@ -75,7 +75,11 @@ class SparkAssets {
                      { x: 16*6, y: 16*4, width: 16, height: 16 },
                      { x: 16*7, y: 16*4, width: 16, height: 16 },
                      { x: 16*8, y: 16*4, width: 16, height: 16 } 
-                ]}
+                ]},
+                { tag: "fern",      cls: "VarSprite", variations: [
+                    { x: 16*4, y: 16*6, width: 32, height: 32 } 
+               ]},
+
             ]},
 
             { src: "img/flowerpot1.png", loader: "Sheet", refs: [
@@ -297,6 +301,7 @@ class SparkAssets {
             Templates.tile("00r", "wildFlower"), 
             Templates.tile("00s", "seaShell"),
             Templates.tile("00t", "waves"),
+            Templates.tile("00u", "fern"),
 
             Templates.object("o00", "sparkbase", "SparkBase", { 
                 powered: true,
