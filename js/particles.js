@@ -14,43 +14,89 @@ import { Vect }             from "./base/vect.js";
 import { TtlCondition }     from "./base/particles.js";
 import { Hierarchy }        from "./base/hierarchy.js";
 import { UxView }           from "./base/uxView.js";
+import { Generator } from "./base/generator.js";
 
 class PlayFxView extends UxView {
     cpost(spec) {
         super.cpost(spec);
-        let fx = new SparkFx();
-        this.adopt(fx);
-        this.radius = Math.min(this.xform.width, this.xform.height) * .75;
         this.angle = 0;
         this.angleRate = .001;
-        this.dotx = Math.cos(this.angle) * this.radius;
-        this.doty = Math.sin(this.angle) * this.radius;
-        //let fx2 = new TestFx({ getorigx: (() => this.dotx/Config.renderScale), getorigy: (() => this.doty/Config.renderScale) });
-        let fx2 = new SparkFx({ getorigx: (() => this.dotx/Config.renderScale), getorigy: (() => this.doty/Config.renderScale) });
-        this.adopt(fx2);
         this.color = "white";
-        this.size = 3;
+        this.size = 2;
+        //let fx2 = new TestFx({ getorigx: (() => this.dotx/Config.renderScale), getorigy: (() => this.doty/Config.renderScale) });
+        //let fx2 = new SparkFx({ getorigx: (() => this.dotx/Config.renderScale), getorigy: (() => this.doty/Config.renderScale) });
+        //this.adopt(fx2);
+    }
+
+    setup() {
+        //this.radius = Math.min(this.parent.xform.width, this.parent.xform.height) * .45;
+        this.centerx = (this.xform.wminx + this.width/2)/Config.renderScale;
+        this.centery = (this.xform.wminy + this.height/2)/Config.renderScale;
+        this.radius = Math.min(this.centerx, this.centery) * .75;
+        this.dotx = this.centerx + Math.cos(this.angle) * this.radius;
+        this.doty = this.centery + Math.sin(this.angle) * this.radius;
+        console.log(`radius: ${this.radius}`);
+        console.log(`center: ${this.centerx},${this.centery}`);
+        console.log(`dot: ${this.dotx},${this.doty}`);
+        //this.addCenterFx("TestFx");
+        this.addCirclingFx("TestFx");
+        /*
+        let fx = new TestFx({
+            xxform: {dx: 100, dy: 100, scalex: Config.renderScale, scaley: Config.renderScale}, 
+            depth: 10,
+        });
+        */
+    }
+
+    addCenterFx(cls) {
+        if (this.centerFx) this.centerFx.destroy();
+        let xfx = {
+            cls: cls,
+            xxform: {dx: this.centerx, dy: this.centery, scalex: Config.renderScale, scaley: Config.renderScale}, 
+            depth: 10,
+        }
+        this.centerFx = Generator.generate(xfx);
+    }
+
+    addCirclingFx(cls) {
+        if (this.circlingFx) this.circlingFx.destroy();
+        let xfx = {
+            cls: cls,
+            getx: () => this.dotx,
+            //gety: () => this.doty,
+            xxform: {origx: 0, origy: 0, dx: this.dotx, dy: this.doty, scalex: Config.renderScale, scaley: Config.renderScale}, 
+            //xxform: {origx: 0, origy: 0, dx: this.dotx, dy: this.doty, },
+            depth: 10,
+        }
+        this.circlingFx = Generator.generate(xfx);
     }
 
     iupdate(ctx) {
         if (!this.first) {
             this.first = true;
-            this.radius = Math.min(this.parent.xform.width, this.parent.xform.height) * .45;
+            this.setup();
+            console.log(`parent dim: ${this.parent.xform.width},${this.parent.xform.height}`);
+            //this.centerx = (this.xform.wminx + this.width/2)/Config.renderScale;
+            //this.centery = (this.xform.wminy + this.height/2)/Config.renderScale;
         }
-        //console.log(`parent dim: ${this.parent.xform.width},${this.parent.xform.height}`);
+        //console.log(`model center: ${this.x},${this.y}`);
         this.angle += ctx.deltaTime * this.angleRate;
         if (this.angle > Math.PI*2) this.angle -= Math.PI*2
-        this.dotx = Math.cos(this.angle) * this.radius;
-        this.doty = Math.sin(this.angle) * this.radius;
+        this.dotx = this.centerx + Math.cos(this.angle) * this.radius;
+        this.doty = this.centery + Math.sin(this.angle) * this.radius;
+        //console.log(`dot: ${this.dotx},${this.doty}`);
         return true;
     }
 
-    _render(ctx, x=0, y=0) {
-        if (this._sketch) this._sketch.render(ctx, this.xform.minx, this.xform.miny);
+    _render(ctx) {
+        ctx.translate(this.xform.minx, this.xform.miny);
+        ctx.scale(Config.renderScale, Config.renderScale);
         ctx.beginPath();
         ctx.arc(this.dotx, this.doty, this.size, 0, Math.PI*2);
         ctx.fillStyle = this.color;
         ctx.fill();
+        ctx.scale(1/Config.renderScale, 1/Config.renderScale);
+        ctx.translate(-this.xform.minx, -this.xform.miny);
     }
 }
 

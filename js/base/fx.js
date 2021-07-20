@@ -35,6 +35,7 @@ class GameFx extends UxView {
         // children...
         // -- any particles or dependent effects that need to be part of the update/rendering sequence
         this.dependents = new ParticleGroup();
+        console.log(`delta: ${this.xform.dx},${this.xform.dy}`);
     }
 
     // PROPERTIES ----------------------------------------------------------
@@ -42,6 +43,7 @@ class GameFx extends UxView {
         return this.donePredicate(this);
     }
 
+    /*
     get minx() {
         return (this.getx) ? this.getx() + this._xform.wminx : this._xform.wminx;
     }
@@ -62,8 +64,13 @@ class GameFx extends UxView {
     get y() {
         return (this.gety) ? this.gety() + this._xform.wcentery : this._xform.wcentery;
     }
+    */
 
-    update(ctx) {
+    iupdate(ctx) {
+        // update xform
+        //if (this.getx && this.gety) console.log(`old d: ${this.xform.dx},${this.xform.dy} new: ${this.getx()},${this.gety()}}`);
+        if (this.getx) this.xform.dx = this.getx();
+        if (this.gety) this.xform.dy = this.gety();
         // update conditions
         for (const condition of Object.values(this.conditions)) {
             condition.update(this, ctx);

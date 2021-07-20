@@ -19,6 +19,7 @@ class TestFx extends GameFx {
                 });
             },
         }));
+        console.log(`spec: ${Fmt.ofmt(spec)} pos: ${this.x},${this.y} xform: ${this.xform}`);
     }
 }
 

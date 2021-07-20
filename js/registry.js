@@ -28,6 +28,7 @@ import { SleepAtBedScheme } from "./actions/sleepAtBed.js";
 import { LeaveWorkstationScheme } from "./actions/leaveWorkstation.js";
 import { UxEditorView } from "./editorState.js";
 import { UxGloom } from "./uxGloom.js";
+import { SparkFx, TestFx } from "./sparkFx.js";
 
 class SparkRegistry {
     static init() {
@@ -84,6 +85,8 @@ class SparkRegistry {
         registry.add(SparkBase);
         registry.add(SparkRelay);
         registry.add(Workstation);
+        registry.add(TestFx);
+        registry.add(SparkFx);
         // -- register schemes
         registry.add(WantBedScheme);
         registry.add(FindScheme);
