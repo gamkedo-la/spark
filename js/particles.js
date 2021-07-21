@@ -39,7 +39,7 @@ class PlayFxView extends UxView {
         console.log(`center: ${this.centerx},${this.centery}`);
         console.log(`dot: ${this.dotx},${this.doty}`);
         //this.addCenterFx("TestFx");
-        this.addCirclingFx("TestFx");
+        this.addCirclingFx("SparkFx");
         /*
         let fx = new TestFx({
             xxform: {dx: 100, dy: 100, scalex: Config.renderScale, scaley: Config.renderScale}, 
@@ -62,9 +62,12 @@ class PlayFxView extends UxView {
         if (this.circlingFx) this.circlingFx.destroy();
         let xfx = {
             cls: cls,
-            getx: () => this.dotx,
+            //getx: () => this.dotx,
             //gety: () => this.doty,
-            xxform: {origx: 0, origy: 0, dx: this.dotx, dy: this.doty, scalex: Config.renderScale, scaley: Config.renderScale}, 
+            getorigx: () => this.dotx-this.centerx,
+            getorigy: () => this.doty-this.centery,
+            //xxform: {origx: 0, origy: 0, dx: this.dotx, dy: this.doty, scalex: Config.renderScale, scaley: Config.renderScale}, 
+            xxform: {origx: 0, origy: 0, dx: this.centerx, dy: this.centery, scalex: Config.renderScale, scaley: Config.renderScale}, 
             //xxform: {origx: 0, origy: 0, dx: this.dotx, dy: this.doty, },
             depth: 10,
         }

@@ -69,6 +69,8 @@ class GameFx extends UxView {
     iupdate(ctx) {
         // update xform
         //if (this.getx && this.gety) console.log(`old d: ${this.xform.dx},${this.xform.dy} new: ${this.getx()},${this.gety()}}`);
+        //console.log(`scale: ${this.xform.scalex},${this.xform.scaley}`);
+        //if (this.getx) console.log(`getx: ${this.getx()}`);
         if (this.getx) this.xform.dx = this.getx();
         if (this.gety) this.xform.dy = this.gety();
         // update conditions
@@ -119,8 +121,10 @@ class GameFx extends UxView {
 
     _render(ctx) {
         // render dependents
-        let x = (this.getx) ? this.getx() + this.xform.minx : this.xform.minx;
-        let y = (this.gety) ? this.gety() + this.xform.miny : this.xform.miny;
+        //let x = (this.getx) ? this.getx() + this.xform.minx : this.xform.minx;
+        //let y = (this.gety) ? this.gety() + this.xform.miny : this.xform.miny;
+        let x = this.xform.minx;
+        let y = this.xform.miny;
         //console.log(`fx render @ ${x},${y}`);
         this.dependents.render(ctx, x, y);
     }

@@ -18,6 +18,7 @@ class FadeParticle extends Particle {
         this.color = spec.color || new Color(255,201,92,1);
         this.fade = this.color.a;
         this.fadeRate = this.fade/ttl;
+        //console.log(`fade particle spec: ${Fmt.ofmt(spec)}`);
     }
 
     update(ctx) {
@@ -33,6 +34,7 @@ class FadeParticle extends Particle {
     }
 
     render(ctx, x=0, y=0) {
+        //console.log(`render Fade @ ${x},${y} this.pos: ${this.x},${this.y}`);
         if (this.done) return;
         ctx.beginPath();
         ctx.arc(this.x + x, this.y + y, this.size, 0, Math.PI*2);

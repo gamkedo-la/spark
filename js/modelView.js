@@ -169,7 +169,7 @@ class ModelView extends UxPanel {
         if (Config.dbg.viewColliders) {
             // colliders "render" in world coords
             this.xform.revert(ctx, false);
-            if (this.xform.scalex !== 1|| this.xform.scaley !== 1) ctx.scale(this.xform.scalex, this.xform.scaley);
+            //if (this.xform.scalex !== 1|| this.xform.scaley !== 1) ctx.scale(this.xform.scalex, this.xform.scaley);
             if (this.model.collider) this.model.collider.render(ctx);
             if (this.model.activator) this.model.activator.render(ctx);
             if (this.model.approaches) {
@@ -179,7 +179,7 @@ class ModelView extends UxPanel {
                 }
             }
             // restore transform
-            if (this.xform.scalex !== 1|| this.xform.scaley !== 1) ctx.scale(this.xform.iscalex, this.xform.iscaley);
+            //if (this.xform.scalex !== 1|| this.xform.scaley !== 1) ctx.scale(this.xform.iscalex, this.xform.iscaley);
             this.xform.apply(ctx, false);
         }
     }

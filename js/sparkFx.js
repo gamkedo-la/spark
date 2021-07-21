@@ -9,8 +9,8 @@ class TestFx extends GameFx {
     cpost(spec) {
         super.cpost(spec);
         this.ctrls.push(new ParticleEmitter({
-            interval: 50,
-            count: 3,
+            interval: 200,
+            count: 1,
             group: this.dependents,
             generator: (e) => {
                 return new FadeParticle({
