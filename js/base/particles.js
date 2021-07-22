@@ -1,6 +1,7 @@
 export { Particle, ParticleGroup, ParticleEmitter, TtlCondition };
 
 import { Fmt } from "./fmt.js";
+import { Stats } from "./stats.js";
 
 /** ========================================================================
  * The base particle class
@@ -12,11 +13,11 @@ class Particle {
      * Create a new particle
      */
     constructor(spec={}) {
+        Stats.count("Particle.new");
         this.x = spec.x || 0;
         this.y = spec.y || 0;
         this.donePredicate = spec.donePredicate || ((p) => false);
         this.conditions = Object.assign({}, spec.conditions);
-        //console.log(`conditions: ${Fmt.ofmt(this.conditions)} spec: ${Fmt.ofmt(spec)}`);
     }
 
     // PROPERTIES ----------------------------------------------------------

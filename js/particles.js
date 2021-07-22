@@ -14,7 +14,7 @@ import { Vect }             from "./base/vect.js";
 import { TtlCondition }     from "./base/particles.js";
 import { Hierarchy }        from "./base/hierarchy.js";
 import { UxView }           from "./base/uxView.js";
-import { Generator } from "./base/generator.js";
+import { Generator }        from "./base/generator.js";
 
 class PlayFxView extends UxView {
     cpost(spec) {
@@ -23,13 +23,9 @@ class PlayFxView extends UxView {
         this.angleRate = .001;
         this.color = "white";
         this.size = 2;
-        //let fx2 = new TestFx({ getorigx: (() => this.dotx/Config.renderScale), getorigy: (() => this.doty/Config.renderScale) });
-        //let fx2 = new SparkFx({ getorigx: (() => this.dotx/Config.renderScale), getorigy: (() => this.doty/Config.renderScale) });
-        //this.adopt(fx2);
     }
 
     setup() {
-        //this.radius = Math.min(this.parent.xform.width, this.parent.xform.height) * .45;
         this.centerx = (this.xform.wminx + this.width/2)/Config.renderScale;
         this.centery = (this.xform.wminy + this.height/2)/Config.renderScale;
         this.radius = Math.min(this.centerx, this.centery) * .75;
@@ -38,14 +34,8 @@ class PlayFxView extends UxView {
         console.log(`radius: ${this.radius}`);
         console.log(`center: ${this.centerx},${this.centery}`);
         console.log(`dot: ${this.dotx},${this.doty}`);
-        //this.addCenterFx("TestFx");
+        this.addCenterFx("TestFx");
         this.addCirclingFx("SparkFx");
-        /*
-        let fx = new TestFx({
-            xxform: {dx: 100, dy: 100, scalex: Config.renderScale, scaley: Config.renderScale}, 
-            depth: 10,
-        });
-        */
     }
 
     addCenterFx(cls) {
@@ -62,10 +52,8 @@ class PlayFxView extends UxView {
         if (this.circlingFx) this.circlingFx.destroy();
         let xfx = {
             cls: cls,
-            //getx: () => this.dotx,
-            //gety: () => this.doty,
-            getorigx: () => this.dotx-this.centerx,
-            getorigy: () => this.doty-this.centery,
+            getx: () => this.dotx,
+            gety: () => this.doty,
             //xxform: {origx: 0, origy: 0, dx: this.dotx, dy: this.doty, scalex: Config.renderScale, scaley: Config.renderScale}, 
             xxform: {origx: 0, origy: 0, dx: this.centerx, dy: this.centery, scalex: Config.renderScale, scaley: Config.renderScale}, 
             //xxform: {origx: 0, origy: 0, dx: this.dotx, dy: this.doty, },

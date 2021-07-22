@@ -18,8 +18,6 @@ class GameFx extends UxView {
         super.cpost(spec);
         this.getx = spec.getx;
         this.gety = spec.gety;
-        this.getorigx = spec.getorigx;
-        this.getorigy = spec.getorigy;
         if (spec.donePredicate) {
             this.donePredicate = ((fx) => (fx.ctrls.length === 0 || spec.donePredicate(fx)));
         } else {
@@ -43,36 +41,21 @@ class GameFx extends UxView {
         return this.donePredicate(this);
     }
 
-    /*
-    get minx() {
-        return (this.getx) ? this.getx() + this._xform.wminx : this._xform.wminx;
-    }
-    get miny() {
-        return (this.gety) ? this.gety() + this._xform.wminy : this._xform.wminy;
-    }
-
-    get maxx() {
-        return (this.getx) ? this.getx() + this._xform.wmaxx : this._xform.wmaxx;
-    }
-    get maxy() {
-        return (this.gety) ? this.gety() + this._xform.wmaxy : this._xform.wmaxy;
-    }
-
-    get x() {
-        return (this.getx) ? this.getx() + this._xform.wcenterx : this._xform.wcenterx;
-    }
-    get y() {
-        return (this.gety) ? this.gety() + this._xform.wcentery : this._xform.wcentery;
-    }
-    */
-
+    // METHODS -------------------------------------------------------------
     iupdate(ctx) {
-        // update xform
-        //if (this.getx && this.gety) console.log(`old d: ${this.xform.dx},${this.xform.dy} new: ${this.getx()},${this.gety()}}`);
-        //console.log(`scale: ${this.xform.scalex},${this.xform.scaley}`);
-        //if (this.getx) console.log(`getx: ${this.getx()}`);
-        if (this.getx) this.xform.dx = this.getx();
-        if (this.gety) this.xform.dy = this.gety();
+        // update fx speed and update xform
+        if (this.getx) {
+            let x = this.getx();
+            this.dx = (x - this.xform.dx)/ctx.deltaTime;
+            //console.log(`dx: ${this.dx} dt: ${ctx.deltaTime} dx/dt: ${this.dx/ctx.deltaTime}`);
+            this.xform.dx = x;
+        }
+        if (this.gety) {
+            let y = this.gety();
+            //this.dy = y - this.xform.dy;
+            this.dy = (y - this.xform.dy)/ctx.deltaTime;
+            this.xform.dy = y;
+        }
         // update conditions
         for (const condition of Object.values(this.conditions)) {
             condition.update(this, ctx);

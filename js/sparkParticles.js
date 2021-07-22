@@ -18,7 +18,6 @@ class FadeParticle extends Particle {
         this.color = spec.color || new Color(255,201,92,1);
         this.fade = this.color.a;
         this.fadeRate = this.fade/ttl;
-        //console.log(`fade particle spec: ${Fmt.ofmt(spec)}`);
     }
 
     update(ctx) {
@@ -34,7 +33,6 @@ class FadeParticle extends Particle {
     }
 
     render(ctx, x=0, y=0) {
-        //console.log(`render Fade @ ${x},${y} this.pos: ${this.x},${this.y}`);
         if (this.done) return;
         ctx.beginPath();
         ctx.arc(this.x + x, this.y + y, this.size, 0, Math.PI*2);
@@ -87,7 +85,6 @@ class FadeTrailParticle extends Particle {
             this.trailx[i] += (this.traildx * dt);
             this.traily[i] += (this.traildy * dt);
         }
-        //console.log(`trailx: ${this.trailx}`);
         // update position
         this.x += (this.dx * dt);
         this.y += (this.dy * dt);
@@ -146,7 +143,6 @@ class SparkParticle extends Particle {
         this.emitColor = spec.emitColor || new Color(150,192,201,1);
         this.angle = spec.hasOwnProperty("angle") ? spec.angle : Math.random() * Math.PI * 2;
         this.angleRate = spec.angleRate || (Math.random() > .5) ? .02 : -.02;
-        //console.log(`SparkParticle spec: ${Fmt.ofmt(spec)}`);
     }
 
     update(ctx) {
@@ -190,7 +186,6 @@ class SparkParticle extends Particle {
 
     render(ctx, x=0, y=0) {
         if (this.done) return;
-        //console.log(`SparkParticle render: pos: ${x},${y} this.pos: ${this.x},${this.y}`);
         // sub-particles
         this.group.render(ctx, x, y);
         ctx.translate(this.x+x, this.y+y);
@@ -203,9 +198,6 @@ class SparkParticle extends Particle {
         ctx.lineWidth = this.width;
         ctx.strokeStyle = this.color.toString();
         ctx.stroke();
-        //ctx.arc(this.x + x, this.y + y, this.size, 0, Math.PI*2);
-        //ctx.fillStyle = this.color.toString();
-        //ctx.fill();
         ctx.rotate(-this.angle);
         ctx.translate(-(this.x+x), -(this.y+y));
     }

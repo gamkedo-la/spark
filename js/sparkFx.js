@@ -1,6 +1,6 @@
 import { GameFx }               from "./base/fx.js";
 import { ParticleEmitter }      from "./base/particles.js";
-import { FadeParticle, SparkParticle, FadeTrailParticle }         from "./sparkParticles.js";
+import { FadeParticle, SparkParticle }         from "./sparkParticles.js";
 import { Fmt }                  from "./base/fmt.js";
 
 export { TestFx, SparkFx };
@@ -9,17 +9,18 @@ class TestFx extends GameFx {
     cpost(spec) {
         super.cpost(spec);
         this.ctrls.push(new ParticleEmitter({
-            interval: 200,
-            count: 1,
+            interval: 75,
+            count: 2,
             group: this.dependents,
             generator: (e) => {
+                let dx = -(this.dx*.5) + (Math.random() * .1) - .05;
+                let dy = -(this.dy*.5) + (Math.random() * .1) - .05;
                 return new FadeParticle({
-                    x: (spec.getorigx) ? this.getorigx() : 0,
-                    y: (spec.getorigy) ? this.getorigy() : 0,
+                    dx: dx,
+                    dy: dy,
                 });
             },
         }));
-        console.log(`spec: ${Fmt.ofmt(spec)} pos: ${this.x},${this.y} xform: ${this.xform}`);
     }
 }
 
@@ -27,31 +28,28 @@ class SparkFx extends GameFx {
     cpost(spec) {
         super.cpost(spec);
         this.ctrls.push(new ParticleEmitter({
-            interval: 50,
-            count: 2,
+            interval: 33,
+            jitter: .5,
+            count: 1,
             group: this.dependents,
             generator: (e) => {
+                let dx = -(this.dx) + (Math.random() * .05) - .025;
+                let dy = -(this.dy) + (Math.random() * .05) - .025;
                 return new SparkParticle({
-                    x: (spec.getorigx) ? this.getorigx() : 0,
-                    y: (spec.getorigy) ? this.getorigy() : 0,
                     size: 1,
-                    //dx: .05,
-                    dx: (Math.random() * .05) - .025,
-                    dy: (Math.random() * .05) - .025,
+                    dx: dx,
+                    dy: dy,
                     emitSpeed: .025,
                 });
             },
         }));
-        //console.log(`spec: ${Fmt.ofmt(spec)} pos: ${this.x},${this.y} xform: ${this.xform}`);
     }
 
     iupdate(ctx) {
-        //console.log(`SparkFx iupdate`);
         return super.iupdate(ctx);
     }
 
     _render(ctx, x=0, y=0) {
-        //console.log(`sparkfx render @ ${x},${y} xform.min: ${this.xform.minx},${this.xform.miny}`);
         super._render(ctx, x, y);
     }
 }
