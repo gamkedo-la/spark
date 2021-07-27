@@ -13,8 +13,10 @@ class TestFx extends GameFx {
             count: 2,
             group: this.dependents,
             generator: (e) => {
-                let dx = -(this.dx*.5) + (Math.random() * .1) - .05;
-                let dy = -(this.dy*.5) + (Math.random() * .1) - .05;
+                let dx = -(this.dx) + (Math.random() * .1) - .05;
+                let dy = -(this.dy) + (Math.random() * .1) - .05;
+                //let dx = (Math.random() * .1) - .05;
+                //let dy = (Math.random() * .1) - .05;
                 return new FadeParticle({
                     dx: dx,
                     dy: dy,
@@ -28,15 +30,18 @@ class SparkFx extends GameFx {
     cpost(spec) {
         super.cpost(spec);
         this.ctrls.push(new ParticleEmitter({
-            interval: 33,
+            interval: 100,
             jitter: .5,
             count: 1,
             group: this.dependents,
             generator: (e) => {
-                let dx = -(this.dx) + (Math.random() * .05) - .025;
-                let dy = -(this.dy) + (Math.random() * .05) - .025;
+                //console.log(`fx d: ${this.dx},${this.dy}`);
+                let dx = -(this.dx*.5) + (Math.random() * .05) - .025;
+                let dy = -(this.dy*.5) + (Math.random() * .05) - .025;
+                //let dx = -(this.dx);
+                //let dy = -(this.dy);
                 return new SparkParticle({
-                    size: 1,
+                    size: 2,
                     dx: dx,
                     dy: dy,
                     emitSpeed: .025,

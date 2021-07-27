@@ -16,8 +16,18 @@ class GameFx extends UxView {
     }
     cpost(spec) {
         super.cpost(spec);
+        this.dx = 0;
+        this.dy = 0;
         this.getx = spec.getx;
+        if (this.getx) {
+            this.lastx = this.getx();
+            this.xform.dx = this.lastx;
+        }
         this.gety = spec.gety;
+        if (this.gety) {
+            this.lasty = this.gety();
+            this.xform.dy = this.lasty;
+        }
         if (spec.donePredicate) {
             this.donePredicate = ((fx) => (fx.ctrls.length === 0 || spec.donePredicate(fx)));
         } else {
@@ -33,7 +43,6 @@ class GameFx extends UxView {
         // children...
         // -- any particles or dependent effects that need to be part of the update/rendering sequence
         this.dependents = new ParticleGroup();
-        console.log(`delta: ${this.xform.dx},${this.xform.dy}`);
     }
 
     // PROPERTIES ----------------------------------------------------------
@@ -43,18 +52,35 @@ class GameFx extends UxView {
 
     // METHODS -------------------------------------------------------------
     iupdate(ctx) {
+        // update dependents
+        this.dependents.update(ctx);
+
         // update fx speed and update xform
         if (this.getx) {
             let x = this.getx();
-            this.dx = (x - this.xform.dx)/ctx.deltaTime;
-            //console.log(`dx: ${this.dx} dt: ${ctx.deltaTime} dx/dt: ${this.dx/ctx.deltaTime}`);
+            this.dx = (x - this.lastx)/ctx.deltaTime;
             this.xform.dx = x;
+            this.lastx = x;
         }
         if (this.gety) {
             let y = this.gety();
-            //this.dy = y - this.xform.dy;
-            this.dy = (y - this.xform.dy)/ctx.deltaTime;
+            this.dy = (y - this.lasty)/ctx.deltaTime;
             this.xform.dy = y;
+            this.lasty = y;
+        }
+        if (this.dependents) {
+            if (this.dependents.width > 0) {
+                this.xform.width = this.dependents.width;
+                this.xform._origx = -this.dependents.minx/this.dependents.width;
+                this.xform._offx = -((this.xform._origx - .5) * this.dependents.width)*Config.renderScale; 
+                this.xform.dx = this.lastx + ((this.xform._origx - .5) * this.dependents.width);
+            }
+            if (this.dependents.height > 0) {
+                this.xform.height = this.dependents.height;
+                this.xform._origy = -this.dependents.miny/this.dependents.height;
+                this.xform._offy = -((this.xform._origy - .5) * this.dependents.height)*Config.renderScale; 
+                this.xform.dy = this.lasty + ((this.xform._origy - .5) * this.dependents.height);
+            }
         }
         // update conditions
         for (const condition of Object.values(this.conditions)) {
@@ -95,21 +121,13 @@ class GameFx extends UxView {
             }
         }
 
-        // update dependents
-        this.dependents.update(ctx);
-
         // fx will always mark updated
         return true;
     }
 
     _render(ctx) {
         // render dependents
-        //let x = (this.getx) ? this.getx() + this.xform.minx : this.xform.minx;
-        //let y = (this.gety) ? this.gety() + this.xform.miny : this.xform.miny;
-        let x = this.xform.minx;
-        let y = this.xform.miny;
-        //console.log(`fx render @ ${x},${y}`);
-        this.dependents.render(ctx, x, y);
+        this.dependents.render(ctx, 0, 0);
     }
 
 }

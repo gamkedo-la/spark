@@ -29,6 +29,7 @@ class Config {
             viewColliders: false,
             viewGrid: false,
             viewGridIndices: true,
+            viewXform: false,
             hideNight: false,
             hideGloom: false,
         },
