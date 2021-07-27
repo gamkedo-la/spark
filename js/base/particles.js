@@ -153,6 +153,7 @@ class ParticleEmitter {
         this.jitter = spec.jitter || 0,
         this.ttl = spec.ttl || 0,
         this.count = spec.count || 1,
+        this.first = spec.hasOwnProperty("first") ? spec.first : false;
         // next time to emit
         this.tte;
         this.gettte();

@@ -69,6 +69,7 @@ class GameFx extends UxView {
             this.lasty = y;
         }
         if (this.dependents) {
+            //console.log(`dep len: ${this.dependents.particles.length} min: ${this.dependents.minx},${this.dependents.miny} max: ${this.dependents.maxx},${this.dependents.maxy}`);
             if (this.dependents.width > 0) {
                 this.xform.width = this.dependents.width;
                 this.xform._origx = -this.dependents.minx/this.dependents.width;

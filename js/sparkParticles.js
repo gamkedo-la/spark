@@ -128,8 +128,8 @@ class SparkParticle extends Particle {
         let ttlPredicate = ((p) => p.conditions.ttl.value );
         spec.donePredicate = (spec.donePredicate) ? ((p) => (spec.donePredicate(p) || ttlPredicate(p))) : ttlPredicate;
         super(spec);
-        this.dx = spec.dx || (Math.random() * .1) - .05;
-        this.dy = spec.dy || (Math.random() * .1) - .05;
+        this.dx = spec.hasOwnProperty("dx") ? spec.dx : (Math.random() * .1) - .05;
+        this.dy = spec.hasOwnProperty("dy") ? spec.dy : (Math.random() * .1) - .05;
         this.size = spec.size || Math.random() * 3;
         this.color = spec.color || new Color(190,232,251,1);
         this.fade = this.color.a;
@@ -146,16 +146,16 @@ class SparkParticle extends Particle {
     }
 
     get minx() {
-        return this.group.minx;
+        return Math.min(this.x, this.group.minx);
     }
     get miny() {
-        return this.group.miny;
+        return Math.min(this.y, this.group.miny);
     }
     get maxx() {
-        return this.group.maxx;
+        return Math.max(this.x, this.group.maxx);
     }
     get maxy() {
-        return this.group.maxy;
+        return Math.max(this.y, this.group.maxy);
     }
 
     update(ctx) {
