@@ -12,8 +12,8 @@ class FadeParticle extends Particle {
         let ttlPredicate = ((p) => p.conditions.ttl.value );
         spec.donePredicate = (spec.donePredicate) ? ((p) => (spec.donePredicate(p) || ttlPredicate(p))) : ttlPredicate;
         super(spec);
-        this.dx = spec.dx || (Math.random() * .1) - .05;
-        this.dy = spec.dy || (Math.random() * .1) - .05;
+        this.dx = spec.hasOwnProperty("dx") ? spec.dx : (Math.random() * .1) - .05;
+        this.dy = spec.hasOwnProperty("dy") ? spec.dy : (Math.random() * .1) - .05;
         this.size = spec.size || Math.random() * 3;
         this.color = spec.color || new Color(255,201,92,1);
         this.fade = this.color.a;
@@ -106,11 +106,11 @@ class FadeTrailParticle extends Particle {
             ctx.lineWidth = this.trailWidth;
             ctx.lineCap = 'round';
             if (i===0) {
-                ctx.moveTo(this.x, this.y);
+                ctx.moveTo(this.x + x, this.y + y);
             } else {
-                ctx.moveTo(this.trailx[i-1], this.traily[i-1]);
+                ctx.moveTo(this.trailx[i-1] + x, this.traily[i-1] + y);
             }
-            ctx.lineTo(this.trailx[i], this.traily[i]);
+            ctx.lineTo(this.trailx[i]+x, this.traily[i]+y);
             let ao = this.fade - (i*this.fade)/this.trailLength
             ctx.strokeStyle = this.color.asRGB(ao);
             ctx.stroke();
@@ -128,8 +128,8 @@ class SparkParticle extends Particle {
         let ttlPredicate = ((p) => p.conditions.ttl.value );
         spec.donePredicate = (spec.donePredicate) ? ((p) => (spec.donePredicate(p) || ttlPredicate(p))) : ttlPredicate;
         super(spec);
-        this.dx = spec.dx || (Math.random() * .1) - .05;
-        this.dy = spec.dy || (Math.random() * .1) - .05;
+        this.dx = spec.hasOwnProperty("dx") ? spec.dx : (Math.random() * .1) - .05;
+        this.dy = spec.hasOwnProperty("dy") ? spec.dy : (Math.random() * .1) - .05;
         this.size = spec.size || Math.random() * 3;
         this.color = spec.color || new Color(190,232,251,1);
         this.fade = this.color.a;
@@ -143,6 +143,19 @@ class SparkParticle extends Particle {
         this.emitColor = spec.emitColor || new Color(150,192,201,1);
         this.angle = spec.hasOwnProperty("angle") ? spec.angle : Math.random() * Math.PI * 2;
         this.angleRate = spec.angleRate || (Math.random() > .5) ? .02 : -.02;
+    }
+
+    get minx() {
+        return Math.min(this.x, this.group.minx);
+    }
+    get miny() {
+        return Math.min(this.y, this.group.miny);
+    }
+    get maxx() {
+        return Math.max(this.x, this.group.maxx);
+    }
+    get maxy() {
+        return Math.max(this.y, this.group.maxy);
     }
 
     update(ctx) {
@@ -175,7 +188,7 @@ class SparkParticle extends Particle {
                     dy: this.dy + Math.sin(angle) * this.emitSpeed,
                     traildx: this.dx,
                     traildy: this.dy,
-                    size: this.size * .75,
+                    size: this.size * .5,
                     ttl: 500,
                     color: color,
                 });
@@ -197,6 +210,7 @@ class SparkParticle extends Particle {
         ctx.lineTo(0,this.size);
         ctx.lineWidth = this.width;
         ctx.strokeStyle = this.color.toString();
+        ctx.lineWidth = .5;
         ctx.stroke();
         ctx.rotate(-this.angle);
         ctx.translate(-(this.x+x), -(this.y+y));

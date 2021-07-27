@@ -31,17 +31,21 @@ class PlayFxView extends UxView {
         this.radius = Math.min(this.centerx, this.centery) * .75;
         this.dotx = this.centerx + Math.cos(this.angle) * this.radius;
         this.doty = this.centery + Math.sin(this.angle) * this.radius;
+        this.projx = 0;
+        this.projy = 0;
         console.log(`radius: ${this.radius}`);
         console.log(`center: ${this.centerx},${this.centery}`);
         console.log(`dot: ${this.dotx},${this.doty}`);
-        this.addCenterFx("TestFx");
-        this.addCirclingFx("SparkFx");
+        //this.addCenterFx("TestFx");
+        //this.addCirclingFx("SparkFx");
     }
 
     addCenterFx(cls) {
         if (this.centerFx) this.centerFx.destroy();
         let xfx = {
             cls: cls,
+            getx: () => this.centerx,
+            gety: () => this.centery,
             xxform: {dx: this.centerx, dy: this.centery, scalex: Config.renderScale, scaley: Config.renderScale}, 
             depth: 10,
         }
@@ -55,27 +59,45 @@ class PlayFxView extends UxView {
             getx: () => this.dotx,
             gety: () => this.doty,
             //xxform: {origx: 0, origy: 0, dx: this.dotx, dy: this.doty, scalex: Config.renderScale, scaley: Config.renderScale}, 
-            xxform: {origx: 0, origy: 0, dx: this.centerx, dy: this.centery, scalex: Config.renderScale, scaley: Config.renderScale}, 
+            //xxform: {origx: 0, origy: 0, dx: this.centerx, dy: this.centery, scalex: Config.renderScale, scaley: Config.renderScale}, 
+            xxform: {scalex: Config.renderScale, scaley: Config.renderScale}, 
             //xxform: {origx: 0, origy: 0, dx: this.dotx, dy: this.doty, },
             depth: 10,
         }
         this.circlingFx = Generator.generate(xfx);
     }
 
+    addProjectileFx(cls, x, y) {
+        if (this.projectileFx) this.projectileFx.destroy();
+        this.projx = x;
+        this.projy = y;
+        this.projSpeed = .1;
+        this.projAngle = Math.random() * Math.PI * 2;
+        let xfx = {
+            cls: cls,
+            conditions: { ttl: new TtlCondition({ttl: 1000})},
+            donePredicate: ((fx) => fx.conditions.ttl.value ),
+            getx: () => this.projx,
+            gety: () => this.projy,
+            xxform: {scalex: Config.renderScale, scaley: Config.renderScale}, 
+            depth: 10,
+        }
+        this.projectileFx = Generator.generate(xfx);
+    }
+
     iupdate(ctx) {
         if (!this.first) {
             this.first = true;
             this.setup();
-            console.log(`parent dim: ${this.parent.xform.width},${this.parent.xform.height}`);
-            //this.centerx = (this.xform.wminx + this.width/2)/Config.renderScale;
-            //this.centery = (this.xform.wminy + this.height/2)/Config.renderScale;
         }
-        //console.log(`model center: ${this.x},${this.y}`);
         this.angle += ctx.deltaTime * this.angleRate;
         if (this.angle > Math.PI*2) this.angle -= Math.PI*2
         this.dotx = this.centerx + Math.cos(this.angle) * this.radius;
         this.doty = this.centery + Math.sin(this.angle) * this.radius;
-        //console.log(`dot: ${this.dotx},${this.doty}`);
+        if (this.projectileFx && !this.projectileFx.done) {
+            this.projx += Math.cos(this.projAngle)*this.projSpeed*ctx.deltaTime;
+            this.projy += Math.sin(this.projAngle)*this.projSpeed*ctx.deltaTime;
+        }
         return true;
     }
 
@@ -86,6 +108,12 @@ class PlayFxView extends UxView {
         ctx.arc(this.dotx, this.doty, this.size, 0, Math.PI*2);
         ctx.fillStyle = this.color;
         ctx.fill();
+        if (this.projectileFx && !this.projectileFx.done) {
+            ctx.beginPath();
+            ctx.arc(this.projx, this.projy, this.size, 0, Math.PI*2);
+            ctx.fillStyle = this.color;
+            ctx.fill();
+        }
         ctx.scale(1/Config.renderScale, 1/Config.renderScale);
         ctx.translate(-this.xform.minx, -this.xform.miny);
     }
@@ -100,8 +128,11 @@ class ParticlesState extends State {
             resize: true,
             xchildren: [
                 Templates.editorPanel(null, { xxform: {}, xchildren: [
-                    Templates.editorPanel("particlePanel", { xxform: {right: .2}, xchildren: [
-                        { cls: "PlayFxView" },
+                    Templates.editorPanel(null, { xxform: {right: .2}, xchildren: [
+                        { 
+                            cls: "PlayFxView", 
+                            tag: "particlePanel",
+                        },
                     ]}),
                     Templates.editorPanel("buttonPanel", { xxform: {left: .8}} ),
                 ]}),
@@ -128,15 +159,8 @@ class ParticlesState extends State {
         //if (!this.active) return;
         console.log("ParticlesState onClick: " + Fmt.ofmt(evt));
         let local = new Vect(evt.x/Config.renderScale, evt.y/Config.renderScale);
-        let xfx = {
-            conditions: { ttl: new TtlCondition({ttl: 1000})},
-            donePredicate: ((fx) => fx.conditions.ttl.value ),
-            depth: 10,
-            xxform: {scalex: Config.renderScale, scaley: Config.renderScale},
-            getx: () => local.x,
-            gety: () => local.y,
-        };
-        let fx = new TestFx(xfx);
+        console.log(`part panel: ${this.particlePanel}`);
+        this.particlePanel.addProjectileFx("SparkFx", local.x, local.y);
     }
 
     destroy() {

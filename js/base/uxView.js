@@ -5,6 +5,7 @@ import { Bounds }           from "./bounds.js";
 import { Gizmo }            from "./gizmo.js";
 import { EvtChannel }       from "./event.js";
 import { XForm }            from "./xform.js";
+import { Config } from "./config.js";
 
 /** ========================================================================
  * The base user experience primitive.
@@ -123,6 +124,7 @@ class UxView extends Gizmo {
     render(ctx) {
         // don't render if not visible
         if (!this.visible) return;
+        if (Config.dbg.viewXform) this.xform.render(ctx);
         // apply transform
         this.xform.apply(ctx, false);
         // private render, specific to subclass

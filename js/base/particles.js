@@ -25,6 +25,19 @@ class Particle {
         return this.donePredicate(this);
     }
 
+    get minx() {
+        return this.x;
+    }
+    get miny() {
+        return this.y;
+    }
+    get maxx() {
+        return this.x;
+    }
+    get maxy() {
+        return this.y;
+    }
+
     // METHODS -------------------------------------------------------------
     update(ctx) {
         // update conditions
@@ -49,11 +62,22 @@ class ParticleGroup {
     // CONSTRUCTOR ---------------------------------------------------------
     constructor(spec={}) {
         this.particles = [];
+        this.minx = 0;
+        this.miny = 0;
+        this.maxx = 0;
+        this.maxy = 0;
     }
 
     // PROPERTIES ----------------------------------------------------------
     get empty() {
         return this.particles.length === 0;
+    }
+
+    get width() {
+        return this.maxx - this.minx;
+    }
+    get height() {
+        return this.maxy - this.miny;
     }
 
     // METHODS -------------------------------------------------------------
@@ -62,6 +86,10 @@ class ParticleGroup {
      * @param {*} p
      */
     add(p) {
+        if (p.minx < this.minx) this.minx = p.minx;
+        if (p.miny < this.miny) this.miny = p.miny;
+        if (p.maxx > this.maxx) this.maxx = p.maxx;
+        if (p.maxy > this.maxy) this.maxy = p.maxy;
         this.particles.push(p);
     }
 
@@ -78,13 +106,24 @@ class ParticleGroup {
      * Execute the main update thread for all things particles
      */
     update(ctx) {
+        this.minx = 0;
+        this.miny = 0;
+        this.maxx = 0;
+        this.maxy = 0;
         // iterate through tracked particles
         for (let i=this.particles.length-1; i>=0; i--) {
             const p = this.particles[i];
             // update each object
             p.update(ctx);
             // if any particles are done, remove them
-            if (p.done) this.particles.splice(i, 1);
+            if (p.done) {
+                this.particles.splice(i, 1);
+            } else {
+                if (p.minx < this.minx) this.minx = p.minx;
+                if (p.miny < this.miny) this.miny = p.miny;
+                if (p.maxx > this.maxx) this.maxx = p.maxx;
+                if (p.maxy > this.maxy) this.maxy = p.maxy;
+            }
         }
     }
 
@@ -114,6 +153,7 @@ class ParticleEmitter {
         this.jitter = spec.jitter || 0,
         this.ttl = spec.ttl || 0,
         this.count = spec.count || 1,
+        this.first = spec.hasOwnProperty("first") ? spec.first : false;
         // next time to emit
         this.tte;
         this.gettte();

@@ -28,15 +28,16 @@ class SparkFx extends GameFx {
     cpost(spec) {
         super.cpost(spec);
         this.ctrls.push(new ParticleEmitter({
-            interval: 33,
+            interval: 100,
             jitter: .5,
             count: 1,
             group: this.dependents,
+            first: true,
             generator: (e) => {
-                let dx = -(this.dx) + (Math.random() * .05) - .025;
-                let dy = -(this.dy) + (Math.random() * .05) - .025;
+                let dx = -(this.dx*.4) + (Math.random() * .03) - .015;
+                let dy = -(this.dy*.4) + (Math.random() * .03) - .015;
                 return new SparkParticle({
-                    size: 1,
+                    size: 2,
                     dx: dx,
                     dy: dy,
                     emitSpeed: .025,

@@ -259,9 +259,9 @@ class XForm {
         return worldPos;
     }
 
-    render(ctx, color="rgba(255,255,0,.5") {
+    render(ctx, chain=false, color="rgba(255,255,0,.5") {
         // get to local coordinate space
-        if (this.parent) this.parent.apply(ctx);
+        if (chain && this.parent) this.parent.apply(ctx);
         let dox = this.dox;
         let doy = this.doy;
         if (dox || doy) ctx.translate(dox, doy);
@@ -280,6 +280,6 @@ class XForm {
         ctx.fillStyle = "red";
         ctx.fillRect(-4, -4, 8, 8);
         // revert transformation
-        this.revert(ctx);
+        this.revert(ctx, chain);
     }
 }

@@ -39,6 +39,9 @@ let suite = describe("an xform", () => {
         {xxform: {dx: 10, dy: 20, width:16, height: 12}, 
             minx: -8, miny: -6, centerx: 0, centery: 0, maxx: 8, maxy: 6, 
             wminx: 2, wminy: 14, wcenterx: 10, wcentery: 20, wmaxx: 18, wmaxy: 26, },
+        {xxform: {dx: 166, dy: 0, width:54, height: 0, x: 27, y: 0, origx:0, scalex: 2}, 
+            minx: -0, miny: -0, centerx: 27, centery: 0, maxx: 54, maxy: 0, 
+            wminx: 359, wminy: 0, wcenterx: 413, wcentery: 0, wmaxx: 467, wmaxy: 0, },
     ]
     for (const test of staticXformTests) {
         it(`static xform of ${Fmt.ofmt(test.xxform)}`, ()=>{
