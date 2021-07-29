@@ -268,13 +268,21 @@ class Templates {
         return xmedia;
     }
 
+    static addHints(spec, tag, neighbors) {
+        let hints = [];
+        for (const neighbor of neighbors) {
+            hints.push(`${tag}.${neighbor}`);
+        }
+        return Object.assign({hints: hints}, spec);
+    }
+
     static wallMedia(file, tag, spec={}) {
         let xmedia = { 
             src: file, 
             loader: "Sheet", 
             refs: [],
         };
-        xmedia.refs.push(this.varSpriteRef(`${tag}.a`, [[3,0], [2,3], [0,4], [6,7], [5,8]], spec));
+        xmedia.refs.push(this.varSpriteRef(`${tag}.a`, [[3,0], [2,3], [0,4], [6,7], [5,8]], this.addHints(spec, tag, ['b', 'd'])));
         xmedia.refs.push(this.varSpriteRef(`${tag}.b`, [[4,0], [1,4], [1,7], [4,11]], spec));
         xmedia.refs.push(this.varSpriteRef(`${tag}.c`, [[5,0], [6,3], [7,4], [2,7], [3,8]], spec));
         xmedia.refs.push(this.varSpriteRef(`${tag}.d`, [[3,1], [0,5], [5,9]], spec));

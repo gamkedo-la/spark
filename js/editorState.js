@@ -287,7 +287,7 @@ class EditorState extends State {
 
         Util.bind(this, "onKeyDown", "onClicked", "onTileSelected", "onCanvasResized", "onSave", "onLoad", "assignRegion", "onNew", "onEdit", "onFilter", "onFilterSelect");
         Keys.evtKeyPressed.listen(this.onKeyDown);
-        Mouse.evtClicked.listen(this.onClicked)
+        Mouse.evtClicked.listen(this.onClicked);
         this.view.evtResized.listen(this.onCanvasResized);
 
         // parse kws from media
@@ -364,6 +364,10 @@ class EditorState extends State {
         this.buildTileButtons();
         //this.buildViews();
 
+    }
+
+    onMouseMove(evt) {
+        console.log("EditorState onMouseMove: " + Fmt.ofmt(evt));
     }
 
     onKeyDown(evt) {
@@ -502,6 +506,7 @@ class EditorState extends State {
         this.updateSelectedTile(ctx);
         this.updateToolPanel(ctx);
         this.updateLayerPanel(ctx);
+        this.updateHints(ctx);
     }
 
     assignTile(layer, depth, i, j, id, flags="0") {
@@ -567,6 +572,21 @@ class EditorState extends State {
                 for (const depth of ["bg", "bgo", "fg", "fgo"]) {
                     this[`${layer}${depth}Select`].visible = (this.layerMode === `${layer}.${depth}`);
                 }
+            }
+        }
+    }
+
+    updateHints(ctx) {
+        let localMousePos = this.editorPanel.xform.getLocal(new Vect(Mouse.x, Mouse.y));
+        let bounds = new Bounds(0, 0, this.xregion.columns*Config.tileSize, this.xregion.rows*Config.tileSize);
+        if (bounds.contains(localMousePos)) {
+            // assign the tile...
+            let i = Grid.ifromx(localMousePos.x, Config.tileSize, this.xregion.columns);
+            let j = Grid.jfromy(localMousePos.y, Config.tileSize, this.xregion.rows);
+            let idx = Grid.idxfromij(i, j, this.xregion.columns, this.xregion.rows);
+            if (idx != this.lastHintIdx) {
+                console.log(`mouse over: ${i},${j} => ${idx}`);
+                this.lastHintIdx = idx;
             }
         }
     }
