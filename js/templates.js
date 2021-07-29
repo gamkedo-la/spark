@@ -226,11 +226,15 @@ class Templates {
         let height = spec.height || Config.tileSize;
         let offx = spec.offx || 0;
         let offy = spec.offy || 0;
-        var xref = {
+        delete spec.width;
+        delete spec.height;
+        delete spec.offx;
+        delete spec.offy;
+        var xref = Object.assign({}, spec, {
             tag: tag,
             cls: "VarSprite",
             variations: [],
-        }
+        });
         //console.log(`tag: ${tag} coords: ${coords}`);
         for (const [x,y] of coords) {
             xref.variations.push(

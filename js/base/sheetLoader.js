@@ -57,12 +57,14 @@ class SheetLoader {
         return new Promise( (resolve) => {
             // iterate through referenced sprite variations
             const promises = [];
-            const spriteSpec = {
-                tag: ref.tag, 
+            const variations = ref.variations || [];
+            delete ref.variations;
+            delete ref.cls;
+            const spriteSpec = Object.assign({}, ref, {
                 cls: "VarSprite", 
                 variations: [],
-            }
-            for (const variation of (ref.variations || [])) {
+            });
+            for (const variation of variations) {
                 // parse variation vars
                 const width = variation.width || 0;
                 const height = variation.height || 0;

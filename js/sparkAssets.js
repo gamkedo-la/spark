@@ -38,6 +38,7 @@ class SparkAssets {
             Templates.wallMedia("img/stuccoWalls1.png", "stuccoWalls1", {"height": 16, "width": 16, offy:16}),
             Templates.wallMedia("img/stuccoWalls2.png", "stuccoWalls2", {"height": 16, "width": 16}),
             Templates.roofMedia("img/roof.png", "roof.l", "roof.r", "roof.f", "roof.b", {"height": 16, "width": 16}),
+            Templates.wallMedia("img/stoneWalls.png", "stoneWalls", {"height": 16, "width": 16, kw: ["wall"]}),
 
             { src: "img/terrain2.png", loader: "Sheet", refs: [
                 { tag: "rock",      cls: "VarSprite", variations: [
@@ -399,6 +400,7 @@ class SparkAssets {
         this.assets = this.assets.concat(Templates.overlayTiles("04", "oceanMid"));
         this.assets = this.assets.concat(Templates.wallTiles("05", "stuccoWalls1", Templates.wallColliders()));
         this.assets = this.assets.concat(Templates.wallTiles("06", "stuccoWalls2"));
+        this.assets = this.assets.concat(Templates.wallTiles("07", "stoneWalls"));
         this.assets = this.assets.concat(Templates.frontRoofTiles("rf", "roof.f"));
         this.assets = this.assets.concat(Templates.backRoofTiles("rb", "roof.b"));
         this.assets = this.assets.concat(Templates.leftRoofTiles("rl", "roof.l"));

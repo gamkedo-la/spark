@@ -20,6 +20,7 @@ class Config {
             AiProcessSystem: false,
             AreaSystem: false,
             EQuerySystem: false,
+            MediaLoader: false,
             MouseSystem: false,
             PathfindingSystem: false,
             StateSystem: false,
