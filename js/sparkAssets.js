@@ -80,6 +80,9 @@ class SparkAssets {
                 { tag: "fern",      cls: "VarSprite", variations: [
                     { x: 16*4, y: 16*6, width: 32, height: 32 } 
                ]},
+               { tag: "stairs",      cls: "VarSprite", variations: [
+                { x: 16*0, y: 16*6, width: 48, height: 32 } 
+           ]},
 
             ]},
 
@@ -303,6 +306,7 @@ class SparkAssets {
             Templates.tile("00s", "seaShell"),
             Templates.tile("00t", "waves"),
             Templates.tile("00u", "fern"),
+            Templates.tile("00v", "stairs"),
 
             Templates.object("o00", "sparkbase", "SparkBase", { 
                 powered: true,
