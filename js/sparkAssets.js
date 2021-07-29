@@ -31,13 +31,13 @@ class SparkAssets {
                 Templates.varSpriteRef("sand", [[0,2], [1,2], [2,2], [3,2]], ),
 
             ]},
-            Templates.overlayMedia("img/grass.png", "grass", {"height": 16, "width": 16}),
-            Templates.overlayMedia("img/ocean.png", "ocean", {"height": 16, "width": 16}),
-            Templates.overlayMedia("img/oceanMid.png", "oceanMid", {"height": 16, "width": 16}),
-            Templates.overlayMedia("img/oceanDeep.png", "oceanDeep", {"height": 16, "width": 16}),
-            Templates.wallMedia("img/stuccoWalls1.png", "stuccoWalls1", {"height": 16, "width": 16, offy:16}),
-            Templates.wallMedia("img/stuccoWalls2.png", "stuccoWalls2", {"height": 16, "width": 16}),
-            Templates.roofMedia("img/roof.png", "roof.l", "roof.r", "roof.f", "roof.b", {"height": 16, "width": 16}),
+            Templates.overlayMedia("img/grass.png", "grass", {"height": 16, "width": 16, kw: ["overlay"]}),
+            Templates.overlayMedia("img/ocean.png", "ocean", {"height": 16, "width": 16, kw: ["overlay"]}),
+            Templates.overlayMedia("img/oceanMid.png", "oceanMid", {"height": 16, "width": 16, kw: ["overlay"]}),
+            Templates.overlayMedia("img/oceanDeep.png", "oceanDeep", {"height": 16, "width": 16, kw: ["overlay"]}),
+            Templates.wallMedia("img/stuccoWalls1.png", "stuccoWalls1", {"height": 16, "width": 16, offy:16, kw: ["wall"]}),
+            Templates.wallMedia("img/stuccoWalls2.png", "stuccoWalls2", {"height": 16, "width": 16, kw: ["wall"]}),
+            Templates.roofMedia("img/roof.png", "roof.l", "roof.r", "roof.f", "roof.b", {"height": 16, "width": 16, kw: ["roof"]}),
             Templates.wallMedia("img/stoneWalls.png", "stoneWalls", {"height": 16, "width": 16, kw: ["wall"]}),
 
             { src: "img/terrain2.png", loader: "Sheet", refs: [

@@ -180,7 +180,6 @@ class EditorState extends State {
         super.cpre(spec);
         let xlvl = World.xlvl;
         let xregion = WorldGen.vendor1;
-        const media = spec.media || Base.instance.media;
         // construct the UI elements
         spec.xvmgr = {
             //cls: "LayeredViewMgr",
@@ -251,7 +250,7 @@ class EditorState extends State {
                         Templates.editorSelectButton("fill", "fill", { xxform: { top:.2, bottom: .6 }}),
                         Templates.editorSelectButton("get", "get", { xxform: { top:.4, bottom: .4 }}),
                         Templates.editorSelectButton("delete", "delete", { xxform: { top:.6, bottom: .2 }}),
-                        Templates.editorButton("filter", "filter", { xxform: { top: .8 }}),
+                        Templates.editorButton("filterButton", "filter", { xxform: { top: .8 }}),
                     ]}),
 
                     Templates.panel("selectTileButtons", { xxform: { offset: 15, left: .14, right: .8 }, xchildren: [
@@ -270,6 +269,8 @@ class EditorState extends State {
                     Templates.panel("tileButtonsPanel", { xxform: { offset: 15, left: .2 }, xchildren: [
                     ]}),
 
+                    Templates.editorPanel("filterPanel", { xxform: { left: .1, right: .7, top: .1, bottom: .1}}),
+
                 ]}),
             ],
         };
@@ -282,18 +283,31 @@ class EditorState extends State {
         super.cpost(spec);
         this.camera = spec.camera || Camera.main;
         this.assets = spec.assets || Base.instance.assets;   
+        this.media = spec.media || Base.instance.media;   
 
-        Util.bind(this, "onKeyDown", "onClicked", "onTileSelected", "onCanvasResized", "onSave", "onLoad", "assignRegion", "onNew", "onEdit");
+        Util.bind(this, "onKeyDown", "onClicked", "onTileSelected", "onCanvasResized", "onSave", "onLoad", "assignRegion", "onNew", "onEdit", "onFilter", "onFilterSelect");
         Keys.evtKeyPressed.listen(this.onKeyDown);
         Mouse.evtClicked.listen(this.onClicked)
         this.view.evtResized.listen(this.onCanvasResized);
+
+        // parse kws from media
+        const media = spec.media || Base.instance.media;
+        this.kws = ["none"];
+        for (const m of media) {
+            for (const kw of (m.kw || [])) {
+                if (!this.kws.includes(kw)) this.kws.push(kw);
+            }
+        }
+        console.log(`kws: ${this.kws}`);
 
         // setup state
         this.toolMode = "paint";
         this.layerMode = "l1.fg";
         this.tileButtons = [];
+        this.filterKwButtons = [];
         this.levelViews = [];
         this.selectedTile = "003";
+        this.filterKw = "none";
 
         this.xregion = WorldGen.vendor1;
 
@@ -307,6 +321,14 @@ class EditorState extends State {
             this[`${tool}Button`] = Hierarchy.find(this.view, v=>v.tag === `${tool}.button`);
             this[`${tool}Button`].evtClicked.listen((evt) => this.toolMode = tool);
         }
+        this.filterButton = Hierarchy.find(this.view, v=>v.tag === `filterButton`);
+        this.filterButton.evtClicked.listen(this.onFilter);
+        this.filterPanel = Hierarchy.find(this.view, v=>v.tag === `filterPanel`);
+        this.selectTileButtons = Hierarchy.find(this.view, v=>v.tag === `selectTileButtons`);
+        // hide/disable filter panel
+        this.filterPanel.active = false;
+        this.filterPanel.visible = false;
+        this.buildFilterKwButtons();
         for (const layer of ["l1", "l2", "l3"]) {
             for (const depth of ["bg", "bgo", "fg", "fgo"]) {
                 this[`${layer}${depth}Select`] = Hierarchy.find(this.view, v=>v.tag === `${layer}.${depth}.select`);
@@ -417,6 +439,64 @@ class EditorState extends State {
         this.stateMgr.push(new EditorEditState({xregion: this.xregion, assignRegion: this.assignRegion}));
     }
 
+
+    destroyFilterKwButtons() {
+        for (const b of this.filterKwButtons) {
+            b.destroy();
+        }
+        this.filterKwButtons = [];
+    }
+
+    buildFilterKwButtons() {
+        this.destroyFilterKwButtons();
+        let row = 0;
+        let col = 0;
+        let maxCols = 3;
+        let colStep = 1/maxCols;
+        let maxRows = 4;
+        let rowStep = 1/maxRows;
+        // add button for rest of tileset assets
+        for (const kw of this.kws) {
+            let bspec = {
+                cls: "UxButton",
+                dfltDepth: this.filterPanel.depth + 1,
+                dfltLayer: this.filterPanel.layer,
+                parent: this.filterPanel,
+                xxform: {parent: this.filterPanel.xform, left: col*colStep, right: 1-(col+1)*colStep, top: row*rowStep, bottom: 1-(row+1)*rowStep},
+                xtext: {text: kw, color: new Color(255,255,0,.75)},
+            };
+            let b = Generator.generate(bspec);
+            if (b) {
+                b.kw = kw;
+                b.evtClicked.listen(this.onFilterSelect);
+                this.filterPanel.adopt(b);
+                col++;
+                if (col >= maxCols) {
+                    row++;
+                    col = 0;
+                }
+                this.filterKwButtons.push(b);
+            }
+        }
+    }
+
+
+    onFilter() {
+        this.filterPanel.active = !this.filterPanel.active;
+        this.filterPanel.visible = !this.filterPanel.visible;
+        this.selectTileButtons.active = !this.filterPanel.active;
+        this.tileButtonsPanel.active = !this.filterPanel.active;
+    }
+
+    onFilterSelect(evt) {
+        this.filterKw = evt.actor.kw;
+        this.filterPanel.active = false;
+        this.filterPanel.visible = false
+        this.selectTileButtons.active = true;
+        this.tileButtonsPanel.active = true;
+        this.buildTileButtons();
+    }
+
     iupdate(ctx) {
         super.iupdate(ctx);
         this.updateSelectedTile(ctx);
@@ -509,6 +589,11 @@ class EditorState extends State {
         // add button for rest of tileset assets
         for (const asset of this.assets) {
             if (!asset.id || !asset.xsketch) continue;
+            // skip based on filter
+            if (this.filterKw != "none") {
+                let media = this.media.get(asset.xsketch.tag);
+                if (!media.kw || !media.kw.includes(this.filterKw)) continue;
+            }
             let bspec = {
                 cls: "UxButton",
                 dfltDepth: this.tileButtonsPanel.depth + 1,

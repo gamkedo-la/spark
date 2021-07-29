@@ -102,7 +102,7 @@ class UxButton extends UxView {
     // METHODS -------------------------------------------------------------
     iupdate(ctx) {
         this.updated |= super.iupdate(ctx);
-        if (!this.active) return updated;
+        if (!this.active) return this.updated;
         // determine active sketch based on mouse state
         let want = this._unpressed;
         if (this.mouseDown) {
