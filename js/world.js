@@ -97,18 +97,35 @@ class World {
 
     static xlvl = {
         cls: "Level",
-        columns: 64,
-        rows: 48,
+        columns: 128,
+        rows: 128,
         xregions: [
-            this.genRegion({columns: 64, rows: 48, xlayers: [{ id: '002j' }]}),
+            WorldGen.lvl00,
+            WorldGen.lvl10,
+            WorldGen.lvl20,
+            WorldGen.lvl30,
+            WorldGen.lvl40,
+            WorldGen.lvl50,
+            WorldGen.lvl60,
+            WorldGen.lvl70,
+            WorldGen.lvl01,
+            WorldGen.lvl11,
+            WorldGen.lvl21,
+            WorldGen.lvl31,
+            WorldGen.lvl41,
+            WorldGen.lvl51,
+            WorldGen.lvl61,
+            WorldGen.lvl71,
+
+            //this.genRegion({columns: 128, rows: 128, xlayers: [{ id: '002j' }]}),
             WorldGen.patch1,
             WorldGen.house1,
             WorldGen.vendor1,
             {
                 columns: 8,
                 rows: 4,
-                offx: 6,
-                offy: 6,
+                offx: 60,
+                offy: 15,
                 layers: {
                     l1: {
                         fg: [   

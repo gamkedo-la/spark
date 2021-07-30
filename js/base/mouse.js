@@ -9,6 +9,7 @@ class Mouse {
     static y = 0;
     static down = false;
     static evtClicked = new EvtChannel("clicked");
+    static evtMoved = new EvtChannel("moved");
     static updated = false;
     static get pos() {
         return new Vect(this.x, this.y);
@@ -71,8 +72,12 @@ class MouseSystem extends System {
             Mouse.updated = true;
             let canvasRect = this.canvas.getBoundingClientRect();
             updated = true;
-            Mouse.x = this.x - canvasRect.left;
-            Mouse.y = this.y - canvasRect.top;
+            let newMouseX = this.x - canvasRect.left;
+            let newMouseY = this.y - canvasRect.top;
+            let moved = (newMouseX !== Mouse.x) || (newMouseY !== Mouse.y);
+            Mouse.x = newMouseX;
+            Mouse.y = newMouseY;
+            if (moved) Mouse.evtMoved.trigger({x: Mouse.x, y: Mouse.y});
             Mouse.down = this.down;
             this.dirty = false;
         }

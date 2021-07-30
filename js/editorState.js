@@ -138,6 +138,7 @@ class UxEditorView extends UxPanel {
     }
 
     assignRegion(xregion) {
+        if (!WorldGen.hasOwnProperty(xregion.tag)) WorldGen[xregion.tag] = xregion;
         this.destroyViews();
         this.xregion = xregion;
         this.buildViews();
@@ -191,9 +192,9 @@ class EditorState extends State {
                         xregion: xregion,
                         xsketch: {},
                         xxform: { dx: -xregion.columns*Config.halfSize, dy: -xregion.rows*Config.halfSize, offset: 10, scalex: Config.renderScale, scaley: Config.renderScale },
-                        //xxform: { dx: -xregion.columns*Config.halfSize, dy: -xregion.rows*Config.halfSize, offset: 10 },
-                        //xxform: { origx: .5, origy: .5, offset: 0 },
-                    }
+                    },
+                    Templates.editorText("xText", "x: 0", { xxform: { left: .94, right: .015, top: .025, bottom: .95}}),
+                    Templates.editorText("yText", "y: 0", { xxform: { left: .94, right: .015, top: .05, bottom: .925}}),
                 ]}),
                 Templates.editorPanel("widgetPanel", { xxform: { left: .7, bottom: .3 }, xchildren: [
                     Templates.editorText(null, "Spark Editor", { xxform: { offset: 10, bottom: .9 }}),
@@ -282,9 +283,10 @@ class EditorState extends State {
         this.assets = spec.assets || Base.instance.assets;   
         this.media = spec.media || Base.instance.media;   
 
-        Util.bind(this, "onKeyDown", "onClicked", "onTileSelected", "onCanvasResized", "onSave", "onLoad", "assignRegion", "onNew", "onEdit", "onFilter", "onFilterSelect");
+        Util.bind(this, "onKeyDown", "onClicked", "onTileSelected", "onCanvasResized", "onSave", "onLoad", "assignRegion", "onNew", "onEdit", "onFilter", "onFilterSelect", "onMouseMoved");
         Keys.evtKeyPressed.listen(this.onKeyDown);
         Mouse.evtClicked.listen(this.onClicked);
+        Mouse.evtMoved.listen(this.onMouseMoved);
         this.view.evtResized.listen(this.onCanvasResized);
 
         // parse kws from media
@@ -358,6 +360,9 @@ class EditorState extends State {
         this.saveButton = Hierarchy.find(this.view, v=>v.tag === "saveButton");
         this.saveButton.evtClicked.listen(this.onSave);
 
+        this.xText = Hierarchy.find(this.view, v=>v.tag === "xText");
+        this.yText = Hierarchy.find(this.view, v=>v.tag === "yText");
+
         // hook camera
         //if (this.player) this.camera.trackTarget(this.player);
         //this.camera.trackWorld(this.model);
@@ -379,14 +384,32 @@ class EditorState extends State {
 
     fill(layer, depth, i, j, tile) {
         let matchid = this.getid(layer, depth, i, j);
-        let q = [[i,j]];
-        while (q.length) {
-            let [x,y] = q.shift();
+        if (matchid === tile) return;
+        let q = [`${i},${j}`];
+        // FIXME: hack: there's a bug in here somewhere causing an infinite loop... limit iterations for now
+        let iterations = 0;
+        while (q.length && iterations<500) {
+            iterations++;
+            let [x,y] = q.shift().split(",");
+            x = parseInt(x);
+            y = parseInt(y)
             this.assignTile(layer, depth, x, y, tile);
-            if (x-1 >= 0 && this.getid(layer, depth, x-1, y) === matchid) q.push([x-1,y]);
-            if (x+1 < this.xregion.columns && this.getid(layer, depth, x+1, y) === matchid) q.push([x+1,y]);
-            if (y-1 >= 0 && this.getid(layer, depth, x, y-1) === matchid) q.push([x,y-1]);
-            if (y+1 < this.xregion.rows && this.getid(layer, depth, x, y+1) === matchid) q.push([x,y+1]);
+            if (x-1 >= 0 && this.getid(layer, depth, x-1, y) === matchid) {
+                let coord = `${x-1},${y}`;
+                if (!q.includes(coord)) q.push(coord);
+            }
+            if (x+1 < this.xregion.columns && this.getid(layer, depth, x+1, y) === matchid) {
+                let coord = `${x+1},${y}`;
+                if (!q.includes(coord)) q.push(coord);
+            }
+            if (y-1 >= 0 && this.getid(layer, depth, x, y-1) === matchid) {
+                let coord = `${x},${y-1}`;
+                if (!q.includes(coord)) q.push(coord);
+            }
+            if (y+1 < this.xregion.rows && this.getid(layer, depth, x, y+1) === matchid) {
+                let coord = `${x},${y+1}`;
+                if (!q.includes(coord)) q.push(coord);
+            }
         }
     }
 
@@ -395,7 +418,7 @@ class EditorState extends State {
         let layerData;
         if (!this.xregion.layers.hasOwnProperty(layer)) {
             layerData = {};
-            this.xregion.layers[layer] = layer;
+            this.xregion.layers[layer] = layerData;
         } else {
             layerData = this.xregion.layers[layer];
         }
@@ -423,6 +446,8 @@ class EditorState extends State {
             // assign the tile...
             let i = Grid.ifromx(localMousePos.x, Config.tileSize, this.xregion.columns);
             let j = Grid.jfromy(localMousePos.y, Config.tileSize, this.xregion.rows);
+            let idx = Grid.idxfromij(i, j, this.xregion.columns, this.xregion.rows);
+            this.lastMouseIdx = idx;
             let fields = this.layerMode.split(".");
             let layer = fields[0];
             let depth = fields[1];
@@ -438,6 +463,22 @@ class EditorState extends State {
                 }
             } else if (this.toolMode === "delete") {
                 this.assignTile(layer, depth, i, j, "000");
+            }
+        }
+    }
+
+    onMouseMoved(evt) {
+        if (Mouse.down) {
+            let localMousePos = this.editorPanel.xform.getLocal(new Vect(evt.x, evt.y))
+            let bounds = new Bounds(0, 0, this.xregion.columns*Config.tileSize, this.xregion.rows*Config.tileSize);
+            if (bounds.contains(localMousePos)) {
+                let i = Grid.ifromx(localMousePos.x, Config.tileSize, this.xregion.columns);
+                let j = Grid.jfromy(localMousePos.y, Config.tileSize, this.xregion.rows);
+                let idx = Grid.idxfromij(i, j, this.xregion.columns, this.xregion.rows);
+                if (idx !== this.lastMouseIdx) {
+                    this.lastMouseIdx = idx;
+                    this.onClicked(evt);
+                }
             }
         }
     }
@@ -537,6 +578,7 @@ class EditorState extends State {
         this.updateSelectedTile(ctx);
         this.updateToolPanel(ctx);
         this.updateLayerPanel(ctx);
+        this.updateCoords(ctx);
         this.updateHints(ctx);
     }
 
@@ -591,11 +633,29 @@ class EditorState extends State {
         }
     }
 
+    updateCoords(ctx) {
+        let localMousePos = this.editorPanel.xform.getLocal(new Vect(Mouse.x, Mouse.y));
+        let bounds = new Bounds(0, 0, this.xregion.columns*Config.tileSize, this.xregion.rows*Config.tileSize);
+        if (bounds.contains(localMousePos)) {
+            // look up grid indices
+            let i = Grid.ifromx(localMousePos.x, Config.tileSize, this.xregion.columns);
+            let j = Grid.jfromy(localMousePos.y, Config.tileSize, this.xregion.rows);
+            if (this.lastI !== i) {
+                this.lastI = i;
+                this.xText.text = `x: ${i}`;
+            }
+            if (this.lastJ !== j) {
+                this.lastJ = j;
+                this.yText.text = `y: ${j}`;
+            }
+        }
+    }
+
     updateHints(ctx) {
         let localMousePos = this.editorPanel.xform.getLocal(new Vect(Mouse.x, Mouse.y));
         let bounds = new Bounds(0, 0, this.xregion.columns*Config.tileSize, this.xregion.rows*Config.tileSize);
         if (bounds.contains(localMousePos)) {
-            // assign the tile...
+            // look up grid indices
             let i = Grid.ifromx(localMousePos.x, Config.tileSize, this.xregion.columns);
             let j = Grid.jfromy(localMousePos.y, Config.tileSize, this.xregion.rows);
             let idx = Grid.idxfromij(i, j, this.xregion.columns, this.xregion.rows);
@@ -705,9 +765,9 @@ class EditorNewState extends State {
                         Templates.editorText(null, "name:",         { xxform: { top: 0/5, bottom: 1-1/5, right: .6, left: .05, otop: 20, obottom:10}}),
                         Templates.editorInput("nameInput", "lvl",   { xxform: { top: 0/5, bottom: 1-1/5, left: .4, offset: 10}}),
                         Templates.editorText(null, "columns:",      { xxform: { top: 1/5, bottom: 1-2/5, right: .6, left: .05, otop: 20, obottom:10}}),
-                        Templates.editorInput("columnsInput", "8",  { xxform: { top: 1/5, bottom: 1-2/5, left: .4, offset: 10}, charset: '0123456789'}),
+                        Templates.editorInput("columnsInput", "16",  { xxform: { top: 1/5, bottom: 1-2/5, left: .4, offset: 10}, charset: '0123456789'}),
                         Templates.editorText(null, "rows:",         { xxform: { top: 2/5, bottom: 1-3/5, right: .6, left: .05, otop: 20, obottom:10}}),
-                        Templates.editorInput("rowsInput", "8",     { xxform: { top: 2/5, bottom: 1-3/5, left: .4, offset: 10}, charset: '0123456789'}),
+                        Templates.editorInput("rowsInput", "16",     { xxform: { top: 2/5, bottom: 1-3/5, left: .4, offset: 10}, charset: '0123456789'}),
                         Templates.editorText(null, "x offset:",     { xxform: { top: 3/5, bottom: 1-4/5, right: .6, left: .05, otop: 20, obottom:10}}),
                         Templates.editorInput("offxInput", "0",     { xxform: { top: 3/5, bottom: 1-4/5, left: .4, offset: 10}, charset: '0123456789'}),
                         Templates.editorText(null, "y offset:",     { xxform: { top: 4/5, bottom: 1-5/5, right: .6, left: .05, otop: 20, obottom:10}}),
@@ -758,7 +818,7 @@ class EditorNewState extends State {
     }
 
     onOk(evt) {
-        if (!confirm("Creating new level will erase current level data, OK to proceed?")) return;
+        //if (!confirm("Creating new level will erase current level data, OK to proceed?")) return;
         // build empty region
         let xregion = {
             tag: this.nameInput.text,
@@ -852,7 +912,7 @@ class EditorEditState extends State {
     }
 
     onOk(evt) {
-        if (!confirm("Creating new level will erase current level data, OK to proceed?")) return;
+        //if (!confirm("Creating new level will erase current level data, OK to proceed?")) return;
         // build empty region
         let xregion = {
             tag: this.nameInput.text,
@@ -971,7 +1031,7 @@ class EditorLoadState extends State {
     }
 
     onLvlSelect(evt) {
-        if (!confirm("Loading new level will erase current level data, OK to proceed?")) return;
+        //if (!confirm("Loading new level will erase current level data, OK to proceed?")) return;
         // look up region
         let regionName = evt.actor.lvlName;
         let xregion = WorldGen[regionName];

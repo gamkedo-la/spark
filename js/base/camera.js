@@ -82,6 +82,7 @@ class Camera {
         }
         this.target = target;
         this.target.evtUpdated.listen(this.onTargetUpdate);
+        this.updateTrack();
     }
 
     trackWorld(world) {
