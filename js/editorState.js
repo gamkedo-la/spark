@@ -377,6 +377,45 @@ class EditorState extends State {
         if (evt.key === "4") this.selectedTile = this.selectedHelp4;
     }
 
+    fill(layer, depth, i, j, tile) {
+        let matchid = this.getid(layer, depth, i, j);
+        let q = [[i,j]];
+        while (q.length) {
+            let [x,y] = q.shift();
+            this.assignTile(layer, depth, x, y, tile);
+            if (x-1 >= 0 && this.getid(layer, depth, x-1, y) === matchid) q.push([x-1,y]);
+            if (x+1 < this.xregion.columns && this.getid(layer, depth, x+1, y) === matchid) q.push([x+1,y]);
+            if (y-1 >= 0 && this.getid(layer, depth, x, y-1) === matchid) q.push([x,y-1]);
+            if (y+1 < this.xregion.rows && this.getid(layer, depth, x, y+1) === matchid) q.push([x,y+1]);
+        }
+    }
+
+    getdata(layer, depth) {
+        // pull layer
+        let layerData;
+        if (!this.xregion.layers.hasOwnProperty(layer)) {
+            layerData = {};
+            this.xregion.layers[layer] = layer;
+        } else {
+            layerData = this.xregion.layers[layer];
+        }
+        // pull depth
+        let depthData;
+        if (!layerData.hasOwnProperty(depth)) {
+            depthData = new Array(this.xregion.columns*this.xregion.rows);
+            layerData[depth] = depthData;
+        } else {
+            depthData = layerData[depth];
+        }
+        return depthData;
+    }
+
+    getid(layer, depth, i, j) {
+        let data = this.getdata(layer, depth);
+        let idx = Grid.idxfromij(i, j, this.xregion.columns, this.xregion.rows);
+        return data[idx];
+    }
+
     onClicked(evt) {
         let localMousePos = this.editorPanel.xform.getLocal(new Vect(evt.x, evt.y))
         let bounds = new Bounds(0, 0, this.xregion.columns*Config.tileSize, this.xregion.rows*Config.tileSize);
@@ -389,6 +428,14 @@ class EditorState extends State {
             let depth = fields[1];
             if (this.toolMode === "paint") {
                 this.assignTile(layer, depth, i, j, this.selectedTile);
+            } else if (this.toolMode === "fill") {
+                this.fill(layer, depth, i, j, this.selectedTile);
+            } else if (this.toolMode === "get") {
+                let tileid = this.getid(layer, depth, i, j);
+                if (tileid) {
+                    let assetid = tileid.slice(1);
+                    if (tileid && assetid !== "000") this.selectedTile = assetid;
+                }
             } else if (this.toolMode === "delete") {
                 this.assignTile(layer, depth, i, j, "000");
             }
@@ -494,25 +541,10 @@ class EditorState extends State {
     }
 
     assignTile(layer, depth, i, j, id, flags="0") {
-        // pull layer
-        let layerData;
-        if (!this.xregion.layers.hasOwnProperty(layer)) {
-            layerData = {};
-            this.xregion.layers[layer] = layer;
-        } else {
-            layerData = this.xregion.layers[layer];
-        }
-        // pull depth
-        let depthData;
-        if (!layerData.hasOwnProperty(depth)) {
-            depthData = new Array(this.xregion.columns*this.xregion.rows);
-            layerData[depth] = depthData;
-        } else {
-            depthData = layerData[depth];
-        }
+        let data = this.getdata(layer, depth);
         // assign tile to region
         let idx = Grid.idxfromij(i, j, this.xregion.columns, this.xregion.rows);
-        depthData[idx] = `${flags}${id}`;
+        data[idx] = `${flags}${id}`;
         // update view
         this.editorPanel.assignTile(layer, depth, i, j, id);
     }
