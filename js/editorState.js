@@ -50,21 +50,14 @@ class UxEditorView extends UxPanel {
     }
 
     buildViews() {
-        // FIXME: offx/offy to be removed
         let columns = this.xregion.columns || 0;
         let rows = this.xregion.rows || 0;
-        let offx=0;
-        let offy=0;
-        //let offx=this.width*.5/Config.renderScale;
-        //let offy=this.height*.5/Config.renderScale;
         // parse layers and layer data
         for (const layer of Object.keys(Config.layerMap)) {
-            //console.log(`layer: ${layer}`);
             let layerInfo = this.xregion.layers[layer];
             if (!layerInfo) continue;
             for (const depth of Object.keys(Config.depthMap)) {
                 let depthData = layerInfo[depth];
-                //console.log(`depth: ${depth} ${(depthData) ? "" : " - skipping"}`);
                 if (!depthData) continue;
                 for (let i=0; i<columns; i++) {
                     for (let j=0; j<rows; j++) {
@@ -131,17 +124,14 @@ class UxEditorView extends UxPanel {
                 layer: layerId,
             }, xobj);
             let obj = Generator.generate(xobj);
-            //console.log(`xobj: ${Fmt.ofmt(xobj)}`);
             let xview = {
                 cls: "ModelView",
                 xsketch: obj.xsketch,
                 xxform: Object.assign({border: .5}, obj.xxform),
                 model: obj,
             };
-            //console.log(`xview: ${Fmt.ofmt(xview)}`);
             let view = new ModelView(xview);
             this.adopt(view);
-            //console.log(`view.xform: ${view.xform} xform.stretch: ${view.xform.stretchx},${view.xform.stretchy} xform.dim: ${view.xform.width},${view.xform.height} xform.ddim: ${view.xform._dwidth},${view.xform._dheight} xform.orig: ${view.xform._origx},${view.xform._origy} xform.do: ${view.xform.dox},${view.xform.doy} min: ${view.minx},${view.miny}`);
             this.tileViews[key] = view;
         }
 
@@ -253,20 +243,27 @@ class EditorState extends State {
                         Templates.editorButton("filterButton", "filter", { xxform: { top: .8 }}),
                     ]}),
 
-                    Templates.panel("selectTileButtons", { xxform: { offset: 15, left: .14, right: .8 }, xchildren: [
-                        Templates.panel("currentTile", { xxform: { bottom: .8 }}),
-                        Templates.editorText(null, "1", { xxform: { offset: 5, bottom: .8 }}),
-                        Templates.panel("helpTile1", { xxform: { top: .2, bottom: .6 }}),
-                        Templates.editorText(null, "2", { xxform: { offset: 5, top: .2, bottom: .6 }}),
-                        Templates.panel("helpTile2", { xxform: { top: .4, bottom: .4 }}),
-                        Templates.editorText(null, "3", { xxform: { offset: 5, top: .4, bottom: .4 }}),
-                        Templates.panel("helpTile3", { xxform: { top: .6, bottom: .2 }}),
-                        Templates.editorText(null, "4", { xxform: { offset: 5, top: .6, bottom: .2 }}),
-                        Templates.panel("helpTile4", { xxform: { top: .8 }}),
-                        Templates.editorText(null, "5", { xxform: { offset: 5, top: .8 }}),
+                    Templates.panel("selectTileButtons", { xxform: { offset: 15, left: .14, right: .75 }, xchildren: [
+                        Templates.panel("currentTile", { xxform: { bottom: .8, right: .5 }}),
+                        Templates.editorText(null, " ", { xxform: { offset: 5, bottom: .8, right: .5 }}),
+                        Templates.editorButton("helpTile1", "1", { xxform: { top: .2, bottom: .6, right: .5 }}),
+                        Templates.editorButton("helpTile2", "2", { xxform: { top: .4, bottom: .4, right: .5 }}),
+                        Templates.editorButton("helpTile3", "3", { xxform: { top: .6, bottom: .2, right: .5 }}),
+                        Templates.editorButton("helpTile4", "4", { xxform: { top: .8, bottom: 0, right: .5 }}),
+                        Templates.editorButton("helpTile5", "5", { xxform: { top: .2, bottom: .6, left: .5 }}),
+                        Templates.editorButton("helpTile6", "6", { xxform: { top: .4, bottom: .4, left: .5 }}),
+                        Templates.editorButton("helpTile7", "7", { xxform: { top: .6, bottom: .2, left: .5 }}),
+                        Templates.editorButton("helpTile8", "8", { xxform: { top: .8, bottom: 0, left: .5 }}),
+                        //Templates.editorText(null, "1", { xxform: { offset: 5, top: .2, bottom: .6 }}),
+                        //Templates.panel("helpTile2", { xxform: { top: .4, bottom: .4 }}),
+                        //Templates.editorText(null, "2", { xxform: { offset: 5, top: .4, bottom: .4 }}),
+                        //Templates.panel("helpTile3", { xxform: { top: .6, bottom: .2 }}),
+                        //Templates.editorText(null, "3", { xxform: { offset: 5, top: .6, bottom: .2 }}),
+                        //Templates.panel("helpTile4", { xxform: { top: .8 }}),
+                        //Templates.editorText(null, "4", { xxform: { offset: 5, top: .8 }}),
                     ]}),
 
-                    Templates.panel("tileButtonsPanel", { xxform: { offset: 15, left: .2 }, xchildren: [
+                    Templates.panel("tileButtonsPanel", { xxform: { offset: 15, left: .25 }, xchildren: [
                     ]}),
 
                     Templates.editorPanel("filterPanel", { xxform: { left: .1, right: .7, top: .1, bottom: .1}}),
@@ -298,7 +295,13 @@ class EditorState extends State {
                 if (!this.kws.includes(kw)) this.kws.push(kw);
             }
         }
-        console.log(`kws: ${this.kws}`);
+        // parse hints from assets
+        // -- map media tag back to asset id
+        this.hintMap = {};
+        for (const asset of this.assets) {
+            if (!asset.id || !asset.xsketch) continue;
+            this.hintMap[asset.xsketch.tag] = asset.id;
+        }
 
         // setup state
         this.toolMode = "paint";
@@ -308,6 +311,7 @@ class EditorState extends State {
         this.levelViews = [];
         this.selectedTile = "003";
         this.filterKw = "none";
+        for (let i=1; i<=8; i++) this[`selectedHelp${i}`] = "000";
 
         this.xregion = WorldGen.vendor1;
 
@@ -339,10 +343,12 @@ class EditorState extends State {
             }
         }
         this.currentTile = Hierarchy.find(this.view, v=>v.tag === "currentTile");
-        this.helpTile1 = Hierarchy.find(this.view, v=>v.tag === "helpTile1");
-        this.helpTile2 = Hierarchy.find(this.view, v=>v.tag === "helpTile2");
-        this.helpTile3 = Hierarchy.find(this.view, v=>v.tag === "helpTile3");
-        this.helpTile4 = Hierarchy.find(this.view, v=>v.tag === "helpTile4");
+        for (let i=1; i<=8; i++) {
+            let tag = `helpTile${i}`;
+            this[tag] = Hierarchy.find(this.view, v=>v.tag === tag);
+            this[tag].evtClicked.listen(this.onTileSelected);
+            this[tag].assetId = "000";
+        }
         this.newButton = Hierarchy.find(this.view, v=>v.tag === "newButton");
         this.newButton.evtClicked.listen(this.onNew);
         this.loadButton = Hierarchy.find(this.view, v=>v.tag === "loadButton");
@@ -358,34 +364,17 @@ class EditorState extends State {
         //this.camera._x = -32;
         //this.camera._y = -32;
 
-        console.log(`view is ${this.view}`);
-
         // build out dynamic UI elements
         this.buildTileButtons();
         //this.buildViews();
 
     }
 
-    onMouseMove(evt) {
-        console.log("EditorState onMouseMove: " + Fmt.ofmt(evt));
-    }
-
     onKeyDown(evt) {
-        console.log("EditorState onKeyDown: " + Fmt.ofmt(evt));
-        /*
-        if (evt.key === "2") {
-            Config.dbg.viewColliders = !Config.dbg.viewColliders;
-            this.viewMgr.renderall = true;
-        }
-        if (evt.key === "3") {
-            Config.dbg.viewAreas = !Config.dbg.viewAreas;
-            this.viewMgr.renderall = true;
-        }
-        if (evt.key === "4") {
-            Config.dbg.viewGrid = !Config.dbg.viewGrid;
-            this.viewMgr.renderall = true;
-        }
-        */
+        if (evt.key === "1") this.selectedTile = this.selectedHelp1;
+        if (evt.key === "2") this.selectedTile = this.selectedHelp2;
+        if (evt.key === "3") this.selectedTile = this.selectedHelp3;
+        if (evt.key === "4") this.selectedTile = this.selectedHelp4;
     }
 
     onClicked(evt) {
@@ -411,33 +400,28 @@ class EditorState extends State {
     }
 
     onTileSelected(evt) {
-        console.log(`onTileSelected: ${Fmt.ofmt(evt)} assetId: ${evt.actor.assetId}`);
         this.selectedTile = evt.actor.assetId;
     }
 
     onSave() {
-        console.log("onSave");
         this.active = false;
         // create new controller for menu
         this.stateMgr.push(new EditorSaveState({xregion: this.xregion}));
     }
 
     onLoad() {
-        console.log("onLoad");
         this.active = false;
         // create new controller for menu
         this.stateMgr.push(new EditorLoadState({assignRegion: this.assignRegion}));
     }
 
     onNew() {
-        console.log("onNew");
         this.active = false;
         // create new controller for menu
         this.stateMgr.push(new EditorNewState({assignRegion: this.assignRegion}));
     }
 
     onEdit() {
-        console.log("onEdit");
         this.active = false;
         // create new controller for menu
         this.stateMgr.push(new EditorEditState({xregion: this.xregion, assignRegion: this.assignRegion}));
@@ -550,7 +534,6 @@ class EditorState extends State {
             if (!xobj) return;
             let sketch = Generator.generate(Object.assign({}, xobj.xsketch, { xfitter: { cls: "FitToParent" }}));
             if (!sketch) return;
-            console.log(`xsketch: ${Fmt.ofmt(xobj.xsketch)}`);
             this.currentTile.sketch = sketch;
         }
     }
@@ -585,8 +568,44 @@ class EditorState extends State {
             let j = Grid.jfromy(localMousePos.y, Config.tileSize, this.xregion.rows);
             let idx = Grid.idxfromij(i, j, this.xregion.columns, this.xregion.rows);
             if (idx != this.lastHintIdx) {
-                console.log(`mouse over: ${i},${j} => ${idx}`);
+                let hints = [];
                 this.lastHintIdx = idx;
+                let fields = this.layerMode.split(".");
+                let layer = fields[0];
+                let depth = fields[1];
+                let layerInfo = this.xregion.layers[layer];
+                if (layerInfo) {
+                    let depthData = layerInfo[depth];
+                    if (depthData) {
+                        let id = depthData[idx];
+                        if (id) {
+                            let assetId = id.slice(1);
+                            // get any tile hints
+                            let asset = this.assets.fromId(assetId);
+                            if (asset) {
+                                let media = this.media.get(asset.xsketch.tag);
+                                if (media) {
+                                    hints = media.hints || [];
+                                }
+                            }
+                        }
+                    }
+                }
+                if (!Util.arraysEqual(this.lastHints, hints)) {
+                    this.lastHints = hints;
+
+                    for (let i=0; i<8; i++) {
+                        let xsketch = this.media.get(hints[i]) || {};
+                        let assetId = this.hintMap[hints[i]] || "000";
+                        let sketch = Generator.generate(Object.assign({}, xsketch, { xfitter: { cls: "FitToParent" }}));
+                        let helpTileTag = `helpTile${i+1}`;
+                        let view = this[helpTileTag];
+                        view.unpressed = sketch;
+                        view.assetId = assetId;
+                        this[`selectedHelp${i+1}`] = assetId;
+                    }
+
+                }
             }
         }
     }
@@ -602,9 +621,9 @@ class EditorState extends State {
         this.destroyTileButtons();
         let row = 0;
         let col = 0;
-        let maxCols = Math.floor(this.tileButtonsPanel.width/40);
+        let maxCols = Math.floor(this.tileButtonsPanel.width/30);
         let colStep = 1/maxCols;
-        let maxRows = Math.floor(this.tileButtonsPanel.height/40);
+        let maxRows = Math.floor(this.tileButtonsPanel.height/30);
         let rowStep = 1/maxRows;
         // add button for rest of tileset assets
         for (const asset of this.assets) {
@@ -623,7 +642,6 @@ class EditorState extends State {
                 xunpressed: Object.assign({}, asset.xsketch, { lockRatio: true, xfitter: { cls: "FitToParent" } }),
                 xtext: {text: " " + asset.id.toString() + " ", color: new Color(255,255,0,.175)},
             };
-            //console.log(`bspec: ${Fmt.ofmt(bspec)}`);
             let b = Generator.generate(bspec);
             if (b) {
                 b.assetId = asset.id;
@@ -708,7 +726,6 @@ class EditorNewState extends State {
     }
 
     onOk(evt) {
-        console.log("onOk: " + Fmt.ofmt(evt));
         if (!confirm("Creating new level will erase current level data, OK to proceed?")) return;
         // build empty region
         let xregion = {
@@ -803,7 +820,6 @@ class EditorEditState extends State {
     }
 
     onOk(evt) {
-        console.log("onOk: " + Fmt.ofmt(evt));
         if (!confirm("Creating new level will erase current level data, OK to proceed?")) return;
         // build empty region
         let xregion = {
@@ -923,7 +939,6 @@ class EditorLoadState extends State {
     }
 
     onLvlSelect(evt) {
-        console.log("onLvlSelect: " + Fmt.ofmt(evt));
         if (!confirm("Loading new level will erase current level data, OK to proceed?")) return;
         // look up region
         let regionName = evt.actor.lvlName;
@@ -985,14 +1000,12 @@ class EditorSaveState extends State {
 
     onKeyDown(evt) {
         if (!this.active) return;
-        console.log("EditorSaveState onKeyDown: " + Fmt.ofmt(evt));
         if (evt.key === "z" || evt.key === "x" || evt.key === "Escape")  {
             this.onBack();
         }
     }
 
     onCopy(evt) {
-        console.log("onCopy");
         // hackety hack hack... can't figure out a way to directly copy from text element being displayed... so create a text area and copy from there
         var elem = document.createElement("textarea");
         document.body.appendChild(elem);

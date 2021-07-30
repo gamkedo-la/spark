@@ -56,7 +56,7 @@ class UxButton extends UxView {
         if (this._unpressed && this._unpressed.parent) this._unpressed.parent = undefined;
         if (this._sketch === this._unpressed) this._sketch = v;
         this._unpressed = v;
-        v.parent = this;
+        if (v) v.parent = this;
     }
 
     get pressed() {
@@ -66,7 +66,7 @@ class UxButton extends UxView {
         if (this._pressed && this._pressed.parent) this._pressed.parent = undefined;
         if (this._sketch === this._pressed) this._sketch = v;
         this._pressed = v;
-        v.parent = this;
+        if (v) v.parent = this;
     }
 
     get highlight() {
@@ -76,7 +76,7 @@ class UxButton extends UxView {
         if (this._highlight && this._highlight.parent) this._highlight.parent = undefined;
         if (this._sketch === this._highlight) this._sketch = v;
         this._highlight = v;
-        v.parent = this;
+        if (v) v.parent = this;
     }
 
     // EVENTS --------------------------------------------------------------
