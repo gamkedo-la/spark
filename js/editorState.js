@@ -652,6 +652,16 @@ class EditorState extends State {
         }
     }
 
+    getHints(layer, depth, i, j, dir) {
+        let id = this.getid(layer, depth, i, j);
+        if (!id) return [];
+        let assetid = id.slice(1);
+        let asset = this.assets.fromId(assetid);
+        let media = this.media.get((asset) ? asset.xsketch.tag : "");
+        if (!media || !media.hints) return [];
+        return media.hints[dir];
+    }
+
     updateHints(ctx) {
         let localMousePos = this.editorPanel.xform.getLocal(new Vect(Mouse.x, Mouse.y));
         let bounds = new Bounds(0, 0, this.xregion.columns*Config.tileSize, this.xregion.rows*Config.tileSize);
@@ -661,32 +671,30 @@ class EditorState extends State {
             let j = Grid.jfromy(localMousePos.y, Config.tileSize, this.xregion.rows);
             let idx = Grid.idxfromij(i, j, this.xregion.columns, this.xregion.rows);
             if (idx != this.lastHintIdx) {
-                let hints = [];
                 this.lastHintIdx = idx;
                 let fields = this.layerMode.split(".");
                 let layer = fields[0];
                 let depth = fields[1];
-                let layerInfo = this.xregion.layers[layer];
-                if (layerInfo) {
-                    let depthData = layerInfo[depth];
-                    if (depthData) {
-                        let id = depthData[idx];
-                        if (id) {
-                            let assetId = id.slice(1);
-                            // get any tile hints
-                            let asset = this.assets.fromId(assetId);
-                            if (asset) {
-                                let media = this.media.get(asset.xsketch.tag);
-                                if (media) {
-                                    hints = media.hints || [];
+                // look up any hints based on neighbors...
+                let hints = [];
+                for (const [dir, io, jo] of [["r", -1, 0], ["l", 1, 0], ["d", 0, -1], ["u", 0, 1]]) {
+                    if (i+io >=0 && i+io < this.xregion.columns && j+jo >= 0 && j+jo < this.xregion.rows) {
+                        let dhints = this.getHints(layer, depth, i+io, j+jo, dir);
+                        if (dhints && dhints.length) {
+                            if (hints.length) {
+                                let intersect = [];
+                                for (const hint of dhints) {
+                                    if (hints.includes(hint)) intersect.push(hint);
                                 }
+                                hints = intersect;
+                            } else {
+                                hints = dhints;
                             }
                         }
                     }
                 }
                 if (!Util.arraysEqual(this.lastHints, hints)) {
                     this.lastHints = hints;
-
                     for (let i=0; i<8; i++) {
                         let xsketch = this.media.get(hints[i]) || {};
                         let assetId = this.hintMap[hints[i]] || "000";
@@ -697,7 +705,6 @@ class EditorState extends State {
                         view.assetId = assetId;
                         this[`selectedHelp${i+1}`] = assetId;
                     }
-
                 }
             }
         }
