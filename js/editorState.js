@@ -440,6 +440,7 @@ class EditorState extends State {
     }
 
     onClicked(evt) {
+        if (!this.active) return;
         let localMousePos = this.editorPanel.xform.getLocal(new Vect(evt.x, evt.y))
         let bounds = new Bounds(0, 0, this.xregion.columns*Config.tileSize, this.xregion.rows*Config.tileSize);
         if (bounds.contains(localMousePos)) {
@@ -986,7 +987,7 @@ class EditorLoadState extends State {
         // build out level buttons
         let row = 0;
         let col = 0;
-        let maxCols = 4;
+        let maxCols = 8;
         let colStep = 1/maxCols;
         let maxRows = Math.floor(this.lvlPanel.height/40);
         let rowStep = 1/maxRows;
