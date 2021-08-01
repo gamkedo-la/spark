@@ -2093,7 +2093,7 @@ class WorldGen {
         columns: 12,
         rows: 14,
         offx: 30,
-        offy: 40,
+        offy: 25,
         autoArea: true,
         layers: {
             l1: {
