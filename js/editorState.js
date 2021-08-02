@@ -1132,8 +1132,8 @@ class EditorSaveState extends State {
                 str += "\n" + " ".repeat(indent);
                 col = 0;
             }
-            if (v === null) v = 0;
-            if (v === undefined) v = 0;
+            if (v === null) v = "0000";
+            if (v === undefined) v = "0000";
             let s = `"${v}"`.padStart(spaces, " ");
             str += (s + ",");
             col++;
@@ -1159,6 +1159,13 @@ class EditorSaveState extends State {
             for (const depth of Object.keys(Config.depthMap)) {
                 let depthData = layerInfo[depth];
                 if (!depthData) continue;
+                // check depth data for null...
+                let empty = true;
+                for (const v of depthData) {
+                    if (v !== null && v !== undefined && v !== "0000") empty = false;
+                    if (!empty) break;
+                }
+                if (empty) continue;
                 str += `            ${depth}: [\n`;
                 str += this.pprintArray(depthData, xregion.columns, 16);
                 str += `            ],\n`;
