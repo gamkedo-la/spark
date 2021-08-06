@@ -207,15 +207,23 @@ class SparkAssets {
             ]},
 
             { src: "img/gnome.png", loader: "Sheet", refs: [
-                {tag: "gnome.idle_south",    cls: "Sprite", width: 32, height: 64, x: 32*0, y: 64*0 },
-                {tag: "gnome.idle_north",    cls: "Sprite", width: 32, height: 64, x: 32*1, y: 64*0 },
-                {tag: "gnome.idle_west",     cls: "Sprite", width: 32, height: 64, x: 32*2, y: 64*0 },
-                {tag: "gnome.idle_east",     cls: "Sprite", width: 32, height: 64, x: 32*3, y: 64*0 },
+                {tag: "gnome.idle_south",    cls: "Sprite", width: 32, height: 64, x: 32*0, y: 64*7 },
+                {tag: "gnome.idle_north",    cls: "Sprite", width: 32, height: 64, x: 32*1, y: 64*7 },
+                {tag: "gnome.idle_west",     cls: "Sprite", width: 32, height: 64, x: 32*2, y: 64*7 },
+                {tag: "gnome.idle_east",     cls: "Sprite", width: 32, height: 64, x: 32*3, y: 64*7 },
                 Templates.anim("gnome.walk_south", {offx:0, offy: 64, width: 32, height:64, duration: 70}),
                 Templates.anim("gnome.walk_north", {offx:32, offy: 64, width: 32, height:64, duration: 70}),
                 Templates.anim("gnome.walk_west", {offx:64, offy: 64, width: 32, height:64, duration: 70}),
                 Templates.anim("gnome.walk_east", {offx:96, offy: 64, width: 32, height:64, duration: 70}),
-                {tag: "gnome.sleep_south",    cls: "Sprite", width: 32, height: 64, x: 32*0, y: 64*9 },
+                {tag: "gnome.sleep_south",    cls: "Sprite", width: 32, height: 64, x: 32*4, y: 64*0 },
+                {tag: "gnome.sitting_south",    cls: "Sprite", width: 32, height: 64, x: 32*5, y: 64*0 },
+                {tag: "gnome.sitting_north",    cls: "Sprite", width: 32, height: 64, x: 32*6, y: 64*0 },
+                {tag: "gnome.sitting_west",     cls: "Sprite", width: 32, height: 64, x: 32*7, y: 64*0 },
+                {tag: "gnome.sitting_east",     cls: "Sprite", width: 32, height: 64, x: 32*8, y: 64*0 },
+                Templates.anim("gnome.eating_south", {frames: 9, offx:32*9, offy: 64, width: 32, height:64, duration: 70}),
+                Templates.anim("gnome.eating_north", {frames: 9, offx:32*10, offy: 64, width: 32, height:64, duration: 70}),
+                Templates.anim("gnome.eating_west", {frames: 9, offx:32*11, offy: 64, width: 32, height:64, duration: 70}),
+                Templates.anim("gnome.eating_east", {frames: 9, offx:32*12, offy: 64, width: 32, height:64, duration: 70}),
             ]},
 
             { tag: "gnome",               cls: "Animator", animations: {
@@ -229,6 +237,14 @@ class SparkAssets {
                     [ModelState.walk_west]:    { cls: "Media", tag: "gnome.walk_west" },
                     [ModelState.walk_east]:    { cls: "Media", tag: "gnome.walk_east" },
                     [ModelState.sleep_south]:  { cls: "Media", tag: "gnome.sleep_south" },
+                    [ModelState.sitting_south]: { cls: "Media", tag: "gnome.sitting_south" },
+                    [ModelState.sitting_north]: { cls: "Media", tag: "gnome.sitting_north" },
+                    [ModelState.sitting_west]: { cls: "Media", tag: "gnome.sitting_west" },
+                    [ModelState.sitting_east]: { cls: "Media", tag: "gnome.sitting_east" },
+                    [ModelState.eating_south]: { cls: "Media", tag: "gnome.eating_south" },
+                    [ModelState.eating_north]: { cls: "Media", tag: "gnome.eating_north" },
+                    [ModelState.eating_west]:  { cls: "Media", tag: "gnome.eating_west" },
+                    [ModelState.eating_east]:  { cls: "Media", tag: "gnome.eating_east" },
             }},
 
             { src: "img/fairy.png", loader: "Sheet", refs: [

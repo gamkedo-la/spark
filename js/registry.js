@@ -57,6 +57,16 @@ class SparkRegistry {
         ModelState.register("cast_north");
         ModelState.register("cast_west");
         ModelState.register("cast_east");
+        ModelState.register("sitting");
+        ModelState.register("sitting_south");
+        ModelState.register("sitting_north");
+        ModelState.register("sitting_west");
+        ModelState.register("sitting_east");
+        ModelState.register("eating");
+        ModelState.register("eating_south");
+        ModelState.register("eating_north");
+        ModelState.register("eating_west");
+        ModelState.register("eating_east");
         // -- register activities
         Activity.register("wake");
         Activity.register("work");
