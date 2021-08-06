@@ -30,7 +30,6 @@ class TitleState extends State {
         Util.bind(this, "onKeyDown", "onClicked");
         Keys.evtKeyPressed.listen(this.onKeyDown);
         Mouse.evtClicked.listen(this.onClicked)
-        console.log(`evtClicked: ${Mouse.evtClicked._listeners}`);
     }
 
     onKeyDown(evt) {
@@ -40,7 +39,6 @@ class TitleState extends State {
     }
 
     onClicked(evt) {
-        console.log("titleState onClicked: " + Fmt.ofmt(evt));
         let state = new PlayState();
         Base.instance.stateMgr.swap(state);
     }

@@ -136,9 +136,14 @@ class PlayState extends State {
     }
 
     onClicked(evt) {
+        //let localMousePos = this.editorPanel.xform.getLocal(new Vect(evt.x, evt.y))
         console.log("onClicked: " + Fmt.ofmt(evt));
-        let x = evt.x/Config.renderScale;
-        let y = evt.y/Config.renderScale;
+        let x = evt.x - this.camera.minx;
+        let y = evt.y - this.camera.miny;
+        console.log(`camera pos: ${this.camera.minx},${this.camera.miny}`);
+        x = x/Config.renderScale;
+        y = y/Config.renderScale;
+        console.log(`adjusted pos: ${x},${y}`);
         let idx = this.grid.idxfromxy(x, y);
         console.log("idx is: " + idx);
         let target = new LevelNode(x, y, 0);
