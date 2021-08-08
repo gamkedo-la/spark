@@ -11,16 +11,13 @@ class WantBedScheme extends AiScheme {
         this.goalPredicate = (goal) => goal === AiGoal.sleep;
         this.preconditions.push((state) => !state.a_conditions.has(Condition.working));
         this.preconditions.push((state) => !state.a_conditions.has(Condition.asleep));
-        this.preconditions.push((state) => state.a_reserveTag !== undefined);
-        this.preconditions.push((state) => state.v_wantTag === undefined);
-        this.preconditions.push((state) => state.v_locationTag !== "Bed");
+        this.preconditions.push((state) => state.a_ownerTag !== undefined);
+        this.preconditions.push((state) => state.v_wantTag !== "Bed");
         this.effects.push((state) => state.v_wantTag = "Bed");
     }
 
     deriveState(env, actor, state) {
-        // bug here: reserve tag gets set by the different schemes... 
-        // even though they can all want something else
-        if (!state.hasOwnProperty("a_reserveTag")) state.a_reserveTag = actor.reserveTag;
+        if (!state.hasOwnProperty("a_ownerTag")) state.a_ownerTag = actor.ownerTag;
         if (!state.hasOwnProperty("a_conditions")) state.a_conditions = new Set(actor.conditions);
     }
 

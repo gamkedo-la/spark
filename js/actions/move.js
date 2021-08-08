@@ -11,10 +11,9 @@ class MoveScheme extends AiScheme {
     constructor(spec={}) {
         super(spec);
         this.goalPredicate = (goal) => true;
-        this.preconditions.push((state) => state.v_targetTag !== undefined);
-        this.preconditions.push((state) => state.v_locationTag !== state.v_targetTag);
-        this.effects.push((state) => state.v_locationTag = state.v_targetTag);
-        this.effects.push((state) => state.v_targetTag = undefined);
+        this.preconditions.push((state) => state.v_findTag !== undefined);
+        this.preconditions.push((state) => state.v_moveTag !== state.v_findTag);
+        this.effects.push((state) => state.v_moveTag = state.v_findTag);
     }
 
     deriveState(env, actor, state) {

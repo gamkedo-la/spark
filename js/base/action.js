@@ -47,7 +47,10 @@ class MoveToAction extends Action {
         if (dist < this.range) {
             if (this.dbg) console.log(`${this.actor} arrived at target: ${this.pos}`);
             this.done = true;
-            this.actor.speed = 0;
+            // peek at next action
+            if (!this.actor.actions || !this.actor.actions.length || this.actor.actions[0].constructor.name !== "MoveToAction") {
+                this.actor.speed = 0;
+            }
             if (this.snap) {
                 this.actor.x = this.x;
                 this.actor.y = this.y;

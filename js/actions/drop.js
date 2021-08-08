@@ -1,79 +1,49 @@
 export { DropScheme };
 
 import { AiScheme }         from "../base/ai/aiScheme.js";
-import { AiGoal }           from "../base/ai/aiGoal.js";
 import { AiPlan }           from "../base/ai/aiPlan.js";
 import { AiProcess }        from "../base/ai/aiProcess.js";
-import { Condition }        from "../base/condition.js";
-import { Fmt }              from "../base/fmt.js";
-import { LeaveAction }      from "./leave.js";
-import { LevelNode } from "../lvlGraph.js";
+import { Action }           from "../base/action.js";
 
 class DropScheme extends AiScheme {
     constructor(spec={}) {
         super(spec);
         this.goalPredicate = spec.goalPredicate || ((v) => true);
-        this.preconditions.push((state) => state.a_carryTag !== undefined;
-        this.preconditions.push((state) => state.a_occupyId);
-        this.effects.push((state) => state.a_conditions.delete(Condition.asleep));
-        this.effects.push((state) => state.a_occupyId = 0);
+        this.preconditions.push((state) => state.a_carryTag !== undefined);
+        this.effects.push((state) => state.a_carryTag = undefined);
     }
 
     deriveState(env, actor, state) {
-        if (!state.hasOwnProperty("a_occupyId")) state.a_occupyId = actor.occupyId;
-        if (!state.hasOwnProperty("a_conditions")) state.a_conditions = new Set(actor.conditions);
+        if (!state.hasOwnProperty("a_carryTag")) state.a_carryTag = actor.carryTag;
     }
 
     generatePlan(spec={}) {
-        return new WakePlan(spec);
+        return new DropPlan(spec);
     }
 
 }
 
-class WakePlan extends AiPlan {
 
-    prepare(actor, state) {
-        console.log("=== WakePlan state: " + Fmt.ofmt(state));
-        super.prepare(actor, state);
-        // pull linked target...
-        this.target = this.getEntities().get(actor.occupyId);
-        if (!this.target) {
-            console.log("WakePlan: can't look up target for link: " + actor.occupyId);
-            return false;
-        }
-        return true;
-    }
+class DropPlan extends AiPlan {
 
     finalize() {
-        // update actor position
-        let effects = [];
-        if (this.target.actorSavedX && this.target.actorSavedY) {
-            console.log(`actor position updated to ${this.target.actorSavedX},${this.target.actorSavedY}`);
-            effects.push((state) => {
-                state.a_pos = new LevelNode(this.target.actorSavedX, this.target.actorSavedY, this.actor.layer)
-            });
-        }
+        // handle success
         return {
-            effects: effects,
             utility: 1,
             cost: 1,
             processes: [
-                new WakeProcess({target: this.target}),
+                new DropProcess(),
             ]
         }
     }
 
 }
 
-class WakeProcess extends AiProcess {
-    constructor(spec={}) {
-        super(spec);
-        this.target = spec.target;
-    }
+class DropProcess extends AiProcess {
 
     prepare(actor) {
         this.actions = [
-            new LeaveAction({target: this.target}),
+            new DropAction(),
         ];
         // set actor's action queue to be the individual actions from movement...
         actor.actions = this.actions.slice(0);
@@ -85,6 +55,23 @@ class WakeProcess extends AiProcess {
         // wait for actions to be completed
         let lastAction = this.actions[this.actions.length-1];
         return lastAction.done;
+    }
+
+}
+
+
+
+class DropAction extends Action {
+
+    start(actor) {
+        // drop
+        actor.carryTag = undefined;
+        console.log(`drop action actor: ${actor} drop: ${actor.carryTag}}`);
+    }
+
+    update(ctx) {
+        this.done = true;
+        return this.done;
     }
 
 }

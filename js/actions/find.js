@@ -12,9 +12,9 @@ class FindScheme extends AiScheme {
         super(spec);
         this.goalPredicate = spec.goalPredicate || ((v) => true);
         this.preconditions.push((state) => state.v_wantTag !== undefined);
-        this.preconditions.push((state) => state.v_targetTag === undefined);
-        this.preconditions.push((state) => state.v_locationTag !== state.v_wantTag);
-        this.effects.push((state) => state.v_targetTag = state.v_wantTag);
+        this.preconditions.push((state) => state.v_findTag !== state.v_wantTag);
+        this.preconditions.push((state) => state.v_moveTag !== state.v_wantTag);
+        this.effects.push((state) => state.v_findTag = state.v_wantTag);
     }
 
     generatePlan(spec={}) {
@@ -29,7 +29,7 @@ class FindPlan extends AiPlan {
         // prepare query to find target w/ matching tag
         this.query = new EQuery((e) => (
             e.cls === state.v_wantTag) && 
-            (!e.reserveTag || (e.reserveTag === state.a_reserveTag)) && 
+            (!e.ownerTag || (e.ownerTag === state.a_ownerTag)) && 
             !e.isOccupied);
         // submit query to queue...
         this.getQueryQ().push(this.query);

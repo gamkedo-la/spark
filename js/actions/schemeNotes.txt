@@ -2,25 +2,23 @@
 WantBed (sleep)
     - !a_conditions.has(Condition.sleep)
     - a_bedTag != undefined
-    - v_wantTag == undefined
-    - v_locationTag != bed
+    - v_findTag == undefined
+    - v_moveTag != bed
     => v_wantTag = bed
 
 Find (any)
-    - v_wantTag != undefined
-    - v_targetTag == undefined
-    - v_locationTag != v_wantTag
-    => v_targetTag = v_wantTag
+    - v_findTag != v_wantTag
+    - v_moveTag != v_wantTag
+    => v_findTag = v_wantTag
 
 Move (any)
-    - v_targetTag != undefined
-    - v_locationTag != v_targetTag
-    => v_locationTag = v_targetTag
-    => v_targetTag = undefined
+    - v_moveTag == undefined
+    - v_findTag != undefined
+    => v_moveTag = v_findTag
 
 Occupy (any)
     - v_occupyTag == undefined
-    - v_locationTag == v_wantTag
+    - v_moveTag == v_wantTag
     => v_occupyTag = v_wantTag
 
 SleepAtBed (sleep)
@@ -32,7 +30,7 @@ WantWorkstation (manage)
     - !a_conditions.has(Condition.working)
     - a_bedTag != undefined
     - v_wantTag == undefined
-    - v_locationTag != workstation
+    - v_moveTag != workstation
     => v_wantTag = workstation
 
 WorkAtStation (manage)
@@ -52,14 +50,15 @@ WantFood (eat)
     - a_conditions.has(Condition.hungry)
     - !a_conditions.has(Condition.eating)
     - v_wantTag == undefined
-    - v_locationTag != food
+    - v_moveTag != food
     - v_gatherTag = food
     => v_wantTag = food
 
-GatherFood (eat)
-    - a_gathered == undefined
+Gather (any)
+    - v_gatherTag != undefined
+    - a_carryTag == undefined
     - v_locationTag == food
-    => a_gathered = food
+    => a_carryTag = food
 
 WantSeat (any)
     - v_wantTag == undefined
