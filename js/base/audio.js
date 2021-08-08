@@ -15,7 +15,6 @@ class Audio {
         this.buffer = spec.audio;
         this.loop = spec.hasOwnProperty("loop") ? spec.loop : false;
         this.volume = spec.volume || 1;
-        console.log(`audio spec: ${Fmt.ofmt(spec)}`);
     }
 
     // PROPERTIES ----------------------------------------------------------
@@ -25,11 +24,9 @@ class Audio {
         if (this.audioCtx.state !== "running") return;
         // connect source buffer to target
         // FIXME
-        console.log(`creating new src`);
         this.src = this.audioCtx.createBufferSource();
         this.src.buffer = this.buffer;
         if (this.volume !== 1) {
-            console.log(`setting up gain node`);
             var gainNode = this.audioCtx.createGain()
             gainNode.gain.value = this.volume;
             gainNode.connect(this.audioCtx.destination);
@@ -42,11 +39,7 @@ class Audio {
     }
 
     stop() {
-        console.log(`stop called`);
-        if (this.src) {
-            console.log(`trying to stop`);
-            this.src.stop(0);
-        }
+        if (this.src) this.src.stop(0);
     }
 
     toString() {

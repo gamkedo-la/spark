@@ -29,8 +29,6 @@ class Bed extends Model {
         this.actorCondition = spec.actorCondition || Condition.asleep;
         // -- interactable
         this.interactable = true;
-        // -- owner tag
-        this.ownerTag = spec.ownerTag;
         // -- actor id (who's in the bed)
         this.actorId = 0;
     }
