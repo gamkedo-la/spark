@@ -18,7 +18,7 @@ class WantWorkstationScheme extends AiScheme {
     }
 
     deriveState(env, actor, state) {
-        if (!state.hasOwnProperty("a_reserveTag")) state.a_reserveTag = actor.workstationTag;
+        if (!state.hasOwnProperty("a_reserveTag")) state.a_reserveTag = actor.reserveTag;
         if (!state.hasOwnProperty("a_conditions")) state.a_conditions = new Set(actor.conditions);
     }
 

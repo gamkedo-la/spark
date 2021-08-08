@@ -49,9 +49,11 @@ Leave (any)
     => a_occupyId = undefined
 
 WantFood (eat)
+    - a_conditions.has(Condition.hungry)
     - !a_conditions.has(Condition.eating)
     - v_wantTag == undefined
     - v_locationTag != food
+    - v_gatherTag = food
     => v_wantTag = food
 
 GatherFood (eat)

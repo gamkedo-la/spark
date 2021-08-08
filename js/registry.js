@@ -77,6 +77,9 @@ class SparkRegistry {
         Condition.register("sparked");
         Condition.register("waiting");
         Condition.register("cast");
+        Condition.register("hungry");
+        Condition.register("eating");
+        Condition.register("sitting");
     }
     static setup(registry) {
         // -- register view classes

@@ -25,10 +25,12 @@ class Character extends Model {
         this.actor = true;
         // -- activity schedule
         if (spec.xactivitySchedule) this.activitySchedule = Generator.generate(spec.xactivitySchedule);
-        // -- bed
-        this.bedTag = spec.hasOwnProperty("bedTag") ? spec.bedTag : undefined;
-        //console.log("char spec: " + Fmt.ofmt(spec));
-        //console.log(`char ${this} collider: ${this.collider}`);
+        // -- hunger variables
+        this.maxFedTTL = spec.maxFedTTL;        // max time from eating until character is "hungry"
+        this.fedTTL = 0;                        // current timer since last meal
+        console.log(`spec: ${Fmt.ofmt(spec)} gives: ${Fmt.ofmt(this)}}`);
+        // -- carrying
+        this.carryTag = undefined;
     }
 
     toString() {

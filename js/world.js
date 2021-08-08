@@ -105,28 +105,35 @@ class World {
             WorldGen.lvl20,
             WorldGen.lvl30,
             WorldGen.lvl40,
+            /*
             WorldGen.lvl50,
             WorldGen.lvl60,
             WorldGen.lvl70,
+            */
 
             WorldGen.lvl01,
             WorldGen.lvl11,
             WorldGen.lvl21,
             WorldGen.lvl31,
             WorldGen.lvl41,
+            /*
             WorldGen.lvl51,
             WorldGen.lvl61,
             WorldGen.lvl71,
+            */
 
             WorldGen.lvl02,
             WorldGen.lvl12,
             WorldGen.lvl22,
             WorldGen.lvl32,
             WorldGen.lvl42,
+            /*
             WorldGen.lvl52,
             WorldGen.lvl62,
             WorldGen.lvl72,
+            */
 
+            /*
             WorldGen.lvl03,
             WorldGen.lvl13,
             WorldGen.lvl23,
@@ -171,6 +178,7 @@ class World {
             WorldGen.lvl57,
             WorldGen.lvl67,
             WorldGen.lvl77,
+            */
 
             //this.genRegion({columns: 128, rows: 128, xlayers: [{ id: '002j' }]}),
             WorldGen.patch1,

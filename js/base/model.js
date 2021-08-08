@@ -45,6 +45,8 @@ class Model extends Gizmo {
         // -- state
         this.state = spec.state || ModelState.idle;
         this.dfltState = spec.dfltState || ModelState.idle;
+        // -- state sound fxs
+        this.xstateSfxs = spec.xstateSfxs || {};
         // FIXME: validate we want to put this here...
         // -- visible
         this._visible = spec.hasOwnProperty("visible") ? spec.visible : true;
@@ -52,6 +54,8 @@ class Model extends Gizmo {
         if (spec.xcollider) {
             this.collider = Generator.generate(Object.assign({"cls": "Collider", x: this.x, y: this.y}, spec.xcollider));
         }
+        // -- owner tag
+        this.ownerTag = spec.ownerTag;
         //console.log(`model ${this} at: ${this._x},${this._y}`);
     }
 

@@ -1,9 +1,9 @@
 export { StateSystem };
 
 import { System }       from "./system.js";
-import { Model }        from "./model.js";
 import { ModelState }   from "./modelState.js";
 import { Condition }    from "./condition.js";
+import { Generator }    from "./generator.js";
 
 class StateSystem extends System {
     cpre(spec) {
@@ -49,7 +49,16 @@ class StateSystem extends System {
         // change state (if needed)
         if (wantState && wantState !== e.state) {
             if (this.dbg) console.log(`${e} change state from: ${ModelState.toString(e.state)} to ${ModelState.toString(wantState)}`);
+            // handle audio fx transitions for old/new state
+            if (e.stateSfx) {
+                e.stateSfx.stop();
+                e.stateSfx = null;
+            }
             e.state = wantState;
+            console.log(`wantState: ${ModelState.toString(wantState)}`);
+            let xsfx = e.xstateSfxs[wantState];
+            if (xsfx) e.stateSfx = Generator.generate(xsfx);
+            if (e.stateSfx) e.stateSfx.play();
             e.updated = true;
         }
 

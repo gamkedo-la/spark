@@ -39,13 +39,9 @@ class AudioLoader {
         const src = Util.objKeyValue(spec, "src", "undefined");
         const tag = Util.objKeyValue(spec, "tag", "undefined");
         return AudioLoader.load(this.audioCtx, src, spec).then( rec => {
-            // build final Sprite spec
-            const spec = {
-                tag: rec.tag,
-                loop: rec.loop,
-                cls: "Audio",
-                audio: rec.audio,
-            }
+            // build final Audio spec
+            const spec = Object.assign({}, rec, {cls: "Audio"});
+            delete spec["loader"];
             // return asset spec
             return {[spec.tag]: spec};
         });

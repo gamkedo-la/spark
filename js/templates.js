@@ -192,9 +192,9 @@ class Templates {
             ]
         }
 
-        this.aiSleepDirective = { 
+        this.aiRestDirective = { 
             cls: "AiDirective", 
-            tag: "sleep", 
+            tag: "rest", 
             xinfluence: {
                 cls: "AiComboInfluence",
                 xinfluences: [

@@ -13,6 +13,7 @@ class SparkAssets {
         this.media = [
             { src: "snd/doorClosing.mp3", loader: "Audio", tag: "doorClosing" },
             { src: "snd/doorOpenning.mp3", loader: "Audio", tag: "doorOpening" },
+            { src: "snd/fairyChimes.mp3", loader: "Audio", tag: "chimes", volume: .05 },
             // FIXME: for now music would be added the same as normal audio, but using the "loop" variable
             //{ src: "snd/testsong.mp3", loader: "Audio", tag: "testsong", loop: true },
             { src: "img/terrain1.png", loader: "Sheet", refs: [
@@ -351,7 +352,7 @@ class SparkAssets {
 
             Templates.object("o04", "bed", "Bed", {
                 offx: 8, offy: -24,
-                reserveTag: "bob",
+                ownerTag: "bob",
                 xcollider: { width: 24, height: 48 }, 
                 occupiedOffX: 8, occupiedOffY: -22,
             }),
@@ -380,14 +381,17 @@ class SparkAssets {
                 mediaTag: "fairy",
                 offy: -8,
                 xcollider: { blocking: Collider.player, width:14, height:10, offy:8, color: "rgba(0,0,127,.5)" },
+                xstateSfxs: {
+                    [ModelState.walk]: { cls: "Media", tag: "chimes"}, 
+                }
             }),
 
             Templates.object("c02", "npc", "Character", {
                 mediaTag: "gnome",
                 ctrlId: 0,
                 offy: -16,
-                bedTag: "bob",
-                workstationTag: "bob",
+                ownerTag: "bob",
+                maxFedTTL: 30000,
                 xcollider: { blocking: Collider.player, width:14, height:16, offy:16, color: "rgba(0,0,127,.5)" },
                 xactivitySchedule: Templates.testSchedule,
                 xai: { 
@@ -396,7 +400,7 @@ class SparkAssets {
                         Templates.aiWakeDirective,
                         Templates.aiWorkDirective,
                         Templates.aiRelaxDirective,
-                        Templates.aiSleepDirective,
+                        Templates.aiRestDirective,
                     ],
                     xschemes: [
                         "WantBedScheme",

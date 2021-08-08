@@ -10,7 +10,9 @@ import { Templates }        from "./templates.js";
 import { Base }             from "./base/base.js";
 import { SparkSystem }      from "./sparkSystem.js";
 import { Atts }             from "./base/atts.js";
-import { TitleState } from "./titleState.js";
+import { TitleState }       from "./titleState.js";
+import { HungerSystem }     from "./hungerSystem.js";
+import { Config }           from "./base/config.js";
 
 /** ========================================================================
  * Main Spark Game Specification and Setup
@@ -65,6 +67,8 @@ class Spark extends Game {
         this.base.systemMgr.adopt(new AutoCloseSystem({ findOverlaps: this.base.findOverlaps, dbg: false, }));
         // ---- spark system
         this.base.systemMgr.adopt(new SparkSystem({ sparkSources: Atts.sparkSources, dbg: false, }));
+        // ---- spark system
+        this.base.systemMgr.adopt(new HungerSystem({ dbg: Config.dbg.HungerSystem, }));
 
         // initialize and start master game state
         //let state = new PlayState();
