@@ -11,13 +11,13 @@ class WantWorkstationScheme extends AiScheme {
         this.goalPredicate = (goal) => goal === AiGoal.manage;
         this.preconditions.push((state) => !state.a_conditions.has(Condition.working));
         this.preconditions.push((state) => !state.a_conditions.has(Condition.asleep));
-        this.preconditions.push((state) => state.a_reserveTag !== undefined);
+        this.preconditions.push((state) => state.a_ownerTag !== undefined);
         this.preconditions.push((state) => state.v_wantTag !== "Workstation");
         this.effects.push((state) => state.v_wantTag = "Workstation");
     }
 
     deriveState(env, actor, state) {
-        if (!state.hasOwnProperty("a_reserveTag")) state.a_reserveTag = actor.reserveTag;
+        if (!state.hasOwnProperty("a_ownerTag")) state.a_ownerTag = actor.ownerTag;
         if (!state.hasOwnProperty("a_conditions")) state.a_conditions = new Set(actor.conditions);
     }
 
