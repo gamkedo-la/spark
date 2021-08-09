@@ -13,7 +13,6 @@ class Stove extends Model {
         // -- interactable
         this.interactable = true;
         this.dispenseTag = spec.dispenseTag || "Food";
-        console.log(`stove: ${Fmt.ofmt(this)}`);
     }
 
     get approaches() {

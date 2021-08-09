@@ -10,9 +10,10 @@ class WantChairScheme extends AiScheme {
         super(spec);
         this.goalPredicate = (goal) => goal === AiGoal.eat;
         this.preconditions.push((state) => !state.v_wantChair);                               // prevents cycles in wanting chair, wanting something else, wanting chair...
+        this.preconditions.push((state) => !state.a_occupyId);
         this.preconditions.push((state) => state.v_occupyTag === undefined);
-        this.preconditions.push((state) => !state.a_conditions.has(Condition.eating));
-        this.preconditions.push((state) => !state.a_conditions.has(Condition.asleep));
+        //this.preconditions.push((state) => !state.a_conditions.has(Condition.eating));
+        //this.preconditions.push((state) => !state.a_conditions.has(Condition.asleep));
         this.preconditions.push((state) => state.v_wantTag === undefined);
         this.effects.push((state) => state.v_wantTag = "Chair");
         this.effects.push((state) => state.v_wantChair = true);
@@ -20,6 +21,7 @@ class WantChairScheme extends AiScheme {
 
     deriveState(env, actor, state) {
         if (!state.hasOwnProperty("a_conditions")) state.a_conditions = new Set(actor.conditions);
+        if (!state.hasOwnProperty("a_occupyId")) state.a_occupyId = actor.occupyId;
     }
 
     generatePlan(spec={}) {

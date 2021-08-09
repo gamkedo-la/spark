@@ -6,6 +6,7 @@ import { Fmt }              from "./base/fmt.js";
 import { Direction }        from "./base/dir.js";
 import { LevelNode }        from "./lvlGraph.js";
 import { Condition }        from "./base/condition.js";
+import { LeaveAction } from "./actions/leave.js";
 
 class Bed extends Model {
     constructor(spec={}) {
@@ -48,9 +49,11 @@ class Bed extends Model {
     dointeract(actor) {
         //console.log(this + " dointeract");
         if (this.conditions.has(this.occupiedCondition)) {
-            this.leave(actor);
+            actor.actions.push(new LeaveAction({target: this}));
+            //this.leave(actor);
         } else {
-            this.occupy(actor);
+            actor.actions.push(new OccupyAction({target: this}));
+            //this.occupy(actor);
         }
     }
 

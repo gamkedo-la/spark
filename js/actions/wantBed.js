@@ -10,15 +10,14 @@ class WantBedScheme extends AiScheme {
         super(spec);
         this.goalPredicate = (goal) => goal === AiGoal.sleep;
         this.preconditions.push((state) => !state.v_wantBed);                               // prevents cycles in wanting bed, wanting something else, wanting bed...
-        this.preconditions.push((state) => !state.a_conditions.has(Condition.working));
-        this.preconditions.push((state) => !state.a_conditions.has(Condition.asleep));
+        this.preconditions.push((state) => !state.a_occupyId);
         this.preconditions.push((state) => state.v_wantTag === undefined);
-        //this.preconditions.push((state) => state.a_ownerTag !== undefined);
         this.effects.push((state) => state.v_wantTag = "Bed");
         this.effects.push((state) => state.v_wantBed = true);
     }
 
     deriveState(env, actor, state) {
+        if (!state.hasOwnProperty("a_occupyId")) state.a_occupyId = actor.occupyId;
         if (!state.hasOwnProperty("a_ownerTag")) state.a_ownerTag = actor.ownerTag;
         if (!state.hasOwnProperty("a_conditions")) state.a_conditions = new Set(actor.conditions);
     }

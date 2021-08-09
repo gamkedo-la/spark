@@ -4,15 +4,19 @@ import { AiScheme }         from "../base/ai/aiScheme.js";
 import { AiPlan }           from "../base/ai/aiPlan.js";
 import { AiProcess }        from "../base/ai/aiProcess.js";
 import { Action }           from "../base/action.js";
+import { Direction } from "../base/dir.js";
 
 class OccupyScheme extends AiScheme {
     constructor(spec={}) {
         super(spec);
         this.goalPredicate = spec.goalPredicate || ((v) => true);
+        this.preconditions.push((state) => !state.v_occupied);
+        this.preconditions.push((state) => !state.a_occupyId);
         this.preconditions.push((state) => state.v_wantTag !== undefined);
         this.preconditions.push((state) => state.v_occupyTag === undefined);
         this.preconditions.push((state) => state.v_moveTag === state.v_wantTag);
         this.effects.push((state) => state.v_occupyTag = state.v_wantTag);
+        this.effects.push((state) => state.v_occupied = true);
         this.effects.push((state) => state.v_wantTag = undefined);
     }
 
@@ -91,7 +95,27 @@ class OccupyAction extends Action {
             this.ok = false;
         } else {
             // actor occupies target
-            this.target.occupy(actor);
+            //this.target.occupy(actor);
+
+            // update target state
+            this.target.conditions.add(this.target.occupiedCondition);
+            if (this.target.occupiedX) this.target.offx = this.target.occupiedX;
+            if (this.target.occupiedY) this.target.offy = this.target.occupiedY;
+            this.target.actorSavedX = actor.x;
+            this.target.actorSavedY = actor.y;
+            this.target.actorSavedDepth = actor.depth;
+            this.target.actorId = actor.gid;
+            this.target.updated = true;
+
+            // update actor state
+            actor.conditions.add(this.target.actorCondition);
+            actor.x = this.target.x + this.target.occupiedOffX;
+            actor.y = this.target.y + this.target.occupiedOffY;
+            actor.heading = Direction.asHeading(this.target.occupiedDir);
+            if (actor.depth <= this.target.depth) actor.depth = this.target.depth+1;
+            actor.occupyId = this.target.gid;
+            actor.updated = true;
+
         }
     }
 

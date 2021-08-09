@@ -57,7 +57,6 @@ class StateSystem extends System {
                 e.stateSfx = null;
             }
             e.state = wantState;
-            console.log(`wantState: ${ModelState.toString(wantState)}`);
             let xsfx = e.xstateSfxs[wantState];
             if (xsfx) e.stateSfx = Generator.generate(xsfx);
             if (e.stateSfx) e.stateSfx.play();

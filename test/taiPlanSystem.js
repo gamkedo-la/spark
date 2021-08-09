@@ -25,8 +25,8 @@ let aiPlanSystemSuite = describe("AI Plan System", () => {
             xplans: [["WantWorkstationPlan", "FindPlan", "MovePlan", "OccupyPlan", "WorkAtStationPlan"]]},
 
         {desc: "manage sleep test", env: {}, actor: Object.assign({}, actor, {occupyId: 1, conditions: new Set([Condition.asleep])}), goal: AiGoal.manage, 
-            xschemes: [ "WakeScheme", "WantWorkstationScheme", "FindScheme", "MoveScheme", "OccupyScheme", "WorkAtStationScheme", ], 
-            xplans: [["WakePlan", "WantWorkstationPlan", "FindPlan", "MovePlan", "OccupyPlan", "WorkAtStationPlan"]]},
+            xschemes: [ "LeaveScheme", "WantWorkstationScheme", "FindScheme", "MoveScheme", "OccupyScheme", "WorkAtStationScheme", ], 
+            xplans: [["LeavePlan", "WantWorkstationPlan", "FindPlan", "MovePlan", "OccupyPlan", "WorkAtStationPlan"]]},
 
         {desc: "eat at chair test", env: {}, actor: Object.assign({}, actor, {conditions: new Set([Condition.hungry])}), goal: AiGoal.eat, 
             //xschemes: [ "WantStoveScheme", "WantChairScheme", "FindScheme", "MoveScheme", "OccupyScheme", "EatAtChairScheme", ], 

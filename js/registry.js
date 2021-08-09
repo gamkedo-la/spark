@@ -34,6 +34,7 @@ import { WantChairScheme }  from "./actions/wantChair.js";
 import { WantStoveScheme }  from "./actions/wantStove.js";
 import { EatAtChairScheme } from "./actions/eatAtChair.js";
 import { Stove } from "./stove.js";
+import { LeaveScheme } from "./actions/leave.js";
 
 class SparkRegistry {
     static init() {
@@ -109,7 +110,7 @@ class SparkRegistry {
         registry.add(EatAtChairScheme);
         registry.add(FindScheme);
         registry.add(GatherScheme);
-        registry.add(LeaveWorkstationScheme);
+        registry.add(LeaveScheme);
         registry.add(MoveScheme);
         registry.add(OccupyScheme);
         registry.add(SleepAtBedScheme);

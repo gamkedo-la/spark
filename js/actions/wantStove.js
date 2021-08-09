@@ -11,10 +11,9 @@ class WantStoveScheme extends AiScheme {
         super(spec);
         this.goalPredicate = (goal) => goal === AiGoal.eat;
         this.preconditions.push((state) => !state.v_wantStove);                           // prevents cycles in wanting stove, wanting something else, wanting stove...
+        this.preconditions.push((state) => !state.a_occupyId);
         this.preconditions.push((state) => state.v_occupyTag === undefined);
         this.preconditions.push((state) => state.a_conditions.has(Condition.hungry));
-        this.preconditions.push((state) => !state.a_conditions.has(Condition.eating));
-        this.preconditions.push((state) => !state.a_conditions.has(Condition.asleep));
         this.preconditions.push((state) => state.a_carryTag !== "Food");
         this.preconditions.push((state) => state.v_wantTag === undefined);
         this.effects.push((state) => state.v_wantTag = "Stove");
@@ -23,7 +22,7 @@ class WantStoveScheme extends AiScheme {
     }
 
     deriveState(env, actor, state) {
-        if (!state.hasOwnProperty("a_ownerTag")) state.a_ownerTag = actor.ownerTag;
+        if (!state.hasOwnProperty("a_occupyId")) state.a_occupyId = actor.occupyId;
         if (!state.hasOwnProperty("a_conditions")) state.a_conditions = new Set(actor.conditions);
         if (!state.hasOwnProperty("a_carryTag")) state.a_carryTag = actor.carryTag;
     }

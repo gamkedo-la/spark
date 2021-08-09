@@ -25,6 +25,8 @@ class Character extends Model {
         this.actor = true;
         // -- activity schedule
         if (spec.xactivitySchedule) this.activitySchedule = Generator.generate(spec.xactivitySchedule);
+        // -- actions
+        this.actions = [];
         // -- hunger variables
         this.maxFedTTL = spec.maxFedTTL;        // max time from eating until character is "hungry"
         this.fedTTL = 0;                        // current timer since last meal

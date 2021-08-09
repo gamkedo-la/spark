@@ -9,6 +9,7 @@ class AiScheme {
     constructor(spec={}) {
         this.preconditions = spec.preconditions || [];
         this.effects = spec.effects || [];
+        // default matches any goal
         this.goalPredicate = spec.goalPredicate || ((v) => true);
     }
 
