@@ -39,12 +39,12 @@ import { LeaveScheme } from "./actions/leave.js";
 class SparkRegistry {
     static init() {
         // -- register goals
+        AiGoal.register("work");
+        AiGoal.register("wait");
         AiGoal.register("sleep");
-        AiGoal.register("manage");
         AiGoal.register("eat");
         AiGoal.register("loiter");
-        AiGoal.register("startWork");
-        AiGoal.register("stopWork");
+        AiGoal.register("socialize");
         // -- register model states
         ModelState.register("powered");
         ModelState.register("sparked");

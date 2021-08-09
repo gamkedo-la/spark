@@ -353,7 +353,6 @@ class SparkAssets {
 
             Templates.object("o04", "bed", "Bed", {
                 offx: 8, offy: -24,
-                ownerTag: "bob",
                 xcollider: { width: 24, height: 48 }, 
                 occupiedOffX: 8, occupiedOffY: -22,
             }),
@@ -375,7 +374,6 @@ class SparkAssets {
 
             Templates.object("o07", "stove", "Stove", {
                 offx: 8, offy: -24,
-                ownerTag: "bob",
                 xcollider: { width: 32, height: 48 }, 
                 occupiedOffX: 8, occupiedOffY: -22,
             }),
@@ -398,7 +396,7 @@ class SparkAssets {
                 mediaTag: "gnome",
                 ctrlId: 0,
                 offy: -16,
-                ownerTag: "bob",
+                ownerTag: "Aodhan",
                 maxFedTTL: 30000,
                 xcollider: { blocking: Collider.player, width:14, height:16, offy:16, color: "rgba(0,0,127,.5)" },
                 xactivitySchedule: Templates.testSchedule,

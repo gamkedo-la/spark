@@ -3,6 +3,7 @@ export { Region };
 import { Base }             from "./base/base.js";
 import { Config } from "./base/config.js";
 import { Fmt }              from "./base/fmt.js";
+import { WorldOverrides } from "./worldOverrides.js";
 
 class Region {
 
@@ -87,6 +88,7 @@ class Region {
                                 depth: depthId,
                                 layer: layerId,
                             }, xobj);
+                            xobj = WorldOverrides.apply(xobj);
                             //if (layerId !== 0) console.log("xobj: " + Fmt.ofmt(xobj));
                             let obj = this.generator.generate(xobj);
                             this.objs.push(obj);

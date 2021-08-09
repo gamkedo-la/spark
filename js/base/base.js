@@ -46,7 +46,7 @@ import { PathfindingSystem } from "./pathfindingSystem.js";
 import { DaytimeSystem }    from "./daytimeSystem.js";
 import { UxDaylightFilter } from "./uxDaylightFilter.js";
 import { AiDirectiveSystem } from "./ai/aiDirectiveSystem.js";
-import { AiComboInfluence, AiEnvInfluence, AiGzoInfluence } from "./ai/aiInfluence.js";
+import { AiComboInfluence, AiEnvInfluence, AiGzoInfluence, AiInfluence } from "./ai/aiInfluence.js";
 import { AiGoal }           from "./ai/aiGoal.js";
 import { AiDirective }      from "./ai/aiDirective.js";
 import { AiState }          from "./ai/aiState.js";
@@ -191,6 +191,7 @@ class Base {
         this.registry.add(AiGoal);
         this.registry.add(AiState);
         this.registry.add(AiDirective);
+        this.registry.add(AiInfluence);
         this.registry.add(AiGzoInfluence);
         this.registry.add(AiEnvInfluence);
         this.registry.add(AiComboInfluence);

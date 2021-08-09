@@ -28,7 +28,7 @@ class AiDirective {
         // -- tag
         this.tag = spec.tag || `${this.cls}.${this.gid}`;
         // -- influence
-        this.influence = spec.hasOwnProperty("xinfluence") ? Generator.generate(spec.xinfluence) : new AiInfluence({score: 1});
+        this.influence = spec.hasOwnProperty("xinfluence") ? Generator.generate(spec.xinfluence) : new AiInfluence({dfltScore: 1});
         // -- prioritized goals
         this.goals = [];
         for (const xgoal of spec.xgoals || []) {

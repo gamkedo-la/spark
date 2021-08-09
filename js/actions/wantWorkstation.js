@@ -8,7 +8,7 @@ import { Condition }        from "../base/condition.js";
 class WantWorkstationScheme extends AiScheme {
     constructor(spec={}) {
         super(spec);
-        this.goalPredicate = (goal) => goal === AiGoal.manage;
+        this.goalPredicate = (goal) => goal === AiGoal.wait;
         this.preconditions.push((state) => !state.v_wantWorkstation);                           // prevents cycles in wanting workstation, wanting something else, wanting workstation...
         this.preconditions.push((state) => !state.a_occupyId);
         this.preconditions.push((state) => state.v_wantTag === undefined);

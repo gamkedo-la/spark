@@ -7,9 +7,9 @@ import { AiPlan }           from "../base/ai/aiPlan.js";
 class WorkAtStationScheme extends AiScheme {
     constructor(spec={}) {
         super(spec);
-        this.goalPredicate = (goal) => goal === AiGoal.manage;
+        this.goalPredicate = (goal) => goal === AiGoal.wait;
         this.preconditions.push((state) => state.v_occupyTag === "Workstation");
-        this.effects.push((state) => state[AiGoal.toString(AiGoal.manage)] = true);
+        this.effects.push((state) => state[AiGoal.toString(AiGoal.wait)] = true);
     }
 
     generatePlan(spec={}) {
