@@ -83,6 +83,7 @@ class Camera {
         this.target = target;
         this.target.evtUpdated.listen(this.onTargetUpdate);
         this.updateTrack();
+        this.center();
     }
 
     trackWorld(world) {
@@ -145,6 +146,16 @@ class Camera {
     reset() {
         this._x = 0;
         this._y = 0;
+    }
+
+    // center at current target
+    center() {
+        if (this.target) {
+            let tx = this.target.x * this.renderScale;
+            let ty = this.target.y * this.renderScale;
+            this._x = tx - this.halfWidth;
+            this._y = ty - this.halfHeight;
+        }
     }
 
     resize(width, height) {
