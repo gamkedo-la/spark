@@ -1,6 +1,7 @@
 export { WorldOverrides };
 
 import { Config }               from "./base/config.js";
+import { Dirty } from "./dirtySystem.js";
 import { WorldGen }             from "./worldGen.js";
 
 class WorldOverrides {
@@ -21,7 +22,16 @@ class WorldOverrides {
                               v.cls === "Bed",
             spec: {
                 ownerTag: "Aodhan",
-            }
+            },
+        },
+        {
+            predicate: (v) => v.x === this.wpos(WorldGen.vendor1.offx + 1) && 
+                              v.y === this.wpos(WorldGen.vendor1.offy + 5) &&
+                              v.tag === "road",
+            spec: {
+                //ownerTag: "Aodhan",
+                dirty: new Dirty(),
+            },
         },
     ];
 

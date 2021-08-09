@@ -38,6 +38,8 @@ class Model extends Gizmo {
         this.xxform = spec.xxform || undefined;
         // -- conditions
         this.conditions = new Set(spec.conditions);
+        // -- dirty (can the object get dirty?)
+        this.dirty = spec.dirty;
         // -- sketch
         this.xsketch = spec.xsketch || {};
         // -- xform

@@ -35,6 +35,8 @@ import { WantStoveScheme }  from "./actions/wantStove.js";
 import { EatAtChairScheme } from "./actions/eatAtChair.js";
 import { Stove } from "./stove.js";
 import { LeaveScheme } from "./actions/leave.js";
+import { WantDirtyScheme } from "./actions/wantDirty.js";
+import { SweepAtDirtyScheme } from "./actions/sweepAtDirty.js";
 
 class SparkRegistry {
     static init() {
@@ -85,6 +87,8 @@ class SparkRegistry {
         Condition.register("hungry");
         Condition.register("eating");
         Condition.register("seated");
+        Condition.register("dirty");
+        Condition.register("sweeping");
     }
     static setup(registry) {
         // -- register view classes
@@ -114,9 +118,11 @@ class SparkRegistry {
         registry.add(MoveScheme);
         registry.add(OccupyScheme);
         registry.add(SleepAtBedScheme);
+        registry.add(SweepAtDirtyScheme);
         registry.add(WakeScheme);
         registry.add(WantBedScheme);
         registry.add(WantChairScheme);
+        registry.add(WantDirtyScheme);
         registry.add(WantStoveScheme);
         registry.add(WantWorkstationScheme);
         registry.add(WorkAtStationScheme);

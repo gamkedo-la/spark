@@ -19,6 +19,7 @@ class Config {
             AiPlanSystem: false,
             AiProcessSystem: false,
             AreaSystem: false,
+            DirtySystem: true,
             EQuerySystem: false,
             HungerSystem: true,
             MediaLoader: false,

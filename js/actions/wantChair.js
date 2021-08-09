@@ -3,7 +3,6 @@ export { WantChairScheme };
 import { AiGoal }           from "../base/ai/aiGoal.js";
 import { AiPlan }           from "../base/ai/aiPlan.js";
 import { AiScheme }         from "../base/ai/aiScheme.js";
-import { Condition }        from "../base/condition.js";
 
 class WantChairScheme extends AiScheme {
     constructor(spec={}) {

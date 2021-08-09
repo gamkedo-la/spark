@@ -27,8 +27,9 @@ class FindPlan extends AiPlan {
     prepare(actor, state) {
         super.prepare(actor, state);
         // prepare query to find target w/ matching tag
-        this.query = new EQuery((e) => (
-            e.cls === state.v_wantTag) && 
+        this.query = new EQuery((e) => 
+            (!state.v_findPredicate && e.cls === state.v_wantTag) && 
+            (!state.v_findPredicate || state.v_findPredicate(e)) && 
             (!e.ownerTag || (e.ownerTag === state.a_ownerTag)) && 
             !e.isOccupied);
         // submit query to queue...
