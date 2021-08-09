@@ -46,13 +46,12 @@ Leave (any)
     - a_occupyId != undefined
     => a_occupyId = undefined
 
-WantFood (eat)
+WantStove (eat)
     - a_conditions.has(Condition.hungry)
     - !a_conditions.has(Condition.eating)
-    - v_wantTag == undefined
-    - v_moveTag != food
+    - v_wantTag != stove
     - v_gatherTag = food
-    => v_wantTag = food
+    => v_wantTag = stove
 
 Gather (any)
     - v_gatherTag != undefined
@@ -67,7 +66,7 @@ WantSeat (any)
 
 EatAtSeat (eat)
     - v_wantTag != undefined
-    - a_gathered == food
+    - a_gatherTag == food
     - v_occupyTag == seat
     => a_conditions.add(Condition.eating)
     => eat = true

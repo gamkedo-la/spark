@@ -13,6 +13,7 @@ class OccupyScheme extends AiScheme {
         this.preconditions.push((state) => state.v_occupyTag === undefined);
         this.preconditions.push((state) => state.v_moveTag === state.v_wantTag);
         this.effects.push((state) => state.v_occupyTag = state.v_wantTag);
+        this.effects.push((state) => state.v_wantTag = undefined);
     }
 
     deriveState(env, actor, state) {

@@ -81,6 +81,7 @@ class Chair extends Model {
         actor.x = this.x + this.occupiedOffX;
         actor.y = this.y + this.occupiedOffY;
         actor.heading = Direction.asHeading(this.occupiedDir);
+        console.log(`setting actor: ${actor} heading to : ${actor.heading} speed is: ${actor.speed}`);
         if (actor.depth <= this.depth) actor.depth = this.depth+1;
         actor.updated = true;
     }

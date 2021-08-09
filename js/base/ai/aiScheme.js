@@ -23,7 +23,10 @@ class AiScheme {
     check(actor, state) {
         // check preconditions
         for (const cond of this.preconditions) {
-            if (!cond(state)) return undefined;
+            if (!cond(state)) {
+                //console.log(`${this} failed condition: ${cond}`);
+                return undefined;
+            }
         }
         // return plan info with applied state effects
         let planInfo = {

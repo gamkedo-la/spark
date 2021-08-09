@@ -26,9 +26,14 @@ import { MoveScheme }       from "./actions/move.js";
 import { OccupyScheme }     from "./actions/occupy.js";
 import { SleepAtBedScheme } from "./actions/sleepAtBed.js";
 import { LeaveWorkstationScheme } from "./actions/leaveWorkstation.js";
-import { UxEditorView } from "./editorState.js";
-import { UxGloom } from "./uxGloom.js";
-import { SparkFx, TestFx } from "./sparkFx.js";
+import { UxEditorView }     from "./editorState.js";
+import { UxGloom }          from "./uxGloom.js";
+import { SparkFx, TestFx }  from "./sparkFx.js";
+import { GatherScheme }     from "./actions/gather.js";
+import { WantChairScheme }  from "./actions/wantChair.js";
+import { WantStoveScheme }  from "./actions/wantStove.js";
+import { EatAtChairScheme } from "./actions/eatAtChair.js";
+import { Stove } from "./stove.js";
 
 class SparkRegistry {
     static init() {
@@ -52,16 +57,15 @@ class SparkRegistry {
         ModelState.register("sleep_south");
         ModelState.register("occupied");
         ModelState.register("seated");
+        ModelState.register("seated_south");
+        ModelState.register("seated_north");
+        ModelState.register("seated_west");
+        ModelState.register("seated_east");
         ModelState.register("cast");
         ModelState.register("cast_south");
         ModelState.register("cast_north");
         ModelState.register("cast_west");
         ModelState.register("cast_east");
-        ModelState.register("sitting");
-        ModelState.register("sitting_south");
-        ModelState.register("sitting_north");
-        ModelState.register("sitting_west");
-        ModelState.register("sitting_east");
         ModelState.register("eating");
         ModelState.register("eating_south");
         ModelState.register("eating_north");
@@ -79,7 +83,7 @@ class SparkRegistry {
         Condition.register("cast");
         Condition.register("hungry");
         Condition.register("eating");
-        Condition.register("sitting");
+        Condition.register("seated");
     }
     static setup(registry) {
         // -- register view classes
@@ -100,16 +104,21 @@ class SparkRegistry {
         registry.add(Workstation);
         registry.add(TestFx);
         registry.add(SparkFx);
+        registry.add(Stove);
         // -- register schemes
-        registry.add(WantBedScheme);
+        registry.add(EatAtChairScheme);
         registry.add(FindScheme);
+        registry.add(GatherScheme);
+        registry.add(LeaveWorkstationScheme);
         registry.add(MoveScheme);
         registry.add(OccupyScheme);
         registry.add(SleepAtBedScheme);
         registry.add(WakeScheme);
+        registry.add(WantBedScheme);
+        registry.add(WantChairScheme);
+        registry.add(WantStoveScheme);
         registry.add(WantWorkstationScheme);
         registry.add(WorkAtStationScheme);
-        registry.add(LeaveWorkstationScheme);
         // -- setup global atts
         Atts.sparkSources = new Store({getkey: (v) => v.gid});
     }

@@ -1,39 +1,40 @@
-export { WantFoodScheme };
+export { WantStoveScheme };
 
 import { AiGoal }           from "../base/ai/aiGoal.js";
 import { AiPlan }           from "../base/ai/aiPlan.js";
 import { AiScheme }         from "../base/ai/aiScheme.js";
 import { Condition }        from "../base/condition.js";
+import { Fmt } from "../base/fmt.js";
 
-class WantFoodScheme extends AiScheme {
+class WantStoveScheme extends AiScheme {
     constructor(spec={}) {
         super(spec);
         this.goalPredicate = (goal) => goal === AiGoal.eat;
+        this.preconditions.push((state) => !state.v_wantStove);                           // prevents cycles in wanting stove, wanting something else, wanting stove...
+        this.preconditions.push((state) => state.v_occupyTag === undefined);
         this.preconditions.push((state) => state.a_conditions.has(Condition.hungry));
         this.preconditions.push((state) => !state.a_conditions.has(Condition.eating));
         this.preconditions.push((state) => !state.a_conditions.has(Condition.asleep));
-        this.preconditions.push((state) => state.a_ownerTag !== undefined);               // only gather food from actor's stores (requires actor to have owner tag)
         this.preconditions.push((state) => state.a_carryTag !== "Food");
         this.preconditions.push((state) => state.v_wantTag === undefined);
-        this.preconditions.push((state) => state.v_locationTag !== "Food");
-        this.effects.push((state) => state.v_wantTag = "Food");
+        this.effects.push((state) => state.v_wantTag = "Stove");
+        this.effects.push((state) => state.v_gatherTag = "Food");
+        this.effects.push((state) => state.v_wantStove = true);
     }
 
     deriveState(env, actor, state) {
-        // bug here: reserve tag gets set by the different schemes... 
-        // even though they can all want something else
-        if (!state.hasOwnProperty("a_reserveTag")) state.a_reserveTag = actor.reserveTag;
+        if (!state.hasOwnProperty("a_ownerTag")) state.a_ownerTag = actor.ownerTag;
         if (!state.hasOwnProperty("a_conditions")) state.a_conditions = new Set(actor.conditions);
         if (!state.hasOwnProperty("a_carryTag")) state.a_carryTag = actor.carryTag;
     }
 
     generatePlan(spec={}) {
-        return new WantFoodPlan(spec);
+        return new WantStovePlan(spec);
     }
 
 }
 
-class WantFoodPlan extends AiPlan {
+class WantStovePlan extends AiPlan {
 
     finalize() {
         return {
