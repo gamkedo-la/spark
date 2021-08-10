@@ -1,0 +1,27 @@
+Gnome dialog
+Insults
+"Your beard is unkempt. It needs combing!" 
+"Hey, do I see a bird nesting in your beard?"
+"Your hat is askew, it brings disrepute on us."
+"Creak, creak. Your door hinge needs oiling."
+"Your house's roof is a topsy-turvy mess!"
+"I see you napping but there's work to do!" 
+
+Neutral
+"Will the gloom ever lift from this place?" 
+"Look, dark clouds are rolling in from the sea."
+"Have you been listening to the fairies?"
+"Do you have a spare pot that I could use?"
+"I feel funny. Change is afoot mark my words!"
+"Listen to my new jolly song, it cheers me."
+"Have you seen my wheelbarrow? I lost it."
+
+Compliments
+"The leaves in your garden are a goodly green."
+"Like a plum? My tree fruited well this year."
+"May your whiskers grow and never fall out."
+"Your hat is looking well today. Proper job."
+"I see your boots are nicely fair turned out."
+"May your crockery dishes never be cracked."
+"May your tankard always be filled plentifully."
+"May your wheelbarrow never wobble or tumble." 
