@@ -414,6 +414,7 @@ class SparkAssets {
                         Templates.aiRestDirective,
                     ],
                     xschemes: [
+                        "CloseAtStationScheme",
                         "EatAtChairScheme",
                         "FindScheme",
                         "GatherScheme",
@@ -421,6 +422,7 @@ class SparkAssets {
                         //"LeaveWorkstationScheme",
                         "MoveScheme",
                         "OccupyScheme",
+                        "OpenAtStationScheme",
                         "SleepAtBedScheme",
                         //"WakeScheme",
                         "RestockAtStockScheme",

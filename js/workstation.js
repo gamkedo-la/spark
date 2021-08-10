@@ -33,6 +33,11 @@ class Workstation extends Model {
         this.reserveTag = spec.reserveTag;
         // -- actor id (actor who's currently occupying)
         this.actorId = 0;
+        // shop variables
+        this.closedCondition = spec.closedCondition || Condition.closed;
+        // defaults to closed condition
+        this.conditions.add(this.closedCondition);
+        console.log(`workstation close condition: ${this.closeCondition} conditions: ${Array.from(this.conditions)}`);
     }
 
     get approaches() {

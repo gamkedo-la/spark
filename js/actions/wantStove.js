@@ -16,6 +16,7 @@ class WantStoveScheme extends AiScheme {
         this.preconditions.push((state) => state.a_conditions.has(Condition.hungry));
         this.preconditions.push((state) => state.a_carryTag !== "Food");
         this.preconditions.push((state) => state.v_wantTag === undefined);
+        this.preconditions.push((state) => !state.v_occupyTag);                             // has occupation already been planned?
         this.effects.push((state) => state.v_wantTag = "Stove");
         this.effects.push((state) => state.v_gatherTag = "Food");
         this.effects.push((state) => state.v_wantStove = true);

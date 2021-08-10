@@ -184,9 +184,12 @@ class AiPlanSystem extends System {
                 e.ai.goalState = AiGoal.gfail;
             }
             if (this.dbg) {
+                console.log(`AiPlanSystem solutions for goal ${e.ai.currentGoal}:\n  ` + e.ai.solutions.map((solution) => solution.plans.map((plan) => plan.constructor.name)).join("\n  "));
+                /*
                 for (const solution of e.ai.solutions) {
                     console.log("solution: " + solution.plans.map((plan) => plan.constructor.name));
                 }
+                */
             }
         }
 

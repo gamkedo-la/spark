@@ -168,8 +168,8 @@ class Templates {
                 ],
             },
             xgoals: [
-                { goal: AiGoal.work, xinfluence: { cls: "AiInfluence", dfltScore: 1 }},  // prioritize work over waiting...
-                { goal: AiGoal.wait, xinfluence: { cls: "AiInfluence", dfltScore: .5 }},
+                { goal: AiGoal.work, xinfluence: { cls: "AiInfluence", dfltScore: 2 }},  // prioritize work over waiting...
+                { goal: AiGoal.wait },
             ]
         }
 
@@ -186,6 +186,7 @@ class Templates {
                 ],
             },
             xgoals: [
+                { goal: AiGoal.close, xinfluence: { cls: "AiInfluence", dfltScore: 2 }},  // prioritize closing up shop over others...
                 { goal: AiGoal.eat },
                 { goal: AiGoal.loiter },
                 { goal: AiGoal.socialize },

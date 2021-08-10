@@ -39,10 +39,13 @@ import { SweepAtDirtyScheme } from "./actions/sweepAtDirty.js";
 import { Stock }            from "./stock.js";
 import { WantStockScheme } from "./actions/wantStock.js";
 import { RestockAtStockScheme } from "./actions/restockAtStock.js";
+import { CloseAtStationScheme } from "./actions/closeAtStation.js";
+import { OpenAtStationScheme } from "./actions/openAtStation.js";
 
 class SparkRegistry {
     static init() {
         // -- register goals
+        AiGoal.register("close");
         AiGoal.register("work");
         AiGoal.register("wait");
         AiGoal.register("sleep");
@@ -92,6 +95,7 @@ class SparkRegistry {
         Condition.register("dirty");
         Condition.register("restock");
         Condition.register("sweeping");
+        Condition.register("closed");
     }
     static setup(registry) {
         // -- register view classes
@@ -115,12 +119,14 @@ class SparkRegistry {
         registry.add(SparkFx);
         registry.add(Stove);
         // -- register schemes
+        registry.add(CloseAtStationScheme);
         registry.add(EatAtChairScheme);
         registry.add(FindScheme);
         registry.add(GatherScheme);
         registry.add(LeaveScheme);
         registry.add(MoveScheme);
         registry.add(OccupyScheme);
+        registry.add(OpenAtStationScheme);
         registry.add(RestockAtStockScheme);
         registry.add(SleepAtBedScheme);
         registry.add(SweepAtDirtyScheme);

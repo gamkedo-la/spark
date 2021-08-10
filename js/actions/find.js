@@ -69,7 +69,7 @@ class FindPlan extends AiPlan {
     finalize() {
         // handle failure
         if (!this.target) {
-            if (this.dbg) console.log(`FindPlan: can't find object for tag: ${this.state.v_wantTag}`);
+            //if (this.dbg) console.log(`FindPlan: can't find object for tag: ${this.state.v_wantTag}`);
             return undefined;
         }
         // handle success
