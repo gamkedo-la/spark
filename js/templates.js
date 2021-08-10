@@ -94,6 +94,31 @@ class Templates {
         };
     }
 
+    static playIconButton(tag, icon, spec={}) {
+        let xxform = spec.xxform || {};
+        return {
+            cls: "UxPanel",
+            xsketch: {},
+            xxform: xxform,
+            xchildren: [
+                {
+                    cls: "UxButton",
+                    tag: tag,
+                    xtext: { text: " " },
+                    xpressed: { cls: 'Rect', color: new Color(50,50,50,1), borderWidth: 5, borderColor: new Color(0,0,0,1) },
+                    xunpressed: { cls: 'Rect', color: new Color(50,50,50,.5), borderWidth: 5, borderColor: new Color(0,0,0,1) },
+                    xhighlight: { cls: 'Rect', color: new Color(50,50,50,.75), borderWidth: 5, borderColor: new Color(0,0,0,1) },
+                },
+                {
+                    cls: "UxPanel",
+                    tag: `${tag}.panel`,
+                    xxform: {offset: 3},
+                    xsketch: icon,
+                },
+            ],
+        };
+    }
+
     static editorPanel(tag, spec={}) {
         let xxform = spec.xxform || {};
         let xchildren = spec.xchildren || [];

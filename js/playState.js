@@ -8,6 +8,7 @@ import { Fmt }              from "./base/fmt.js";
 import { Config }           from "./base/config.js";
 import { LevelNode }        from "./lvlGraph.js";
 import { Mouse }            from "./base/mouse.js";
+import { Color }            from "./base/color.js";
 import { World }            from "./world.js";
 import { GridView }         from "./base/gridView.js";
 import { Area, AreaView }   from "./base/area.js";
@@ -18,6 +19,13 @@ import { UxGloom } from "./uxGloom.js";
 import { Templates } from "./templates.js";
 
 class PlayState extends State {
+
+    static actionSketches = {
+        "none":         {cls: "Text", text: "X", xfitter: { cls: "FitToParent"}, color: new Color(225,0,0,.75)},
+        "interact":     {cls: "Text", text: "i", xfitter: { cls: "FitToParent"}, color: new Color(225,0,0,.75)},
+        "spark":        {cls: "Text", text: "#", xfitter: { cls: "FitToParent"}, color: new Color(225,0,0,.75)},
+    };
+
     cpre(spec) {
         super.cpre(spec);
         let xlvl = World.xlvl;
@@ -46,8 +54,20 @@ class PlayState extends State {
                     cls: "UxPanel",
                     tag: "mainPanel",
                     xsketch: media.get("btnGoldTranS1"),
+                    xchildren: [
+                        {
+                            cls: "UxPanel",
+                            tag: "zPanel",
+                            xxform: {oleft: 40, otop: 40, right: .91, bottom: .885},
+                            xtext: {},
+                            xsketch: { cls: 'Rect', color: new Color(50,50,50,1), borderWidth: 5, borderColor: new Color(0,0,0,1) },
+                        },
+                        Templates.playIconButton("menu", { cls: "Text", text: "*" }, { xxform: {oright: 40, otop: 40, left: .91, bottom: .885}}),
+                        Templates.playIconButton("morale", { cls: "Text", text: "8>" }, { xxform: {otop: 40, right: .09, left: .86, bottom: .885}}),
+
+                    ],
                 },
-                Templates.panel("dbgPanel", {xxform: { left: .8, right: .025, top: .025, bottom: .7 }, xchildren: [
+                Templates.panel("dbgPanel", {xxform: { left: .8, right: .025, top: .125, bottom: .6 }, xchildren: [
                     Templates.dbgText(null, "1 - hide debug", { xxform: { top: 0/6, bottom: 1-1/6 }}),
                     Templates.dbgText(null, "2 - show colliders", { xxform: { top: 1/6, bottom: 1-2/6 }}),
                     Templates.dbgText(null, "3 - show areas", { xxform: { top: 2/6, bottom: 1-3/6 }}),
@@ -67,7 +87,7 @@ class PlayState extends State {
         this.camera = spec.camera || Camera.main;
         //this.camera.dbg = true;
 
-        Util.bind(this, "onKeyDown", "onClicked");
+        Util.bind(this, "onKeyDown", "onClicked", "onMenu", "onMorale");
         Keys.evtKeyPressed.listen(this.onKeyDown);
         Mouse.evtClicked.listen(this.onClicked);
         let gridView = new GridView({depth: 10, grid: this.grid, xxform: {scalex: Config.renderScale, scaley: Config.renderScale}});
@@ -93,7 +113,14 @@ class PlayState extends State {
         // lookup object references
         this.player = this.findFirst(v=>v.tag === "player");
         this.dbgPanel = this.findFirst(v=>v.tag === "dbgPanel");
-        console.log(`dbgPanel: ${this.dbgPanel}`);
+        this.menuButton = this.findFirst(v=>v.tag === "menu");
+        console.log(`menuButton: ${this.menuButton}`);
+        this.menuButton.evtClicked.listen(this.onMenu);
+        this.moraleButton = this.findFirst(v=>v.tag === "morale");
+        console.log(`moraleButton: ${this.moraleButton}`);
+        this.moraleButton.evtClicked.listen(this.onMorale);
+        this.zPanel = this.findFirst(v=>v.tag === "zPanel");
+        console.log(`zPanel: ${this.zPanel}`);
         //console.log(`PlayState player is ${this.player}`);
         // hook camera
         if (this.player) this.camera.trackTarget(this.player);
@@ -141,6 +168,8 @@ class PlayState extends State {
     }
 
     onClicked(evt) {
+        // ignore if within button
+        if (this.moraleButton.mouseOver || this.menuButton.mouseOver) return;
         //let localMousePos = this.editorPanel.xform.getLocal(new Vect(evt.x, evt.y))
         console.log("onClicked: " + Fmt.ofmt(evt));
         let x = evt.x + this.camera.minx;
@@ -165,6 +194,14 @@ class PlayState extends State {
                 this.addView(gzo);
             }
         }
+    }
+
+    onMorale(evt) {
+        console.log("onMorale clicked");
+    }
+
+    onMenu(evt) {
+        console.log("onMenu clicked");
     }
 
     onGizmoDestroy(evt) {
@@ -208,5 +245,26 @@ class PlayState extends State {
         super.destroy();
     }
 
+
+    updateZPanel(ctx) {
+        // determine current action
+        // FIXME
+        let action = "spark";
+        if (this.lastAction !== action) {
+            // update z panel w/ new icon for given action
+            let sketch = Generator.generate(PlayState.actionSketches[action]);
+            console.log(`assigning zpanel sketch: ${sketch}`);
+            this.zPanel.sketch = sketch;
+            this.lastAction = action;
+            return true;
+        }
+        return false;
+    }
+
+    iupdate(ctx) {
+        this.updated = super.iupdate(ctx);
+        this.udpated |= this.updateZPanel(ctx);
+        return this.updated;
+    }
 
 }
