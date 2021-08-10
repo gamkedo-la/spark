@@ -48,7 +48,7 @@ class PlayState extends State {
                     xsketch: media.get("btnGoldTranS1"),
                 },
                 Templates.panel("dbgPanel", {xxform: { left: .8, right: .025, top: .025, bottom: .7 }, xchildren: [
-                    //Templates.dbgText(null, "1 - hide debug", { xxform: { top: 0/6, bottom: 1-1/6 }}),
+                    Templates.dbgText(null, "1 - hide debug", { xxform: { top: 0/6, bottom: 1-1/6 }}),
                     Templates.dbgText(null, "2 - show colliders", { xxform: { top: 1/6, bottom: 1-2/6 }}),
                     Templates.dbgText(null, "3 - show areas", { xxform: { top: 2/6, bottom: 1-3/6 }}),
                     Templates.dbgText(null, "4 - show grid", { xxform: { top: 3/6, bottom: 1-4/6 }}),
@@ -92,6 +92,8 @@ class PlayState extends State {
 
         // lookup object references
         this.player = this.findFirst(v=>v.tag === "player");
+        this.dbgPanel = this.findFirst(v=>v.tag === "dbgPanel");
+        console.log(`dbgPanel: ${this.dbgPanel}`);
         //console.log(`PlayState player is ${this.player}`);
         // hook camera
         if (this.player) this.camera.trackTarget(this.player);
@@ -109,6 +111,9 @@ class PlayState extends State {
 
     onKeyDown(evt) {
         //console.log("onKeyDown: " + Fmt.ofmt(evt));
+        if (evt.key === "1") {
+            this.dbgPanel.visible = !this.dbgPanel.visible;
+        }
         if (evt.key === "2") {
             Config.dbg.viewColliders = !Config.dbg.viewColliders;
             this.viewMgr.renderall = true;
