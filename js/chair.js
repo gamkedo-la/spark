@@ -1,13 +1,13 @@
 export { Chair };
 
 import { Model }            from './base/model.js';
-import { Config }           from './base/config.js';
 import { ModelState }       from './base/modelState.js';
 import { Generator }        from './base/generator.js';
-import { OpenAction }       from './base/action.js';
 import { Direction } from './base/dir.js';
 import { Condition } from './base/condition.js';
 import { LevelNode } from './lvlGraph.js';
+import { LeaveAction } from './actions/leave.js';
+import { OccupyAction } from './actions/occupy.js';
 
 class Chair extends Model {
 
@@ -66,41 +66,6 @@ class Chair extends Model {
             actor.actions.push(new OccupyAction({target: this}));
             //this.occupy(actor);
         }
-    }
-
-    occupy(actor) {
-        console.log(`${this} occupy actor: ${actor}`);
-        // update chair state
-        this.conditions.add(this.occupiedCondition);
-        this.offx = this.occupiedX;
-        this.offy = this.occupiedY;
-        this.actorSavedX = actor.x;
-        this.actorSavedY = actor.y;
-        this.actorSavedDepth = actor.depth;
-        this.actorId = actor.gid;
-        // update actor state
-        actor.conditions.add(this.actorCondition);
-        actor.x = this.x + this.occupiedOffX;
-        actor.y = this.y + this.occupiedOffY;
-        actor.heading = Direction.asHeading(this.occupiedDir);
-        console.log(`setting actor: ${actor} heading to : ${actor.heading} speed is: ${actor.speed}`);
-        if (actor.depth <= this.depth) actor.depth = this.depth+1;
-        actor.updated = true;
-    }
-
-    leave(actor) {
-        console.log(`${this} leave actor: ${actor}`);
-        // update chair state
-        this.conditions.delete(this.occupiedCondition);
-        this.offx = this.emptyX;
-        this.offy = this.emptyY;
-        this.actorId = 0;
-        // update actor state
-        actor.conditions.delete(this.actorCondition)
-        actor.x = this.actorSavedX;
-        actor.y = this.actorSavedY;
-        actor.depth = this.actorSavedDepth;
-        actor.updated = true;
     }
 
 }

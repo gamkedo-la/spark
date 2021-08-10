@@ -107,6 +107,8 @@ class AiPlanSystem extends System {
 
     prepareSolution(ctx, e, solution) {
 
+        //console.log(`prepare solution: ${solution} w/ state: ${Fmt.ofmt(solution.state)}`);
+
         while (solution.currentIndex < solution.plans.length) {
             let plan = solution.plans[solution.currentIndex];
             // prepare plan state
@@ -132,6 +134,7 @@ class AiPlanSystem extends System {
                 solution.status = AiSolution.failed;
                 return;
             }
+            //console.log(`==> prepare solution ready to finalize: ${solution} w/ state: ${Fmt.ofmt(solution.state)}`);
             // update solution state
             // -- apply state effects from planning
             let planEffects = solution.planEffects[solution.currentIndex];
@@ -180,7 +183,11 @@ class AiPlanSystem extends System {
                 if (this.dbg) console.log("no solution for goal: " + e.ai.currentGoal);
                 e.ai.goalState = AiGoal.gfail;
             }
-            if (this.dbg) console.log("solutions: " + e.ai.solutions.map((solution) => solution.plans.map((plan) => plan.constructor.name)));
+            if (this.dbg) {
+                for (const solution of e.ai.solutions) {
+                    console.log("solution: " + solution.plans.map((plan) => plan.constructor.name));
+                }
+            }
         }
 
         // prepare solutions

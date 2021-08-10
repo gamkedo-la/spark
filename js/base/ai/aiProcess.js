@@ -21,7 +21,7 @@ class AiProcess {
     }
 
     toString() {
-        return Fmt.toString(this.constructor.name);
+        return Fmt.toString(this.constructor.name, Fmt.ofmt(this));
     }
 
 }

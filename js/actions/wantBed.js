@@ -10,7 +10,8 @@ class WantBedScheme extends AiScheme {
         super(spec);
         this.goalPredicate = (goal) => goal === AiGoal.sleep;
         this.preconditions.push((state) => !state.v_wantBed);                               // prevents cycles in wanting bed, wanting something else, wanting bed...
-        this.preconditions.push((state) => !state.a_occupyId);
+        this.preconditions.push((state) => !state.a_occupyId);                              // is actor currently occupying an area
+        this.preconditions.push((state) => !state.v_occupyTag);                             // has occupation already been planned
         this.preconditions.push((state) => state.v_wantTag === undefined);
         this.effects.push((state) => state.v_wantTag = "Bed");
         this.effects.push((state) => state.v_wantBed = true);

@@ -61,9 +61,10 @@ class MovePlan extends AiPlan {
         // iterate through possible targets, find best path
         let best;
         let bestPath;
+        //console.log(`===> consider targets: ${targets}`);
         for (const target of targets) {
             let pathinfo = this.getPathfinder().find(this.state.a_pos, target);
-            //console.log(`pathfinder from ${this.state.a_pos} to ${target} gives: ${Fmt.ofmt(pathinfo)}`);
+            //console.log(`===> pathfinder from ${this.state.a_pos} to ${target} gives: ${Fmt.ofmt(pathinfo)}`);
             if (!pathinfo) continue;
             if (!best || pathinfo.cost < bestPath.cost) {
                 best = target;
@@ -81,11 +82,13 @@ class MovePlan extends AiPlan {
             if (this.dbg) console.log("MovePlan failed: no path to target: " + this.state.v_target);
             return false;
         }
-        //console.log("move pathinfo: " + Fmt.ofmt(this.pathinfo));
+        //console.log(`move target: ${this.target} pathinfo: ${Fmt.ofmt(this.pathinfo)}`);
         // handle success
         //this.state.v_target = undefined;
         let effects = [
-            (state) => state.a_pos = this.target,
+            (state) => {
+                state.a_pos = this.target;
+            },
         ];
         return {
             effects: effects,

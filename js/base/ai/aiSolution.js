@@ -9,7 +9,7 @@ class AiSolution {
     static done = 3;
 
     constructor(state) {
-        this.state = state;
+        this.state = Object.assign({}, state);
         this.plans = [];
         this.planEffects = [];
         this.processes = [];
@@ -21,6 +21,6 @@ class AiSolution {
     }
 
     toString() {
-        return Fmt.toString(this.constructor.name, this.plans);
+        return Fmt.toString(this.constructor.name, this.plans, this.processes);
     }
 }

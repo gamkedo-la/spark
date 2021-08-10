@@ -1,49 +1,56 @@
-export { Dirty, DirtySystem };
+export { WorkTimer, DirtySystem };
 
 import { System }               from "./base/system.js";
 import { Condition }            from "./base/condition.js";
+import { Fmt } from "./base/fmt.js";
 
-class Dirty {
+class WorkTimer {
     // FIXME: tie this to time in a day
-    static dfltDirtyTTL = 5000;
+    static dfltTTL = 5000;
     constructor(spec={}) {
         this.jitter = spec.jitter || .5;
-        this.maxTTL = spec.maxTTL || Dirty.dfltDirtyTTL;
+        this.maxTTL = spec.maxTTL || WorkTimer.dfltTTL;
         // have first TTL be random amount of max TTL
         this.ttl = Math.random() * this.maxTTL
-        this.cleaned = false;
+        this.needsReset = false;
+        this.condition = spec.condition || Condition.dirty;
     }
 }
 
 /**
- * system to manage collection of "dirt" on objects
+ * system to manage work timers (dirty, restock)
  */
 class DirtySystem extends System {
     cpre(spec) {
         spec.iterateTTL = spec.iterateTTL || 1000;
-        spec.fixedPredicate = spec.fixedPredicate || ((e) => e.cat === "Model" && e.dirty);
+        spec.fixedPredicate = spec.fixedPredicate || ((e) => e.cat === "Model" && (e.dirty || e.restock));
         super.cpre(spec);
     }
 
     // METHODS -------------------------------------------------------------
     iterate(ctx, e) {
-        // if dirty spot was cleaned... reset dirty ttl
-        if (e.dirty.cleaned) {
-            let jitter = e.dirty.jitter * e.dirty.maxTTL;
-            if (Math.random() > .5) jitter *= -1;
-            e.dirty.ttl = e.dirty.maxTTL + jitter;
-            e.dirty.cleaned = false;
-            if (e.conditions.has(Condition.dirty)) {
-                if (this.dbg) console.log(`${e} is no longer dirty`);
-                e.conditions.delete(Condition.dirty);
+        for (const tag of ["dirty", "restock"]) {
+            let timer = e[tag];
+            if (!timer) continue;
+
+            // check for timer reset
+            if (timer.needsReset) {
+                let jitter = timer.jitter * timer.maxTTL;
+                if (Math.random() > .5) jitter *= -1;
+                timer.ttl = timer.maxTTL + jitter;
+                timer.needsReset = false;
+                if (e.conditions.has(timer.condition)) {
+                    if (this.dbg) console.log(`${e} is no longer ${Condition.toString(timer.condition)}`);
+                    e.conditions.delete(timer.condition);
+                }
             }
-        }
-        // update current timer (if non-zero)
-        e.dirty.ttl -= this.deltaTime;
-        if (e.dirty.ttl <= 0) {
-            if (!e.conditions.has(Condition.dirty)) {
-                if (this.dbg) console.log(`${e} has become dirty`);
-                e.conditions.add(Condition.dirty);
+            // update current timer (if non-zero)
+            timer.ttl -= this.deltaTime;
+            if (timer.ttl <= 0) {
+                if (!e.conditions.has(timer.condition)) {
+                    if (this.dbg) console.log(`${e} has become ${Condition.toString(timer.condition)}`);
+                    e.conditions.add(timer.condition);
+                }
             }
         }
     }

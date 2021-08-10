@@ -25,7 +25,6 @@ import { FindScheme }       from "./actions/find.js";
 import { MoveScheme }       from "./actions/move.js";
 import { OccupyScheme }     from "./actions/occupy.js";
 import { SleepAtBedScheme } from "./actions/sleepAtBed.js";
-import { LeaveWorkstationScheme } from "./actions/leaveWorkstation.js";
 import { UxEditorView }     from "./editorState.js";
 import { UxGloom }          from "./uxGloom.js";
 import { SparkFx, TestFx }  from "./sparkFx.js";
@@ -33,10 +32,13 @@ import { GatherScheme }     from "./actions/gather.js";
 import { WantChairScheme }  from "./actions/wantChair.js";
 import { WantStoveScheme }  from "./actions/wantStove.js";
 import { EatAtChairScheme } from "./actions/eatAtChair.js";
-import { Stove } from "./stove.js";
-import { LeaveScheme } from "./actions/leave.js";
-import { WantDirtyScheme } from "./actions/wantDirty.js";
+import { Stove }            from "./stove.js";
+import { LeaveScheme }      from "./actions/leave.js";
+import { WantDirtyScheme }  from "./actions/wantDirty.js";
 import { SweepAtDirtyScheme } from "./actions/sweepAtDirty.js";
+import { Stock }            from "./stock.js";
+import { WantStockScheme } from "./actions/wantStock.js";
+import { RestockAtStockScheme } from "./actions/restockAtStock.js";
 
 class SparkRegistry {
     static init() {
@@ -88,6 +90,7 @@ class SparkRegistry {
         Condition.register("eating");
         Condition.register("seated");
         Condition.register("dirty");
+        Condition.register("restock");
         Condition.register("sweeping");
     }
     static setup(registry) {
@@ -106,6 +109,7 @@ class SparkRegistry {
         registry.add(Level);
         registry.add(SparkBase);
         registry.add(SparkRelay);
+        registry.add(Stock);
         registry.add(Workstation);
         registry.add(TestFx);
         registry.add(SparkFx);
@@ -117,12 +121,14 @@ class SparkRegistry {
         registry.add(LeaveScheme);
         registry.add(MoveScheme);
         registry.add(OccupyScheme);
+        registry.add(RestockAtStockScheme);
         registry.add(SleepAtBedScheme);
         registry.add(SweepAtDirtyScheme);
         registry.add(WakeScheme);
         registry.add(WantBedScheme);
         registry.add(WantChairScheme);
         registry.add(WantDirtyScheme);
+        registry.add(WantStockScheme);
         registry.add(WantStoveScheme);
         registry.add(WantWorkstationScheme);
         registry.add(WorkAtStationScheme);

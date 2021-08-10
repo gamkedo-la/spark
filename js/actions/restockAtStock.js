@@ -1,4 +1,4 @@
-export { SweepAtDirtyScheme };
+export { RestockAtStockScheme };
 
 import { AiScheme }         from "../base/ai/aiScheme.js";
 import { AiGoal }           from "../base/ai/aiGoal.js";
@@ -7,21 +7,21 @@ import { AiProcess }        from "../base/ai/aiProcess.js";
 import { Action }           from "../base/action.js";
 import { Condition } from "../base/condition.js";
 
-class SweepAtDirtyScheme extends AiScheme {
+class RestockAtStockScheme extends AiScheme {
     constructor(spec={}) {
         super(spec);
         this.goalPredicate = (goal) => goal === AiGoal.work;
-        this.preconditions.push((state) => state.v_moveTag === "Dirty");
+        this.preconditions.push((state) => state.v_occupyTag === "Stock");
         this.effects.push((state) => state[AiGoal.toString(AiGoal.work)] = true);
     }
 
     generatePlan(spec={}) {
-        return new SweepAtDirtyPlan(spec);
+        return new RestockAtStockPlan(spec);
     }
 
 }
 
-class SweepAtDirtyPlan extends AiPlan {
+class RestockAtStockPlan extends AiPlan {
 
     finalize() {
         // handle success
@@ -29,14 +29,14 @@ class SweepAtDirtyPlan extends AiPlan {
             utility: 1,
             cost: 1,
             processes: [
-                new SweepProcess({target: this.state.v_target}),
+                new RestockProcess({target: this.state.v_target}),
             ]
         }
     }
 
 }
 
-class SweepProcess extends AiProcess {
+class RestockProcess extends AiProcess {
     constructor(spec={}) {
         super(spec);
         this.target = spec.target;
@@ -44,7 +44,7 @@ class SweepProcess extends AiProcess {
 
     prepare(actor) {
         this.actions = [
-            new SweepAction({target: this.target}),
+            new RestockAction({target: this.target}),
         ];
         // set actor's action queue to be the individual actions
         actor.actions = this.actions.slice(0);
@@ -60,30 +60,30 @@ class SweepProcess extends AiProcess {
 
 }
 
-class SweepAction extends Action {
+class RestockAction extends Action {
     static dfltTTL = 5000;
 
     constructor(spec={}) {
         super(spec);
         this.target = spec.target;
-        this.ttl = spec.ttl || SweepAction.dfltTTL;
+        this.ttl = spec.ttl || RestockAction.dfltTTL;
     }
 
     start(actor) {
-        console.log(`sweep action actor: ${actor} target: ${this.target}}`);
+        console.log(`restock action actor: ${actor} target: ${this.target}}`);
         this.actor = actor;
-        // actor applies sweeping condition
-        this.actor.conditions.add(Condition.sweeping);
+        // actor applies restock condition
+        //this.actor.conditions.add(Condition.sweeping);
     }
 
     update(ctx) {
         this.ttl -= ctx.deltaTime;
         if (this.ttl <= 0) {
-            console.log(`actor ${this.actor} done sweeping`);
+            console.log(`actor ${this.actor} done restocking`);
             this.done = true;
-            this.actor.conditions.delete(Condition.sweeping);
-            // mark area as clean
-            this.target.dirty.needsReset = true;
+            //this.actor.conditions.delete(Condition.sweeping);
+            // mark target as restocked
+            this.target.restock.needsReset = true;
         }
         return this.done;
     }

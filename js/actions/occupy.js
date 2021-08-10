@@ -1,4 +1,4 @@
-export { OccupyScheme };
+export { OccupyScheme, OccupyAction };
 
 import { AiScheme }         from "../base/ai/aiScheme.js";
 import { AiPlan }           from "../base/ai/aiPlan.js";
@@ -90,8 +90,8 @@ class OccupyAction extends Action {
         //console.log(`occupy action actor: ${actor} target: ${this.target}}`);
         this.actor = actor;
         // check that target can be occupied
-        if (!this.target.occupy || this.target.conditions.has(this.target.occupiedCondition)) {
-            console.log(`actor: ${actor} cannot occupy: ${this.target} -- already occupied`);
+        if (this.target.conditions.has(this.target.occupiedCondition)) {
+            console.log(`actor: ${actor} cannot occupy: ${this.target} -- already occupied ${this.target.actorId}`);
             this.ok = false;
         } else {
             // actor occupies target
@@ -109,9 +109,9 @@ class OccupyAction extends Action {
 
             // update actor state
             actor.conditions.add(this.target.actorCondition);
-            actor.x = this.target.x + this.target.occupiedOffX;
-            actor.y = this.target.y + this.target.occupiedOffY;
-            actor.heading = Direction.asHeading(this.target.occupiedDir);
+            if (this.target.occupiedOffX) actor.x = this.target.x + this.target.occupiedOffX;
+            if (this.target.occupiedOffY) actor.y = this.target.y + this.target.occupiedOffY;
+            if (this.target.occupiedDir) actor.heading = Direction.asHeading(this.target.occupiedDir);
             if (actor.depth <= this.target.depth) actor.depth = this.target.depth+1;
             actor.occupyId = this.target.gid;
             actor.updated = true;

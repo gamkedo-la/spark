@@ -14,6 +14,7 @@ import { TitleState }       from "./titleState.js";
 import { HungerSystem }     from "./hungerSystem.js";
 import { Config }           from "./base/config.js";
 import { DirtySystem } from "./dirtySystem.js";
+import { WorldOverrides } from "./worldOverrides.js";
 
 /** ========================================================================
  * Main Spark Game Specification and Setup
@@ -30,6 +31,8 @@ class Spark extends Game {
         Templates.init();
         // -- assets
         SparkAssets.init();
+        // -- overrides
+        WorldOverrides.init();
     }
 
     // CONSTRUCTOR ---------------------------------------------------------

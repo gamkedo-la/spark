@@ -1,38 +1,29 @@
-export { Bed };
+export { Stock };
 
 import { Model }            from "./base/model.js";
 import { ModelState }       from "./base/modelState.js";
-import { Fmt }              from "./base/fmt.js";
 import { Direction }        from "./base/dir.js";
 import { LevelNode }        from "./lvlGraph.js";
 import { Condition }        from "./base/condition.js";
 import { LeaveAction } from "./actions/leave.js";
-import { OccupyAction } from "./actions/occupy.js";
+import { WorkTimer } from "./dirtySystem.js";
 
-class Bed extends Model {
+class Stock extends Model {
     constructor(spec={}) {
         super(spec);
-        // -- position
-        this.x = spec.x || 0;
-        this.y = spec.y || 0;
-        this.actorSavedX = 0;
-        this.actorSavedY = 0;
         // -- approachMask (direction mask)
         this.approachMask = spec.approachMask || Direction.cardinal;
-        // -- occupied offset
-        this.occupiedOffX = spec.occupiedOffX || 0;
-        this.occupiedOffY = spec.occupiedOffY || 0;
-        // -- occupied direction
-        this.occupiedDir = spec.occupiedDir || Direction.south;
         // -- conditions
         this.occupiedCondition = spec.occupiedCondition || Condition.occupied;
-        this.actorCondition = spec.actorCondition || Condition.asleep;
+        this.actorCondition = spec.actorCondition || Condition.waiting;
         // -- interactable
         this.interactable = true;
-        // -- actor id (who's in the bed)
+        // -- actor id (who's currenty interacting)
         this.actorId = 0;
+        // -- stock
+        // FIXME: time
+        this.restock = spec.restock || new WorkTimer({condition: Condition.restock, maxTTL: 10000});
     }
-
 
     get approaches() {
         if (this.approachMask) {

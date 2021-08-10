@@ -46,6 +46,7 @@ class LeavePlan extends AiPlan {
         if (this.target.actorSavedX && this.target.actorSavedY) {
             effects.push((state) => {
                 state.a_pos = new LevelNode(this.target.actorSavedX, this.target.actorSavedY, this.actor.layer)
+                //console.log(`leave setting state a_pos to ${state.a_pos}`);
             });
         }
         return {
