@@ -1,5 +1,4 @@
 export { EQuerySystem };
-    import { Fmt } from "./fmt.js";
 import { System } from "./system.js";
 
 class EQuerySystem extends System {

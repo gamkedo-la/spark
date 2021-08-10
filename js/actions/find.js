@@ -17,6 +17,10 @@ class FindScheme extends AiScheme {
         this.effects.push((state) => state.v_findTag = state.v_wantTag);
     }
 
+    deriveState(env, actor, state) {
+        if (!state.hasOwnProperty("a_occupyId")) state.a_occupyId = actor.occupyId;
+    }
+
     generatePlan(spec={}) {
         return new FindPlan(spec);
     }
@@ -27,11 +31,17 @@ class FindPlan extends AiPlan {
     prepare(actor, state) {
         super.prepare(actor, state);
         // prepare query to find target w/ matching tag
-        this.query = new EQuery((e) => 
-            (!state.v_findPredicate && e.cls === state.v_wantTag) && 
-            (!state.v_findPredicate || state.v_findPredicate(e)) && 
-            (!e.ownerTag || (e.ownerTag === state.a_ownerTag)) && 
-            !e.isOccupied);
+        if (state.v_findPredicate) {
+            this.query = new EQuery((e) => 
+                state.v_findPredicate(e) && 
+                (!e.ownerTag || (e.ownerTag === state.a_ownerTag)) && 
+                !e.isOccupied);
+        } else {
+            this.query = new EQuery((e) => 
+                (e.cls === state.v_wantTag) && 
+                (!e.ownerTag || (e.ownerTag === state.a_ownerTag)) && 
+                !e.isOccupied);
+        }
         // submit query to queue...
         this.getQueryQ().push(this.query);
         this.target = undefined;

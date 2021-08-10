@@ -163,7 +163,7 @@ class Templates {
                 xinfluences: [
                     {
                         weight: 1,
-                        xinfluence: { cls: "AiGzoInfluence", tag: "currentActivity", scaler: (v) => (v === Activity.work) ? 1 : 0},
+                        xinfluence: { cls: "AiGzoInfluence", tag: "currentActivity", scaler: (v) => (v === Activity.work) ? 1 : .1},
                     },
                 ],
             },
@@ -181,7 +181,7 @@ class Templates {
                 xinfluences: [
                     {
                         weight: 1,
-                        xinfluence: { cls: "AiGzoInfluence", tag: "currentActivity", scaler: (v) => (v === Activity.relax) ? 1 : 0},
+                        xinfluence: { cls: "AiGzoInfluence", tag: "currentActivity", scaler: (v) => (v === Activity.relax) ? 1 : .1},
                     },
                 ],
             },

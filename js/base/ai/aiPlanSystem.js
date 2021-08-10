@@ -45,7 +45,7 @@ class AiPlanSystem extends System {
                 //console.log(`scheme: ${scheme} not viable for state: ${Fmt.ofmt(parent.state)}`);
                 continue;
             }
-            console.log(`scheme: ${scheme} gives: ${Fmt.ofmt(sinfo)}`);
+            //console.log(`scheme: ${scheme} gives: ${Fmt.ofmt(sinfo)}`);
             // apply effects
             let state = Object.assign({}, parent.state);
             if (state.hasOwnProperty("a_conditions")) state.a_conditions = new Set(state.a_conditions);

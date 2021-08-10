@@ -68,7 +68,7 @@ class Area extends Model {
     onObjUpdate(evt) {
         let actor = evt.actor;
         if (actor && ((this.layer !== undefined && this.layer !== actor.layer) || (!this.overlaps(actor) && !this.contains(actor)))) {
-            console.log("actor: " + actor + " left: " + this);
+            //console.log("actor: " + actor + " left: " + this);
             this.remove(actor);
         }
     }

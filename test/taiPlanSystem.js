@@ -32,6 +32,10 @@ let aiPlanSystemSuite = describe("AI Plan System", () => {
             xschemes: [ "WantStoveScheme", "WantChairScheme", "FindScheme", "MoveScheme", "GatherScheme", "OccupyScheme", "EatAtChairScheme" ], 
             xplans: [["WantStovePlan", "FindPlan", "MovePlan", "GatherPlan", "WantChairPlan", "FindPlan", "MovePlan", "OccupyPlan", "EatAtChairPlan"]]},
 
+        {desc: "sweep at dirty test", env: {}, actor: Object.assign({}, actor, {}), goal: AiGoal.work, 
+            xschemes: [ "WantDirtyScheme", "FindScheme", "MoveScheme", "SweepAtDirtyScheme" ], 
+            xplans: [["WantDirtyPlan", "FindPlan", "MovePlan", "SweepAtDirtyPlan" ]]},
+
 
     ]
     for (const test of buildPlansTests) {

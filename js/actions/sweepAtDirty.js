@@ -82,6 +82,8 @@ class SweepAction extends Action {
             console.log(`actor ${this.actor} done sweeping`);
             this.done = true;
             this.actor.conditions.delete(Condition.sweeping);
+            // mark area as clean
+            this.target.dirty.cleaned = true;
         }
         return this.done;
     }

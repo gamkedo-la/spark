@@ -14,7 +14,7 @@ class WantDirtyScheme extends AiScheme {
         this.preconditions.push((state) => state.v_wantTag === undefined);
         this.effects.push((state) => state.v_wantTag = "Dirty");
         this.effects.push((state) => state.v_wantDirty = true);
-        this.effects.push((state) => state.v_findPredicate = (v) => v.conditions.has(Condition.dirty) );
+        this.effects.push((state) => state.v_findPredicate = ((v) => v.conditions && v.conditions.has(Condition.dirty)) );
     }
 
     deriveState(env, actor, state) {
