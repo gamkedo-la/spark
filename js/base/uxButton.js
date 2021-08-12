@@ -84,6 +84,7 @@ class UxButton extends UxView {
 
     // EVENT HANDLERS ------------------------------------------------------
     onMouseClick(evt) {
+        if (!this.active) return;
         //console.log("onMouseClick");
         const mousePos = Mouse.pos;
         //const localMousePos = this.xform.getLocal(mousePos);
@@ -132,10 +133,10 @@ class UxButton extends UxView {
     destroy() {
         // stop listening on mouse events
         Mouse.evtClicked.ignore(this.onMouseClick);
-        if (this._unpressed) this._unpressed.evtUpdated.ignore(this.onSketchUpdate);
-        if (this._pressed) this._pressed.evtUpdated.ignore(this.onSketchUpdate);
-        if (this._highlight) this._highlight.evtUpdated.ignore(this.onSketchUpdate);
-        if (this._text) this._text.evtUpdated.ignore(this.onSketchUpdate);
+        //if (this._unpressed) this._unpressed.evtUpdated.ignore(this.onSketchUpdate);
+        //if (this._pressed) this._pressed.evtUpdated.ignore(this.onSketchUpdate);
+        //if (this._highlight) this._highlight.evtUpdated.ignore(this.onSketchUpdate);
+        //if (this._text) this._text.evtUpdated.ignore(this.onSketchUpdate);
         super.destroy();
     }
 }
