@@ -139,7 +139,7 @@ class SparkAssets {
                 Templates.xsprite("shadow", 15, 2),
                 Templates.xsprite("post", 0, 4, {height: 48}),
                 Templates.xsprite("post.s", 1, 4, {height: 48}),
-                Templates.xsprite("vendorBench",        2, 5, {width: 48, height: 32}),
+                //Templates.xsprite("vendorBench",        2, 5, {width: 48, height: 32}),
                 Templates.xsprite("postUpper.l",        0, 7, {width: 32 }),
                 Templates.xsprite("postUpper.s",        2, 7),
                 Templates.xsprite("postUpper.r",        3, 7, {width: 32 }),
@@ -162,13 +162,11 @@ class SparkAssets {
                 Templates.xsprite("apple",              7, 0, {width: 16, height: 16}),
                 Templates.xsprite("blueberry",          8, 0, {width: 16, height: 16}),
                 Templates.varSpriteRef("fish",          [[9,0], [10,0], [11,0]], { height: 32 }),
-                Templates.varSpriteRef("potatoe",       [[12,0], [13,0], [14,0]], ),
+                Templates.varSpriteRef("potato",        [[12,0], [13,0], [14,0]], ),
                 Templates.xsprite("lampOff",            15, 0, {width: 16, height: 16}),
                 Templates.xsprite("lampOn",             16, 0, {width: 16, height: 16}),
                 Templates.xsprite("fishTail",           17, 0, {width: 16, height: 32}),
-
                 Templates.xsprite("bread",              7, 1, {width: 16, height: 16}),
-
                 Templates.xsprite("halfcrate",          4, 2, {width: 16, height: 32}),
                 Templates.xsprite("halfcrateApple",     5, 2, {width: 16, height: 32}),
                 Templates.xsprite("halfcrateBlueberry", 6, 2, {width: 16, height: 32}),
@@ -177,19 +175,22 @@ class SparkAssets {
                 Templates.xsprite("lamppostRightOff",   10, 2, {width: 32, height: 64}),
                 Templates.xsprite("lamppostLeftOn",     12, 2, {width: 32, height: 64}),
                 Templates.xsprite("lamppostLeftOff",    14, 2, {width: 32, height: 64}),
-
                 Templates.xsprite("sack",               0, 3, {width: 32, height: 32}),
                 Templates.xsprite("table1x2",           2, 3, {width: 16, height: 48}),
                 Templates.xsprite("basket",             3, 4, {width: 32, height: 32}),
                 Templates.xsprite("basketPotatoes",     5, 4, {width: 32, height: 32}),
                 Templates.xsprite("table2x1",           0, 5, {width: 32, height: 32}),
-
                 Templates.xsprite("largePost",          0, 7, {width: 16, height: 48}),
                 Templates.xsprite("smallPostBCross",    1, 7, {width: 16, height: 48}),
                 Templates.xsprite("postLine",           2, 7, {width: 80, height: 64}),
                 Templates.xsprite("smallPostFCross",    1, 10, {width: 16, height: 48}),
-
-                Templates.xsprite("vendorRoof",         3, 15, {width: 16*8, height: 16*8}),
+                Templates.xsprite("vendorRoof",         2, 15, {width: 16*8, height: 16*8}),
+                Templates.xsprite("crateCluster",       18, 0, {width: 16*5, height: 16*4}),
+                Templates.xsprite("barrelCluster",      23, 0, {width: 16*4, height: 16*4}),
+                Templates.xsprite("cabbagePotatoCluster", 27, 0, {width: 16*3, height: 16*4}),
+                Templates.xsprite("vendorBench",        30, 0, {width: 16*2, height: 16*3}),
+                Templates.xsprite("appleBlueberryBench", 32, 0, {width: 16, height: 16*4}),
+                Templates.xsprite("postFishline",       33, 0, {width: 16*5, height: 16*4}),
             ]},
 
             { src: "img/stuccoWalls1.png", loader: "Sheet", refs: [
@@ -232,6 +233,30 @@ class SparkAssets {
                 animations: { 
                     [ModelState.idle]: { cls: "Media", tag: "bed.empty" }, 
                     [ModelState.occupied]: { cls: "Media", tag: "bed.occupied" }, 
+                },
+            },
+
+            { tag: "lamp", 
+                cls: "Animator", 
+                animations: { 
+                    [ModelState.idle]: { cls: "Media", tag: "lampOff" }, 
+                    [ModelState.sparked]: { cls: "Media", tag: "lampOn" }, 
+                },
+            },
+
+            { tag: "lamppostLeft", 
+                cls: "Animator", 
+                animations: { 
+                    [ModelState.idle]: { cls: "Media", tag: "lamppostLeftOff" }, 
+                    [ModelState.sparked]: { cls: "Media", tag: "lamppostLeftOn" }, 
+                },
+            },
+
+            { tag: "lamppostRight", 
+                cls: "Animator", 
+                animations: { 
+                    [ModelState.idle]: { cls: "Media", tag: "lamppostRightOff" }, 
+                    [ModelState.sparked]: { cls: "Media", tag: "lamppostRightOn" }, 
                 },
             },
 
@@ -364,38 +389,34 @@ class SparkAssets {
             Templates.tile("00u", "fern"),
             Templates.tile("00v", "stairs"),
 
-            //Templates.tile("00w", "barrel"),//             0, 0, {width: 32, height: 48}),
-            Templates.tile("00y", "crate"),//              4, 0, {width: 16, height: 32}),
-            Templates.tile("00z", "crateApple"),//         5, 0, {width: 16, height: 32}),
-            Templates.tile("00A", "crateBlueberry"),//     6, 0, {width: 16, height: 32}),
-            Templates.tile("00B", "apple"),//              7, 0, {width: 16, height: 16}),
-            Templates.tile("00C", "blueberry"),//          8, 0, {width: 16, height: 16}),
-            Templates.tile("00D", "fish"),//          [[9,0], [10,0], [11,0]], { height: 32 }),
-            Templates.tile("00E", "potatoe"),//       [[12,0], [13,0], [14,0]], ),
-            Templates.tile("00F", "lampOff"),//            15, 0, {width: 16, height: 16}),
-            Templates.tile("00G", "lampOn"),//             16, 0, {width: 16, height: 16}),
-            Templates.tile("00H", "fishTail"),//           17, 0, {width: 16, height: 32}),
-            Templates.tile("00I", "bread"),//              7, 1, {width: 16, height: 16}),
-            Templates.tile("00J", "halfcrate"),//          4, 2, {width: 16, height: 32}),
-            Templates.tile("00K", "halfcrateApple"),//     5, 2, {width: 16, height: 32}),
-            Templates.tile("00L", "halfcrateBlueberry"),// 6, 2, {width: 16, height: 32}),
-            Templates.tile("00M", "bag"),//                7, 2, {width: 16, height: 32}),
-            Templates.tile("00N", "lamppostRightOn"),//    8, 2, {width: 32, height: 64}),
-            Templates.tile("00O", "lamppostRightOff"),//   10, 2, {width: 32, height: 64}),
-            Templates.tile("00P", "lamppostLeftOn"),//     12, 2, {width: 32, height: 64}),
-            Templates.tile("00Q", "lamppostLeftOff"),//    14, 2, {width: 32, height: 64}),
-            Templates.tile("00R", "sack"),//               0, 3, {width: 32, height: 32}),
-            Templates.tile("00S", "table1x2"),//           2, 3, {width: 16, height: 48}),
-            Templates.tile("00T", "basket"),//             3, 4, {width: 32, height: 32}),
-            Templates.tile("00U", "basketPotatoes"),//     5, 4, {width: 32, height: 32}),
-            Templates.tile("00V", "table2x1"),//           0, 5, {width: 32, height: 32}),
+            Templates.tile("00w", "crate", {offy: -8, xcollider: { width: 12, height: 12, offy: 4 }}),
+            Templates.tile("00x", "apple"),
+            Templates.tile("00y", "blueberry"),
+            Templates.tile("00z", "fish", {offy: -8}),
+            Templates.tile("00A", "potato"),
+            Templates.tile("00B", "lamp"),
+            Templates.tile("00C", "fishTail", {offy: -8}),
+            Templates.tile("00D", "bread"),
+            Templates.tile("00E", "halfcrate", {offy: -8, xcollider: { width: 12, height: 12, offy: 4 }}),
+            Templates.tile("00F", "bag", {offy: -8}),
+            Templates.tile("00G", "lamppostRight", {offx: 8, offy: -24}),
+            Templates.tile("00H", "lamppostLeft", {offx: -8, offy: -24}),
+            Templates.tile("00I", "sack", {offx: 8, offy: -8 }),
+            Templates.tile("00J", "table1x2", {offy: -16}),
+            Templates.tile("00K", "basket", {offx: 8, offy: -8 }),
+            Templates.tile("00L", "table2x1", {offx: 8, offy: -8}),
+            Templates.tile("00M", "largePost", {offy: -16}),
+            Templates.tile("00N", "smallPostBCross", {offy: -16}),
+            Templates.tile("00O", "smallPostFCross", {offy: -16}),
+            Templates.tile("00P", "postLine", {offx: 32, offy: -24}),
+            Templates.tile("00Q", "vendorRoof", {offx: 56, offy: -56}),
 
-            Templates.tile("00Z", "largePost"),             //          0, 7, {width: 16, height: 48}),
-            Templates.tile("0a1", "smallPostBCross"),       //    1, 7, {width: 16, height: 48}),
-            Templates.tile("0a2", "postLine"),              //           2, 7, {width: 80, height: 64}),
-            Templates.tile("0a3", "smallPostFCross"),       //    1, 10, {width: 16, height: 48}),
-
-            Templates.tile("0a4", "vendorRoof"),            //         3, 15, {width: 16*8, height: 16*8}),
+            Templates.tile("00R", "crateCluster", {offx: 32, offy: -24}),
+            Templates.tile("00S", "barrelCluster", {offx: 24, offy: -24}),
+            Templates.tile("00T", "cabbagePotatoCluster", {offx: 12, offy: -24}),
+            Templates.tile("00U", "vendorBench", {offx: 8, offy: -16}),
+            Templates.tile("00V", "appleBlueberryBench", {offy: -24}),
+            Templates.tile("00W", "postFishline", {offx: 32, offy: -24}),
 
             Templates.object("o00", "sparkbase", "SparkBase", { 
                 powered: true,
@@ -433,7 +454,7 @@ class SparkAssets {
                 xcollider: {width:10, height:20, offy: 10}, 
             }),
 
-            Templates.object("o06", "vendorBench", "Workstation", {
+            Templates.object("o06", "xvendorBench", "Workstation", {
                 offy: -8,
                 occupiedDir: Direction.south, 
                 occupiedOffX: 0, occupiedOffY: -24,
@@ -450,12 +471,37 @@ class SparkAssets {
             }),
 
             Templates.object("o08", "barrel", "Stock", {
-                offx: 8,
+                offx: 8, offy: -16,
                 xcollider: { width: 24, height: 20, offy: 4 },
             }),
 
             Templates.object("o09", "barrelCabbage", "Stock", {
-                offx: 8,
+                offx: 8, offy: -16,
+                xcollider: { width: 24, height: 20, offy: 4 },
+            }),
+
+            Templates.object("o0a", "crateApple", "Stock", {
+                offy: -8,
+                xcollider: { width: 12, height: 12, offy: 4 },
+            }),
+
+            Templates.object("o0b", "crateBlueberry", "Stock", {
+                offy: -8,
+                xcollider: { width: 12, height: 12, offy: 4 },
+            }),
+
+            Templates.object("o0c", "halfcrateApple", "Stock", {
+                offy: -8,
+                xcollider: { width: 12, height: 12, offy: 4 },
+            }),
+
+            Templates.object("o0d", "halfcrateBlueberry", "Stock", {
+                offy: -8,
+                xcollider: { width: 12, height: 12, offy: 4 },
+            }),
+
+            Templates.object("o0e", "basketPotatoes", "Stock", {
+                offx: 8, offy: -8,
                 xcollider: { width: 24, height: 20, offy: 4 },
             }),
 
