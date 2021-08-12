@@ -399,24 +399,28 @@ class SparkAssets {
             Templates.tile("00D", "bread"),
             Templates.tile("00E", "halfcrate", {offy: -8, xcollider: { width: 12, height: 12, offy: 4 }}),
             Templates.tile("00F", "bag", {offy: -8}),
-            Templates.tile("00G", "lamppostRight", {offx: 8, offy: -24}),
-            Templates.tile("00H", "lamppostLeft", {offx: -8, offy: -24}),
-            Templates.tile("00I", "sack", {offx: 8, offy: -8 }),
+            Templates.tile("00G", "lamppostRight", {offx: 8, offy: -24, xcollider: { width: 10, height: 10, offy: 24, offx: -8 }}),
+            Templates.tile("00H", "lamppostLeft", {offx: -8, offy: -24, xcollider: { width: 10, height: 10, offy: 24, offx: 8}}),
+            Templates.tile("00I", "sack", {offx: 8, offy: -8, xcollider: { width: 28, height: 16, offy: 4 }}),
             Templates.tile("00J", "table1x2", {offy: -16}),
             Templates.tile("00K", "basket", {offx: 8, offy: -8 }),
             Templates.tile("00L", "table2x1", {offx: 8, offy: -8}),
-            Templates.tile("00M", "largePost", {offy: -16}),
-            Templates.tile("00N", "smallPostBCross", {offy: -16}),
-            Templates.tile("00O", "smallPostFCross", {offy: -16}),
-            Templates.tile("00P", "postLine", {offx: 32, offy: -24}),
+            Templates.tile("00M", "largePost", {offy: -16, xcollider: { width: 10, height: 10, offy: 16 }}),
+            Templates.tile("00N", "smallPostBCross", {offy: -16, xcollider: { width: 10, height: 10, offy: 16 }}),
+            Templates.tile("00O", "smallPostFCross", {offy: -16, xcollider: { width: 10, height: 10, offy: 16 }}),
+            Templates.tile("00P", "postLine", {offx: 32, offy: -24, xcollider: { cls: "ColliderSet", xitems: [{width: 10, height: 10}, {width: 10, height: 10, offx: 64}] }}),
             Templates.tile("00Q", "vendorRoof", {offx: 56, offy: -56}),
 
-            Templates.tile("00R", "crateCluster", {offx: 32, offy: -24}),
-            Templates.tile("00S", "barrelCluster", {offx: 24, offy: -24}),
-            Templates.tile("00T", "cabbagePotatoCluster", {offx: 12, offy: -24}),
-            Templates.tile("00U", "vendorBench", {offx: 8, offy: -16}),
-            Templates.tile("00V", "appleBlueberryBench", {offy: -24}),
-            Templates.tile("00W", "postFishline", {offx: 32, offy: -24}),
+            Templates.tile("00R", "crateCluster", {offx: 32, offy: -24, xcollider: { width: 64, height: 32, offx: -4, offy: 4 }}),
+            Templates.tile("00S", "barrelCluster", {offx: 24, offy: -24, xcollider: { width: 48, height: 40, offx: -4 }}),
+
+            Templates.tile("00T", "barrel", { offx: 8, offy: -16, xcollider: { width: 24, height: 20, offy: 4 }}),
+            Templates.tile("00U", "barrelCabbage", { offx: 8, offy: -16, xcollider: { width: 24, height: 20, offy: 4 }}),
+            Templates.tile("00V", "crateApple", { offy: -8, xcollider: { width: 12, height: 12, offy: 4 }}),
+            Templates.tile("00W", "crateBlueberry", { offy: -8, xcollider: { width: 12, height: 12, offy: 4 }}),
+            Templates.tile("00X", "halfcrateApple", { offy: -8, xcollider: { width: 12, height: 12, offy: 4 }}),
+            Templates.tile("00Y", "halfcrateBlueberry", { offy: -8, xcollider: { width: 12, height: 12, offy: 4 }}),
+            Templates.tile("00Z", "basketPotatoes", { offx: 8, offy: -8, xcollider: { width: 24, height: 20, offy: 4 }}),
 
             Templates.object("o00", "sparkbase", "SparkBase", { 
                 powered: true,
@@ -470,40 +474,18 @@ class SparkAssets {
                 occupiedOffX: 8, occupiedOffY: -22,
             }),
 
-            Templates.object("o08", "barrel", "Stock", {
+            Templates.object("o08", "cabbagePotatoCluster", "Stock", {offx: 12, offy: -24, xcollider: {width: 32, height: 40, offy: 8}}),
+            Templates.object("o09", "vendorBench", "Workstation", {
                 offx: 8, offy: -16,
-                xcollider: { width: 24, height: 20, offy: 4 },
+                occupiedDir: Direction.south, 
+                occupiedOffX: 0, occupiedOffY: -24,
+                approachOffsets: [
+                    {x: 0, y: -32 },
+                ],
+                xcollider: { width: 32, height: 20, offy: 4 },
             }),
-
-            Templates.object("o09", "barrelCabbage", "Stock", {
-                offx: 8, offy: -16,
-                xcollider: { width: 24, height: 20, offy: 4 },
-            }),
-
-            Templates.object("o0a", "crateApple", "Stock", {
-                offy: -8,
-                xcollider: { width: 12, height: 12, offy: 4 },
-            }),
-
-            Templates.object("o0b", "crateBlueberry", "Stock", {
-                offy: -8,
-                xcollider: { width: 12, height: 12, offy: 4 },
-            }),
-
-            Templates.object("o0c", "halfcrateApple", "Stock", {
-                offy: -8,
-                xcollider: { width: 12, height: 12, offy: 4 },
-            }),
-
-            Templates.object("o0d", "halfcrateBlueberry", "Stock", {
-                offy: -8,
-                xcollider: { width: 12, height: 12, offy: 4 },
-            }),
-
-            Templates.object("o0e", "basketPotatoes", "Stock", {
-                offx: 8, offy: -8,
-                xcollider: { width: 24, height: 20, offy: 4 },
-            }),
+            Templates.object("o0a", "appleBlueberryBench", "Stock", {offy: -24, xcollider: {width: 12, height: 40}}),
+            Templates.object("o0b", "postFishline", "Stock", {offx: 32, offy: -24, xcollider: { cls: "ColliderSet", xitems: [{width: 10, height: 10}, {width: 10, height: 10, offx: 64}]}}),
 
             { tag: "spark", cls: "SparkProjectile", 
                 xcollider: { blocking: Collider.projectile, width:8, height:8, color: "rgba(0,0,127,.5)" },

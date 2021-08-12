@@ -121,8 +121,10 @@ class ColliderSet {
         this._active = (spec.hasOwnProperty("active")) ? spec.active : true;
         this.getactive = spec.getactive || (() => this._active);
         this.items = [];
-        //console.log("collider set: " + Fmt.ofmt(spec));
-        for (const xcollider of spec.xitems || []) {
+        console.log("collider set: " + Fmt.ofmt(spec));
+        console.log("collider set.xitems: " + Fmt.ofmt(spec.xitems));
+        let xitems = spec.xitems || [];
+        for (const xcollider of xitems) {
             let collider = Generator.generate(Object.assign({
                 "cls": "Collider", 
                 getx: this.getx, 
