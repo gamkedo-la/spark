@@ -1,5 +1,6 @@
 export { UxPanel };
 
+    import { Fmt } from "./fmt.js";
 import { Generator }        from "./generator.js";
 import { Util }             from "./util.js";
 import { UxView }           from "./uxView.js";
@@ -45,13 +46,13 @@ class UxPanel extends UxView {
 
     // METHODS -------------------------------------------------------------
     iupdate(ctx) {
-        if (this._sketch) this.updated |= this._sketch.update(ctx);
+        if (this._sketch && this._sketch.update) this.updated |= this._sketch.update(ctx);
         //if (this.model && this.model.tag === "player") console.log("panel updated: " + this.updated)
         return this.updated;
     }
 
     _render(ctx) {
-        if (this._sketch) this._sketch.render(ctx, this.xform.minx, this.xform.miny);
+        if (this._sketch && this._sketch.render) this._sketch.render(ctx, this.xform.minx, this.xform.miny);
     }
 
 }

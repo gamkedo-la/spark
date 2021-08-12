@@ -31,10 +31,10 @@ class UxButton extends UxView {
         // events
         this.__evtClicked = new EvtChannel("clicked", {actor: this});
         // event handlers
-        if (this._text) this._text.evtUpdated.listen(this.onSketchUpdate);
-        if (this._unpressed) this._unpressed.evtUpdated.listen(this.onSketchUpdate);
-        if (this._pressed) this._pressed.evtUpdated.listen(this.onSketchUpdate);
-        if (this._highlight) this._highlight.evtUpdated.listen(this.onSketchUpdate);
+        //if (this._text) this._text.evtUpdated.listen(this.onSketchUpdate);
+        //if (this._unpressed) this._unpressed.evtUpdated.listen(this.onSketchUpdate);
+        //if (this._pressed) this._pressed.evtUpdated.listen(this.onSketchUpdate);
+        //if (this._highlight) this._highlight.evtUpdated.listen(this.onSketchUpdate);
         if (spec.pressedSound) {
             let sound = spec.pressedSound;
             this.evtClicked.listen((e) => sound.play());
@@ -115,7 +115,7 @@ class UxButton extends UxView {
             this.updated = true;
         }
         // update active sketch
-        if (this._sketch) this._sketch.update(ctx);
+        if (this._sketch && this._sketch.update) this._sketch.update(ctx);
         return this.updated;
     }
 
@@ -124,7 +124,7 @@ class UxButton extends UxView {
         let y = this.xform.miny;
         // render button sketch
         //console.log(`button sketch: ${this._sketch} ${x},${y} w: ${this._sketch.width} h:${this._sketch.height}`);
-        if (this._sketch) this._sketch.render(ctx, x, y);
+        if (this._sketch && this._sketch.render) this._sketch.render(ctx, x, y);
         // render text sketch
         if (this._text) this._text.render(ctx, x, y);
     }
