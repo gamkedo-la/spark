@@ -365,7 +365,6 @@ class SparkAssets {
             Templates.tile("00v", "stairs"),
 
             //Templates.tile("00w", "barrel"),//             0, 0, {width: 32, height: 48}),
-            Templates.tile("00x", "barrelCabbage"),//      2, 0, {width: 32, height: 48}),
             Templates.tile("00y", "crate"),//              4, 0, {width: 16, height: 32}),
             Templates.tile("00z", "crateApple"),//         5, 0, {width: 16, height: 32}),
             Templates.tile("00A", "crateBlueberry"),//     6, 0, {width: 16, height: 32}),
@@ -455,6 +454,11 @@ class SparkAssets {
                 xcollider: { width: 24, height: 20, offy: 4 },
             }),
 
+            Templates.object("o09", "barrelCabbage", "Stock", {
+                offx: 8,
+                xcollider: { width: 24, height: 20, offy: 4 },
+            }),
+
             { tag: "spark", cls: "SparkProjectile", 
                 xcollider: { blocking: Collider.projectile, width:8, height:8, color: "rgba(0,0,127,.5)" },
                 xsketch: { cls: "Media", tag: "spark"}, 
@@ -513,13 +517,13 @@ class SparkAssets {
 
         ];
 
-        this.assets = this.assets.concat(Templates.overlayTiles("01", "oceanDeep"));
-        this.assets = this.assets.concat(Templates.overlayTiles("02", "grass"));
-        this.assets = this.assets.concat(Templates.overlayTiles("03", "ocean"));
-        this.assets = this.assets.concat(Templates.overlayTiles("04", "oceanMid"));
-        this.assets = this.assets.concat(Templates.wallTiles("05", "stuccoWalls1", Templates.wallColliders()));
-        this.assets = this.assets.concat(Templates.wallTiles("06", "stuccoWalls2"));
-        this.assets = this.assets.concat(Templates.wallTiles("07", "stoneWalls"));
+        this.assets = this.assets.concat(Templates.overlayTiles("X1", "oceanDeep"));
+        this.assets = this.assets.concat(Templates.overlayTiles("X2", "grass"));
+        this.assets = this.assets.concat(Templates.overlayTiles("X3", "ocean"));
+        this.assets = this.assets.concat(Templates.overlayTiles("X4", "oceanMid"));
+        this.assets = this.assets.concat(Templates.wallTiles("X5", "stuccoWalls1", Templates.wallColliders()));
+        this.assets = this.assets.concat(Templates.wallTiles("X6", "stuccoWalls2"));
+        this.assets = this.assets.concat(Templates.wallTiles("X7", "stoneWalls"));
         this.assets = this.assets.concat(Templates.frontRoofTiles("rf", "roof.f"));
         this.assets = this.assets.concat(Templates.backRoofTiles("rb", "roof.b"));
         this.assets = this.assets.concat(Templates.leftRoofTiles("rl", "roof.l"));
