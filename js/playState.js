@@ -126,10 +126,6 @@ class PlayState extends State {
         if (this.player) this.camera.trackTarget(this.player);
         this.camera.trackWorld(this.model);
 
-        // uncomment to add music to game state
-        //this.music = Generator.generate(Base.instance.media.get("testsong"));
-        //this.music.play();
-
     }
 
     get grid() {
@@ -261,7 +257,17 @@ class PlayState extends State {
         return false;
     }
 
+    firstUpdate(ctx) {
+        this.music = Generator.generate(Base.instance.media.get("gameplayMusic"));
+        console.log(`this.music: ${this.music}`);
+        this.music.play();
+    }
+
     iupdate(ctx) {
+        if (!this.firstUpdated) {
+            this.firstUpdated = true;
+            this.firstUpdate(ctx);
+        }
         this.updated = super.iupdate(ctx);
         this.udpated |= this.updateZPanel(ctx);
         return this.updated;
