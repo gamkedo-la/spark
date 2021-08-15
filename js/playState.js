@@ -264,7 +264,7 @@ class PlayState extends State {
     }
 
     iupdate(ctx) {
-        if (!this.firstUpdated) {
+        if (!this.firstUpdated && Base.instance.audioMgr.resumed) {
             this.firstUpdated = true;
             this.firstUpdate(ctx);
         }

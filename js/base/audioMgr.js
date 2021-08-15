@@ -11,8 +11,15 @@ class AudioMgr extends Gizmo {
         this._audioCtx = spec.audioCtx || new AudioContext();
         const ctx = this._audioCtx;
         let canvas = spec.canvas || UxCanvas.getCanvas();
-        Keys.evtKeyPressed.once(() => () => ctx.resume().then(() => console.log("playback resumed")), {once: true});
-        canvas.addEventListener('click', () => ctx.resume().then(() => console.log("playback resumed")), {once: true});
+        Keys.evtKeyPressed.once(this._resume.bind(this));
+        canvas.addEventListener('click', this._resume.bind(this), {once: true});
+    }
+
+    _resume() {
+        this._audioCtx.resume().then(() => {
+            console.log("playback resumed");
+            this.resumed = true;
+        });
     }
 
     // PROPERTIES ----------------------------------------------------------
