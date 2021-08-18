@@ -1,4 +1,31 @@
 Gnome dialog
+
+Shorter versions as requested:
+
+Insults
+"No spark in you!"
+"Your hat is crumpled."
+"I see you napping!" 
+"That beard needs a comb." 
+"Oil your door hinge!"
+
+Neutral
+"May the gloom lift." 
+"Looks cloudy today."
+"Hear tinkling bells!"
+"Where is my pot?"
+"Breezy at the shore."
+
+Compliments
+"Your garden is green."
+"Care for a plum?"
+"Smart boots there."
+"Whiskers proper job."
+"Spark you well."
+
+
+Old longer versions:
+
 Insults
 "Your beard is unkempt. It needs combing!" 
 "Hey, do I see a bird nesting in your beard?"
