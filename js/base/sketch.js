@@ -119,7 +119,8 @@ class Sketch {
                 this.lastFitterY = this.fitter.y;
                 let dw = this.fitter.width;
                 let dh = this.fitter.height;
-                if ((this.width / dw) < (this.height / dh)) {
+                //console.log(`w: ${this._width} h: ${this._height} fw: ${this.fitter.width} fh: ${this.fitter.height}`);
+                if ((this._width / dw) < (this._height / dh)) {
                     dw = dh * this.ratio;
                 } else {
                     dh = dw / this.ratio;

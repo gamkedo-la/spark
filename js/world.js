@@ -49,8 +49,8 @@ class World {
             WorldGen.lvl20,
             WorldGen.lvl30,
             WorldGen.lvl40,
-            /*
             WorldGen.lvl50,
+            /*
             WorldGen.lvl60,
             WorldGen.lvl70,
             */
@@ -60,8 +60,8 @@ class World {
             WorldGen.lvl21,
             WorldGen.lvl31,
             WorldGen.lvl41,
-            /*
             WorldGen.lvl51,
+            /*
             WorldGen.lvl61,
             WorldGen.lvl71,
             */
@@ -128,6 +128,7 @@ class World {
             //WorldGen.patch1,
             WorldGen.house1,
             WorldGen.vendor1,
+            WorldGen.vendorHouse,
             {
                 columns: 8,
                 rows: 7,

@@ -380,6 +380,10 @@ class EditorState extends State {
         if (evt.key === "2") this.selectedTile = this.selectedHelp2;
         if (evt.key === "3") this.selectedTile = this.selectedHelp3;
         if (evt.key === "4") this.selectedTile = this.selectedHelp4;
+        if (evt.key === "b") this.toolMode = "paint";
+        if (evt.key === "f") this.toolMode = "fill";
+        if (evt.key === "g") this.toolMode = "get";
+        if (evt.key === "d") this.toolMode = "delete";
     }
 
     fill(layer, depth, i, j, tile) {
@@ -607,7 +611,7 @@ class EditorState extends State {
             this.lastSelectedTile = this.selectedTile;
             let xobj = this.assets.fromId(this.selectedTile);
             if (!xobj) return;
-            let sketch = Generator.generate(Object.assign({}, xobj.xsketch, { xfitter: { cls: "FitToParent" }}));
+            let sketch = Generator.generate(Object.assign({}, xobj.xsketch, { lockRatio: true, xfitter: { cls: "FitToParent" }}));
             if (!sketch) return;
             this.currentTile.sketch = sketch;
         }
@@ -739,7 +743,8 @@ class EditorState extends State {
                 dfltLayer: this.tileButtonsPanel.layer,
                 parent: this.tileButtonsPanel,
                 xxform: {parent: this.tileButtonsPanel.xform, left: col*colStep, right: 1-(col+1)*colStep, top: row*rowStep, bottom: 1-(row+1)*rowStep},
-                xunpressed: Object.assign({}, asset.xsketch, { lockRatio: true, xfitter: { cls: "FitToParent" } }),
+                //xunpressed: Object.assign({}, asset.xsketch, { lockRatio: true, xfitter: { cls: "FitToParent" } }),
+                xunpressed: Object.assign({}, asset.xsketch, { xfitter: { cls: "FitToParent" } }),
                 xtext: {text: " " + asset.id.toString() + " ", color: new Color(255,255,0,.175)},
             };
             let b = Generator.generate(bspec);
