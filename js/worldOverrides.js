@@ -33,7 +33,7 @@ class WorldOverrides {
                                 v.y === this.wpos(WorldGen.house1.offy + 8) &&
                                 v.tag === "stool",
                 spec: {
-                    //ownerTag: "Aodhan",
+                    ownerTag: "Aodhan",
                     occupiedDir: Direction.north, 
                 },
             },
@@ -47,7 +47,6 @@ class WorldOverrides {
                     dirty: new WorkTimer(),
                 },
             },
-
             {
                 predicate: (v) => v.x === this.wpos(WorldGen.vendor1.offx + 5) && 
                                 v.y === this.wpos(WorldGen.vendor1.offy + 4) &&
@@ -55,6 +54,33 @@ class WorldOverrides {
                 spec: {
                     ownerTag: "Aodhan",
                     //restock: new WorkTimer(),
+                },
+            },
+
+            // Ciara (innkeeper) things
+            {
+                predicate: (v) => v.x === this.wpos(WorldGen.house2.offx + 2) && 
+                                v.y === this.wpos(WorldGen.house2.offy + 7) &&
+                                v.cls === "Bed",
+                spec: {
+                    ownerTag: "Ciara",
+                },
+            },
+            {
+                predicate: (v) => v.x === this.wpos(WorldGen.house2.offx + 8) && 
+                                v.y === this.wpos(WorldGen.house2.offy + 8) &&
+                                v.tag === "stool",
+                spec: {
+                    ownerTag: "Ciara",
+                    occupiedDir: Direction.north, 
+                },
+            },
+            {
+                predicate: (v) => v.x === this.wpos(WorldGen.work2.offx + 2) && 
+                                v.y === this.wpos(WorldGen.work2.offy + 3) &&
+                                v.tag === "vendorBench",
+                spec: {
+                    ownerTag: "Ciara",
                 },
             },
 

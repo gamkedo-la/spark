@@ -630,6 +630,45 @@ class SparkAssets {
                 },
             }),
 
+            Templates.object("c03", "ciara", "Character", {
+                mediaTag: "gnome",
+                ctrlId: 0,
+                offy: -16,
+                ownerTag: "Ciara",
+                maxFedTTL: 30000,
+                xcollider: { blocking: Collider.player, width:14, height:14, offy:18, color: "rgba(0,0,127,.5)" },
+                xactivitySchedule: Templates.testSchedule,
+                xai: { 
+                    cls: "AiState",
+                    xdirectives: [
+                        Templates.aiWakeDirective,
+                        Templates.aiWorkDirective,
+                        Templates.aiRelaxDirective,
+                        Templates.aiRestDirective,
+                    ],
+                    xschemes: [
+                        "CloseAtStationScheme",
+                        "EatAtChairScheme",
+                        "FindScheme",
+                        "GatherScheme",
+                        "LeaveScheme",
+                        "MoveScheme",
+                        "OccupyScheme",
+                        "OpenAtStationScheme",
+                        "SleepAtBedScheme",
+                        "RestockAtStockScheme",
+                        "SweepAtDirtyScheme",
+                        "WantBedScheme",
+                        "WantChairScheme",
+                        "WantDirtyScheme",
+                        "WantStockScheme",
+                        "WantStoveScheme",
+                        "WantWorkstationScheme",
+                        "WorkAtStationScheme",
+                    ]
+                },
+            }),
+
         ];
 
         this.assets = this.assets.concat(Templates.overlayTiles("X1", "oceanDeep"));
