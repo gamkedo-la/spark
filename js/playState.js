@@ -68,12 +68,13 @@ class PlayState extends State {
                     ],
                 },
                 Templates.panel("dbgPanel", {xxform: { left: .8, right: .025, top: .125, bottom: .6 }, xchildren: [
-                    Templates.dbgText(null, "1 - hide debug", { xxform: { top: 0/6, bottom: 1-1/6 }}),
-                    Templates.dbgText(null, "2 - show colliders", { xxform: { top: 1/6, bottom: 1-2/6 }}),
-                    Templates.dbgText(null, "3 - show areas", { xxform: { top: 2/6, bottom: 1-3/6 }}),
-                    Templates.dbgText(null, "4 - show grid", { xxform: { top: 3/6, bottom: 1-4/6 }}),
-                    Templates.dbgText(null, "5 - hide night", { xxform: { top: 4/6, bottom: 1-5/6 }}),
-                    Templates.dbgText(null, "6 - hide gloom", { xxform: { top: 5/6, bottom: 1-6/6 }}),
+                    Templates.dbgText("coords", "x,y",                  { xxform: { top: 0/7, bottom: 1-1/7 }}),
+                    Templates.dbgText(null, "1 - hide debug",       { xxform: { top: 1/7, bottom: 1-2/7 }}),
+                    Templates.dbgText(null, "2 - show colliders",   { xxform: { top: 2/7, bottom: 1-3/7 }}),
+                    Templates.dbgText(null, "3 - show areas",       { xxform: { top: 3/7, bottom: 1-4/7 }}),
+                    Templates.dbgText(null, "4 - show grid",        { xxform: { top: 4/7, bottom: 1-5/7 }}),
+                    Templates.dbgText(null, "5 - hide night",       { xxform: { top: 5/7, bottom: 1-6/7 }}),
+                    Templates.dbgText(null, "6 - hide gloom",       { xxform: { top: 6/7, bottom: 1-7/7 }}),
                 ]}),
             ],
         };
@@ -120,6 +121,7 @@ class PlayState extends State {
         console.log(`moraleButton: ${this.moraleButton}`);
         this.moraleButton.evtClicked.listen(this.onMorale);
         this.zPanel = this.findFirst(v=>v.tag === "zPanel");
+        this.coordsText = this.findFirst(v=>v.tag === "coords");
         console.log(`zPanel: ${this.zPanel}`);
         //console.log(`PlayState player is ${this.player}`);
         // hook camera
@@ -258,6 +260,19 @@ class PlayState extends State {
         return false;
     }
 
+    updateCoords(ctx) {
+        let x = (Mouse.x + this.camera.minx)/Config.renderScale;
+        let y = (Mouse.y + this.camera.miny)/Config.renderScale;
+        if (this.lastCoordX !== x || this.lastCoordY !== y) {
+            this.lastCoordX = x;
+            this.lastCoordY = y;
+            let node = new LevelNode(x, y, 0);
+            this.coordsText.text = `${node.x},${node.y}`;
+            return true;
+        }
+        return false;
+    }
+
     firstUpdate(ctx) {
         this.music = Generator.generate(Base.instance.media.get("gameplayMusic"));
         console.log(`this.music: ${this.music}`);
@@ -271,6 +286,7 @@ class PlayState extends State {
         }
         this.updated = super.iupdate(ctx);
         this.udpated |= this.updateZPanel(ctx);
+        this.udpated |= this.updateCoords(ctx);
         return this.updated;
     }
 

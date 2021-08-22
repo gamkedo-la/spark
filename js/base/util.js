@@ -85,4 +85,12 @@ class Util {
         return true;
     }
 
+    static arrayContains(array, obj) {
+        if (!obj.equals) return false;
+        for (const v of array) {
+            if (obj.equals(v)) return true;
+        }
+        return false;
+    }
+
 }

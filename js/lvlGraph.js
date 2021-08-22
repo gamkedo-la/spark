@@ -10,6 +10,7 @@ import { Base }             from "./base/base.js";
 import { Stairs }           from "./stairs.js";
 import { Config }           from "./base/config.js";
 import { Mathf }            from "./base/math.js";
+import { Util } from "./base/util.js";
 
 class LevelNode {
     constructor(x,y,layer) {
@@ -19,6 +20,10 @@ class LevelNode {
     }
     toString() {
         return `${this.x},${this.y},${this.layer}`;
+    }
+    equals(other) {
+        //console.log(`other: ${Fmt.ofmt(other)} other type: ${typeof(other)} equals object ${typeof(other) === "object"}}`);
+        return typeof(other) === "object" && other.x === this.x && other.y === this.y && other.layer === this.layer;
     }
 }
 
@@ -45,16 +50,28 @@ class LevelGraph {
             if (nidx === undefined) continue;
             // find any objects that might be blocking our path
             let blocked = false;
+            let exitNode = undefined;
+            let objectToBypass = undefined;
             for (const other of this.grid.findgidx(nidx, (gzo) => !gzo.pathfinding && (gzo.layer === obj.layer) && gzo.collider && gzo.collider.blocking)) {
                 // is a bypass action allowed?
-                if (other.bypassAction) continue;
+                if (other.bypassAction) {
+                    let approaches = other.approaches;
+                    //console.log(`approaches: ${approaches} obj: ${obj} obj in approaches: ${Util.arrayContains(approaches, obj)}`);
+                    if (!approaches || Util.arrayContains(approaches, obj)) {
+                        exitNode = other.exitFor(obj);
+                        objectToBypass = other;
+                        continue;
+                    }
+                }
                 // is pathing in current direction allowed?
                 if (other.collider.allowPathMask&Direction.opposite(dir)) continue;
                 blocked = true;
                 break;
             }
             if (!blocked) {
-                yield new LevelNode(this.grid.xfromidx(nidx, true), this.grid.yfromidx(nidx, true), obj.layer);
+                let neighborNode = (exitNode) ? exitNode : new LevelNode(this.grid.xfromidx(nidx, true), this.grid.yfromidx(nidx, true), obj.layer);
+                if (objectToBypass) neighborNode.extraAction = objectToBypass.bypassAction();
+                yield neighborNode;
             } else {
                 blockedCardinals |= dir;
             }
@@ -96,10 +113,13 @@ class LevelGraph {
         } else {
             cost += Math.round(Vect.dist(from, to)); 
             // anything at target to?
+            /*
             let gidx = this.grid.idxfromxy(to.x, to.y);
             for (const obj of this.grid.findgidx(gidx, (gzo) => !gzo.pathfinding && gzo.collider && gzo.collider.blocking && gzo.bypassAction)) {
                 actions.push(obj.bypassAction());
             }
+            */
+           if (to.extraAction) actions.push(to.extraAction);
             // push move action
             actions.push(new MoveToAction({x:to.x, y:to.y}));
         }

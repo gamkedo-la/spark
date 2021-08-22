@@ -516,7 +516,9 @@ class SparkAssets {
             }),
 
             Templates.object("o01", "woodDoor", "Door", {
-                offx: 24, offy: -32,
+                offx: 8, offy: -32,
+                approachOffsets: [{x:0, y:16},  {x:16, y:16},  {x:0, y:-32}, {x:16, y:-32}],
+                exitOffsets:     [{x:0, y:-32}, {x:16, y:-32}, {x:0, y:16},  {x:16, y:16}],
                 xopenSfx: { cls: "Media", tag: "doorOpening"}, 
                 xcloseSfx: { cls: "Media", tag: "doorClosing"}, 
                 xcollider: { offy: 24, width:48, height:24 }, 
@@ -589,7 +591,7 @@ class SparkAssets {
                 }
             }),
 
-            Templates.object("c02", "npc", "Character", {
+            Templates.object("c02", "aodhan", "Character", {
                 mediaTag: "gnome",
                 ctrlId: 0,
                 offy: -16,
@@ -611,12 +613,10 @@ class SparkAssets {
                         "FindScheme",
                         "GatherScheme",
                         "LeaveScheme",
-                        //"LeaveWorkstationScheme",
                         "MoveScheme",
                         "OccupyScheme",
                         "OpenAtStationScheme",
                         "SleepAtBedScheme",
-                        //"WakeScheme",
                         "RestockAtStockScheme",
                         "SweepAtDirtyScheme",
                         "WantBedScheme",

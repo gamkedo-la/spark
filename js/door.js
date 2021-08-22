@@ -7,6 +7,8 @@ import { OpenAction }       from './base/action.js';
 import { Condition } from './base/condition.js';
 import { Fmt } from './base/fmt.js';
 import { Generator } from './base/generator.js';
+import { LevelNode } from './lvlGraph.js';
+import { Direction } from './base/dir.js';
 
 class Door extends Model {
     cpre(spec) {
@@ -25,9 +27,34 @@ class Door extends Model {
         this.interactRange = spec.interactRange || Config.tileSize * 4;
         // -- interactable
         this.interactable = true;
-        // sounds
+        // -- approaches
+        this.approachOffsets = spec.approachOffsets;
+        this.exitOffsets = spec.exitOffsets;
+        console.log(`approachOffsets: ${this.approachOffsets} exitOffsets: ${this.exitOffsets}`);
+        // -- sounds
         if (spec.xopenSfx) this.openSfx = Generator.generate(spec.xopenSfx);
         if (spec.xcloseSfx) this.closeSfx = Generator.generate(spec.xcloseSfx);
+    }
+
+    get approaches() {
+        if (this.approachOffsets) {
+            return this.approachOffsets.map((v) => new LevelNode(this.x+v.x, this.y+v.y, this.layer));
+        } else {
+            return Direction.cardinals.map((v) => new LevelNode(Direction.applyToX(this.x, v), Direction.applyToY(this.y, v), this.layer));
+        }
+    }
+
+    exitFor(approach) {
+        if (this.approachOffsets && this.exitOffsets && this.approachOffsets.length == this.exitOffsets.length) {
+            for (let i=0; i<this.approachOffsets.length; i++) {
+                if (approach.x === (this.approachOffsets[i].x + this.x) &&
+                    approach.y === (this.approachOffsets[i].y + this.y) &&
+                    approach.layer == this.layer) {
+                    return new LevelNode(this.x+this.exitOffsets[i].x, this.y+this.exitOffsets[i].y, this.layer)
+                }
+            }
+        }
+        return new LevelNode(this.x, this.y, this.layer);
     }
 
     dointeract(actor) {

@@ -1,6 +1,7 @@
 export { WorldOverrides };
 
 import { Config }               from "./base/config.js";
+import { Direction } from "./base/dir.js";
 import { WorkTimer }            from "./dirtySystem.js";
 import { WorldGen }             from "./worldGen.js";
 
@@ -27,6 +28,16 @@ class WorldOverrides {
                     ownerTag: "Aodhan",
                 },
             },
+            {
+                predicate: (v) => v.x === this.wpos(WorldGen.house1.offx + 8) && 
+                                v.y === this.wpos(WorldGen.house1.offy + 8) &&
+                                v.tag === "stool",
+                spec: {
+                    //ownerTag: "Aodhan",
+                    occupiedDir: Direction.north, 
+                },
+            },
+
             {
                 predicate: (v) => v.x === this.wpos(WorldGen.vendor1.offx + 1) && 
                                 v.y === this.wpos(WorldGen.vendor1.offy + 5) &&
