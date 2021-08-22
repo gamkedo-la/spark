@@ -9,6 +9,7 @@ window.onload = async function() {
     let loopID = 0;
     let frame = 0;
     const maxDeltaTime = 1000/20;
+    let gameIsStarted = false;
 
     // static initialization of any game global state
     Spark.init();
@@ -18,7 +19,7 @@ window.onload = async function() {
     // -- load
     await game.load();
     // -- setup
-    game.setup()
+    game.setup();
     // -- start main process loop
     window.requestAnimationFrame(loop);
 
