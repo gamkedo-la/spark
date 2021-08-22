@@ -64,6 +64,7 @@ import { LayeredViewMgr }   from "./layeredViewMgr.js";
 import { ViewMgr }          from "./viewMgr.js";
 import { AudioMgr }         from "./audioMgr.js";
 import { SyncAnimation }    from "./syncAnimation.js";
+import { UxCanvas2 }        from "./uxCanvas2.js";
 
 class Base {
 
@@ -173,6 +174,7 @@ class Base {
         // ---- Views
         this.registry.add(UxView);
         this.registry.add(UxCanvas);
+        this.registry.add(UxCanvas2);
         this.registry.add(UxPanel);
         this.registry.add(UxButton);
         this.registry.add(UxText);

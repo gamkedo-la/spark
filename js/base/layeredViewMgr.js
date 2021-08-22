@@ -50,8 +50,9 @@ class LayeredViewMgr extends Gizmo {
         this.sliceIdxs = {};
         this.updatedViews = [];
         this.renderall = true;
+        this.modelViewUpdates = [];
         // bind event handlers
-        Util.bind(this, "onViewUpdate");
+        Util.bind(this, "onViewUpdate", "onModelUpdate");
     }
 
     // EVENT HANDLERS ------------------------------------------------------
@@ -65,6 +66,25 @@ class LayeredViewMgr extends Gizmo {
         if (this.camera.overlaps(view)) {
             //console.log(`==================== on view update: ${view} view.min: ${view.minx},${view.miny} view.width: ${view.width}, view xform: ${view.xform} parent: ${view.xform.parent}`);
             this.updatedViews.push(evt.actor);
+        }
+    }
+
+    onModelUpdate(evt) {
+        let model = evt.actor;
+        if (model.view) {
+            this.modelViewUpdates.push(model.view);
+            /*
+            let view = model.view;
+            // check for change in vidx
+            if (view.vidx !== this.vidx(view)) {
+                console.log(`onModelUpdate: ${model} view: ${model.view} last vidx: ${view.vidx} new: ${this.vidx(view)}`);
+                view.vidx = this.vidx(view);
+            }
+            if (this.camera.overlaps(view)) {
+                console.log(`==================== on model update: ${view} view.min: ${view.minx},${view.miny} view.width: ${view.width}, view xform: ${view.xform} parent: ${view.xform.parent}`);
+                this.updatedViews.push(view);
+            }
+            */
         }
     }
 
@@ -96,12 +116,25 @@ class LayeredViewMgr extends Gizmo {
 
     iupdate(ctx) {
         // update managed views that are on screen
+        let seen = new Set();
         for (const view of this.getOnscreenViews()) {
+            seen.add(view.gid);
             view.update(ctx);
         }
+        // update views from model updates
+        for (const view of this.modelViewUpdates) {
+            if (!seen.has(view.gid)) {
+                seen.add(view.gid);
+                view.update(ctx);
+            }
+        }
+        this.modelViewUpdates = [];
         // update ui views
         for (const view of this.uiViews) {
-            this.uiUpdated |= view.update(ctx);
+            if (!seen.has(view.gid)) {
+                seen.add(view.gid);
+                this.uiUpdated |= view.update(ctx);
+            }
         }
         // prepare sliced view
         if (!this.sliceReady) {
@@ -239,6 +272,7 @@ class LayeredViewMgr extends Gizmo {
             //if (this.dbg) console.log(`adding view ${view} w/ vidx: ${view.vidx}`);
             // listen for view updates
             view.evtUpdated.listen(this.onViewUpdate)
+            if (view.model) view.model.evtUpdated.listen(this.onModelUpdate);
             // assign index
             let vidx = this.vidx(view);
             view.vidx = vidx;
@@ -257,6 +291,7 @@ class LayeredViewMgr extends Gizmo {
             this.grid.remove(view);
             //this.sorted.remove(view);
             // remove from view updates
+            if (view.model) view.model.evtUpdated.ignore(this.onModelUpdate);
             view.evtUpdated.ignore(this.onViewUpdate)
             this.updatedViews.push(view);
         }

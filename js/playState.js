@@ -225,6 +225,7 @@ class PlayState extends State {
                 model: obj,
             };
             view = new ModelView(xview);
+            obj.view = view;
         }
         // rig model destroy to view destroy
         if (view) obj.evtDestroyed.listen((evt) => view.destroy());
