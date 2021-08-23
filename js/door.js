@@ -4,11 +4,10 @@ import { Model }            from './base/model.js';
 import { Config }           from './base/config.js';
 import { ModelState }       from './base/modelState.js';
 import { OpenAction }       from './base/action.js';
-import { Condition } from './base/condition.js';
-import { Fmt } from './base/fmt.js';
-import { Generator } from './base/generator.js';
-import { LevelNode } from './lvlGraph.js';
-import { Direction } from './base/dir.js';
+import { Condition }        from './base/condition.js';
+import { Generator }        from './base/generator.js';
+import { LevelNode }        from './lvlGraph.js';
+import { Direction }        from './base/dir.js';
 
 class Door extends Model {
     cpre(spec) {

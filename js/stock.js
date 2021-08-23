@@ -11,8 +11,8 @@ import { WorkTimer } from "./dirtySystem.js";
 class Stock extends Model {
     constructor(spec={}) {
         super(spec);
-        // -- approachMask (direction mask)
-        this.approachMask = spec.approachMask || Direction.cardinal;
+        // -- approaches
+        this.approachOffsets = spec.approachOffsets;
         // -- conditions
         this.occupiedCondition = spec.occupiedCondition || Condition.occupied;
         this.actorCondition = spec.actorCondition || Condition.waiting;
@@ -26,8 +26,8 @@ class Stock extends Model {
     }
 
     get approaches() {
-        if (this.approachMask) {
-            return Direction.all.filter((v) => (v & this.approachMask)).map((v) => new LevelNode(Direction.applyToX(this.x, v), Direction.applyToY(this.y, v), this.layer));
+        if (this.approachOffsets) {
+            return this.approachOffsets.map((v) => new LevelNode(this.x+v.x, this.y+v.y, this.layer));
         } else {
             return [new LevelNode(this.x, this.y, this.layer)];
         }

@@ -528,7 +528,8 @@ class SparkAssets {
                 offx: 8, offy: -12,
                 xcollider: { width: 14, height: 14 }, 
                 occupiedDir: Direction.east, 
-                occupiedOffX: 10, occupiedOffY: -14 
+                occupiedOffX: 10, occupiedOffY: -14,
+                approachOffsets: [{x:-16, y:0},  {x:32, y:0},  {x:0, y:16}, {x:16, y:16}, {x:0, y:-32}, {x:16, y:-32}],
             }),
 
             Templates.tile("o03", "table", {
@@ -540,6 +541,7 @@ class SparkAssets {
                 offx: 8, offy: -24,
                 xcollider: { width: 24, height: 48 }, 
                 occupiedOffX: 8, occupiedOffY: -22,
+                approachOffsets: [{x:-16, y:-16},  {x:-16, y:-32},  {x:32, y:-16}, {x:32, y:-32}],
             }),
 
             Templates.object("o05", "relay", "SparkRelay", { 
@@ -561,9 +563,18 @@ class SparkAssets {
                 offx: 8, offy: -24,
                 xcollider: { width: 32, height: 48 }, 
                 occupiedOffX: 8, occupiedOffY: -22,
+                approachOffsets: [{x:0, y:16},  {x:16, y:16}],
             }),
 
-            Templates.object("o08", "cabbagePotatoCluster", "Stock", {offx: 12, offy: -24, xcollider: {width: 32, height: 40, offy: 8}}),
+            Templates.object("o08", "cabbagePotatoCluster", "Stock", {
+                offx: 12, offy: -24, 
+                xcollider: {width: 32, height: 40, offy: 8},
+                approachOffsets: [
+                    {x: -16, y: -16 },
+                    {x: 16, y: 16 },
+                    {x: 32, y: 16 },
+                ],
+            }),
             Templates.object("o09", "vendorBench", "Workstation", {
                 offx: 8, offy: -16,
                 occupiedDir: Direction.south, 
@@ -573,8 +584,25 @@ class SparkAssets {
                 ],
                 xcollider: { width: 32, height: 20, offy: 4 },
             }),
-            Templates.object("o0a", "appleBlueberryBench", "Stock", {offy: -24, xcollider: {width: 12, height: 40}}),
-            Templates.object("o0b", "postFishline", "Stock", {offx: 32, offy: -24, xcollider: { cls: "ColliderSet", xitems: [{width: 10, height: 10}, {width: 10, height: 10, offx: 64}]}}),
+            Templates.object("o0a", "appleBlueberryBench", "Stock", {
+                offy: -24, 
+                xcollider: {width: 12, height: 40},
+                approachOffsets: [
+                    {x: -16, y: -16 },
+                    {x: -16, y: -32 },
+                    {x: 16, y: -16 },
+                    {x: 16, y: -32 },
+                ],
+            }),
+            Templates.object("o0b", "postFishline", "Stock", {
+                offx: 32, offy: -24, 
+                xcollider: { cls: "ColliderSet", xitems: [{width: 10, height: 10}, {width: 10, height: 10, offx: 64}]},
+                approachOffsets: [
+                    {x: 16, y: 0},
+                    {x: 32, y: 0 },
+                    {x: 48, y: 0 },
+                ],
+            }),
 
             { tag: "spark", cls: "SparkProjectile", 
                 xcollider: { blocking: Collider.projectile, width:8, height:8, color: "rgba(0,0,127,.5)" },
