@@ -21,6 +21,9 @@ class Audio {
 
     // METHODS -------------------------------------------------------------
     play() {
+        if(Base.instance.audioMgr.mute){
+            return;
+        }
         if (this.audioCtx.state !== "running") return;
         // connect source buffer to target
         // FIXME

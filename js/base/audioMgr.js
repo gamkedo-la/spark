@@ -9,6 +9,7 @@ class AudioMgr extends Gizmo {
     cpost(spec) {
         super.cpost(spec);
         this._audioCtx = spec.audioCtx || new AudioContext();
+        this.mute = false;
         const ctx = this._audioCtx;
         let canvas = spec.canvas || UxCanvas.getCanvas();
         Keys.evtKeyPressed.once(this._resume.bind(this));
