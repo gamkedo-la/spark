@@ -164,20 +164,7 @@ class PlayState extends State {
         if (evt.key === "#") this.testraw = !this.testraw;
         if (evt.key === "*") console.log(`player: ${this.player.miny},${this.player.maxy}`);
         if (evt.key === "m"){      
-            Base.instance.audioMgr.mute = !Base.instance.audioMgr.mute;
-            console.log("Muted? " + Base.instance.audioMgr.mute);
-            if(Base.instance.audioMgr.mute){
-        /*        if(this.music){
-                    this.music.stop();
-                } */
-                if(Base.instance.audioMgr.audioCtx.state === "running"){
-                    Base.instance.audioMgr.audioCtx.suspend();
-                }
-            } else {
-                if(Base.instance.audioMgr.audioCtx.state === "suspended"){
-                    Base.instance.audioMgr.audioCtx.resume();
-                }
-            }
+           Base.instance.audioMgr.muteToggle();
         }
     }
 

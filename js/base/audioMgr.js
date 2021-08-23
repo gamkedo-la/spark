@@ -32,4 +32,19 @@ class AudioMgr extends Gizmo {
     update(ctx) {
     }
 
+    muteToggle(){
+       this.mute = !this.mute;
+        console.log("Muted? " + this.mute);
+        if(this.mute){
+  
+            if(this._audioCtx.state === "running"){
+                this._audioCtx.suspend();
+            }
+        } else {
+            if(this._audioCtx.state === "suspended"){
+                this._audioCtx.resume();
+            }
+        }
+    }
+
 }
