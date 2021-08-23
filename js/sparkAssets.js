@@ -55,16 +55,14 @@ class SparkAssets {
                 Templates.xsprite("vhouseFront4", 5, 8, {height: 16*4}),
                 Templates.xsprite("vhouseFront5", 6, 8, {height: 16*5}),
                 Templates.xsprite("vhouseFront6", 7, 9, {height: 16*4}),
-                Templates.xsprite("vhouseDoor.close", 8, 8, {height: 16*5, width: 16*3}),
+                Templates.xsprite("vhouseDoor.close", 8, 7, {height: 16*6, width: 16*3}),
                 Templates.xsprite("vhouseFront8", 11, 9, {height: 16*4}),
                 Templates.xsprite("vhouseFront9", 12, 8, {height: 16*5}),
                 Templates.xsprite("vhouseFront10", 13, 8, {height: 16*4}),
                 Templates.xsprite("vhouseFront11", 14, 8, {height: 16*5}),
                 Templates.xsprite("vhouseFront12", 15, 7, {height: 16*5}),
                 Templates.xsprite("vhouseFront13", 16, 7, {height: 16*4}),
-
                 Templates.xsprite("vhouseRoof", 2, 13, {width: 16*15, height: 16*12}),
-
                 Templates.xsprite("vhousePorch1", 5, 25, {height: 16*2}),
                 Templates.xsprite("vhousePorch2", 6, 25, {height: 16*3}),
                 Templates.xsprite("vhousePorch3", 7, 25, {height: 16*4}),
@@ -74,8 +72,27 @@ class SparkAssets {
                 Templates.xsprite("vhousePorch7", 11, 25, {height: 16*4}),
                 Templates.xsprite("vhousePorch8", 12, 25, {height: 16*3}),
                 Templates.xsprite("vhousePorch9", 13, 25, {height: 16*2}),
-
+                Templates.xsprite("vhouseBed.empty", 17, 0, {height: 16*5, width: 16*3}),
+                Templates.xsprite("vhouseBed.occupied", 20, 0, {height: 16*5, width: 16*3}),
+                Templates.xsprite("vhouseTable", 23, 0, {height: 16*5, width: 16*3}),
+                Templates.xsprite("vhouseDoor.open", 26, 0, {height: 16*6, width: 16*3}),
             ]},
+
+            { tag: "vhouseBed", 
+                cls: "Animator", 
+                animations: { 
+                    [ModelState.idle]: { cls: "Media", tag: "vhouseBed.empty" }, 
+                    [ModelState.occupied]: { cls: "Media", tag: "vhouseBed.occupied" }, 
+                },
+            },
+
+            { tag: "vhouseDoor", 
+                cls: "Animator", 
+                animations: { 
+                    [ModelState.close]: { cls: "Media", tag: "vhouseDoor.close" }, 
+                    [ModelState.open]: { cls: "Media", tag: "vhouseDoor.open" }, 
+                },
+            },
 
             Templates.overlayMedia("img/grass.png", "grass", {"height": 16, "width": 16, kw: ["overlay"]}),
             Templates.overlayMedia("img/ocean.png", "ocean", {"height": 16, "width": 16, kw: ["overlay"]}),
@@ -489,7 +506,6 @@ class SparkAssets {
             Templates.tile("01j", "vhouseFront4", {offy: -24}), //5, 8, {height: 16*4}),
             Templates.tile("01k", "vhouseFront5", {offy: -32}), //6, 8, {height: 16*4}),
             Templates.tile("01l", "vhouseFront6", {offy: -24}), //7, 9, {height: 16*3}),
-            Templates.tile("01m", "vhouseDoor.close", {offx: 16, offy: -32}), //8, 8, {height: 16*4, width: 16*3}),
             Templates.tile("01n", "vhouseFront8", {offy: -24}), //11, 9, {height: 16*3}),
             Templates.tile("01o", "vhouseFront9", {offy: -32}), //12, 8, {height: 16*4}),
             Templates.tile("01p", "vhouseFront10", {offy: -24}), //13, 8, {height: 16*4}),
@@ -508,6 +524,8 @@ class SparkAssets {
             Templates.tile("01A", "vhousePorch7", {offy: -24}), //11, 25, {height: 16*4}),
             Templates.tile("01B", "vhousePorch8", {offy: -16}), //12, 25, {height: 16*3}),
             Templates.tile("01C", "vhousePorch9", {offy: -8}), //13, 25, {height: 16*2}),
+
+            Templates.tile("01D", "vhouseTable", {offx: 16, offy: -32}),
 
             Templates.object("o00", "sparkbase", "SparkBase", { 
                 powered: true,
@@ -602,6 +620,22 @@ class SparkAssets {
                     {x: 32, y: 0 },
                     {x: 48, y: 0 },
                 ],
+            }),
+
+            Templates.object("o0c", "vhouseDoor", "Door", {
+                offx: 0, offy: -40,
+                approachOffsets: [{x:16, y:16}, {x:16, y:-32}],
+                exitOffsets:     [{x:16, y:-32}, {x:16, y:16}],
+                xopenSfx: { cls: "Media", tag: "doorOpening"}, 
+                xcloseSfx: { cls: "Media", tag: "doorClosing"}, 
+                xcollider: { offy: 24, width:32, height:24 }, 
+            }),
+
+            Templates.object("o0d", "vhouseBed", "Bed", {
+                offx: 16, offy: -48,
+                xcollider: { width: 24, height: 48 }, 
+                occupiedOffX: 8, occupiedOffY: -22,
+                approachOffsets: [{x:32, y:-16}, {x:32, y:-32}],
             }),
 
             { tag: "spark", cls: "SparkProjectile", 
