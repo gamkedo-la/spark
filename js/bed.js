@@ -22,6 +22,7 @@ class Bed extends Model {
         // -- occupied offset
         this.occupiedOffX = spec.occupiedOffX || 0;
         this.occupiedOffY = spec.occupiedOffY || 0;
+        this.occupiedOffD = spec.occupiedOffD || 0;
         // -- occupied direction
         this.occupiedDir = spec.occupiedDir || Direction.south;
         // -- conditions

@@ -4,6 +4,7 @@ import { Direction }        from "./base/dir.js";
 import { Model }            from "./base/model.js";
 import { Condition }        from "./base/condition.js";
 import { LevelNode }        from "./lvlGraph.js";
+import { Fmt } from "./base/fmt.js";
 
 class Workstation extends Model {
 
@@ -29,15 +30,15 @@ class Workstation extends Model {
         this.actorCondition = spec.actorCondition || Condition.working;
         // -- interactable
         this.interactable = true;
-        // -- reservation tag
-        this.reserveTag = spec.reserveTag;
+        // -- owner tag
+        this.ownerTag = spec.ownerTag;
         // -- actor id (actor who's currently occupying)
         this.actorId = 0;
         // shop variables
         this.closedCondition = spec.closedCondition || Condition.closed;
         // defaults to closed condition
         this.conditions.add(this.closedCondition);
-        console.log(`workstation close condition: ${this.closeCondition} conditions: ${Array.from(this.conditions)}`);
+        console.log(`workstation spec: ${Fmt.ofmt(spec)}`);
     }
 
     get approaches() {

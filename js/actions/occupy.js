@@ -112,7 +112,7 @@ class OccupyAction extends Action {
             if (this.target.occupiedOffX) actor.x = this.target.x + this.target.occupiedOffX;
             if (this.target.occupiedOffY) actor.y = this.target.y + this.target.occupiedOffY;
             if (this.target.occupiedDir) actor.heading = Direction.asHeading(this.target.occupiedDir);
-            if (actor.depth <= this.target.depth) actor.depth = this.target.depth+1;
+            if (this.target.occupiedOffD) actor.depth += this.target.occupiedOffD;
             actor.occupyId = this.target.gid;
             actor.updated = true;
 

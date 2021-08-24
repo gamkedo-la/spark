@@ -3,11 +3,11 @@ export { Chair };
 import { Model }            from './base/model.js';
 import { ModelState }       from './base/modelState.js';
 import { Generator }        from './base/generator.js';
-import { Direction } from './base/dir.js';
-import { Condition } from './base/condition.js';
-import { LevelNode } from './lvlGraph.js';
-import { LeaveAction } from './actions/leave.js';
-import { OccupyAction } from './actions/occupy.js';
+import { Direction }        from './base/dir.js';
+import { Condition }        from './base/condition.js';
+import { LevelNode }        from './lvlGraph.js';
+import { LeaveAction }      from './actions/leave.js';
+import { OccupyAction }     from './actions/occupy.js';
 
 class Chair extends Model {
 
@@ -34,6 +34,7 @@ class Chair extends Model {
         // -- occupied offset
         this.occupiedOffX = spec.occupiedOffX || 0;
         this.occupiedOffY = spec.occupiedOffY || 0;
+        this.occupiedOffD = spec.occupiedOffD || 0;
         // -- occupied direction
         this.occupiedDir = spec.occupiedDir || Direction.north;
         // -- conditions
@@ -45,7 +46,7 @@ class Chair extends Model {
         if (spec.xcollider) {
             this.collider = Generator.generate(Object.assign({"cls": "Collider", x: this.x, y: this.y}, spec.xcollider));
         }
-        // -- actor id (who's in the bed)
+        // -- actor id (who's on object)
         this.actorId = 0;
     }
 

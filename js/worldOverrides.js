@@ -56,6 +56,14 @@ class WorldOverrides {
                     //restock: new WorkTimer(),
                 },
             },
+            {
+                predicate: (v) => v.x === this.wpos(WorldGen.vendor1.offx + 4) && 
+                                v.y === this.wpos(WorldGen.vendor1.offy + 8) &&
+                                v.tag === "vendorBench",
+                spec: {
+                    ownerTag: "Aodhan",
+                },
+            },
 
             // Ciara (innkeeper) things
             {

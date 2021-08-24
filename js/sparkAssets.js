@@ -201,7 +201,6 @@ class SparkAssets {
                 Templates.xsprite("shadow", 15, 2),
                 Templates.xsprite("post", 0, 4, {height: 48}),
                 Templates.xsprite("post.s", 1, 4, {height: 48}),
-                //Templates.xsprite("vendorBench",        2, 5, {width: 48, height: 32}),
                 Templates.xsprite("postUpper.l",        0, 7, {width: 32 }),
                 Templates.xsprite("postUpper.s",        2, 7),
                 Templates.xsprite("postUpper.r",        3, 7, {width: 32 }),
@@ -546,7 +545,7 @@ class SparkAssets {
                 offx: 8, offy: -12,
                 xcollider: { width: 14, height: 14 }, 
                 occupiedDir: Direction.east, 
-                occupiedOffX: 10, occupiedOffY: -14,
+                occupiedOffX: 10, occupiedOffY: -14, occupiedOffD: 1,
                 approachOffsets: [{x:-16, y:0},  {x:32, y:0},  {x:0, y:16}, {x:16, y:16}, {x:0, y:-32}, {x:16, y:-32}],
             }),
 
@@ -558,23 +557,13 @@ class SparkAssets {
             Templates.object("o04", "bed", "Bed", {
                 offx: 8, offy: -24,
                 xcollider: { width: 24, height: 48 }, 
-                occupiedOffX: 8, occupiedOffY: -22,
+                occupiedOffX: 8, occupiedOffY: -22, occupedOffD: 1,
                 approachOffsets: [{x:-16, y:-16},  {x:-16, y:-32},  {x:32, y:-16}, {x:32, y:-32}],
             }),
 
             Templates.object("o05", "relay", "SparkRelay", { 
                 offy: -16, 
                 xcollider: {width:10, height:20, offy: 10}, 
-            }),
-
-            Templates.object("o06", "xvendorBench", "Workstation", {
-                offy: -8,
-                occupiedDir: Direction.south, 
-                occupiedOffX: 0, occupiedOffY: -24,
-                approachOffsets: [
-                    {x: 0, y: -32 },
-                ],
-                xcollider: { width: 32, height: 16 },
             }),
 
             Templates.object("o07", "stove", "Stove", {
@@ -634,7 +623,7 @@ class SparkAssets {
             Templates.object("o0d", "vhouseBed", "Bed", {
                 offx: 16, offy: -48,
                 xcollider: { width: 24, height: 48 }, 
-                occupiedOffX: 8, occupiedOffY: -22,
+                occupiedOffX: 8, occupiedOffY: -22, occupiedOffD: 1,
                 approachOffsets: [{x:32, y:-16}, {x:32, y:-32}],
             }),
 
