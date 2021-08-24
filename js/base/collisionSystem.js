@@ -46,7 +46,7 @@ class CollisionSystem extends System {
                         if (actorWantsActivation) actorActivation = Bounds.newOrExtend(actorActivation, overlap);
                     }
                     // check overlap w/ any colliders
-                    if (other.collider.blocking & e.collider.blocking) {
+                    if (other.collider.tag & e.collider.blocking) {
                         overlap = xbounds.overlaps(other.collider);
                         if (overlap) {
                             // trigger collision
@@ -86,7 +86,7 @@ class CollisionSystem extends System {
                         if (actorWantsActivation) actorActivation = Bounds.newOrExtend(actorActivation, overlap);
                     }
                     // check overlap w/ any colliders
-                    if (other.collider.blocking & e.collider.blocking) {
+                    if (other.collider.tag & e.collider.blocking) {
                         overlap = ybounds.overlaps(other.collider);
                         if (overlap) {
                             // trigger collision

@@ -30,6 +30,7 @@ class Collider {
         this.height = (spec.hasOwnProperty("height")) ? spec.height : Config.tileSize;
         this.color = spec.color || "rgba(127,0,0,.4)";
         this.nbcolor = spec.nbcolor || "rgba(0,127,0,.4)";
+        this._tag = spec.hasOwnProperty("tag") ? spec.tag : Collider.all;
         this._blocking = (spec.hasOwnProperty("blocking")) ? spec.blocking : Collider.all;
         this._active = (spec.hasOwnProperty("active")) ? spec.active : true;
         this.getactive = spec.getactive || (() => this._active);
@@ -59,6 +60,10 @@ class Collider {
     }
     get maxy() {
         return this.y + this.offy + (this.height * .5);
+    }
+    get tag() {
+        if (!this.active) return 0;
+        return this._tag;
     }
     get blocking() {
         if (!this.active) return 0;

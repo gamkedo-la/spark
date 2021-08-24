@@ -636,7 +636,7 @@ class SparkAssets {
                 mediaTag: "fairy",
                 ctrlId: 1,
                 offy: -8,
-                xcollider: { blocking: Collider.player, width:14, height:10, offy:8, color: "rgba(0,0,127,.5)" },
+                xcollider: { tag: Collider.player, blocking: Collider.projectile|Collider.object, width:14, height:10, offy:8, color: "rgba(0,0,127,.5)" },
                 xstateSfxs: {
                     [ModelState.walk]: { cls: "Media", tag: "chimes"}, 
                 }
@@ -648,7 +648,7 @@ class SparkAssets {
                 offy: -16,
                 ownerTag: "Aodhan",
                 maxFedTTL: 30000,
-                xcollider: { blocking: Collider.player, width:14, height:14, offy:18, color: "rgba(0,0,127,.5)" },
+                xcollider: { tag: Collider.player, blocking: Collider.projectile|Collider.object, width:14, height:14, offy:18, color: "rgba(0,0,127,.5)" },
                 xactivitySchedule: Templates.testSchedule,
                 xai: { 
                     cls: "AiState",
@@ -687,7 +687,7 @@ class SparkAssets {
                 offy: -16,
                 ownerTag: "Ciara",
                 maxFedTTL: 30000,
-                xcollider: { blocking: Collider.player, width:14, height:14, offy:18, color: "rgba(0,0,127,.5)" },
+                xcollider: { tag: Collider.player, blocking: Collider.projectile|Collider.object, width:14, height:14, offy:18, color: "rgba(0,0,127,.5)" },
                 xactivitySchedule: Templates.testSchedule,
                 xai: { 
                     cls: "AiState",
