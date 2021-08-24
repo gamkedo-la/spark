@@ -77,6 +77,10 @@ class OccupyProcess extends AiProcess {
         return lastAction.done;
     }
 
+    finalize() {
+        return this.actions.every((v) => v.ok);
+    }
+
 }
 
 class OccupyAction extends Action {

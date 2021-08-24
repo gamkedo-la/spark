@@ -52,6 +52,7 @@ class LevelGraph {
             let blocked = false;
             let exitNode = undefined;
             let objectToBypass = undefined;
+            // FIXME: this should account for actor's tag vs target blocking mask, not just checking if blocking is set
             for (const other of this.grid.findgidx(nidx, (gzo) => !gzo.pathfinding && (gzo.layer === obj.layer) && gzo.collider && gzo.collider.blocking)) {
                 // is a bypass action allowed?
                 if (other.bypassAction) {
