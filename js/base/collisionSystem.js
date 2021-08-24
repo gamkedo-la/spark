@@ -128,6 +128,8 @@ class CollisionSystem extends System {
             e.collision = actorCollision;
             if (collisions.length) {
                 e.collisionIds = collisions.map(v => v.gid);
+            } else {
+                e.collisionIds = undefined;
             }
 
         }

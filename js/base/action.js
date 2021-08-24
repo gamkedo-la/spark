@@ -43,8 +43,11 @@ class MoveToAction extends Action {
     update(ctx) {
         // distance to target
         let dist = Vect.dist(this.actor, this.pos);
+        // move failed
+        if(!this.ok) {
+            this.actor.speed = 0;
         // within range of target
-        if (dist < this.range) {
+        } else if (dist < this.range) {
             if (this.dbg) console.log(`${this.actor} arrived at target: ${this.pos}`);
             this.done = true;
             // peek at next action

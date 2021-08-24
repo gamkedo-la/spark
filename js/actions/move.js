@@ -6,6 +6,7 @@ import { AiProcess }        from "../base/ai/aiProcess.js";
 import { LevelNode }        from "../lvlGraph.js";
 import { Util }             from "../base/util.js";
 import { Fmt } from "../base/fmt.js";
+import { Base } from "../base/base.js";
 
 class MoveScheme extends AiScheme {
     constructor(spec={}) {
@@ -103,20 +104,39 @@ class MovePlan extends AiPlan {
 }
 
 class MoveProcess extends AiProcess {
+    static maxCollisions = 3;
     constructor(spec={}) {
         super(spec);
         this.actions = spec.actions || [];
+        this.currentCollisions = 0;
+        this.ok = true;
     }
 
     prepare(actor) {
         // set actor's action queue to be the individual actions from movement process...
         actor.actions = this.actions.slice(0);
-        //console.log("move actor actions: " + actor.actions);
+        this.actor = actor;
         return true;
     }
 
     update(ctx) {
         if (this.actions.length === 0) return true;
+        if (this.actor.collisionIds) {
+            this.currentCollisions++;
+            let target = Base.instance.entities.get(this.actor.collisionIds[0]);
+            //console.log(`actor colliding with: ${this.actor.collisionIds} |${target}| ${this.currentCollisions}`);
+            if (this.currentCollisions > MoveProcess.maxCollisions) {
+                console.log(`actor ${this.actor} failing movement, too many concurrent collisions`);
+                //this.actor.currentAction.ok = false;
+                this.actor.currentAction = undefined;
+                this.actor.actions = [];
+                this.actor.speed = 0;
+                this.ok = false;
+                return true;
+            }
+        } else {
+            this.currentCollisions = 0;
+        }
         // wait for actions to be completed
         let lastAction = this.actions[this.actions.length-1];
         return lastAction.done;
@@ -126,6 +146,6 @@ class MoveProcess extends AiProcess {
         // FIXME: in here is where we would put logic to handle movement failures... 
         // -- e.g.: if the actor gets stuck somewhere, we should be able to detect it... 
         // -- detection would be done in process.  could use a timer for each step.  if not completed in time, assume that the actor is stuck and fail the overall AI action...
-        return true;
+        return this.ok;
     }
 }

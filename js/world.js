@@ -130,7 +130,7 @@ class World {
             WorldGen.house2,
             WorldGen.work2,
             WorldGen.vendor1,
-            WorldGen.vendorHouse,
+            //WorldGen.vendorHouse,
             {
                 columns: 8,
                 rows: 7,

@@ -10,6 +10,7 @@ class AiGoalSystem extends System {
     static dfltIterateTTL = 1000;
     //static dfltFailTTL = 30000;
     static dfltFailTTL = 5000;
+    static dfltMaxGoalFailures = 2;
 
     // CONSTRUCTOR ---------------------------------------------------------
     cpre(spec) {
@@ -21,6 +22,8 @@ class AiGoalSystem extends System {
         super.cpost(spec);
         this.getenv = spec.getenv || (() => Atts);
         this.failTTL = spec.failTTL || AiGoalSystem.dfltFailTTL;
+        this.maxGoalFailures = spec.maxGoalFailures || AiGoalSystem.dfltMaxGoalFailures;
+        this.goalFailures = 0;
     }
 
     // METHODS -------------------------------------------------------------
@@ -44,10 +47,17 @@ class AiGoalSystem extends System {
 
         // handle failed goal ...
         if (e.ai.currentGoal && e.ai.goalState === AiGoal.gfail) {
-            // add goal to penalty box...
-            e.ai.failedGoals[e.ai.currentGoal.goal] = this.failTTL;
-            //.push({ ttl: this.failTTL, goal: e.ai.currentGoal });
-            if (this.dbg) console.log(`goal ${e.ai.currentGoal} failed, added to penalty box`);
+            e.ai.goalFailures++;
+            if (e.ai.goalFailures >= this.maxGoalFailures) {
+                // add goal to penalty box...
+                e.ai.failedGoals[e.ai.currentGoal.goal] = this.failTTL;
+                if (this.dbg) console.log(`goal ${e.ai.currentGoal} failed, added to penalty box`);
+                e.ai.goalFailures = 0;
+            } else {
+                if (this.dbg) console.log(`goal ${e.ai.currentGoal} failed, first failure`);
+            }
+        } else {
+            e.ai.goalFailures = 0;
         }
 
         // reset current goal state
