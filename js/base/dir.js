@@ -62,11 +62,11 @@ class Direction {
     }
 
     static fromHeading(heading) {
-        if (heading >= -Math.PI*.75 && heading < -Math.PI*.25) {
+        if (heading >= -Math.PI*.70 && heading < -Math.PI*.3) {
             return this.north;
-        } else if (heading >= -Math.PI*.25 && heading < Math.PI*.25) {
+        } else if (heading >= -Math.PI*.3 && heading < Math.PI*.3) {
             return this.east;
-        } else if (heading >= Math.PI*.25 && heading < Math.PI*.75) {
+        } else if (heading >= Math.PI*.3 && heading < Math.PI*.7) {
             return this.south;
         } else {
             return this.west;
