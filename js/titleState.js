@@ -7,6 +7,7 @@ import { Fmt }              from "./base/fmt.js";
 import { Mouse }            from "./base/mouse.js";
 import { Templates }        from "./templates.js";
 import { PlayState }        from "./playState.js";
+import { MenuState }        from "./menuState.js";
 import { Base } from "./base/base.js";
 
 class TitleState extends State {
@@ -34,12 +35,16 @@ class TitleState extends State {
 
     onKeyDown(evt) {
         //console.log("titleState onKeyDown: " + Fmt.ofmt(evt));
-        let state = new PlayState();
-        Base.instance.stateMgr.swap(state);
+        if (evt.key === "Escape") {
+            let state = new PlayState();
+            Base.instance.stateMgr.swap(state);
+        } else {}
+            let state = new MenuState();
+            Base.instance.stateMgr.swap(state);
     }
 
     onClicked(evt) {
-        let state = new PlayState();
+        let state = new MenuState();
         Base.instance.stateMgr.swap(state);
     }
 
