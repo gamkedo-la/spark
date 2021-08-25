@@ -20,42 +20,35 @@ class WorldOverrides {
             },
 
             // Aodhan (vendor) things
+            // -- BED
             {
-                predicate: (v) => v.x === this.wpos(WorldGen.house1.offx + 2) && 
-                                v.y === this.wpos(WorldGen.house1.offy + 7) &&
+                predicate: (v) => v.x === this.wpos(WorldGen.vendorHouse.offx + 2) && 
+                                v.y === this.wpos(WorldGen.vendorHouse.offy + 6) &&
                                 v.cls === "Bed",
                 spec: {
                     ownerTag: "Aodhan",
                 },
             },
+            // -- STOOL/TABLE
             {
-                predicate: (v) => v.x === this.wpos(WorldGen.house1.offx + 8) && 
-                                v.y === this.wpos(WorldGen.house1.offy + 8) &&
+                predicate: (v) => v.x === this.wpos(WorldGen.house1.offx + 11) && 
+                                v.y === this.wpos(WorldGen.house1.offy + 5) &&
                                 v.tag === "stool",
                 spec: {
                     ownerTag: "Aodhan",
                     occupiedDir: Direction.north, 
                 },
             },
-
+            // -- STOVE
             {
-                predicate: (v) => v.x === this.wpos(WorldGen.vendor1.offx + 1) && 
-                                v.y === this.wpos(WorldGen.vendor1.offy + 5) &&
-                                v.tag === "road",
-                spec: {
-                    //ownerTag: "Aodhan",
-                    dirty: new WorkTimer(),
-                },
-            },
-            {
-                predicate: (v) => v.x === this.wpos(WorldGen.vendor1.offx + 5) && 
-                                v.y === this.wpos(WorldGen.vendor1.offy + 4) &&
-                                v.tag === "barrel",
+                predicate: (v) => v.x === this.wpos(WorldGen.house1.offx + 8) && 
+                                v.y === this.wpos(WorldGen.house1.offy + 3) &&
+                                v.cls === "Stove",
                 spec: {
                     ownerTag: "Aodhan",
-                    //restock: new WorkTimer(),
                 },
             },
+            // -- WORKSTATION
             {
                 predicate: (v) => v.x === this.wpos(WorldGen.vendor1.offx + 4) && 
                                 v.y === this.wpos(WorldGen.vendor1.offy + 8) &&
@@ -63,6 +56,46 @@ class WorldOverrides {
                 spec: {
                     ownerTag: "Aodhan",
                 },
+            },
+
+            // -- SWEEP locations
+            {
+                predicate: (v) => v.x === this.wpos(WorldGen.vendor1.offx + 2) && 
+                                v.y === this.wpos(WorldGen.vendor1.offy + 7) &&
+                                v.tag === "road",
+                spec: { ownerTag: "Aodhan", dirty: new WorkTimer(), },
+            },
+            {
+                predicate: (v) => v.x === this.wpos(WorldGen.vendor1.offx + 3) && 
+                                v.y === this.wpos(WorldGen.vendor1.offy + 7) &&
+                                v.tag === "road",
+                spec: { ownerTag: "Aodhan", dirty: new WorkTimer(), },
+            },
+            {
+                predicate: (v) => v.x === this.wpos(WorldGen.vendor1.offx + 3) && 
+                                v.y === this.wpos(WorldGen.vendor1.offy + 6) &&
+                                v.tag === "road",
+                spec: { ownerTag: "Aodhan", dirty: new WorkTimer(), },
+            },
+
+            // -- STOCK locations
+            {
+                predicate: (v) => v.x === this.wpos(WorldGen.vendor1.offx + 0) && 
+                                v.y === this.wpos(WorldGen.vendor1.offy + 6) &&
+                                v.cls === "Stock",
+                spec: { ownerTag: "Aodhan" },
+            },
+            {
+                predicate: (v) => v.x === this.wpos(WorldGen.vendor1.offx + 6) && 
+                                v.y === this.wpos(WorldGen.vendor1.offy + 7) &&
+                                v.cls === "Stock",
+                spec: { ownerTag: "Aodhan" },
+            },
+            {
+                predicate: (v) => v.x === this.wpos(WorldGen.vendor1.offx + 7) && 
+                                v.y === this.wpos(WorldGen.vendor1.offy + 7) &&
+                                v.cls === "Stock",
+                spec: { ownerTag: "Aodhan" },
             },
 
             // Ciara (innkeeper) things

@@ -126,7 +126,7 @@ class World {
 
             //this.genRegion({columns: 128, rows: 128, xlayers: [{ id: '002j' }]}),
             //WorldGen.patch1,
-            WorldGen.house1,
+            //WorldGen.house1,
             WorldGen.house2,
             WorldGen.work2,
             WorldGen.vendor1,

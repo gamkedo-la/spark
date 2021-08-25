@@ -623,7 +623,7 @@ class SparkAssets {
             Templates.object("o0d", "vhouseBed", "Bed", {
                 offx: 16, offy: -48,
                 xcollider: { width: 24, height: 48 }, 
-                occupiedOffX: 8, occupiedOffY: -22, occupiedOffD: 1,
+                occupiedOffX: 15, occupiedOffY: -30, occupiedOffD: 1,
                 approachOffsets: [{x:48, y:-16}, {x:48, y:-32}],
             }),
 
