@@ -6,6 +6,7 @@ export { Atts };
 class Atts {
     static dflts = {
         tileSize: 32,
+        paused: false,
     };
     static init(spec={}) {
         Object.assign(this, Atts.dflts, spec);

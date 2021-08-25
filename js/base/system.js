@@ -15,6 +15,7 @@ class System extends Gizmo {
         this.deltaTime = 0;
         this.ready = false;
         this.feats = [];
+        this.ignorePause = spec.hasOwnProperty("ignorePause") ? spec.ignorePause : false;
         this.dbg = spec.hasOwnProperty("dbg") ? spec.dbg : false;
         this.fixedPredicate = spec.fixedPredicate || ((v) => true);
     }

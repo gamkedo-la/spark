@@ -17,6 +17,7 @@ import { Camera }           from "./base/camera.js";
 import { Generator } from "./base/generator.js";
 import { UxGloom } from "./uxGloom.js";
 import { Templates } from "./templates.js";
+import { Atts } from "./base/atts.js";
 
 class PlayState extends State {
 
@@ -76,6 +77,7 @@ class PlayState extends State {
                     Templates.dbgText(null, "5 - hide night",       { xxform: { top: 5/7, bottom: 1-6/7 }}),
                     Templates.dbgText(null, "6 - hide gloom",       { xxform: { top: 6/7, bottom: 1-7/7 }}),
                 ]}),
+                Templates.dbgText("pauseText", "paused",       { xxform: { border: .4 }}),
             ],
         };
         spec.xmodel = World.xlvl;
@@ -114,6 +116,8 @@ class PlayState extends State {
         // lookup object references
         this.player = this.findFirst(v=>v.tag === "player");
         this.dbgPanel = this.findFirst(v=>v.tag === "dbgPanel");
+        this.pauseText = this.findFirst(v=>v.tag === "pauseText");
+        this.pauseText.visible = false;
         this.menuButton = this.findFirst(v=>v.tag === "menu");
         console.log(`menuButton: ${this.menuButton}`);
         this.menuButton.evtClicked.listen(this.onMenu);
@@ -159,10 +163,10 @@ class PlayState extends State {
             Config.dbg.hideGloom = !Config.dbg.hideGloom;
             this.viewMgr.renderall = true;
         }
-        if (evt.key === "+") this.testiters += 100;
-        if (evt.key === "-") this.testiters -= 100;
-        if (evt.key === "#") this.testraw = !this.testraw;
-        if (evt.key === "*") console.log(`player: ${this.player.miny},${this.player.maxy}`);
+        if (evt.key === "p") {
+            Atts.paused = !Atts.paused;
+            this.pauseText.visible = Atts.paused;
+        }
         if (evt.key === "m"){      
            Base.instance.audioMgr.muteToggle();
         }

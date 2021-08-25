@@ -3,6 +3,7 @@ export { SystemMgr };
 import { Store } from "./store.js";
 import { Gizmo } from "./gizmo.js";
 import { Stats } from "./stats.js";
+import { Atts } from "./atts.js";
 
 class SystemMgr extends Gizmo {
 
@@ -14,6 +15,7 @@ class SystemMgr extends Gizmo {
     cpost(spec) {
         this.getStore = spec.getStore;
         this._store = spec.store || new Store();
+        this.atts = spec.atts || Atts;
     }
 
     // PROPERTIES ----------------------------------------------------------
@@ -35,6 +37,8 @@ class SystemMgr extends Gizmo {
         }
         // entity iterate
         for (const sys of this.children()) {
+            // don't iterate entities for systems that can be paused (and game is paused)
+            if (this.atts.paused && !sys.ignorePause) continue;
             if (!sys.active) continue;
             if (!sys.ready) continue;
             for(const e of this.store.find(sys.fixedPredicate)) {
