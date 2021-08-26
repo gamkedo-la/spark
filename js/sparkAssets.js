@@ -64,9 +64,9 @@ class SparkAssets {
                 Templates.xsprite("vhouseFront13", 16, 7, {height: 16*4}),
 
                 Templates.xsprite("vhouseRoof1", 2, 13, {width: 16*15, height: 16*10}),
-                Templates.xsprite("vhouseRoof2", 2, 23, {width: 16*3, height: 16*2}),
+                Templates.xsprite("vhouseRoof2.idle", 2, 23, {width: 16*3, height: 16*2}),
                 Templates.xsprite("vhouseRoof3", 5, 23, {width: 16*9, height: 16*2}),
-                Templates.xsprite("vhouseRoof4", 14, 23, {width: 16*3, height: 16*2}),
+                Templates.xsprite("vhouseRoof4.idle", 14, 23, {width: 16*3, height: 16*2}),
 
                 Templates.xsprite("vhousePorch1", 5, 25, {height: 16*2}),
                 Templates.xsprite("vhousePorch2", 6, 25, {height: 16*3}),
@@ -81,6 +81,9 @@ class SparkAssets {
                 Templates.xsprite("vhouseBed.occupied", 20, 0, {height: 16*5, width: 16*3}),
                 Templates.xsprite("vhouseTable", 23, 0, {height: 16*5, width: 16*3}),
                 Templates.xsprite("vhouseDoor.open", 26, 0, {height: 16*6, width: 16*3}),
+
+                Templates.anim("vhouseRoof2.sparked", {offx:16*29, offy: 0, width: 48, height:32, duration: 50, frames: 8, loop: false}),
+                Templates.anim("vhouseRoof4.sparked", {offx:16*32, offy: 0, width: 48, height:32, duration: 50, frames: 8, loop: false}),
             ]},
 
             { tag: "vhouseBed", 
@@ -88,6 +91,22 @@ class SparkAssets {
                 animations: { 
                     [ModelState.idle]: { cls: "Media", tag: "vhouseBed.empty" }, 
                     [ModelState.occupied]: { cls: "Media", tag: "vhouseBed.occupied" }, 
+                },
+            },
+
+            { tag: "vhouseRoof2", 
+                cls: "Animator", 
+                animations: { 
+                    [ModelState.idle]: { cls: "Media", tag: "vhouseRoof2.idle" }, 
+                    [ModelState.sparked]: { cls: "Media", tag: "vhouseRoof2.sparked" }, 
+                },
+            },
+
+            { tag: "vhouseRoof4", 
+                cls: "Animator", 
+                animations: { 
+                    [ModelState.idle]: { cls: "Media", tag: "vhouseRoof4.idle" }, 
+                    [ModelState.sparked]: { cls: "Media", tag: "vhouseRoof4.sparked" }, 
                 },
             },
 
