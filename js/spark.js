@@ -15,6 +15,7 @@ import { HungerSystem }     from "./hungerSystem.js";
 import { Config }           from "./base/config.js";
 import { DirtySystem } from "./dirtySystem.js";
 import { WorldOverrides } from "./worldOverrides.js";
+import { LinkSystem } from "./linkSystem.js";
 
 /** ========================================================================
  * Main Spark Game Specification and Setup
@@ -75,6 +76,8 @@ class Spark extends Game {
         this.base.systemMgr.adopt(new HungerSystem({ dbg: Config.dbg.HungerSystem, }));
         // ---- dirty system
         this.base.systemMgr.adopt(new DirtySystem({ dbg: Config.dbg.DirtySystem, }));
+        // ---- link system
+        this.base.systemMgr.adopt(new LinkSystem({ dbg: Config.dbg.LinkSystem, }));
 
         // initialize and start master game state
         //let state = new PlayState();

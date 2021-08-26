@@ -59,6 +59,9 @@ class Model extends Gizmo {
         // -- owner tag
         this.ownerTag = spec.ownerTag;
         //console.log(`model ${this} at: ${this._x},${this._y}`);
+        // -- link logic
+        this.linkSrcTag = spec.linkSrcTag;
+        if (!this.linkSrcTag) this.linkDstTag = spec.linkDstTag;
     }
 
     // PROPERTIES ----------------------------------------------------------
