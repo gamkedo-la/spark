@@ -62,7 +62,12 @@ class SparkAssets {
                 Templates.xsprite("vhouseFront11", 14, 8, {height: 16*5}),
                 Templates.xsprite("vhouseFront12", 15, 7, {height: 16*5}),
                 Templates.xsprite("vhouseFront13", 16, 7, {height: 16*4}),
-                Templates.xsprite("vhouseRoof", 2, 13, {width: 16*15, height: 16*12}),
+
+                Templates.xsprite("vhouseRoof1", 2, 13, {width: 16*15, height: 16*10}),
+                Templates.xsprite("vhouseRoof2", 2, 23, {width: 16*3, height: 16*2}),
+                Templates.xsprite("vhouseRoof3", 5, 23, {width: 16*9, height: 16*2}),
+                Templates.xsprite("vhouseRoof4", 14, 23, {width: 16*3, height: 16*2}),
+
                 Templates.xsprite("vhousePorch1", 5, 25, {height: 16*2}),
                 Templates.xsprite("vhousePorch2", 6, 25, {height: 16*3}),
                 Templates.xsprite("vhousePorch3", 7, 25, {height: 16*4}),
@@ -512,7 +517,7 @@ class SparkAssets {
             Templates.tile("01r", "vhouseFront12", {offy: -32, xcollider: {offy: 8, height: 46}}),
             Templates.tile("01s", "vhouseFront13", {offy: -24, xcollider: {offx: -4, width: 8, height: 46}}),
 
-            Templates.tile("01t", "vhouseRoof", {offx: 112, offy: -88}),
+            Templates.tile("01t", "vhouseRoof1", {offx: 112, offy: -72}),
 
             Templates.tile("01u", "vhousePorch1", {offy: -8, xcollider: { offy: -8, height: 14}}),
             Templates.tile("01v", "vhousePorch2", {offy: -16, xcollider: { offy: 2, height: 14}}),
@@ -523,8 +528,11 @@ class SparkAssets {
             Templates.tile("01A", "vhousePorch7", {offy: -24, xcollider: {offy: -8, height: 14}}),
             Templates.tile("01B", "vhousePorch8", {offy: -16, xcollider: {offy: 2, height: 14}}),
             Templates.tile("01C", "vhousePorch9", {offy: -8, xcollider: {offy: 4, height: 14}}),
-
             Templates.tile("01D", "vhouseTable", {offx: 16, offy: -32, xcollider: {offy: 8, height: 48}}),
+
+            Templates.tile("01E", "vhouseRoof2", {offx: 16, offy: -8}),
+            Templates.tile("01F", "vhouseRoof3", {offx: 64, offy: -8}),
+            Templates.tile("01G", "vhouseRoof4", {offx: 16, offy: -8}),
 
             Templates.object("o00", "sparkbase", "SparkBase", { 
                 powered: true,
