@@ -17,6 +17,9 @@ class AudioMgr extends Gizmo {
     }
 
     _resume() {
+        if (!this._audioCtx || !this._audioCtx.resume) {
+            console.error('failed to resume audio context, invalid state');
+        }
         this._audioCtx.resume().then(() => {
             console.log("playback resumed");
             this.resumed = true;
