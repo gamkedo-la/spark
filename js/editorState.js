@@ -116,8 +116,8 @@ class UxEditorView extends UxPanel {
         let xobj = this.assets.fromId(id);
         if (xobj) {
             let x = (i*Config.tileSize) + Config.halfSize;
-            //let y = ((j-layerId)*Config.tileSize) + Config.halfSize;
-            let y = (j*Config.tileSize) + Config.halfSize;
+            let y = ((j-layerId)*Config.tileSize) + Config.halfSize;
+            //let y = (j*Config.tileSize) + Config.halfSize;
             xobj = Object.assign({
                 x: x, 
                 y: y, 
@@ -143,6 +143,12 @@ class UxEditorView extends UxPanel {
         this.destroyViews();
         this.xregion = xregion;
         this.buildViews();
+    }
+
+    setLayerOffy(offy) {
+        for (const view of Object.values(this.tileViews)) {
+            if (view.model) view.model._y += offy;
+        }
     }
 
     iupdate(ctx) {
@@ -594,7 +600,7 @@ class EditorState extends State {
         let idx = Grid.idxfromij(i, j, this.xregion.columns, this.xregion.rows);
         data[idx] = `${flags}${id}`;
         // update view
-        this.editorPanel.assignTile(layer, depth, i, j, id);
+        this.editorPanel.assignTile("l1", depth, i, j, id);
     }
 
     assignRegion(xregion) {
@@ -604,6 +610,13 @@ class EditorState extends State {
         // inform editor panel of region change
         this.editorPanel.assignRegion(xregion);
         this.xregion = xregion;
+
+        let fields = this.layerMode.split(".");
+        let layer = fields[0];
+        let layerId = Config.layerMap[layer];
+        let offy = layerId * Config.tileSize;
+        this.editorPanel.setLayerOffy(offy);
+
         //xxform: { dx: -xregion.columns*Config.halfSize, dy: -xregion.rows*Config.halfSize, offset: 10, scalex: Config.renderScale, scaley: Config.renderScale },
     }
 
@@ -642,12 +655,17 @@ class EditorState extends State {
                     this[`${layer}${depth}Select`].visible = (this.layerMode === `${layer}.${depth}`);
                     if (this.layerMode === `${layer}.${depth}`) {
                         let layerId = Config.layerMap[layer];
-                        console.log(`layerId: ${layerId} last: ${lastLayerId}`);
+                        let offy = (layerId-lastLayerId) * Config.tileSize;
+                        console.log(`layerId: ${layerId} last: ${lastLayerId} offy: ${offy}`);
+                        this.editorPanel.setLayerOffy(offy);
+                        /*
                         // iterate through all model state
-                        for (const model of this.find((e) => e.cat === "Model")) {
-                            let offy = (layerId-lastLayerId) * Config.tileSize;
-                            model._y += offy;
+                        for (const view of Object.values(this.tileViews)) {
+                            if (view.model) {
+                                view.model._y += offy;
+                            }
                         }
+                        */
                     }
                 }
             }
