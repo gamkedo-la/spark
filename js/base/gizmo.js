@@ -166,7 +166,9 @@ class Gizmo {
     }
 
     destroy() {
-        for (const child of this.children()) child.orphan();
+        for (const child of Array.from(this.children())) {
+            child.destroy();
+        }
         this.orphan();
         this.evtDestroyed.trigger();
         Gizmo.evtDestroyed.trigger({actor: this});

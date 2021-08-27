@@ -1012,9 +1012,9 @@ class EditorLoadState extends State {
             cvsid: "canvas",
             resize: true,
             xchildren: [
-                Templates.editorPanel(null),
+                Templates.editorPanel("bgPanel"),
                 Templates.editorText(null, "Load Level", { xxform: { top: .025, bottom: .915}}),
-                Templates.editorPanel(null, { xxform: { top: .1, bottom: .1}, xchildren: [
+                Templates.editorPanel("lvlBgPanel", { xxform: { top: .1, bottom: .1}, xchildren: [
                     Templates.panel("lvlPanel", { xxform: { offset: 10 }, }),
                 ]}),
                 Templates.editorButton("backButton", "back", { xxform: { left: .75, right: .1, top: .9, offset: 20 }}),
