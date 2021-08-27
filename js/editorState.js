@@ -100,7 +100,7 @@ class UxEditorView extends UxPanel {
         return this.visibility[tag];
     }
 
-    assignTile(layer, depth, i, j, id) {
+    assignTile(layer, depth, i, j, id, offy=1) {
         // handle clean up of any old view...
         let key = `${layer}.${depth}.${i}.${j}`;
         if (this.tileViews[key]) {
@@ -116,7 +116,7 @@ class UxEditorView extends UxPanel {
         let xobj = this.assets.fromId(id);
         if (xobj) {
             let x = (i*Config.tileSize) + Config.halfSize;
-            let y = ((j-layerId)*Config.tileSize) + Config.halfSize;
+            let y = ((j-layerId*offy)*Config.tileSize) + Config.halfSize;
             //let y = (j*Config.tileSize) + Config.halfSize;
             xobj = Object.assign({
                 x: x, 
@@ -474,6 +474,7 @@ class EditorState extends State {
                     if (tileid && assetid !== "000") this.selectedTile = assetid;
                 }
             } else if (this.toolMode === "delete") {
+                console.log(`delete ${layer}:${depth} ${i},${j}`);
                 this.assignTile(layer, depth, i, j, "000");
             }
         }
@@ -600,7 +601,7 @@ class EditorState extends State {
         let idx = Grid.idxfromij(i, j, this.xregion.columns, this.xregion.rows);
         data[idx] = `${flags}${id}`;
         // update view
-        this.editorPanel.assignTile("l1", depth, i, j, id);
+        this.editorPanel.assignTile(layer, depth, i, j, id, 0);
     }
 
     assignRegion(xregion) {
