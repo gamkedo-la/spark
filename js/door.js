@@ -29,7 +29,6 @@ class Door extends Model {
         // -- approaches
         this.approachOffsets = spec.approachOffsets;
         this.exitOffsets = spec.exitOffsets;
-        console.log(`approachOffsets: ${this.approachOffsets} exitOffsets: ${this.exitOffsets}`);
         // -- sounds
         if (spec.xopenSfx) this.openSfx = Generator.generate(spec.xopenSfx);
         if (spec.xcloseSfx) this.closeSfx = Generator.generate(spec.xcloseSfx);

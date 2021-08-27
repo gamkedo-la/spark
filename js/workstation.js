@@ -38,7 +38,6 @@ class Workstation extends Model {
         this.closedCondition = spec.closedCondition || Condition.closed;
         // defaults to closed condition
         this.conditions.add(this.closedCondition);
-        console.log(`workstation spec: ${Fmt.ofmt(spec)}`);
     }
 
     get approaches() {
@@ -52,7 +51,6 @@ class Workstation extends Model {
     }
 
     dointeract(actor) {
-        console.log(this + " dointeract");
         if (this.conditions.has(this.occupiedCondition)) {
             if (actor.gid === this.actorId) this.leave(actor);
         } else {
@@ -61,7 +59,6 @@ class Workstation extends Model {
     }
 
     occupy(actor) {
-        console.log(`${this} occupy actor: ${actor}`);
         // update chair state
         this.conditions.add(this.occupiedCondition);
         this.offx = this.occupiedX;

@@ -284,7 +284,8 @@ class SparkAssets {
             ]},
 
             { src: "img/stuccoWalls2.png", loader: "Sheet", refs: [
-                {tag: "woodDoor.top", cls: "Sprite", width: 16*4, height: 16*2, x: 16*11, y: 16*1 },
+                {tag: "woodDoor.top.open", cls: "Sprite", width: 16*4, height: 16*2, x: 16*7, y: 16*1 },
+                {tag: "woodDoor.top.close", cls: "Sprite", width: 16*4, height: 16*2, x: 16*11, y: 16*1 },
             ]},
 
             { tag: "sparkbase", 
@@ -310,6 +311,15 @@ class SparkAssets {
                 animations: { 
                     [ModelState.close]: { cls: "Media", tag: "woodDoor.close" }, 
                     [ModelState.open]: { cls: "Media", tag: "woodDoor.open" }, 
+                },
+            },
+
+            { tag: "woodDoor.top", 
+                cls: "Animator", 
+                animations: { 
+                    [ModelState.idle]: { cls: "Media", tag: "woodDoor.top.close" }, 
+                    [ModelState.close]: { cls: "Media", tag: "woodDoor.top.close" }, 
+                    [ModelState.open]: { cls: "Media", tag: "woodDoor.top.open" }, 
                 },
             },
 
@@ -449,7 +459,7 @@ class SparkAssets {
             Templates.tile("002", "sand"),
             Templates.tile("003", "road"),
             Templates.tile("004", "brickFloor"),
-            Templates.tile("005", "woodDoor.top", { offx: 24, offy: -8}),
+            Templates.tile("005", "woodDoor.top", { offx: 24, offy: -8, linkDstTag: "woodDoor"}),
             Templates.tile("006", "roundBasket"),
             Templates.tile("008", "halfTable", {xxform: {dx:8}}),
             //Templates.tile("009", "crate", { xcollider: {} }),
@@ -566,6 +576,7 @@ class SparkAssets {
                 xopenSfx: { cls: "Media", tag: "doorOpening"}, 
                 xcloseSfx: { cls: "Media", tag: "doorClosing"}, 
                 xcollider: { offy: 24, width:48, height:24 }, 
+                linkSrcTag: "woodDoor",
             }),
 
             Templates.object("o02", "stool", "Chair", {

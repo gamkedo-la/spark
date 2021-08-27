@@ -62,6 +62,8 @@ class Model extends Gizmo {
         // -- link logic
         this.linkSrcTag = spec.linkSrcTag;
         if (!this.linkSrcTag) this.linkDstTag = spec.linkDstTag;
+        if (this.linkSrcTag) console.log(`created object ${this} w/ linkSrcTag: ${this.linkSrcTag}`);
+        if (this.linkDstTag) console.log(`created object ${this} w/ linkDstTag: ${this.linkDstTag}`);
     }
 
     // PROPERTIES ----------------------------------------------------------

@@ -259,7 +259,6 @@ class PlayState extends State {
         if (this.lastAction !== action) {
             // update z panel w/ new icon for given action
             let sketch = Generator.generate(PlayState.actionSketches[action]);
-            console.log(`assigning zpanel sketch: ${sketch}`);
             this.zPanel.sketch = sketch;
             this.lastAction = action;
             return true;

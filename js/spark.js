@@ -13,9 +13,9 @@ import { Atts }             from "./base/atts.js";
 import { TitleState }       from "./titleState.js";
 import { HungerSystem }     from "./hungerSystem.js";
 import { Config }           from "./base/config.js";
-import { DirtySystem } from "./dirtySystem.js";
-import { WorldOverrides } from "./worldOverrides.js";
-import { LinkSystem } from "./linkSystem.js";
+import { DirtySystem }      from "./dirtySystem.js";
+import { WorldOverrides }   from "./worldOverrides.js";
+import { LinkSystem }       from "./linkSystem.js";
 
 /** ========================================================================
  * Main Spark Game Specification and Setup
