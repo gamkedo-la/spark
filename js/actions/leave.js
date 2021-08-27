@@ -35,7 +35,7 @@ class LeavePlan extends AiPlan {
         // pull linked target...
         this.target = this.getEntities().get(actor.occupyId);
         if (!this.target) {
-            console.log("LeavePlan: can't look up target for link: " + actor.occupyId);
+            //console.log("LeavePlan: can't look up target for link: " + actor.occupyId);
             return false;
         }
         return true;
@@ -93,11 +93,11 @@ class LeaveAction extends Action {
     }
 
     start(actor) {
-        console.log(`leave action actor: ${actor} target: ${this.target}}`);
+        //console.log(`leave action actor: ${actor} target: ${this.target}}`);
         this.actor = actor;
         // check that target is occupied by actor
         if (this.target.actorId !== actor.gid) {
-            console.log(`actor: ${actor} cannot leave: ${this.target} -- not occupied`);
+            //console.log(`actor: ${actor} cannot leave: ${this.target} -- not occupied`);
             this.ok = false;
         } else {
             // actor leaves target

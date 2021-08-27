@@ -119,14 +119,14 @@ class PlayState extends State {
         this.pauseText = this.findFirst(v=>v.tag === "pauseText");
         this.pauseText.visible = false;
         this.menuButton = this.findFirst(v=>v.tag === "menu");
-        console.log(`menuButton: ${this.menuButton}`);
+        //console.log(`menuButton: ${this.menuButton}`);
         this.menuButton.evtClicked.listen(this.onMenu);
         this.moraleButton = this.findFirst(v=>v.tag === "morale");
-        console.log(`moraleButton: ${this.moraleButton}`);
+        //console.log(`moraleButton: ${this.moraleButton}`);
         this.moraleButton.evtClicked.listen(this.onMorale);
         this.zPanel = this.findFirst(v=>v.tag === "zPanel");
         this.coordsText = this.findFirst(v=>v.tag === "coords");
-        console.log(`zPanel: ${this.zPanel}`);
+        //console.log(`zPanel: ${this.zPanel}`);
         //console.log(`PlayState player is ${this.player}`);
         // hook camera
         if (this.player) this.camera.trackTarget(this.player);
@@ -281,7 +281,7 @@ class PlayState extends State {
 
     firstUpdate(ctx) {
         this.music = Generator.generate(Base.instance.media.get("gameplayMusic"));
-        console.log(`this.music: ${this.music}`);
+        //console.log(`this.music: ${this.music}`);
         this.music.play();
     }
 

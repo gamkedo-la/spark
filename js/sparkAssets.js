@@ -82,8 +82,8 @@ class SparkAssets {
                 Templates.xsprite("vhouseTable", 23, 0, {height: 16*5, width: 16*3}),
                 Templates.xsprite("vhouseDoor.open", 26, 0, {height: 16*6, width: 16*3}),
 
-                Templates.anim("vhouseRoof2.sparked", {offx:16*29, offy: 0, width: 48, height:32, duration: 50, frames: 8, loop: false}),
-                Templates.anim("vhouseRoof4.sparked", {offx:16*32, offy: 0, width: 48, height:32, duration: 50, frames: 8, loop: false}),
+                Templates.anim("vhouseRoof2.sparked", {offx:16*29, offy: 0, width: 48, height:32, duration: 250, frames: 8, loop: false}),
+                Templates.anim("vhouseRoof4.sparked", {offx:16*33, offy: 0, width: 48, height:32, duration: 250, frames: 8, loop: false}),
             ]},
 
             { tag: "vhouseBed", 
@@ -535,14 +535,14 @@ class SparkAssets {
             Templates.tile("01f", "vhouseBack15", {offy: -32, xcollider: {offx: -4, offy: 8, width: 8, height: 62}}),
             Templates.tile("01g", "vhouseFront1", {offy: -24, xcollider: {offx: 4, width: 8, height: 46}}),
             Templates.tile("01h", "vhouseFront2", {offy: -32, xcollider: {offy: 8, height: 46}}),
-            Templates.tile("01i", "vhouseFront3", {offy: -32, xcollider: {offy: 8, height: 68}}),
+            Templates.tile("01i", "vhouseFront3", {offy: -32, xcollider: {offy: 8, height: 68}, linkSrcTag: "vhouse.flowers.l", sparkable: true}),
             Templates.tile("01j", "vhouseFront4", {offy: -24, xcollider: {offy: 16, height: 30}}),
             Templates.tile("01k", "vhouseFront5", {offy: -32, xcollider: {offy: 16, height: 30}}),
             Templates.tile("01l", "vhouseFront6", {offy: -24, xcollider: {offy: 8, height: 30}}),
             Templates.tile("01n", "vhouseFront8", {offy: -24, xcollider: {offy: 8, height: 30}}),
             Templates.tile("01o", "vhouseFront9", {offy: -32, xcollider: {offy: 16, height: 30}}),
             Templates.tile("01p", "vhouseFront10", {offy: -24, xcollider: {offy: 16, height: 30}}),
-            Templates.tile("01q", "vhouseFront11", {offy: -32, xcollider: {offy: 8, height: 68}}),
+            Templates.tile("01q", "vhouseFront11", {offy: -32, xcollider: {offy: 8, height: 68}, linkSrcTag: "vhouse.flowers.r", sparkable: true}),
             Templates.tile("01r", "vhouseFront12", {offy: -32, xcollider: {offy: 8, height: 46}}),
             Templates.tile("01s", "vhouseFront13", {offy: -24, xcollider: {offx: -4, width: 8, height: 46}}),
 
@@ -559,9 +559,9 @@ class SparkAssets {
             Templates.tile("01C", "vhousePorch9", {offy: -8, xcollider: {offy: 4, height: 14}}),
             Templates.tile("01D", "vhouseTable", {offx: 16, offy: -32, xcollider: {offy: 8, height: 48}}),
 
-            Templates.tile("01E", "vhouseRoof2", {offx: 16, offy: -8}),
+            Templates.tile("01E", "vhouseRoof2", {offx: 16, offy: -8, sparkable: true, linkDstTag: "vhouse.flowers.l"}),
             Templates.tile("01F", "vhouseRoof3", {offx: 64, offy: -8}),
-            Templates.tile("01G", "vhouseRoof4", {offx: 16, offy: -8}),
+            Templates.tile("01G", "vhouseRoof4", {offx: 16, offy: -8, sparkable: true, linkDstTag: "vhouse.flowers.r"}),
 
             Templates.object("o00", "sparkbase", "SparkBase", { 
                 powered: true,
