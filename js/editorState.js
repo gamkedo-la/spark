@@ -116,7 +116,8 @@ class UxEditorView extends UxPanel {
         let xobj = this.assets.fromId(id);
         if (xobj) {
             let x = (i*Config.tileSize) + Config.halfSize;
-            let y = ((j-layerId)*Config.tileSize) + Config.halfSize;
+            //let y = ((j-layerId)*Config.tileSize) + Config.halfSize;
+            let y = (j*Config.tileSize) + Config.halfSize;
             xobj = Object.assign({
                 x: x, 
                 y: y, 
@@ -629,10 +630,25 @@ class EditorState extends State {
 
     updateLayerPanel(ctx) {
         if (this.layerMode !== this.lastLayerMode) {
+            let lastLayerId = 0;
+            if (this.lastLayerMode) {
+                let fields = this.lastLayerMode.split(".");
+                let layer = fields[0];
+                lastLayerId = Config.layerMap[layer];
+            }
             this.lastLayerMode = this.layerMode;
             for (const layer of ["l1", "l2", "l3"]) {
                 for (const depth of ["bg", "bgo", "fg", "fgo"]) {
                     this[`${layer}${depth}Select`].visible = (this.layerMode === `${layer}.${depth}`);
+                    if (this.layerMode === `${layer}.${depth}`) {
+                        let layerId = Config.layerMap[layer];
+                        console.log(`layerId: ${layerId} last: ${lastLayerId}`);
+                        // iterate through all model state
+                        for (const model of this.find((e) => e.cat === "Model")) {
+                            let offy = (layerId-lastLayerId) * Config.tileSize;
+                            model._y += offy;
+                        }
+                    }
                 }
             }
         }
