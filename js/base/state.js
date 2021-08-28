@@ -110,4 +110,11 @@ class State extends Gizmo {
         yield *this.entities.find((v) => filter(v) && Bounds.overlaps(v, bounds));
     }
 
+    destroy() {
+        Gizmo.evtCreated.ignore(this.onGizmoCreate);
+        Gizmo.evtDestroyed.ignore(this.onGizmoDestroy);
+        if (this.view) this.view.destroy()
+        super.destroy();
+    }
+
 }
