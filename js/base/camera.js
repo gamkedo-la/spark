@@ -2,8 +2,10 @@ export { Camera };
 
 import { Bounds }           from "./bounds.js";
 import { Config }           from "./config.js";
+import { Mathf } from "./math.js";
 import { Util }             from "./util.js";
 import { UxCanvas }         from "./uxCanvas.js";
+import { Vect } from "./vect.js";
 
 
 // =========================================================================
@@ -37,6 +39,12 @@ class Camera {
         // current offset of camera
         this._x = 0;
         this._y = 0;
+        // pan params
+        this.panSpeed = 0;
+        this.panMaxSpeed = spec.panMaxSpeed || .5;
+        this.panAccel = spec.panAccel || this.panMaxSpeed/1000;
+        this.panTarget = undefined;
+        this.panReached = false;
         // camera can follow a target
         this.target = undefined;
         this.dbg = spec.dbg || false;
@@ -71,10 +79,18 @@ class Camera {
 
     // EVENT HANDLERS ------------------------------------------------------
     onTargetUpdate(evt) {
-        this.updateTrack()
+        if (!this.panTarget) {
+            this.updateTrack()
+        }
     }
 
     // METHODS -------------------------------------------------------------
+    update(ctx) {
+        if (this.panTarget) {
+            this.updatePan(ctx);
+        }
+    }
+
     trackTarget(target) {
         // if currently have a target...
         if (this.target) {
@@ -90,6 +106,39 @@ class Camera {
         this.getWorldMaxX = () => world.maxx-world.minx;
         this.getWorldMaxY = () => world.maxy-world.miny;
     }
+
+    updatePan(ctx) {
+        // the pan target position
+        let px = (this.panTarget.x * this.renderScale) - this.halfWidth;
+        let py = (this.panTarget.y * this.renderScale) - this.halfHeight;
+        let dt = ctx.deltaTime;
+        // delta position values in x,y
+        let dx = px-this._x;
+        let dy = py-this._y;
+        // computed distance to pan trget
+        let distance = Mathf.distance(px, py, this._x, this._y);
+        if (distance > 10) {
+            let angle = Math.atan2(dy,dx);
+            let cosangle = Math.cos(angle);
+            let sinangle = Math.sin(angle);
+            let decelDistance = (this.panSpeed * this.panSpeed) / (2 * this.panAccel);
+            //we are still far, continue accelerating (if possible)
+            if (distance > decelDistance) {
+                this.panSpeed = Math.min(this.panSpeed + this.panAccel * dt, this.panMaxSpeed);
+            //we are about to reach the target, let's start decelerating.
+            } else {
+                this.panSpeed = Math.max(this.panSpeed - this.panAccel * dt, 0);
+            }
+            this._x += (this.panSpeed * cosangle * dt);
+            this._y += (this.panSpeed * sinangle * dt);
+        // magic close enough... jump to final position
+        } else {
+            this._x = px;
+            this._y = py;
+            this.panReached = true;
+        }
+    }
+
 
     updateTrack() {
         // calculate current x,y
@@ -156,6 +205,15 @@ class Camera {
             this._x = tx - this.halfWidth;
             this._y = ty - this.halfHeight;
         }
+    }
+
+    startPan(target) {
+        this.panTarget = target;
+        this.panReached = false;
+    }
+
+    stopPan() {
+        this.panTarget = undefined;
     }
 
     resize(width, height) {

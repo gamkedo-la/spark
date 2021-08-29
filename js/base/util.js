@@ -59,6 +59,10 @@ class Util {
         }
     }
 
+    static feq(v1, v2) {
+        return Math.abs(v1 - v2) < .00001;
+    }
+
     static iterable(obj) {
         if (obj == null) return false;
         if (typeof obj[Symbol.iterator] === 'function') return true;

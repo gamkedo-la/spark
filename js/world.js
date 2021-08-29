@@ -129,6 +129,7 @@ class World {
             //WorldGen.house1,
             WorldGen.house2,
             WorldGen.work2,
+            WorldGen.fountain,
             WorldGen.vendor1,
             WorldGen.vendorHouse,
             {

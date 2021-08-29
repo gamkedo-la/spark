@@ -17,6 +17,9 @@ class SparkAssets {
             { src: "snd/fairyChimes.mp3", loader: "Audio", tag: "chimes", volume: .1, loop: true },
             // FIXME: for now music would be added the same as normal audio, but using the "loop" variable
             //{ src: "snd/testsong.mp3", loader: "Audio", tag: "testsong", loop: true },
+            { src: "img/fountain.png", loader: "Sheet", refs: [
+                Templates.anim("fountain.water", {width: 16*7, height:16*7, duration: 250, frames: 8}),
+            ]},
             { src: "img/terrain1.png", loader: "Sheet", refs: [
                 { tag: "road",      cls: "VarSprite", variations: [
                     { x: 16*0, y: 16*0, width: 16, height: 16 },
@@ -236,6 +239,8 @@ class SparkAssets {
                 Templates.xsprite("relay.powered",      11, 7, {width: 32, height: 48}),
                 Templates.xsprite("spark",              0, 3),
                 Templates.xsprite("stove",              0, 8, {width:32, height: 48}),
+                Templates.xsprite("fountain",           0, 11, {width:16*7, height: 16*7}),
+                Templates.xsprite("fountain.top",       7, 11, {width:16*5, height: 16*3}),
             ]},
 
             { src: "img/vendor.png", loader: "Sheet", refs: [
@@ -562,6 +567,9 @@ class SparkAssets {
             Templates.tile("01E", "vhouseRoof2", {offx: 16, offy: -8, sparkable: true, linkDstTag: "vhouse.flowers.l"}),
             Templates.tile("01F", "vhouseRoof3", {offx: 64, offy: -8}),
             Templates.tile("01G", "vhouseRoof4", {offx: 16, offy: -8, sparkable: true, linkDstTag: "vhouse.flowers.r"}),
+            Templates.tile("01H", "fountain", {offx: 48, offy: -48}),
+            Templates.tile("01I", "fountain.top", {offx: 32, offy: -16}),
+            Templates.tile("01J", "fountain.water", {offx: 48, offy: -48}),
 
             Templates.object("o00", "sparkbase", "SparkBase", { 
                 powered: true,
@@ -663,6 +671,14 @@ class SparkAssets {
                 xcollider: { width: 24, height: 48 }, 
                 occupiedOffX: 15, occupiedOffY: -30, occupiedOffD: 1,
                 approachOffsets: [{x:48, y:-16}, {x:48, y:-32}],
+            }),
+
+            Templates.object("o0e", "sparkbase.fountain", "SparkBase", { 
+                mediaTag: "sparkbase",
+                powered: true,
+                offx: 16,
+                offy: -26, 
+                xcollider: { width: 28, height: 32, offy: 4} 
             }),
 
             { tag: "spark", cls: "SparkProjectile", 

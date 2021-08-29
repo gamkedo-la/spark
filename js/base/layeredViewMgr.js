@@ -283,7 +283,7 @@ class LayeredViewMgr extends Gizmo {
     }
 
     remove(view) {
-        if (this.dbg) console.log("removing view: " + view);
+        //if (this.dbg) console.log("removing view: " + view);
         if (view.ui) {
             let idx = this.uiViews.indexOf(view);
             if (idx !== -1) this.uiViews.splice(idx, 1);
