@@ -68,8 +68,10 @@ class SparkAssets {
 
                 Templates.xsprite("vhouseRoof1", 2, 13, {width: 16*15, height: 16*10}),
                 Templates.xsprite("vhouseRoof2.idle", 2, 23, {width: 16*3, height: 16*2}),
-                Templates.xsprite("vhouseRoof3", 5, 23, {width: 16*9, height: 16*2}),
-                Templates.xsprite("vhouseRoof4.idle", 14, 23, {width: 16*3, height: 16*2}),
+                Templates.xsprite("vhouseRoof3", 5, 23, {width: 16*3, height: 16*2}),
+                Templates.xsprite("vhouseDoor.top.close", 8, 23, {width: 16*3, height: 16*2}),
+                Templates.xsprite("vhouseRoof4", 11, 23, {width: 16*3, height: 16*2}),
+                Templates.xsprite("vhouseRoof5.idle", 14, 23, {width: 16*3, height: 16*2}),
 
                 Templates.xsprite("vhousePorch1", 5, 25, {height: 16*2}),
                 Templates.xsprite("vhousePorch2", 6, 25, {height: 16*3}),
@@ -84,9 +86,10 @@ class SparkAssets {
                 Templates.xsprite("vhouseBed.occupied", 20, 0, {height: 16*5, width: 16*3}),
                 Templates.xsprite("vhouseTable", 23, 0, {height: 16*5, width: 16*3}),
                 Templates.xsprite("vhouseDoor.open", 26, 0, {height: 16*6, width: 16*3}),
+                Templates.xsprite("vhouseDoor.top.open", 17, 5, {width: 16*3, height: 16*2}),
 
                 Templates.anim("vhouseRoof2.sparked", {offx:16*29, offy: 0, width: 48, height:32, duration: 250, frames: 8, loop: false}),
-                Templates.anim("vhouseRoof4.sparked", {offx:16*33, offy: 0, width: 48, height:32, duration: 250, frames: 8, loop: false}),
+                Templates.anim("vhouseRoof5.sparked", {offx:16*33, offy: 0, width: 48, height:32, duration: 250, frames: 8, loop: false}),
             ]},
 
             { tag: "vhouseBed", 
@@ -105,11 +108,11 @@ class SparkAssets {
                 },
             },
 
-            { tag: "vhouseRoof4", 
+            { tag: "vhouseRoof5", 
                 cls: "Animator", 
                 animations: { 
-                    [ModelState.idle]: { cls: "Media", tag: "vhouseRoof4.idle" }, 
-                    [ModelState.sparked]: { cls: "Media", tag: "vhouseRoof4.sparked" }, 
+                    [ModelState.idle]: { cls: "Media", tag: "vhouseRoof5.idle" }, 
+                    [ModelState.sparked]: { cls: "Media", tag: "vhouseRoof5.sparked" }, 
                 },
             },
 
@@ -118,6 +121,15 @@ class SparkAssets {
                 animations: { 
                     [ModelState.close]: { cls: "Media", tag: "vhouseDoor.close" }, 
                     [ModelState.open]: { cls: "Media", tag: "vhouseDoor.open" }, 
+                },
+            },
+
+            { tag: "vhouseDoor.top", 
+                cls: "Animator", 
+                animations: { 
+                    [ModelState.idle]: { cls: "Media", tag: "vhouseDoor.top.close" }, 
+                    [ModelState.close]: { cls: "Media", tag: "vhouseDoor.top.close" }, 
+                    [ModelState.open]: { cls: "Media", tag: "vhouseDoor.top.open" }, 
                 },
             },
 
@@ -580,11 +592,13 @@ class SparkAssets {
             Templates.tile("01D", "vhouseTable", {offx: 16, offy: -32, xcollider: {offy: 8, height: 48}}),
 
             Templates.tile("01E", "vhouseRoof2", {offx: 16, offy: -8, sparkable: true, linkDstTag: "vhouse.flowers.l"}),
-            Templates.tile("01F", "vhouseRoof3", {offx: 64, offy: -8}),
-            Templates.tile("01G", "vhouseRoof4", {offx: 16, offy: -8, sparkable: true, linkDstTag: "vhouse.flowers.r"}),
+            Templates.tile("01F", "vhouseRoof3", {offx: 16, offy: -8}),
+            Templates.tile("01G", "vhouseRoof5", {offx: 16, offy: -8, sparkable: true, linkDstTag: "vhouse.flowers.r"}),
             Templates.tile("01H", "fountain", {offx: 48, offy: -48}),
             Templates.tile("01I", "fountain.top", {offx: 32, offy: -16}),
             Templates.tile("01J", "fountain.water", {offx: 48, offy: -48}),
+            Templates.tile("01K", "vhouseRoof4", {offx: 16, offy: -8}),
+            Templates.tile("01L", "vhouseDoor.top", {offx: 16, offy: -8, linkDstTag: "vhouseDoor"}),
 
             Templates.object("o00", "sparkbase", "SparkBase", { 
                 powered: true,
@@ -684,6 +698,7 @@ class SparkAssets {
                 xopenSfx: { cls: "Media", tag: "doorOpening"}, 
                 xcloseSfx: { cls: "Media", tag: "doorClosing"}, 
                 xcollider: { offy: 32, width:32, height:16 }, 
+                linkSrcTag: "vhouseDoor"
             }),
 
             Templates.object("o0d", "vhouseBed", "Bed", {
