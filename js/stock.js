@@ -1,12 +1,11 @@
 export { Stock };
 
 import { Model }            from "./base/model.js";
-import { ModelState }       from "./base/modelState.js";
-import { Direction }        from "./base/dir.js";
 import { LevelNode }        from "./lvlGraph.js";
 import { Condition }        from "./base/condition.js";
-import { LeaveAction } from "./actions/leave.js";
-import { WorkTimer } from "./dirtySystem.js";
+import { LeaveAction }      from "./actions/leave.js";
+import { OccupyAction }     from "./actions/occupy.js";
+import { WorkTimer }        from "./dirtySystem.js";
 
 class Stock extends Model {
     constructor(spec={}) {

@@ -43,9 +43,10 @@ class SparkSystem extends System {
             if (!src) break;
             // if source was a relay... power it down
             if (src.relay) {
-                console.log(`powering down relay: ${src}`);
+                console.log(`powering down relay: ${src} w/ id: ${srcid} from id: ${src.srcid}`);
                 src.conditions.delete(Condition.powered);
                 srcid = src.srcid;
+                src.srcid = 0;
             // source not a relay, we are done...
             } else {
                 break;
@@ -71,6 +72,10 @@ class SparkSystem extends System {
                 if (!obj) continue;
                 // -- relay
                 if (obj.relay) {
+                    // relays can't power themselves...
+                    if (obj.gid === e.srcid) {
+                        continue;
+                    }
                     obj.conditions.add(Condition.powered);
                     console.log(`powering up relay`);
                     obj.srcid = e.srcid;

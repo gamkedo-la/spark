@@ -11,7 +11,7 @@ class Pathfinder {
         this.heuristicFcn = spec.heuristicFcn || ((v1, v2) => v2 - v1);
         this.equalsFcn = spec.equalsFcn || ((v1, v2) => v2 === v1);
         this.dbg = spec.dbg;
-        this.maxTries = spec.maxTries || 500;
+        this.maxTries = spec.maxTries || 1000;
         // FIXME: remove
         this.grid = new Grid({columns:20,rows:20});
     }
