@@ -41,6 +41,7 @@ import { WantStockScheme } from "./actions/wantStock.js";
 import { RestockAtStockScheme } from "./actions/restockAtStock.js";
 import { CloseAtStationScheme } from "./actions/closeAtStation.js";
 import { OpenAtStationScheme } from "./actions/openAtStation.js";
+import { Morale } from "./morale.js";
 
 class SparkRegistry {
     static init() {
@@ -118,6 +119,7 @@ class SparkRegistry {
         registry.add(TestFx);
         registry.add(SparkFx);
         registry.add(Stove);
+        registry.add(Morale);
         // -- register schemes
         registry.add(CloseAtStationScheme);
         registry.add(EatAtChairScheme);

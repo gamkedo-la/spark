@@ -16,6 +16,7 @@ import { Config }           from "./base/config.js";
 import { DirtySystem }      from "./dirtySystem.js";
 import { WorldOverrides }   from "./worldOverrides.js";
 import { LinkSystem }       from "./linkSystem.js";
+import { MoraleSystem } from "./moraleSystem.js";
 
 /** ========================================================================
  * Main Spark Game Specification and Setup
@@ -78,6 +79,8 @@ class Spark extends Game {
         this.base.systemMgr.adopt(new DirtySystem({ dbg: Config.dbg.DirtySystem, }));
         // ---- link system
         this.base.systemMgr.adopt(new LinkSystem({ dbg: Config.dbg.LinkSystem, }));
+        // ---- morale system
+        this.base.systemMgr.adopt(new MoraleSystem({ dbg: Config.dbg.MoraleSystem }));
 
         // initialize and start master game state
         //let state = new PlayState();

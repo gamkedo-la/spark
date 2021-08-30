@@ -108,6 +108,8 @@ class Base {
         Atts.init();
         // -- global query queue
         Atts.eQueryQ = [];
+        // -- global action queue
+        Atts.gameEventQ = [];
     }
 
     // CONSTRUCTOR ---------------------------------------------------------

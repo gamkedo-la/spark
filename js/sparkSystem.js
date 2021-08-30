@@ -84,6 +84,9 @@ class SparkSystem extends System {
                 // -- sparkable
                 if (obj.sparkable) {
                     obj.conditions.add(Condition.sparked);
+                    if (obj.morale) {
+                        obj.morale.events.push("spark");
+                    }
                 }
                 console.log(`spark collided w: ${id}:${obj}`);
             }

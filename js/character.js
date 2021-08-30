@@ -33,6 +33,9 @@ class Character extends Model {
         //console.log(`spec: ${Fmt.ofmt(spec)} gives: ${Fmt.ofmt(this)}}`);
         // -- carrying
         this.carryTag = undefined;
+        // -- morale
+        this.morale = (spec.hasOwnProperty("xmorale")) ? Generator.generate(spec.xmorale) : undefined;
+        console.log(`morale is: ${Fmt.ofmt(this.morale)}`)
     }
 
     toString() {

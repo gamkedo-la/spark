@@ -14,11 +14,11 @@ import { GridView }         from "./base/gridView.js";
 import { Area, AreaView }   from "./base/area.js";
 import { ModelView }        from "./modelView.js";
 import { Camera }           from "./base/camera.js";
-import { Generator } from "./base/generator.js";
-import { UxGloom } from "./uxGloom.js";
-import { Templates } from "./templates.js";
-import { Atts } from "./base/atts.js";
-import { Vect } from "./base/vect.js";
+import { Generator }        from "./base/generator.js";
+import { UxGloom }          from "./uxGloom.js";
+import { Templates }        from "./templates.js";
+import { Atts }             from "./base/atts.js";
+import { Vect }             from "./base/vect.js";
 
 class PlayState extends State {
 
@@ -132,6 +132,9 @@ class PlayState extends State {
         // hook camera
         if (this.player) this.camera.trackTarget(this.player);
         this.camera.trackWorld(this.model);
+
+        // hook to game events
+        this.eventQ = spec.eventQ || Atts.gameEventQ;
 
     }
 
@@ -294,6 +297,14 @@ class PlayState extends State {
         return false;
     }
 
+    updateGameEvents(ctx) {
+        while (this.eventQ.length) {
+            let evt = this.eventQ.shift();
+            console.log(`play state processing game event: ${Fmt.ofmt(evt)}`);
+        }
+        return false;
+    }
+
     firstUpdate(ctx) {
         this.music = Generator.generate(Base.instance.media.get("gameplayMusic"));
         //console.log(`this.music: ${this.music}`);
@@ -308,7 +319,10 @@ class PlayState extends State {
         this.updated = super.iupdate(ctx);
         this.updated |= this.updateZPanel(ctx);
         this.updated |= this.updateCoords(ctx);
+        // camera control
         this.updated |= this.updateCamera(ctx);
+        // handle game events...
+        this.updated |= this.updateGameEvents(ctx);
         return this.updated;
     }
 

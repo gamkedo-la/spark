@@ -717,7 +717,7 @@ class SparkAssets {
             }),
 
             { tag: "spark", cls: "SparkProjectile", 
-                xcollider: { blocking: Collider.projectile, width:8, height:8, color: "rgba(0,0,127,.5)" },
+                xcollider: { tag: Collider.projectile, blocking: Collider.object|Collider.npc, width:8, height:8, color: "rgba(0,0,127,.5)" },
                 xsketch: { cls: "Media", tag: "spark"}, 
             },
 
@@ -725,7 +725,7 @@ class SparkAssets {
                 mediaTag: "fairy",
                 ctrlId: 1,
                 offy: -8,
-                xcollider: { tag: Collider.player, blocking: Collider.projectile|Collider.object, width:14, height:10, offy:8, color: "rgba(0,0,127,.5)" },
+                xcollider: { tag: Collider.player, blocking: Collider.object, width:14, height:10, offy:8, color: "rgba(0,0,127,.5)" },
                 xstateSfxs: {
                     [ModelState.walk]: { cls: "Media", tag: "chimes"}, 
                 }
@@ -737,9 +737,10 @@ class SparkAssets {
                 offy: -16,
                 ownerTag: "Aodhan",
                 maxFedTTL: 30000,
-                xcollider: { tag: Collider.player, blocking: Collider.projectile|Collider.object, width:14, height:12, offy:16, color: "rgba(0,0,127,.5)" },
+                xcollider: { tag: Collider.npc, blocking: Collider.projectile|Collider.object, width:14, height:12, offy:16, color: "rgba(0,0,127,.5)" },
                 xactivitySchedule: Templates.testSchedule,
-                xai: { 
+                sparkable: true,
+                xxai: { 
                     cls: "AiState",
                     xdirectives: [
                         Templates.aiWakeDirective,
@@ -768,6 +769,10 @@ class SparkAssets {
                         "WorkAtStationScheme",
                     ]
                 },
+                xmorale: {
+                    cls: "Morale",
+                    likes: { "spark": 5 },
+                }
             }),
 
             Templates.object("c03", "ciara", "Character", {
@@ -776,7 +781,7 @@ class SparkAssets {
                 offy: -16,
                 ownerTag: "Ciara",
                 maxFedTTL: 30000,
-                xcollider: { tag: Collider.player, blocking: Collider.projectile|Collider.object, width:14, height:12, offy:16, color: "rgba(0,0,127,.5)" },
+                xcollider: { tag: Collider.npc, blocking: Collider.projectile|Collider.object, width:14, height:12, offy:16, color: "rgba(0,0,127,.5)" },
                 xactivitySchedule: Templates.testSchedule,
                 xai: { 
                     cls: "AiState",
