@@ -19,6 +19,8 @@ import { UxGloom }          from "./uxGloom.js";
 import { Templates }        from "./templates.js";
 import { Atts }             from "./base/atts.js";
 import { Vect }             from "./base/vect.js";
+import { PauseAction } from "./actions/pause.js";
+import { WaitAction } from "./base/action.js";
 
 class PlayState extends State {
 
@@ -135,6 +137,7 @@ class PlayState extends State {
 
         // hook to game events
         this.eventQ = spec.eventQ || Atts.gameEventQ;
+        this.actions = [];
 
     }
 
@@ -301,6 +304,11 @@ class PlayState extends State {
         while (this.eventQ.length) {
             let evt = this.eventQ.shift();
             console.log(`play state processing game event: ${Fmt.ofmt(evt)}`);
+            if (evt.tag === 'npc.maxMorale') {
+                // push new actions to queue...
+                this.actions.push(new PauseAction());
+                this.actions.push(new WaitAction());
+            }
         }
         return false;
     }

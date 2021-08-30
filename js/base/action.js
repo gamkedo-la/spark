@@ -28,7 +28,7 @@ class Action {
 class MoveToAction extends Action {
     static dfltRange = 5;
     constructor(spec={}) {
-        super();
+        super(spec);
         this.x = spec.x || 0;
         this.y = spec.y || 0;
         this.range = spec.range || MoveToAction.dfltRange;

@@ -26,6 +26,8 @@ class State extends Gizmo {
         this.viewMgr = Generator.generate(xvmgr);
         // -- entities - store of all models/ctrls associated w/ state
         this.entities = new CachingFindStore({getkey: (v) => v.gid});
+        // add self to entity store
+        this.entities.add(this);
         // -- events/handlers
         Util.bind(this, "onGizmoCreate", "onGizmoDestroy");
         // top level controller is this state
