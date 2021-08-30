@@ -252,6 +252,9 @@ class SparkAssets {
                 Templates.xsprite("rockRelay.idle",      5, 7, {width: 32, height: 32}),
                 Templates.xsprite("rockRelay.sparked",   7, 7, {width: 32, height: 32}),
                 Templates.xsprite("rockRelay.powered",  9, 7, {width: 32, height: 32}),
+                Templates.xsprite("floorRelay.idle",      5, 9, {width: 32, height: 32}),
+                Templates.xsprite("floorRelay.sparked",   7, 9, {width: 32, height: 32}),
+                Templates.xsprite("floorRelay.powered",  9, 9, {width: 32, height: 32}),
                 Templates.xsprite("spark",              0, 3),
                 Templates.xsprite("stove",              0, 8, {width:32, height: 48}),
                 Templates.xsprite("fountain",           0, 11, {width:16*7, height: 16*7}),
@@ -335,8 +338,14 @@ class SparkAssets {
                 },
             },
 
-
-
+            { tag: "floorRelay", 
+            cls: "Animator", 
+            animations: { 
+                [ModelState.idle]: { cls: "Media", tag: "floorRelay.idle" }, 
+                [ModelState.sparked]: { cls: "Media", tag: "floorRelay.sparked" }, 
+                [ModelState.powered]: { cls: "Media", tag: "floorRelay.powered" }, 
+            },
+        },
 
             { tag: "woodDoor", 
                 cls: "Animator", 
@@ -714,6 +723,11 @@ class SparkAssets {
                 offx: 16,
                 offy: -26, 
                 xcollider: { width: 28, height: 32, offy: 4} 
+            }),
+
+            Templates.object("o0f", "floorRelay", "SparkRelay", { 
+                offy: 0, 
+                xcollider: {width:10, height:10, offy: 10}, 
             }),
 
             { tag: "spark", cls: "SparkProjectile", 
