@@ -19,8 +19,11 @@ import { UxGloom }          from "./uxGloom.js";
 import { Templates }        from "./templates.js";
 import { Atts }             from "./base/atts.js";
 import { Vect }             from "./base/vect.js";
-import { PauseAction } from "./actions/pause.js";
-import { WaitAction } from "./base/action.js";
+import { PauseAction }      from "./actions/pause.js";
+import { WaitAction }       from "./actions/wait.js";
+import { ResumeAction } from "./actions/resume.js";
+import { PanToAction } from "./actions/panTo.js";
+import { PowerUpAction } from "./actions/powerUp.js";
 
 class PlayState extends State {
 
@@ -138,6 +141,9 @@ class PlayState extends State {
         // hook to game events
         this.eventQ = spec.eventQ || Atts.gameEventQ;
         this.actions = [];
+
+        // find game objects...
+        this.vendorSparkbase = this.findFirst(v=>v.tag === "sparkbase" && v.ownerTag === "Aodhan");
 
     }
 
@@ -304,10 +310,16 @@ class PlayState extends State {
         while (this.eventQ.length) {
             let evt = this.eventQ.shift();
             console.log(`play state processing game event: ${Fmt.ofmt(evt)}`);
-            if (evt.tag === 'npc.maxMorale') {
+
+            // spark base activation for aodhan
+            if (evt.tag === 'npc.maxMorale' && evt.actor.tag === "aodhan") {
                 // push new actions to queue...
                 this.actions.push(new PauseAction());
+                this.actions.push(new PanToAction({target: this.vendorSparkbase}));
+                this.actions.push(new PowerUpAction({target: this.vendorSparkbase}));
                 this.actions.push(new WaitAction());
+                this.actions.push(new PanToAction({target: this.player}));
+                this.actions.push(new ResumeAction());
             }
         }
         return false;

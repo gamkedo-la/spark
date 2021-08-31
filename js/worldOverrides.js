@@ -31,8 +31,8 @@ class WorldOverrides {
             },
             // -- STOOL/TABLE
             {
-                predicate: (v) => v.x === this.wpos(WorldGen.house1.offx + 11) && 
-                                v.y === this.wpos(WorldGen.house1.offy + 5) &&
+                predicate: (v) => v.x === this.wpos(WorldGen.vendorHouse.offx + 11) && 
+                                v.y === this.wpos(WorldGen.vendorHouse.offy + 5) &&
                                 v.tag === "stool",
                 spec: {
                     ownerTag: "Aodhan",
@@ -55,6 +55,16 @@ class WorldOverrides {
                                 v.tag === "vendorBench",
                 spec: {
                     ownerTag: "Aodhan",
+                },
+            },
+            // -- SPARK BASE
+            {
+                predicate: (v) => v.x === this.wpos(WorldGen.vendorHouse.offx + 15) && 
+                                v.y === this.wpos(WorldGen.vendorHouse.offy + 11) &&
+                                v.tag === "sparkbase",
+                spec: {
+                    ownerTag: "Aodhan",
+                    powered: false,
                 },
             },
 

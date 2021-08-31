@@ -1,4 +1,4 @@
-export { Action, MoveToAction, OpenAction, DummyAction, WaitAction, SparkAction };
+export { Action, MoveToAction, OpenAction, DummyAction, SparkAction };
 
 import { Base }             from "./base.js";
 import { Condition }        from "./condition.js";
@@ -104,31 +104,6 @@ class OpenAction extends Action {
 
     toString() {
         return Fmt.toString(this.constructor.name, this.target);
-    }
-}
-
-
-class WaitAction extends Action {
-    static dfltTTL = 100;
-    constructor(spec={}) {
-        super(spec);
-        this.ttl = spec.ttl || WaitAction.defaultTTL;
-    }
-
-    start(actor) {
-        this.actor = actor;
-    }
-
-    update(ctx) {
-        this.ttl -= ctx.deltaTime;
-        if (this.ttl <= 0) {
-            this.done = true;
-        }
-        return this.done;
-    }
-
-    toString() {
-        return Fmt.toString(this.constructor.name, this.ttl);
     }
 }
 

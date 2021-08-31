@@ -9,7 +9,7 @@ class ActionSystem extends System {
     cpre(spec) {
         super.cpre(spec);
         spec.iterateTTL = spec.iterateTTL || 0;
-        spec.fixedPredicate = spec.fixedPredicate || ((e) => (e.cat === "Model" && !e.passive) || (e.cat === "State"));
+        spec.fixedPredicate = spec.fixedPredicate || ((e) => (e.cat === "Model" && !e.passive));
     }
     cpost(spec) {
         super.cpost(spec);

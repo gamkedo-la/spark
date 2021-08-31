@@ -209,7 +209,10 @@ class Base {
         this.systemMgr.adopt(new CtrlSystem({ bindings: new Bindings(this.xbindings), dbg: Config.dbg.CtrlSystem, }));
         this.systemMgr.adopt(new MoveSystem({ findOverlaps: this.findOverlaps, dbg: Config.dbg.MoveSystem, }));
         this.systemMgr.adopt(new CollisionSystem({ findOverlaps: this.findOverlaps, dbg: Config.dbg.CollisionSystem, }));
+        // -- entity actions
         this.systemMgr.adopt(new ActionSystem({ dbg: Config.dbg.ActionSystem }));
+        // -- state actions
+        this.systemMgr.adopt(new ActionSystem({ dbg: Config.dbg.ActionSystem, ignorePause: true, fixedPredicate: ((e) => (e.cat === "State")) }));
         this.systemMgr.adopt(new AreaSystem({ dbg: Config.dbg.AreaSystem }));
         this.systemMgr.adopt(new PathfindingSystem({ getgrid: (() => this.grid), dbg: Config.dbg.PathfindingSystem, }));
         this.systemMgr.adopt(new DaytimeSystem({ getTimeScale: () => 60, dbg: Config.dbg.DaytimeSystem, }));

@@ -8,7 +8,8 @@ import { Base } from "./base/base.js";
 import { Store } from "./base/store.js";
 import { Condition } from "./base/condition.js";
 import { Mathf } from "./base/math.js";
-import { SparkAction, WaitAction } from "./base/action.js";
+import { SparkAction } from "./base/action.js";
+import { WaitAction } from "./actions/wait.js";
 
 class InteractSystem extends System {
     // CONSTRUCTOR ---------------------------------------------------------
