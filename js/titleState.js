@@ -34,13 +34,13 @@ class TitleState extends State {
     }
 
     onKeyDown(evt) {
-        //console.log("titleState onKeyDown: " + Fmt.ofmt(evt));
         if (evt.key === "Escape") {
             let state = new PlayState();
             Base.instance.stateMgr.swap(state);
-        } else {}
+        } else {
             let state = new MenuState();
             Base.instance.stateMgr.swap(state);
+        }
     }
 
     onClicked(evt) {
