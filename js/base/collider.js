@@ -1,9 +1,10 @@
-export { Collider, ColliderSet };
+export { Collider, RingCollider, ColliderSet };
 
 import { Config }           from "./config.js";
 import { Fmt }              from "./fmt.js";
 import { Bounds }           from "./bounds.js";
 import { Generator } from "./generator.js";
+import { Mathf } from "./math.js";
 
 /**
  * A collider provides a means to determine interaction between objects.  
@@ -19,6 +20,7 @@ class Collider {
 
     // CONSTRUCTOR ---------------------------------------------------------
     constructor(spec={}) {
+        this.cls = this.constructor.name;
         this._x = spec.x || 0;
         this._y = spec.y || 0;
         this.getx = spec.getx || (() => this._x);
@@ -107,10 +109,64 @@ class Collider {
 
 }
 
+class RingCollider extends Collider {
+    // CONSTRUCTOR ---------------------------------------------------------
+    constructor(spec={}) {
+        // lock height to width
+        spec.height = spec.hasOwnProperty("width") ? spec.width : Config.tileSize;
+        super(spec);
+        this.radius = spec.width * .5;
+    }
+
+    // PROPERTIES ----------------------------------------------------------
+    get midx() {
+        return this.x + this.offx;
+    }
+    get midy() {
+        return this.y + this.offy;
+    }
+
+    // METHODS -------------------------------------------------------------
+    overlaps(other) {
+        if (!other) return false;
+        /*
+        if (other.cls === "RingCollider") {
+            // ring colliders overlap if the distance between centers is < combined radii
+            if (Mathf.distance(this.midx, this.midy, other.midx, other.midy) < (this.radius + other.radius)) {
+            }
+            return false;
+        } else if (other.cls === "Collider") {
+        }
+        */
+        // FIXME: needs implementation
+        return Bounds.overlaps(this, other);
+    }
+
+    contains(other) {
+        if (!other) return false;
+        return Mathf.distance(other.x, other.y, this.x+this.offx, this.y+this.offy) <= this.radius;
+    }
+
+    containsXY(x, y) {
+        return Mathf.distance(x, y, this.x+this.offx, this.y+this.offy) <= this.radius;
+    }
+
+    render(renderCtx) {
+        renderCtx.beginPath();
+        renderCtx.arc(this.x+this.offx, this.y+this.offy, this.radius, 0, Math.PI*2);
+        renderCtx.fillStyle = (this.blocking) ? this.color : this.nbcolor;
+        renderCtx.fill();
+        renderCtx.fillStyle = "black";
+        renderCtx.fillRect(this.x-2, this.y-2, 4, 4);
+    }
+
+}
+
 class ColliderSet {
 
     // CONSTRUCTOR ---------------------------------------------------------
     constructor(spec={}) {
+        this.cls = this.constructor.name;
         this._x = spec.x || 0;
         this._y = spec.y || 0;
         this.getx = spec.getx || (() => this._x);
@@ -123,16 +179,18 @@ class ColliderSet {
         this.allowPathMask = spec.allowPathMask || 0;
         this.color = spec.color || "rgba(127,0,0,.4)";
         this.nbcolor = spec.nbcolor || "rgba(0,127,0,.4)";
+        this._tag = spec.hasOwnProperty("tag") ? spec.tag : Collider.all;
         this._blocking = (spec.hasOwnProperty("blocking")) ? spec.blocking : Collider.all;
         this._active = (spec.hasOwnProperty("active")) ? spec.active : true;
         this.getactive = spec.getactive || (() => this._active);
         this.items = [];
-        console.log("collider set: " + Fmt.ofmt(spec));
-        console.log("collider set.xitems: " + Fmt.ofmt(spec.xitems));
+        //console.log("collider set: " + Fmt.ofmt(spec));
+        //console.log("collider set.xitems: " + Fmt.ofmt(spec.xitems));
         let xitems = spec.xitems || [];
         for (const xcollider of xitems) {
             let collider = Generator.generate(Object.assign({
                 "cls": "Collider", 
+                tag: this._tag,
                 getx: this.getx, 
                 gety: this.gety, 
                 blocking: this._blocking, 
@@ -166,6 +224,10 @@ class ColliderSet {
     }
     get maxy() {
         return this.y + this.offy + (this.height * .5);
+    }
+    get tag() {
+        if (!this.active) return 0;
+        return this._tag;
     }
     get blocking() {
         if (!this.active) return 0;

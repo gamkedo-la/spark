@@ -36,7 +36,7 @@ import { UxInput }          from "./uxInput.js";
 import { UxToggle }         from "./uxToggle.js";
 import { Bindings }         from "./bindings.js";
 import { Config }           from "./config.js";
-import { Collider, ColliderSet } from "./collider.js";
+import { Collider, ColliderSet, RingCollider } from "./collider.js";
 import { StateMgr }         from "./stateMgr.js";
 import { ActionSystem }     from "./actionSystem.js";
 import { AreaSystem }       from "./areaSystem.js";
@@ -188,6 +188,7 @@ class Base {
         this.registry.add(FitToParent);
         // ---- Collider
         this.registry.add(Collider);
+        this.registry.add(RingCollider);
         this.registry.add(ColliderSet);
         // ---- Areas
         this.registry.add(Area);

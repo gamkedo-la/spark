@@ -603,7 +603,14 @@ class SparkAssets {
             Templates.tile("01E", "vhouseRoof2", {offx: 16, offy: -8, sparkable: true, linkDstTag: "vhouse.flowers.l"}),
             Templates.tile("01F", "vhouseRoof3", {offx: 16, offy: -8}),
             Templates.tile("01G", "vhouseRoof5", {offx: 16, offy: -8, sparkable: true, linkDstTag: "vhouse.flowers.r"}),
-            Templates.tile("01H", "fountain", {offx: 48, offy: -48}),
+            Templates.tile("01H", "fountain", {
+                offx: 48, offy: -48,
+                xcollider: { cls: "ColliderSet", xitems: [
+                    {width: 76, height: 40, offx: 48, offy: -50},
+                    {width: 40, height: 76, offx: 48, offy: -50},
+                    {width: 60, height: 60, offx: 48, offy: -50},
+                ]},
+            }),
             Templates.tile("01I", "fountain.top", {offx: 32, offy: -16}),
             Templates.tile("01J", "fountain.water", {offx: 48, offy: -48}),
             Templates.tile("01K", "vhouseRoof4", {offx: 16, offy: -8}),
@@ -785,7 +792,7 @@ class SparkAssets {
                 },
                 xmorale: {
                     cls: "Morale",
-                    likes: { "spark": 5 },
+                    likes: { "spark": 2 },
                 }
             }),
 
