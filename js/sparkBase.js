@@ -13,7 +13,6 @@ class SparkBase extends Model {
         super.cpost(spec);
         this.range = spec.range || Config.tileSize * 10;
         if (spec.powered) this.conditions.add(Condition.powered);
-        console.log(`sparkbase spec: ${Fmt.ofmt(spec)}`);
     }
 
 }

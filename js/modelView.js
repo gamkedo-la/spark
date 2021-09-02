@@ -21,15 +21,19 @@ class ModelView extends UxPanel {
         super.cpost(spec);
         this.model = spec.model || new Model();
         this.tileSize = spec.tileSize || Config.tileSize;
+        if (this.wantMouse) {
+            this.hoverDelay = spec.hoverDelay || 1000;
+            this.hoverTimer = 0;
+        }
         // bind event handlers
         Util.bind(this, "onModelUpdate");
         // register event handlers
         this.model.evtUpdated.listen(this.onModelUpdate);
+        if (this.wantMouse) console.log(`view ${this} wants mouse`);
     }
 
     // EVENT HANDLERS ------------------------------------------------------
     onModelUpdate(evt) {
-        //if (this.model.tag !== "npc") console.log(`${this} onModelUpdate`);
         this.updated = true;
     }
 
@@ -39,8 +43,6 @@ class ModelView extends UxPanel {
         } else {
             this.lastModelX = this.model.x;
             this._wmodelX = this._xform.getWorld(new Vect(this.model.x-this._xform.dx, this.model.y-this._xform.dy)).x + this._xform.dox;
-            //this._wmodelX = this._xform.getWorld(new Vect(this.model.x+this._xform.minx, this.model.y+this._xform.miny)).x;
-            //console.log(`#-#-# compute new world x ${this.wmodelX} w/ xform: ${this._xform}, dox: ${this.xform.dox} pos: ${this.model.x},${this.model.y}`);
             return this._wmodelX;
         }
     }
@@ -50,20 +52,7 @@ class ModelView extends UxPanel {
             return this._wmodelY;
         } else {
             this.lastModelY = this.model.y;
-            //this._wmodelY = this._xform.getWorld(new Vect(this.model.x+this._xform.minx, this.model.y+this._xform.miny)).y;
             this._wmodelY = this._xform.getWorld(new Vect(this.model.x-this._xform.dx, this.model.y-this._xform.dy)).y - this._xform.doy;
-            //console.log(`#-#-# compute new world y ${this.wmodelY} w/ xform: ${this._xform}, doy: ${this.xform.doy} pos: ${this.model.x},${this.model.y}`);
-
-            /*
-            if (true) {
-                if (this._xform.dx || this._xform.dy) worldPos.add(this.dx, this.dy);
-                if (this._xform.scalex !== 1|| this._xform.scaley !== 1) worldPos.mult(this.scalex, this.scaley);
-                if (this._xform.angle) worldPos.rotate(this._xform.angle, true);
-                // perform world->local translation
-                worldPos.add(this._xform.dox, this._xform.doy);
-            }
-            */
-
             return this._wmodelY;
         }
     }
@@ -96,73 +85,55 @@ class ModelView extends UxPanel {
         return this.model.visible;
     }
 
+    updateHover(ctx) {
+        if (this.mouseOver) {
+            if (!this.hoverView) {
+                this.hoverTimer += ctx.deltaTime;
+                console.log(`hover timer is: ${this.hoverTimer}`);
+                if (this.hoverTimer >= this.hoverDelay) {
+                    // FIXME
+                    this.hoverView = true;
+                    console.log(`create hover view`);
+                }
+            }
+        } else {
+            this.hoverTimer = 0;
+            this.hoverView = false;
+        }
+
+        return false;
+    }
+
     iupdate(ctx) {
         Stats.count("modelView.iupdate");
         // update context w/ current model state
         ctx = Object.assign({ state: this.model.state }, ctx);
         if (this.model.hasOwnProperty("heading")) {
             ctx.facing = Direction.fromHeading(this.model.heading);
-            //if (this.lastFacing !== ctx.facing) console.log("setting new facing: " + ctx.facing);
-            //this.lastFacing = ctx.facing;
-            //console.log(`facing: ${ctx.facing} heading: ${this.model.heading}`);
         }
         this.updated = super.iupdate(ctx);
-        //if (this.updated) console.log(`ModelView for ${this} super updated`);
         // align xform w/ sketch
         if (this.xform.width != this._sketch.width) {
             this.updated = true;
-            //console.log(`@@@ setting view ${this} width: ${this._sketch.width}`);
             this.xform.width = this._sketch.width;
-            //this._wmodelX = this._xform.getWorld(new Vect(this.model.x, this.model.y)).x;
             this.lastModelX = undefined;
             this.wmodelX;
-            //console.log(`#-#-# compute new world x ${this.wmodelX} w/ xform: ${this._xform}, pos: ${this.model.x},${this.model.y}`);
-            //this._wmodelX = this._xform.getWorld(new Vect(this.model.x-this._xform.minx, this.model.y-this._xform.miny)).x;
-            //console.log(`#-#-# xform min: ${this._xform.minx},${this._xform.miny}`);
         }
         if (this.xform.height != this._sketch.height) {
             this.updated = true;
             this.xform.height = this._sketch.height;
-            /*
-            if (this._sketch.height > this.tileSize) {
-                //let off = Math.round((this._sketch.height - this.tileSize)*.5);
-                let off = Math.round((this._sketch.height - this.tileSize));
-                this.xform._offy = -off;
-                //this.xform.dy = -off;
-                //console.log(`@@@ setting view ${this} height: ${this._sketch.height} off: ${off}`);
-            }
-            */
-            //this._wmodelY = this._xform.getWorld(new Vect(this.model.x, this.model.y)).y;
             this.lastModelY = undefined;
             this.wmodelY;
-            //this._wmodelY = this._xform.getWorld(new Vect(this.model.x-this._xform.minx, this.model.y-this._xform.miny)).y;
-            //console.log(`#-#-# compute new world y ${this.wmodelY} w/ xform: ${this._xform}, pos: ${this.model.x},${this.model.y}`);
-            //console.log(`#-#-# xform min: ${this._xform.minx},${this._xform.miny}`);
-
-            // FIXME remove
-            //console.log(`xform d: ${this._xform.dx},${this._xform.dy}, scale: ${this._xform.scalex},${this._xform.scaley}, do: ${this._xform.dox},${this._xform.doy}}`);
-            //if (this.dx || this.dy) worldPos.add(this.dx, this.dy);
-            //if (this.scalex !== 1|| this.scaley !== 1) worldPos.mult(this.scalex, this.scaley);
-            //if (this.angle) worldPos.rotate(this.angle, true);
-            // perform world->local translation
-            //worldPos.add(this.dox, this.doy);
-            // apply parent transform (if any)
-
+        }
+        // update hover for any views that want mouse interaction
+        if (this.wantMouse) {
+            this.updated |= this.updateHover(ctx);
         }
         return this.updated;
     }
 
     _render(ctx) {
-        //console.log(`model view render @ min ${this._xform.minx},${this._xform.miny} model: ${this.model.x},${this.model.y}`);
         if (this._sketch && this._sketch.render) this._sketch.render(ctx, this._xform.minx + this.model.x, this._xform.miny + this.model.y);
-        // FIXME: remove
-        //console.log(`render ${this}: min: ${this._xform.minx + this.model.x},${this._xform.miny + this.model.y} dim: ${this._xform.width},${this._xform.height}`);
-        /*
-        if (this.model.tag !== "grass.j") {
-            ctx.strokeStyle = "red";
-            ctx.strokeRect(this._xform.minx + this.model.x, this._xform.miny + this.model.y, this._xform.width, this._xform.height);
-        }
-        */
     }
 
     _frender(ctx) {

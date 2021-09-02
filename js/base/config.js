@@ -25,7 +25,7 @@ class Config {
             LinkSystem: false,
             MediaLoader: false,
             MoraleSystem: true,
-            MouseSystem: false,
+            MouseSystem: true,
             PathfindingSystem: false,
             StateSystem: false,
             Stats: false,

@@ -89,6 +89,7 @@ class MouseSystem extends System {
     iterate(ctx, e) {
         // skip if mouse has not been updated
         if (!Mouse.updated) return;
+
         // skip inactive entities
         if (!e.active) return;
         // skip non-view entities
@@ -97,6 +98,8 @@ class MouseSystem extends System {
 
         // current mouse position (in world coords)
         let wpos = new Vect(Mouse.x, Mouse.y);
+
+        if (e.cls === "ModelView") console.log(`checking model view: ${e} bounds: ${e.bounds} mouse: ${wpos}`);
 
         // determine if view bounds contains mouse point (bounds is in world coords)
         const contains = e.bounds.contains(wpos);

@@ -260,6 +260,7 @@ class PlayState extends State {
             let xview = {
                 cls: "ModelView",
                 xsketch: obj.xsketch,
+                wantMouse: obj.hoverable,
                 xxform: Object.assign({scalex:Config.renderScale, scaley:Config.renderScale}, obj.xxform),
                 model: obj,
             };

@@ -763,6 +763,7 @@ class SparkAssets {
                 offy: -16,
                 ownerTag: "Aodhan",
                 maxFedTTL: 30000,
+                hoverable: true,
                 xcollider: { tag: Collider.npc, blocking: Collider.projectile|Collider.object, width:14, height:12, offy:16, color: "rgba(0,0,127,.5)" },
                 xactivitySchedule: Templates.testSchedule,
                 sparkable: true,
