@@ -93,8 +93,8 @@ class SparkAssets {
             ]},
 
             { src: "img/icons.png", loader: "Sheet", refs: [
-                Templates.xsprite("downArrow", 0, 0),
-                Templates.xsprite("upArrow", 1, 0),
+                Templates.xanim("downArrow", 0, 0, {duration: [500, 500/7], loop: false}),
+                Templates.xanim("upArrow", 1, 0, {duration: [500, 500/7], loop: false}),
             ]},
 
             { tag: "vhouseBed", 

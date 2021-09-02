@@ -4,6 +4,7 @@ import { System }               from "./base/system.js";
 import { Morale }               from "./morale.js";
 import { Atts }                 from "./base/atts.js";
 import { Event }                from "./base/event.js";
+import { Base } from "./base/base.js";
 
 /**
  * system to manage entity hunger
@@ -35,8 +36,10 @@ class MoraleSystem extends System {
             if (evt in e.morale.likes) {
                 e.morale.value += e.morale.likes[evt];
                 if (this.dbg) console.log(`character ${e} likes event ${evt} morale raised by ${e.morale.likes[evt]} to ${e.morale.value}`);
+                this.eventQ.push(new Event("npc.moraleUp", {actor: e}));
             } else if (evt in e.morale.dislikes) {
                 if (this.dbg) console.log(`character ${e} dislikes event ${evt} morale raised by ${e.morale.likes[evt]} to ${e.morale.value}`);
+                this.eventQ.push(new Event("npc.moraleDown", {actor: e}));
             }
         }
         // handle min/max morale value
@@ -44,7 +47,7 @@ class MoraleSystem extends System {
             if (this.dbg) console.log(`character ${e} achieved max morale!`);
             e.morale.value = Morale.max;
             // push game event
-            this.eventQ.push(new Event("npc.maxMorale", {actor: e}));
+            this.eventQ.push(new Event("npc.moraleMax", {actor: e}));
         } else if (e.morale.value <= 0) {
             if (this.dbg) console.log(`character ${e} achieved min morale!`);
             e.morale.value = 0;

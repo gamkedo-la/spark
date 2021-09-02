@@ -148,7 +148,7 @@ class PlayState extends State {
         this.actions = [];
 
         // ui state
-        this.moraleIndicators = [];
+        //this.moraleIndicators = [];
 
         // find game objects...
         this.vendorSparkbase = this.findFirst(v=>v.tag === "sparkbase" && v.ownerTag === "Aodhan");
@@ -316,19 +316,21 @@ class PlayState extends State {
 
     startMoraleIndicator(target, up=true) {
         // create new indicator
-        let indicator = {
+        let dx = target.x*Config.renderScale - this.camera.minx;
+        let dy = target.y*Config.renderScale - this.camera.miny;
+        let xview = {
+            cls: "UxMoraleIndicator",
+            ui: true,
             target: target,
-            sketch: Generator.generate((up) ? this.xupSketch: this.xdownSketch),
+            xsketch: (up) ? this.xupSketch: this.xdownSketch,
             ttl: 1000,
             dx: 0,
             dy: -.01,
+            getx: () => target.x*Config.renderScale - this.camera.minx,
+            gety: () => target.y*Config.renderScale - this.camera.miny,
+            xxform: { dx: -8, dy: -25, x: dx, y: dy, scalex: Config.renderScale, scaley: Config.renderScale },
         };
-        this.moraleIndicators.push(indicator);
-    }
-
-    updateMoraleIndicators(ctx) {
-        for (const indicator of this.moraleIndicators) {
-        }
+        let view = new UxMoraleIndicator(xview);
     }
 
     updateGameEvents(ctx) {
@@ -336,16 +338,27 @@ class PlayState extends State {
             let evt = this.eventQ.shift();
             console.log(`play state processing game event: ${Fmt.ofmt(evt)}`);
 
-            // spark base activation for aodhan
-            if (evt.tag === 'npc.maxMorale' && evt.actor.tag === "aodhan") {
-                // push new actions to queue...
-                this.actions.push(new PauseAction());
-                this.actions.push(new PanToAction({target: this.vendorSparkbase}));
-                this.actions.push(new PowerUpAction({target: this.vendorSparkbase}));
-                this.actions.push(new WaitAction());
-                this.actions.push(new PanToAction({target: this.player}));
-                this.actions.push(new ResumeAction());
+            switch (evt.tag) {
+                case "npc.moraleMax":
+                    // spark base activation for aodhan
+                    if (evt.actor.tag === "aodhan") {
+                        // push new actions to queue...
+                        this.actions.push(new PauseAction());
+                        this.actions.push(new PanToAction({target: this.vendorSparkbase}));
+                        this.actions.push(new PowerUpAction({target: this.vendorSparkbase}));
+                        this.actions.push(new WaitAction());
+                        this.actions.push(new PanToAction({target: this.player}));
+                        this.actions.push(new ResumeAction());
+                    }
+                    break;
+                case "npc.moraleUp":
+                    this.startMoraleIndicator(evt.actor, true);
+                    break;
+                case "npc.moraleDown":
+                    this.startMoraleIndicator(evt.actor, false);
+                    break;
             }
+
         }
         return false;
     }
@@ -377,16 +390,31 @@ class PlayState extends State {
 class UxMoraleIndicator extends UxPanel {
 
     // CONSTRUCTOR ---------------------------------------------------------
+    cpre(spec) {
+        super.cpre(spec);
+        if (spec.xsketch && !spec.xsketch.xfitter) spec.xsketch.xfitter = {};
+    }
     cpost(spec={}) {
         super.cpost(spec);
         this.target = spec.target || { x: 0, y: 0};
         this.ttl = spec.ttl || 1000;
         this.dx = spec.dx || 0;
         this.dy = spec.dy || 0;
+        this.getx = spec.getx || (() => 0);
+        this.gety = spec.gety || (() => 0);
     }
 
     iupdate(ctx) {
         this.updated |= super.iupdate(ctx);
+        this.ttl -= ctx.deltaTime;
+        if (this.ttl <= 0) {
+            this.destroy();
+        }
+        this.xform._offx = this.getx();
+        this.xform._offy = this.gety();
+        this.xform.dx += (this.dx * ctx.deltaTime);
+        this.xform.dy += (this.dy * ctx.deltaTime);
+        if (this.dx || this.dy) this.updated = true;
         return this.updated;
     }
 }

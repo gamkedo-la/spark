@@ -560,6 +560,28 @@ class Templates {
         return {tag: tag, cls: "Sprite", width: width, height: height, x: x, y: y};
     }
 
+    static xanim(tag, col, row, spec={}) {
+        let tileSize = spec.tileSize || Config.tileSize;
+        let width = spec.width || tileSize;
+        let height = spec.height || tileSize;
+        let offx = col*tileSize;
+        let offy = row*tileSize;
+        const frames = spec.frames || 8;
+        // duration is fixed or specified as array of durations corresponding to each frame
+        const duration = spec.duration || 100;
+        const loop = spec.hasOwnProperty("loop") ? spec.loop : true;
+        const horizontal = spec.horizontal || false;
+        let anim = {tag: tag, cls: "Animation", cels: [], loop: loop};
+        for (let i=0; i<frames; i++) {
+            let x = offx + ((horizontal) ? i*width : 0);
+            let y = offy + ((horizontal) ? 0 : i*height);
+            let cdur = (duration instanceof(Array)) ? ((i<duration.length) ? duration[i] : duration[duration.length-1]) : duration;
+            let cel = { x: x, y: y, width: width, height: height, ttl: cdur };
+            anim.cels.push(cel);
+        }
+        return anim;
+    }
+
     static anim(tag, spec={}) {
         const frames = spec.frames || 8;
         const duration = spec.duration || 100;
