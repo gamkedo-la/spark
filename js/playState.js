@@ -24,6 +24,8 @@ import { WaitAction }       from "./actions/wait.js";
 import { ResumeAction } from "./actions/resume.js";
 import { PanToAction } from "./actions/panTo.js";
 import { PowerUpAction } from "./actions/powerUp.js";
+import { UxView } from "./base/uxView.js";
+import { UxPanel } from "./base/uxPanel.js";
 
 class PlayState extends State {
 
@@ -119,6 +121,9 @@ class PlayState extends State {
         // load level objects
         this.model.load();
 
+        this.xupSketch = Base.instance.media.get("upArrow");
+        this.xdownSketch = Base.instance.media.get("downArrow");
+
         // lookup object references
         this.player = this.findFirst(v=>v.tag === "player");
         this.dbgPanel = this.findFirst(v=>v.tag === "dbgPanel");
@@ -141,6 +146,9 @@ class PlayState extends State {
         // hook to game events
         this.eventQ = spec.eventQ || Atts.gameEventQ;
         this.actions = [];
+
+        // ui state
+        this.moraleIndicators = [];
 
         // find game objects...
         this.vendorSparkbase = this.findFirst(v=>v.tag === "sparkbase" && v.ownerTag === "Aodhan");
@@ -306,6 +314,23 @@ class PlayState extends State {
         return false;
     }
 
+    startMoraleIndicator(target, up=true) {
+        // create new indicator
+        let indicator = {
+            target: target,
+            sketch: Generator.generate((up) ? this.xupSketch: this.xdownSketch),
+            ttl: 1000,
+            dx: 0,
+            dy: -.01,
+        };
+        this.moraleIndicators.push(indicator);
+    }
+
+    updateMoraleIndicators(ctx) {
+        for (const indicator of this.moraleIndicators) {
+        }
+    }
+
     updateGameEvents(ctx) {
         while (this.eventQ.length) {
             let evt = this.eventQ.shift();
@@ -346,4 +371,22 @@ class PlayState extends State {
         return this.updated;
     }
 
+}
+
+
+class UxMoraleIndicator extends UxPanel {
+
+    // CONSTRUCTOR ---------------------------------------------------------
+    cpost(spec={}) {
+        super.cpost(spec);
+        this.target = spec.target || { x: 0, y: 0};
+        this.ttl = spec.ttl || 1000;
+        this.dx = spec.dx || 0;
+        this.dy = spec.dy || 0;
+    }
+
+    iupdate(ctx) {
+        this.updated |= super.iupdate(ctx);
+        return this.updated;
+    }
 }

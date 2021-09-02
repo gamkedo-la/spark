@@ -92,6 +92,11 @@ class SparkAssets {
                 Templates.anim("vhouseRoof5.sparked", {offx:16*33, offy: 0, width: 48, height:32, duration: 250, frames: 8, loop: false}),
             ]},
 
+            { src: "img/icons.png", loader: "Sheet", refs: [
+                Templates.xsprite("downArrow", 0, 0),
+                Templates.xsprite("upArrow", 1, 0),
+            ]},
+
             { tag: "vhouseBed", 
                 cls: "Animator", 
                 animations: { 
