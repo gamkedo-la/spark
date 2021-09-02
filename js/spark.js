@@ -16,7 +16,8 @@ import { Config }           from "./base/config.js";
 import { DirtySystem }      from "./dirtySystem.js";
 import { WorldOverrides }   from "./worldOverrides.js";
 import { LinkSystem }       from "./linkSystem.js";
-import { MoraleSystem } from "./moraleSystem.js";
+import { MoraleSystem }     from "./moraleSystem.js";
+import { Font } from "./base/font.js";
 
 /** ========================================================================
  * Main Spark Game Specification and Setup
@@ -82,10 +83,14 @@ class Spark extends Game {
         // ---- morale system
         this.base.systemMgr.adopt(new MoraleSystem({ dbg: Config.dbg.MoraleSystem }));
 
+        // init font
+        Font.dfltFamily = "Irish Grover";
+
         // initialize and start master game state
         //let state = new PlayState();
         let state = new TitleState();
         this.base.stateMgr.push(state);
+
     }
 
 }

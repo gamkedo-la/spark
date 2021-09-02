@@ -5,6 +5,7 @@ import { Activity }             from "./base/activity.js";
 import { Config }               from "./base/config.js";
 import { Fmt }                  from "./base/fmt.js";
 import { Color }                from "./base/color.js";
+import { Font }                 from "./base/font.js";
 
 class Templates {
 
@@ -39,7 +40,7 @@ class Templates {
             cls: "UxText",
             tag: tag,
             xxform: xxform,
-            xtext: { color: color, text: text, },
+            xtext: { color: color, text: text, font: new Font({family:"Indie Flower", style: "bold"}) },
         }
     }
 
