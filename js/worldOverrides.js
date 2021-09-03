@@ -57,11 +57,20 @@ class WorldOverrides {
                     ownerTag: "Aodhan",
                 },
             },
-            // -- SPARK BASE
+            // -- SPARK BASES
             {
                 predicate: (v) => v.x === this.wpos(WorldGen.vendorHouse.offx + 15) && 
                                 v.y === this.wpos(WorldGen.vendorHouse.offy + 11) &&
                                 v.tag === "sparkbase",
+                spec: {
+                    ownerTag: "Aodhan",
+                    powered: false,
+                },
+            },
+            {
+                predicate: (v) => v.x === this.wpos(WorldGen.vendor1.offx + 4) && 
+                                v.y === this.wpos(WorldGen.vendor1.offy + 10) &&
+                                v.tag === "floorRelay",
                 spec: {
                     ownerTag: "Aodhan",
                     powered: false,

@@ -152,6 +152,7 @@ class PlayState extends State {
 
         // find game objects...
         this.vendorSparkbase = this.findFirst(v=>v.tag === "sparkbase" && v.ownerTag === "Aodhan");
+        this.vendorSparkbase2 = this.findFirst(v=>v.tag === "floorRelay" && v.ownerTag === "Aodhan");
 
     }
 
@@ -347,6 +348,9 @@ class PlayState extends State {
                         this.actions.push(new PauseAction());
                         this.actions.push(new PanToAction({target: this.vendorSparkbase}));
                         this.actions.push(new PowerUpAction({target: this.vendorSparkbase}));
+                        this.actions.push(new WaitAction());
+                        this.actions.push(new PanToAction({target: this.vendorSparkbase2}));
+                        this.actions.push(new PowerUpAction({target: this.vendorSparkbase2}));
                         this.actions.push(new WaitAction());
                         this.actions.push(new PanToAction({target: this.player}));
                         this.actions.push(new ResumeAction());

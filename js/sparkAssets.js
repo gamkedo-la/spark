@@ -738,9 +738,10 @@ class SparkAssets {
                 xcollider: { width: 28, height: 32, offy: 4} 
             }),
 
-            Templates.object("o0f", "floorRelay", "SparkRelay", { 
-                offy: 0, 
-                xcollider: {width:10, height:10, offy: 10}, 
+            Templates.object("o0f", "floorRelay", "SparkBase", { 
+                offx: 8, 
+                offy: -8, 
+                powered: false,
             }),
 
             { tag: "spark", cls: "SparkProjectile", 
