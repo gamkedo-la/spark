@@ -10,6 +10,7 @@ class StateSystem extends System {
         super.cpre(spec);
         spec.iterateTTL = spec.iterateTTL || 0;
         spec.fixedPredicate = spec.fixedPredicate || ((e) => e.cat === "Model" && !e.passive);
+        spec.ignorePause = true;
     }
 
     // METHODS -------------------------------------------------------------
