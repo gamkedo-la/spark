@@ -755,6 +755,8 @@ class SparkAssets {
                 xcollider: { tag: Collider.player, blocking: Collider.object, width:14, height:10, offy:8, color: "rgba(0,0,127,.5)" },
                 xstateSfxs: {
                     [ModelState.walk]: { cls: "Media", tag: "chimes"}, 
+                    [ModelState.gloomWalk]: { cls: "Media", tag: "chimes"}, 
+                    [ModelState.enlightenWalk]: { cls: "Media", tag: "chimesHigh"}, 
                 }
             }),
 
