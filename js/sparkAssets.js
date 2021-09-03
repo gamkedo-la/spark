@@ -749,6 +749,8 @@ class SparkAssets {
             },
 
             Templates.object("c01", "player", "Character", {
+                name: "Aoife",
+                hoverable: true,
                 mediaTag: "fairy",
                 ctrlId: 1,
                 offy: -8,
@@ -761,6 +763,7 @@ class SparkAssets {
             }),
 
             Templates.object("c02", "aodhan", "Character", {
+                name: "Aodhan",
                 mediaTag: "gnome",
                 ctrlId: 0,
                 offy: -16,
@@ -806,10 +809,12 @@ class SparkAssets {
             }),
 
             Templates.object("c03", "ciara", "Character", {
+                name: "Ciara",
                 mediaTag: "gnome",
                 ctrlId: 0,
                 offy: -16,
                 ownerTag: "Ciara",
+                hoverable: true,
                 maxFedTTL: 30000,
                 xcollider: { tag: Collider.npc, blocking: Collider.projectile|Collider.object, width:14, height:12, offy:16, color: "rgba(0,0,127,.5)" },
                 xactivitySchedule: Templates.testSchedule,

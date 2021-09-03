@@ -3,6 +3,7 @@ import { System }           from "./system.js";
 import { Vect }             from "./vect.js";
 import { EvtChannel }       from "./event.js";
 import { UxCanvas }         from "./uxCanvas.js";
+import { Camera } from "./camera.js";
 
 class Mouse {
     static x = 0;
@@ -99,7 +100,12 @@ class MouseSystem extends System {
         // current mouse position (in world coords)
         let wpos = new Vect(Mouse.x, Mouse.y);
 
-        if (e.cls === "ModelView") console.log(`checking model view: ${e} bounds: ${e.bounds} mouse: ${wpos}`);
+        // hack... ModelView instances are offset by the camera
+        // ideally, world position of these views would reflect that, but don't for a number of reasons...
+        // so, adjust world postion of mouse when comparing against ModelView instances
+        if (e.cls === "ModelView") {
+            wpos.add(Camera.main.minx, Camera.main.miny);
+        }
 
         // determine if view bounds contains mouse point (bounds is in world coords)
         const contains = e.bounds.contains(wpos);

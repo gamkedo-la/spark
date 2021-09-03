@@ -27,6 +27,8 @@ class Model extends Gizmo {
     cpost(spec) {
         // -- ID represents unique asset ID
         this.id = spec.id || 0;
+        // -- name is displayed on popups
+        this.name = spec.name || "unnamed";
         // -- depth is relative draw depth (relative to layer)
         this.depth = spec.depth || 0;
         // -- layer is the terrain level associated with model.  used to handle upstair or cellar sections, etc.

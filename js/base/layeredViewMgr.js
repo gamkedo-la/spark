@@ -268,6 +268,7 @@ class LayeredViewMgr extends Gizmo {
         //if (view.cls !== "ModelView") console.log(`adding view: ${view}`);
         if (view.ui) {
             this.uiViews.push(view);
+            this.uiUpdated = true;
         } else {
             //if (this.dbg) console.log(`adding view ${view} w/ vidx: ${view.vidx}`);
             // listen for view updates

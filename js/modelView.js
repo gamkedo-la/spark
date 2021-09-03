@@ -8,6 +8,8 @@ import { Util }             from "./base/util.js";
 import { Fmt }              from "./base/fmt.js";
 import { Stats } from "./base/stats.js";
 import { Vect } from "./base/vect.js";
+import { Color } from "./base/color.js";
+import { Camera } from "./base/camera.js";
 
 class ModelView extends UxPanel {
 
@@ -22,14 +24,13 @@ class ModelView extends UxPanel {
         this.model = spec.model || new Model();
         this.tileSize = spec.tileSize || Config.tileSize;
         if (this.wantMouse) {
-            this.hoverDelay = spec.hoverDelay || 1000;
+            this.hoverDelay = spec.hoverDelay || 600;
             this.hoverTimer = 0;
         }
         // bind event handlers
         Util.bind(this, "onModelUpdate");
         // register event handlers
         this.model.evtUpdated.listen(this.onModelUpdate);
-        if (this.wantMouse) console.log(`view ${this} wants mouse`);
     }
 
     // EVENT HANDLERS ------------------------------------------------------
@@ -85,19 +86,40 @@ class ModelView extends UxPanel {
         return this.model.visible;
     }
 
+    // target is model view being hovered over
+    genHoverView(target) {
+        let dx = target.x*Config.renderScale - Camera.main.minx;
+        let dy = target.y*Config.renderScale - Camera.main.miny;
+        let xview = {
+            cls: "UxHoverView",
+            ui: true,
+            xsketch: { cls: "Rect", color: "rgba(255,255,255,.25)", width: 50, height: 30},
+            getx: () => target.x*Config.renderScale - Camera.main.minx,
+            gety: () => target.y*Config.renderScale - Camera.main.miny,
+            xxform: { dy: -35, x: dx, y: dy, scalex: Config.renderScale, scaley: Config.renderScale, width: 50, height: 20 },
+            xchildren: [
+                {
+                    cls: "UxText",
+                    xtext: { xfitter: {cls: "FitToParent", top: .2, bottom: .1, left: .05, right: .05}, color: new Color(0,255,0,.75), text: target.name },
+                },
+            ]
+        };
+        return new UxHoverView(xview);
+    }
+
     updateHover(ctx) {
         if (this.mouseOver) {
             if (!this.hoverView) {
                 this.hoverTimer += ctx.deltaTime;
-                console.log(`hover timer is: ${this.hoverTimer}`);
                 if (this.hoverTimer >= this.hoverDelay) {
-                    // FIXME
-                    this.hoverView = true;
-                    console.log(`create hover view`);
+                    this.hoverView = this.genHoverView(this.model)
                 }
             }
         } else {
             this.hoverTimer = 0;
+            if (this.hoverView) {
+                this.hoverView.destroy();
+            }
             this.hoverView = false;
         }
 
@@ -159,4 +181,27 @@ class ModelView extends UxPanel {
         return Fmt.toString(this.constructor.name, this.gid, this.tag, this.model);
     }
 
+}
+
+class UxHoverView extends UxPanel {
+
+    // CONSTRUCTOR ---------------------------------------------------------
+    cpre(spec) {
+        super.cpre(spec);
+    }
+    cpost(spec={}) {
+        super.cpost(spec);
+        this.getx = spec.getx || (() => 0);
+        this.gety = spec.gety || (() => 0);
+    }
+
+    iupdate(ctx) {
+        this.updated |= super.iupdate(ctx);
+        let lastx = this.xform._offx;
+        let lasty = this.xform._offy;
+        this.xform._offx = this.getx();
+        this.xform._offy = this.gety();
+        if (lastx !== this.xform._offx || lasty != this.xform._offy) this.updated = true;
+        return this.updated;
+    }
 }
