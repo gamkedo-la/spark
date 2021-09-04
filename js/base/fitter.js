@@ -24,11 +24,11 @@ class Fitter {
     }
 
     get x() {
-        return this.width * this.left;
+        return this.rwidth * this.left;
     }
 
     get y() {
-        return this.height * this.top;
+        return this.rheight * this.top;
     }
 
     get width() {
@@ -43,6 +43,20 @@ class Fitter {
             return this.ref.xform.height * (1-(this.top+this.bottom));
         }
         return this.ref.height * (1-(this.top+this.bottom));
+    }
+
+    get rheight() {
+        if (this.ref.xform) {
+            return this.ref.xform.height;
+        }
+        return this.ref.height;
+    }
+
+    get rwidth() {
+        if (this.ref.xform) {
+            return this.ref.xform.width;
+        }
+        return this.ref.width;
     }
 
     // METHODS -------------------------------------------------------------
