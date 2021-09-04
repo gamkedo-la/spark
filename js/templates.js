@@ -6,6 +6,7 @@ import { Config }               from "./base/config.js";
 import { Fmt }                  from "./base/fmt.js";
 import { Color }                from "./base/color.js";
 import { Font }                 from "./base/font.js";
+import { Generator } from "./base/generator.js";
 
 class Templates {
 
@@ -148,6 +149,9 @@ class Templates {
             xunpressed: { cls: 'Rect', color: new Color(50,50,50,.5), borderWidth: 5, borderColor: new Color(0,0,0,1) },
             // the sketch to show when the button is highlighted (mouse is over button)
             xhighlight: { cls: 'Rect', color: new Color(50,50,50,.75), borderWidth: 5, borderColor: new Color(0,0,0,1) },
+            mouseEnteredSound: Generator.generate({ cls: "Media", tag: "hoverIn"}), 
+            mouseLeftSound: Generator.generate({ cls: "Media", tag: "hoverOut"}), 
+            pressedSound: Generator.generate({ cls: "Media", tag: "selected"}), 
         };
     }
 
