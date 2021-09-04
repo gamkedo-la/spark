@@ -750,7 +750,7 @@ class SparkAssets {
             },
 
             Templates.object("c01", "player", "Character", {
-                name: "Aoife",
+                name: "Alette",
                 hoverable: true,
                 mediaTag: "fairy",
                 ctrlId: 1,
