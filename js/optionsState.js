@@ -57,7 +57,7 @@ class OptionsState extends State {
         super.cpost(spec);
         // NOTE: to avoid errors due to javascript binding of objects, this utility method is called on every event callback function
         // this is equavilent of calling this.onKeyDown = this.onKeyDown.bind(this);  // this tells js to bind the local "this" variable to the given "this".
-        Util.bind(this, "onKeyDown", "onPlay");
+        Util.bind(this, "onKeyDown", "onVolume", "onLoadGame", "onSaveGame", "onHelp", "onBack");
         // lookup ui element references... 
         // -- using the superclass' findFirst method, look up the UI element that has a tag of "playButton"
         this.volumeButton = this.findFirst(v=>v.tag === "volumeButton");
@@ -74,8 +74,8 @@ class OptionsState extends State {
         // -- listen for button events...
         // first call here is to wire the play buttons click handler to a callback function.
         this.volumeButton.evtClicked.listen(this.onVolume);
-        this.loadGameButton.evtClicked.listen(this.onLoadGame);
-        this.saveGameButton.evtClicked.listen(this.onSaveGame);
+        this.loadButton.evtClicked.listen(this.onLoadGame);
+        this.saveButton.evtClicked.listen(this.onSaveGame);
         this.helpButton.evtClicked.listen(this.onHelp);
         this.backButton.evtClicked.listen(this.onBack);
         // TODO: wire additional buttons to their respective callback functions (which also need to be added)
