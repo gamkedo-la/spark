@@ -16,6 +16,9 @@ class SparkAssets {
             { src: "snd/doorOpenning.mp3", loader: "Audio", tag: "doorOpening" },
             { src: "snd/fairyChimes.mp3", loader: "Audio", tag: "chimes", volume: .1, loop: true },
             { src: "snd/chime-solid.mp3", loader: "Audio", tag: "chimesHigh", volume: .1, loop: true },
+            { src: "snd/hoverIn.mp3", loader: "Audio", tag: "hoverIn", volume: .1, loop: false },
+            { src: "snd/hoverOut.mp3", loader: "Audio", tag: "hoverOut", volume: .1, loop: false },
+            { src: "snd/selected.mp3", loader: "Audio", tag: "selected", volume: .1, loop: false },
             // FIXME: for now music would be added the same as normal audio, but using the "loop" variable
             //{ src: "snd/testsong.mp3", loader: "Audio", tag: "testsong", loop: true },
             { src: "img/fountain.png", loader: "Sheet", refs: [
