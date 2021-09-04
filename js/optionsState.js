@@ -40,7 +40,12 @@ class OptionsState extends State {
                     // -- also note a few other variables here... 
                     //     the first variable is a UI tag (we'll use this for element lookups below)
                     //     the second variable is the actual text to use within the button
-                    Templates.menuButton("volumeButton", "volume", { xxform: { top: 0/4, bottom: 1-1/4 }}),
+                    {
+                        cls: "UxSlider",
+                        tag: "volumeSlider",
+                        xxform: { top: 0/4, bottom: 1-1/4 },
+                    },
+                    //Templates.menuButton("volumeButton", "volume", { xxform: { top: 0/4, bottom: 1-1/4 }}),
                     Templates.menuButton("loadGameButton", "load", { xxform: { top: 1/4, bottom: 1-2/4 }}),
                     Templates.menuButton("saveGameButton", "save", { xxform: { top: 2/4, bottom: 1-3/4 }}),
                     Templates.menuButton("helpButton", "help", { xxform: { top: 3/4, bottom: 1-4/4 }}),
@@ -73,7 +78,7 @@ class OptionsState extends State {
         Keys.evtKeyPressed.listen(this.onKeyDown);
         // -- listen for button events...
         // first call here is to wire the play buttons click handler to a callback function.
-        this.volumeButton.evtClicked.listen(this.onVolume);
+        //this.volumeButton.evtClicked.listen(this.onVolume);
         this.loadButton.evtClicked.listen(this.onLoadGame);
         this.saveButton.evtClicked.listen(this.onSaveGame);
         this.helpButton.evtClicked.listen(this.onHelp);

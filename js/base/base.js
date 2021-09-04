@@ -65,6 +65,7 @@ import { ViewMgr }          from "./viewMgr.js";
 import { AudioMgr }         from "./audioMgr.js";
 import { SyncAnimation }    from "./syncAnimation.js";
 import { UxCanvas2 }        from "./uxCanvas2.js";
+import { UxSlider }         from "./uxSlider.js";
 
 class Base {
 
@@ -179,6 +180,7 @@ class Base {
         this.registry.add(UxCanvas2);
         this.registry.add(UxPanel);
         this.registry.add(UxButton);
+        this.registry.add(UxSlider);
         this.registry.add(UxText);
         this.registry.add(UxInput);
         this.registry.add(UxDaylightFilter);

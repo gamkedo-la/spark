@@ -23,7 +23,7 @@ class Sketch {
         if (parent[tag]) Sketch.unlink(parent[tag], parent, tag, cb);
         if (sketch) {
             sketch.parent = parent;
-            sketch.evtUpdated.listen(cb);
+            if (cb) sketch.evtUpdated.listen(cb);
         }
         parent[tag] = sketch;
         return sketch;
