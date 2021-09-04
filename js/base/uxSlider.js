@@ -1,11 +1,13 @@
 export { UxSlider };
 
-import { Fmt }              from "./fmt.js";
 import { Generator }        from "./generator.js";
 import { Mouse }            from "./mouse.js";
 import { Util }             from "./util.js";
 import { UxView }           from "./uxView.js";
-import { UxPanel }           from "./uxPanel.js";
+import { UxPanel }          from "./uxPanel.js";
+import { Vect }             from "./vect.js";
+import { Mathf }            from "./math.js";
+import { EvtChannel }       from "./event.js";
 
 class UxSliderKnob extends UxPanel {
     cpost(spec={}) {
@@ -40,23 +42,20 @@ class UxSlider extends UxView {
         // -- bar sketch
         this._bar = Generator.generate(Object.assign({
             parent: this, 
-            xfitter: { cls: "FitToParent", top: (1-barHeight)*.5 + barOffset, bottom: (1-barHeight) *.5 - barOffset },
+            //xfitter: { cls: "FitToParent", top: (1-barHeight)*.5 + barOffset, bottom: (1-barHeight)*.5 - barOffset },
+            xfitter: { cls: "FitToParent", top: .25, bottom: .25},
         }, spec.xbar || UxSlider.dfltBar));
         // -- knob sketch
         let xknob = spec.xnob || UxSlider.dfltKnob;
         // -- initial slider value
         this._value = spec.hasOwnProperty("value") ? Mathf.clamp(spec.value, 0, 1) : 0;
-        // bind event handlers
-        Util.bind(this, "onMouseClick");
-        // listen for mouse click
-        Mouse.evtClicked.listen(this.onMouseClick);
         // dynamically build slider knob element
         let xknobView = {
             cls: "UxSliderKnob",
             xxform: {
                 width: knobWidth,
-                left: .5,
-                right: .5,
+                left: 0,
+                right: 1,
                 top: (1-knobHeight) * .5 + knobOffset,
                 bottom: (1-knobHeight) * .5 + knobOffset,
             },
@@ -64,6 +63,12 @@ class UxSlider extends UxView {
         }
         this.knobView = new UxSliderKnob(xknobView);
         this.adopt(this.knobView);
+        // bind event handlers
+        Util.bind(this, "onMouseClick");
+        // events
+        this.__evtValueChanged = new EvtChannel("value.changed", {actor: this});
+        // listen for mouse click
+        Mouse.evtClicked.listen(this.onMouseClick);
     }
 
     // PROPERTIES ----------------------------------------------------------
@@ -95,19 +100,46 @@ class UxSlider extends UxView {
     set value(v) {
         if (v !== this._value) {
             this.updated = true;
+            let oldValue = this._value;
             this._value = v;
+            this.evtValueChanged.trigger({value: v, oldValue: oldValue});
         }
     }
 
+    // EVENTS --------------------------------------------------------------
+    get evtValueChanged() { return this.__evtValueChanged; }
+
     // EVENT HANDLERS ------------------------------------------------------
     onMouseClick(evt) {
-        console.log(`uxSlider onMouseClick: ${Fmt.ofmt(evt)}`);
-        // propagate update
-        this.evtUpdated.trigger();
+        if (!this.mouseOver) return;
+        // get mouse position local to slider
+        let lpos = this.xform.getLocal(new Vect(evt.x, evt.y));
+        // translate local position to value for slider
+        this.value = Mathf.clamp(Mathf.lerp(this.xform.minx, this.xform.maxx, 0, 1, lpos.x), 0, 1);
     }
 
     // METHODS -------------------------------------------------------------
     iupdate(ctx) {
+        // detect mouse drag
+        if (this.dragging) {
+            if (Mouse.down) {
+                let lpos = this.xform.getLocal(new Vect(Mouse.x, Mouse.y));
+                let value = Mathf.clamp(Mathf.lerp(this.xform.minx, this.xform.maxx, 0, 1, lpos.x), 0, 1);
+                if (value !== this._value) {
+                    this.value = value;
+                }
+            } else {
+                this.dragging = false;
+            }
+        } else if (this.mouseOver && Mouse.down) {
+           this.dragging = true;
+        }
+        // update knob position
+        if (this._value !== this.lastValue) {
+            this.lastValue = this._value;
+            this.knobView.xform.left = this._value;
+            this.knobView.xform.right = 1-this._value;
+        }
         if (this._bar && this._bar.update) this.updated |= this._bar.update(ctx);
         if (this._knob && this._knob.update) this.updated |= this._knob.update(ctx);
         return this.updated;
