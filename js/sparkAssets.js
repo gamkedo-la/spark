@@ -505,7 +505,8 @@ class SparkAssets {
         ];
 
         this.assets = [
-
+            Templates.tile("000", "buttonOff"),
+            Templates.tile("001", "buttonHover"),
             Templates.tile("002", "sand"),
             Templates.tile("003", "road"),
             Templates.tile("004", "brickFloor"),
