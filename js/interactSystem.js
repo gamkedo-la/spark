@@ -10,6 +10,7 @@ import { Condition } from "./base/condition.js";
 import { Mathf } from "./base/math.js";
 import { SparkAction } from "./base/action.js";
 import { WaitAction } from "./actions/wait.js";
+import { Atts } from "./base/atts.js";
 
 class InteractSystem extends System {
     // CONSTRUCTOR ---------------------------------------------------------
@@ -42,6 +43,14 @@ class InteractSystem extends System {
     // PROPERTIES ----------------------------------------------------------
     get entities() {
         return this.getentities();
+    }
+
+    get interactAction() {
+        return Atts.interactAction;
+    }
+
+    set interactAction(v) {
+        Atts.interactAction = v;
     }
 
     // METHODS -------------------------------------------------------------

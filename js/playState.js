@@ -31,8 +31,10 @@ class PlayState extends State {
 
     static actionSketches = {
         "none":         {cls: "Text", text: "X", xfitter: { cls: "FitToParent"}, color: new Color(225,0,0,.75)},
-        "interact":     {cls: "Text", text: "i", xfitter: { cls: "FitToParent"}, color: new Color(225,0,0,.75)},
+        "leave":        {cls: "Text", text: "^", xfitter: { cls: "FitToParent"}, color: new Color(225,0,0,.75)},
+        "occupy":       {cls: "Text", text: "V", xfitter: { cls: "FitToParent"}, color: new Color(225,0,0,.75)},
         "spark":        {cls: "Text", text: "#", xfitter: { cls: "FitToParent"}, color: new Color(225,0,0,.75)},
+        "open":         {cls: "Text", text: "o", xfitter: { cls: "FitToParent"}, color: new Color(225,0,0,.75)},
     };
 
     cpre(spec) {
@@ -286,9 +288,11 @@ class PlayState extends State {
 
     updateZPanel(ctx) {
         // determine current action
-        // FIXME
-        let action = "spark";
+        let action = Atts.interactAction;
+        //// FIXME
+        //let action = "spark";
         if (this.lastAction !== action) {
+            console.log(`setting z action to: ${action}`);
             // update z panel w/ new icon for given action
             let sketch = Generator.generate(PlayState.actionSketches[action]);
             this.zPanel.sketch = sketch;
