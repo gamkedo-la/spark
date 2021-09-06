@@ -29,7 +29,7 @@ class Bed extends Model {
         this.occupiedCondition = spec.occupiedCondition || Condition.occupied;
         this.actorCondition = spec.actorCondition || Condition.asleep;
         // -- interactable
-        this.interactable = true;
+        this.interactTag = "occupy";
         // -- actor id (who's in the bed)
         this.actorId = 0;
     }

@@ -16,26 +16,111 @@ class InteractSystem extends System {
     cpre(spec) {
         super.cpre(spec);
         spec.iterateTTL = spec.iterateTTL || 0;
-        spec.fixedPredicate = spec.fixedPredicate || ((e) => e.cat === "Model" && !e.passive);
+        spec.fixedPredicate = spec.fixedPredicate || ((e) => e.cat === "Model" && e.ctrlId);
     }
     cpost(spec) {
         super.cpost(spec);
         this.findOverlaps = spec.findOverlaps || ((v) => {return [];});
         this.sparkSources = spec.sparkSources || new Store();
         this.assets = spec.assets || Base.instance.assets;
+        this.getentities = spec.getentities || (() => Base.instance.entities);
+        this.interactPriorities = [
+            "leave",
+            "talk",
+            "open",
+            "push",
+            "occupy",
+            "spark",
+        ];
+        this.interactAction = "none";
+        this.interactTarget = undefined;
+        this.sparkTarget = undefined;
+        this.lastx = {};
+        this.lasty = {};
     }
 
     // PROPERTIES ----------------------------------------------------------
+    get entities() {
+        return this.getentities();
+    }
 
     // METHODS -------------------------------------------------------------
     dospark(ctx, e) {
-        console.log("dospark");
         // check for actor spark condition
         if (e.conditions.has(Condition.sparked)) {
             console.log("already sparked");
             return;
         }
+        // spark will be executed as an actor action...
+        e.conditions.add(Condition.cast);
+        let actions = [];
+        // -- wait for animation to complete
+        actions.push(new WaitAction({ttl: 400}));
+        // -- cast the spark
+        actions.push(new SparkAction({src: this.sparkTarget}));
+        e.actions = actions;
 
+    }
+
+    // check for possible interactions between player (e) and nearby objects
+    checkinteract(ctx, e) {
+        // check if entity is currently occupying target
+        if (e.occupyId) {
+            if (this.interactAction !== "leave") {
+                this.interactAction = "leave";
+                this.interactTarget = this.entities.get(e.occupyId);
+                console.log(`set interactAction: ${this.interactAction} target: ${this.interactTarget}`);
+            }
+            return;
+        }
+
+        // reset interact action/target
+        let action = "none";
+        let target = undefined;
+
+        // check for interactable objects within range...
+        let bounds = new Bounds(e.x-e.interactRange, e.y-e.interactRange, e.interactRange+e.interactRange, e.interactRange+e.interactRange);
+        let objs = this.findOverlaps(bounds, (v) => {
+            if (!v.interactTag) return false;
+            let d = Vect.dist(e, v);
+            return (d <= e.interactRange);
+        });
+        // find best target based on interact priority
+        let bestPriority = this.interactPriorities.length;
+        let bestRange = e.interactRange;
+        for (const obj of objs) {
+            let pri = this.interactPriorities.indexOf(obj.interactTag);
+            if (pri === -1) {
+                console.error(`unknown interact tag: ${obj.interactTag} on object: ${obj}, skipping`);
+                continue;
+            }
+            // check against current priority
+            if (pri < bestPriority) {
+                bestPriority = pri;
+                bestRange = Vect.dist(e, obj);
+                action = obj.interactTag;
+                target = obj;
+            // for equal priority, check range
+            } else if (pri === bestPriority) {
+                let range = Vect.dist(e, obj);
+                if (range < bestRange) {
+                    bestPriority = pri;
+                    bestRange = Vect.dist(e, obj);
+                    action = obj.interactTag;
+                    target = obj;
+                }
+            }
+        }
+
+        if (action !== this.interactAction || target !== this.interactTarget) {
+            this.interactTarget = target;
+            this.interactAction = action;
+            console.log(`set interactAction: ${this.interactAction} target: ${this.interactTarget}`);
+        }
+    }
+
+    // check if player (e) is within range of active spark base or relay
+    checkspark(ctx, e) {
         // check for spark source
         let best = undefined;
         let bestRange = undefined;
@@ -52,57 +137,58 @@ class InteractSystem extends System {
             }
         }
         if (!best) {
-            console.log("not in range");
+            // ensure player has enlightened condition
+            if (e.conditions.has(Condition.enlightened)) {
+                console.log(`actor ${e} lost enlightened condition`);
+                e.conditions.delete(Condition.enlightened);
+            }
             return;
         }
 
-        // spark will be executed as an actor action...
-        e.conditions.add(Condition.cast);
-        let actions = [];
-        // -- wait for animation to complete
-        actions.push(new WaitAction({ttl: 400}));
-        // -- cast the spark
-        actions.push(new SparkAction({src: best}));
-        e.actions = actions;
+        // otherwise, player is within range
+        this.sparkTarget = best;
+        // is action assigned?
+        if (this.interactAction === "none") this.interactAction = "spark";
+
+        // ensure player has enlightened condition
+        if (!e.conditions.has(Condition.enlightened)) {
+            console.log(`actor ${e} gained enlightened condition`);
+            e.conditions.add(Condition.enlightened);
+        }
 
     }
 
     dointeract(ctx, e) {
-        let ok = false;
-        // FIXME: handle approaches
-        // check for objects within range...
-        let bounds = new Bounds(e.x-e.interactRange, e.y-e.interactRange, e.interactRange+e.interactRange, e.interactRange+e.interactRange);
-        //console.log(`${e} + checks: ${bounds} range: ${e.interactRange}`);
-        //let objs = this.findOverlaps(bounds, (v) => (v.interactable && Vect.dist(e, v) <= e.interactRange));
-        let objs = this.findOverlaps(bounds, (v) => {
-            //console.log("consider: " + v);
-            if (!v.interactable) return false;
-            let d = Vect.dist(e, v);
-            console.log("d: " + d);
-            return (d <= e.interactRange);
-        });
-        for (const obj of objs) {
-            // FIXME: add priority system to object interaction to drive which object gets interaction
-            // FIXME: only attempt to interact w/ one object at a time
-            console.log(`${e} interacts with: ${obj}`);
-            obj.dointeract(e);
-            ok = true;
+        switch (this.interactAction) {
+            case "none":
+                break;
+            case "spark":
+                if (this.sparkTarget) {
+                    this.dospark(ctx, e);
+                }
+                break;
+            default:
+                if (this.interactTarget) {
+                    this.interactTarget.dointeract(e);
+                }
         }
-        return ok;
     }
 
     iterate(ctx, e) {
-        // only match entities that are interacting...
+        // check for changes to actor state
+        if (this.lastx[e.gid] !== e.x || this.lasty[e.gid] !== e.y) {
+            this.lastx[e.gid] = e.x;
+            this.lasty[e.gid] = e.y;
+            this.checkinteract(ctx, e);
+            this.checkspark(ctx, e);
+        }
+
+        // handle actor wanting to interact
         if (!e.interact) return;
-        console.log("e.interact is true");
         e.interact = false;
 
-        // attempt object interaction...
-        if (this.dointeract(ctx, e)) return;
-
-        // otherwise... attempt spark
-        if (this.dospark(ctx, e)) return;
-
+        // attempt interaction based on set interactAction and interactTarget/sparkTarget
+        this.dointeract(ctx, e);
 
     }
 

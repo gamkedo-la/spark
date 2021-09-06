@@ -97,6 +97,7 @@ class SparkRegistry {
         Condition.register("restock");
         Condition.register("sweeping");
         Condition.register("closed");
+        Condition.register("enlightened");
     }
     static setup(registry) {
         // -- register view classes

@@ -7,13 +7,6 @@ import { Fmt }              from "./base/fmt.js";
 import { Base } from "./base/base.js";
 import { Condition } from "./base/condition.js";
 
-/*
-import { Bounds }           from "./base/bounds.js";
-import { Vect }             from "./base/vect.js";
-import { ModelState }       from "./base/modelState.js";
-import { Util }             from "./base/util.js";
-*/
-
 class SparkSystem extends System {
     // CONSTRUCTOR ---------------------------------------------------------
     cpre(spec) {

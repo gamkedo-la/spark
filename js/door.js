@@ -25,7 +25,7 @@ class Door extends Model {
         // -- interactRange
         this.interactRange = spec.interactRange || Config.tileSize * 4;
         // -- interactable
-        this.interactable = true;
+        this.interactTag = "open";
         // -- approaches
         this.approachOffsets = spec.approachOffsets;
         this.exitOffsets = spec.exitOffsets;
