@@ -115,6 +115,7 @@ class LayeredViewMgr extends Gizmo {
     }
 
     iupdate(ctx) {
+        Stats.count("layerViewMgr.iupdate");
         // update managed views that are on screen
         let seen = new Set();
         for (const view of this.getOnscreenViews()) {

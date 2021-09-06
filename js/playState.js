@@ -187,6 +187,9 @@ class PlayState extends State {
             Config.dbg.hideGloom = !Config.dbg.hideGloom;
             this.viewMgr.renderall = true;
         }
+        if (evt.key === "7") {
+            Config.dbg.Stats = !Config.dbg.Stats;
+        }
         if (evt.key === "p") {
             Atts.paused = !Atts.paused;
             this.pauseText.visible = Atts.paused;
