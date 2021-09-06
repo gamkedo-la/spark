@@ -73,6 +73,8 @@ class Animator extends Sketch {
 
         // compare desired state to current state (pending or actual)
         let wantState = ctx.state || ModelState.idle;
+        // hackety hack hack - treat enlightened walk state as normal walk state for animation
+        if (wantState === ModelState.enlightenedWalk) wantState = ModelState.walk;
         if (ctx.facing) {
             let tag = `${ModelState.toString(wantState)}_${Direction.toString(ctx.facing)}`;
             //if (tag !== this.lastTag) {

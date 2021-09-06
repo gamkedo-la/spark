@@ -80,6 +80,7 @@ class SparkRegistry {
         ModelState.register("eating_north");
         ModelState.register("eating_west");
         ModelState.register("eating_east");
+        ModelState.register("enlightenedWalk");
         // -- register activities
         Activity.register("wake");
         Activity.register("work");

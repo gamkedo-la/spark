@@ -43,7 +43,11 @@ class StateSystem extends System {
         if (!wantState) {
             // state predicates
             if (e.speed) {
-                wantState = ModelState.walk;
+                if (e.conditions.has(Condition.enlightened)) {
+                    wantState = ModelState.enlightenedWalk;
+                } else {
+                    wantState = ModelState.walk;
+                }
             } else {
                 wantState = e.dfltState;
             }

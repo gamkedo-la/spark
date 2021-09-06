@@ -48,7 +48,7 @@ class InteractSystem extends System {
     dospark(ctx, e) {
         // check for actor spark condition
         if (e.conditions.has(Condition.sparked)) {
-            console.log("already sparked");
+            //console.log("already sparked");
             return;
         }
         // spark will be executed as an actor action...
@@ -69,7 +69,7 @@ class InteractSystem extends System {
             if (this.interactAction !== "leave") {
                 this.interactAction = "leave";
                 this.interactTarget = this.entities.get(e.occupyId);
-                console.log(`set interactAction: ${this.interactAction} target: ${this.interactTarget}`);
+                //console.log(`set interactAction: ${this.interactAction} target: ${this.interactTarget}`);
             }
             return;
         }
@@ -115,7 +115,7 @@ class InteractSystem extends System {
         if (action !== this.interactAction || target !== this.interactTarget) {
             this.interactTarget = target;
             this.interactAction = action;
-            console.log(`set interactAction: ${this.interactAction} target: ${this.interactTarget}`);
+            //console.log(`set interactAction: ${this.interactAction} target: ${this.interactTarget}`);
         }
     }
 
@@ -139,7 +139,7 @@ class InteractSystem extends System {
         if (!best) {
             // ensure player has enlightened condition
             if (e.conditions.has(Condition.enlightened)) {
-                console.log(`actor ${e} lost enlightened condition`);
+                //console.log(`actor ${e} lost enlightened condition`);
                 e.conditions.delete(Condition.enlightened);
             }
             return;
@@ -152,7 +152,7 @@ class InteractSystem extends System {
 
         // ensure player has enlightened condition
         if (!e.conditions.has(Condition.enlightened)) {
-            console.log(`actor ${e} gained enlightened condition`);
+            //console.log(`actor ${e} gained enlightened condition`);
             e.conditions.add(Condition.enlightened);
         }
 
