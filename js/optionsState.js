@@ -4,7 +4,7 @@ import { State }            from "./base/state.js";
 import { Keys }             from "./base/keys.js";
 import { Util }             from "./base/util.js";
 import { Templates }        from "./templates.js";
-import { MenuState }        from "./MenuState.js";
+import { MenuState }        from "./menuState.js";
 import { Fmt }              from "./base/fmt.js";
 import { Base }             from "./base/base.js";
 
