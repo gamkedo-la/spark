@@ -42,7 +42,12 @@ class OptionsState extends State {
                     //     the second variable is the actual text to use within the button
                     {
                         cls: "UxSlider",
-                        tag: "volumeSlider",
+                        tag: "volumeSliderSFX",
+                        xxform: { top: -1/4, bottom: 1-1/4 },
+                    },
+                    {
+                        cls: "UxSlider2",
+                        tag: "volumeSliderMusic",
                         xxform: { top: 0/4, bottom: 1-1/4 },
                     },
                     //Templates.menuButton("volumeButton", "volume", { xxform: { top: 0/4, bottom: 1-1/4 }}),
