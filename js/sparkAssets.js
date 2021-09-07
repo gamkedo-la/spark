@@ -783,6 +783,7 @@ class SparkAssets {
                 xcollider: { tag: Collider.npc, blocking: Collider.projectile|Collider.object, width:14, height:12, offy:16, color: "rgba(0,0,127,.5)" },
                 xactivitySchedule: Templates.testSchedule,
                 sparkable: true,
+                maxSparkTTL: 500,
                 xai: { 
                     cls: "AiState",
                     xdirectives: [

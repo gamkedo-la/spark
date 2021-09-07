@@ -64,8 +64,12 @@ class Model extends Gizmo {
         // -- link logic
         this.linkSrcTag = spec.linkSrcTag;
         if (!this.linkSrcTag) this.linkDstTag = spec.linkDstTag;
-        // -- sparkable
+        // -- spark options
         this.sparkable = spec.hasOwnProperty("sparkable") ? spec.sparkable : false;
+        if (this.sparkable) {
+            this.sparkTTL = 0;
+            this.maxSparkTTL = spec.hasOwnProperty("maxSparkTTL") ? spec.maxSparkTTL : 0;
+        }
         // -- hoverable
         this.hoverable = spec.hasOwnProperty("hoverable") ? spec.hoverable : false;
     }

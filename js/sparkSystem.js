@@ -77,6 +77,7 @@ class SparkSystem extends System {
                 // -- sparkable
                 if (obj.sparkable) {
                     obj.conditions.add(Condition.sparked);
+                    if (obj.maxSparkTTL) obj.sparkTTL = obj.maxSparkTTL;
                     if (obj.morale) {
                         obj.morale.events.push("spark");
                     }
@@ -101,6 +102,17 @@ class SparkSystem extends System {
         // handle
         if (e.tag === "spark") this.iterateProjectile(ctx, e);
         if (e.cls === "SparkBase" || e.relay) this.iterateSource(ctx, e);
+        // handle sparked objects
+        if (e.conditions && e.conditions.has(Condition.sparked)) {
+            // if spark has a timer...
+            if (e.sparkTTL) {
+                e.sparkTTL -= ctx.deltaTime;
+                if (e.sparkTTL <= 0) {
+                    e.sparkTTL = 0;
+                    e.conditions.delete(Condition.sparked);
+                }
+            }
+        }
     }
 
 }
