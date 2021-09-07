@@ -115,18 +115,19 @@ class LayeredViewMgr extends Gizmo {
     }
 
     iupdate(ctx) {
-        Stats.count("layerViewMgr.iupdate");
         // update managed views that are on screen
         let seen = new Set();
         for (const view of this.getOnscreenViews()) {
             seen.add(view.gid);
             view.update(ctx);
+            Stats.count("vmgr.onscreenview.update");
         }
         // update views from model updates
         for (const view of this.modelViewUpdates) {
             if (!seen.has(view.gid)) {
                 seen.add(view.gid);
                 view.update(ctx);
+                Stats.count("vmgr.model.update");
             }
         }
         this.modelViewUpdates = [];
@@ -135,6 +136,7 @@ class LayeredViewMgr extends Gizmo {
             if (!seen.has(view.gid)) {
                 seen.add(view.gid);
                 this.uiUpdated |= view.update(ctx);
+                Stats.count("vmgr.ui.update");
             }
         }
         // prepare sliced view

@@ -146,9 +146,11 @@ class Templates {
             // the sketch to show when the button is pressed
             xpressed: { cls: 'Rect', color: new Color(50,50,50,1), borderWidth: 5, borderColor: new Color(0,0,0,1) },
             // the sketch to show when the button is idle (no mouse over)
-            xunpressed: { cls: 'Rect', color: new Color(50,50,50,.5), borderWidth: 5, borderColor: new Color(0,0,0,1) },
+            //xunpressed: { cls: 'Rect', color: new Color(50,50,50,.5), borderWidth: 5, borderColor: new Color(0,0,0,1) },
+            xunpressed: { cls: 'Media', tag: "buttonOff" },
             // the sketch to show when the button is highlighted (mouse is over button)
-            xhighlight: { cls: 'Rect', color: new Color(50,50,50,.75), borderWidth: 5, borderColor: new Color(0,0,0,1) },
+            xhighlight: { cls: 'Media', tag: "buttonHover" },
+            //xhighlight: { cls: 'Rect', color: new Color(50,50,50,.75), borderWidth: 5, borderColor: new Color(0,0,0,1) },
             mouseEnteredSound: Generator.generate({ cls: "Media", tag: "hoverIn"}), 
             mouseLeftSound: Generator.generate({ cls: "Media", tag: "hoverOut"}), 
             pressedSound: Generator.generate({ cls: "Media", tag: "selected"}), 

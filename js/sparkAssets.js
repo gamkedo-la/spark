@@ -405,6 +405,13 @@ class SparkAssets {
                 },
             },
 
+            { src: "img/buttonOff.png", loader: "Sheet", refs: [
+                {tag: "buttonOff", cls: "StretchSprite", width: 253, height: 56, x: 50*0, y: 50*0, border: 16 },
+            ]},
+            { src: "img/buttonHover.png", loader: "Sheet", refs: [
+                {tag: "buttonHover", cls: "StretchSprite", width: 253, height: 56, x: 50*0, y: 50*0, border: 16 },
+            ]},
+
             // a sheet of images
             { src: "img/goldButtonFrames.png", loader: "Sheet", refs: [
                 {tag: "btnGoldOpaqS1", cls: "StretchSprite", width: 50, height: 50, x: 50*0, y: 50*0, border: 30 },
@@ -505,8 +512,7 @@ class SparkAssets {
         ];
 
         this.assets = [
-            Templates.tile("000", "buttonOff"),
-            Templates.tile("001", "buttonHover"),
+            // NOTE: do not assign objects to "000": reserved for empty index
             Templates.tile("002", "sand"),
             Templates.tile("003", "road"),
             Templates.tile("004", "brickFloor"),
