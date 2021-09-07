@@ -2944,8 +2944,8 @@ class WorldGen {
         tag: "work2",
         columns: 6,
         rows: 6,
-        offx: 20,
-        offy: 30,
+        offx: 58,
+        offy: 35,
         autoArea: true,
         layers: {
             l1: {

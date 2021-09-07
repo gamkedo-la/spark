@@ -70,7 +70,7 @@ class EatAction extends Action {
     }
 
     start(actor) {
-        console.log(`eat action actor: ${actor} target: ${this.target}}`);
+        //console.log(`eat action actor: ${actor} target: ${this.target}}`);
         this.actor = actor;
         // actor drops food
         this.actor.carryTag = undefined;
@@ -81,7 +81,7 @@ class EatAction extends Action {
     update(ctx) {
         this.ttl -= ctx.deltaTime;
         if (this.ttl <= 0) {
-            console.log(`actor ${this.actor} done eating`);
+            //console.log(`actor ${this.actor} done eating`);
             this.done = true;
             this.actor.conditions.delete(Condition.eating);
         }

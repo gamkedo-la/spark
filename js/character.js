@@ -35,6 +35,12 @@ class Character extends Model {
         this.carryTag = undefined;
         // -- morale
         this.morale = (spec.hasOwnProperty("xmorale")) ? Generator.generate(spec.xmorale) : undefined;
+        // -- chat info
+        this.chatable = spec.hasOwnProperty("chatable") ? spec.chatable : false;
+        if (this.chatable) {
+            this.chatPct = spec.chatPct || .5;
+            this.chatTimers = {};
+        }
     }
 
     toString() {

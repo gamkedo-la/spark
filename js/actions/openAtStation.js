@@ -80,7 +80,7 @@ class OpenAction extends Action {
     }
 
     start(actor) {
-        console.log(`open action actor: ${actor} target: ${this.target}}`);
+        //console.log(`open action actor: ${actor} target: ${this.target}}`);
         this.actor = actor;
         // actor applies sweeping condition
         //this.actor.conditions.add(Condition.sweeping);
@@ -89,7 +89,7 @@ class OpenAction extends Action {
     update(ctx) {
         this.ttl -= ctx.deltaTime;
         if (this.ttl <= 0) {
-            console.log(`actor ${this.actor} done opening`);
+            //console.log(`actor ${this.actor} done opening`);
             this.done = true;
             //this.actor.conditions.delete(Condition.sweeping);
             // remove close condition from target

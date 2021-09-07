@@ -38,7 +38,8 @@ class MoraleSystem extends System {
                 if (this.dbg) console.log(`character ${e} likes event ${evt} morale raised by ${e.morale.likes[evt]} to ${e.morale.value}`);
                 this.eventQ.push(new Event("npc.moraleUp", {actor: e}));
             } else if (evt in e.morale.dislikes) {
-                if (this.dbg) console.log(`character ${e} dislikes event ${evt} morale raised by ${e.morale.likes[evt]} to ${e.morale.value}`);
+                e.morale.value -= e.morale.dislikes[evt];
+                if (this.dbg) console.log(`character ${e} dislikes event ${evt} morale lowered by ${e.morale.dislikes[evt]} to ${e.morale.value}`);
                 this.eventQ.push(new Event("npc.moraleDown", {actor: e}));
             }
         }

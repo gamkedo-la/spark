@@ -81,7 +81,7 @@ class GatherAction extends Action {
     }
 
     start(actor) {
-        console.log(`gather action actor: ${actor} target: ${this.target}}`);
+        //console.log(`gather action actor: ${actor} target: ${this.target}}`);
         this.actor = actor;
         // actor gathers from target
         this.target.gather(actor);

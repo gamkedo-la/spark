@@ -295,7 +295,7 @@ class PlayState extends State {
         //// FIXME
         //let action = "spark";
         if (this.lastAction !== action) {
-            console.log(`setting z action to: ${action}`);
+            //console.log(`setting z action to: ${action}`);
             // update z panel w/ new icon for given action
             let sketch = Generator.generate(PlayState.actionSketches[action]);
             this.zPanel.sketch = sketch;

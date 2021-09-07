@@ -783,6 +783,7 @@ class SparkAssets {
                 xcollider: { tag: Collider.npc, blocking: Collider.projectile|Collider.object, width:14, height:12, offy:16, color: "rgba(0,0,127,.5)" },
                 xactivitySchedule: Templates.testSchedule,
                 sparkable: true,
+                chatable: true,
                 maxSparkTTL: 500,
                 xai: { 
                     cls: "AiState",
@@ -816,6 +817,10 @@ class SparkAssets {
                 xmorale: {
                     cls: "Morale",
                     likes: { "spark": 2 },
+                    dislikes: { 
+                        "chat.neutral": 1,
+                        "chat.insult": 2,
+                     },
                 }
             }),
 
@@ -826,6 +831,7 @@ class SparkAssets {
                 offy: -16,
                 ownerTag: "Ciara",
                 hoverable: true,
+                chatable: true,
                 maxFedTTL: 30000,
                 xcollider: { tag: Collider.npc, blocking: Collider.projectile|Collider.object, width:14, height:12, offy:16, color: "rgba(0,0,127,.5)" },
                 xactivitySchedule: Templates.testSchedule,
@@ -858,6 +864,14 @@ class SparkAssets {
                         "WorkAtStationScheme",
                     ]
                 },
+                xmorale: {
+                    cls: "Morale",
+                    likes: { "spark": 2 },
+                    dislikes: { 
+                        "chat.insult": 2,
+                        "chat.neutral": 1,
+                    },
+                }
             }),
 
         ];

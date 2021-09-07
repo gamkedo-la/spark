@@ -97,4 +97,16 @@ class Util {
         return false;
     }
 
+    static jitter(base, pct) {
+        let v = base * pct * Math.random();
+        return (Math.random() > .5) ? base + v : base - v;
+    }
+
+    static choose(arr) {
+        if (arr.length === 0) return undefined
+        if (arr.length === 1) return arr[0];
+        let choice = Math.floor(Math.random() * arr.length);
+        return arr[choice];
+    }
+
 }

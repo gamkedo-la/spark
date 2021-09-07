@@ -18,6 +18,7 @@ import { WorldOverrides }   from "./worldOverrides.js";
 import { LinkSystem }       from "./linkSystem.js";
 import { MoraleSystem }     from "./moraleSystem.js";
 import { Font } from "./base/font.js";
+import { ChatSystem } from "./chatSystem.js";
 
 /** ========================================================================
  * Main Spark Game Specification and Setup
@@ -82,6 +83,8 @@ class Spark extends Game {
         this.base.systemMgr.adopt(new LinkSystem({ dbg: Config.dbg.LinkSystem, }));
         // ---- morale system
         this.base.systemMgr.adopt(new MoraleSystem({ dbg: Config.dbg.MoraleSystem }));
+        // ---- chat system
+        this.base.systemMgr.adopt(new ChatSystem({ dbg: Config.dbg.ChatSystem }));
 
         // init font
         Font.dfltFamily = "Irish Grover";

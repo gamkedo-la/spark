@@ -36,7 +36,7 @@ class OccupyPlan extends AiPlan {
         super.prepare(actor, state);
         let target = this.state.v_target;
         if (target.conditions.has(target.occupiedCondition)) {
-            console.log("OccupyPlan: target is occupied");
+            //console.log("OccupyPlan: target is occupied");
             return false;
         }
         return true;

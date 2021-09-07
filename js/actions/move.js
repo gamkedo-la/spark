@@ -80,7 +80,7 @@ class MovePlan extends AiPlan {
     finalize() {
         // handle failure
         if (!this.pathinfo) {
-            if (this.dbg) console.log("MovePlan failed: no path to target: " + this.state.v_target);
+            //if (this.dbg) console.log("MovePlan failed: no path to target: " + this.state.v_target);
             return false;
         }
         //console.log(`move target: ${this.target} pathinfo: ${Fmt.ofmt(this.pathinfo)}`);
