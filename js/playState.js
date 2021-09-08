@@ -21,11 +21,13 @@ import { Atts }             from "./base/atts.js";
 import { Vect }             from "./base/vect.js";
 import { PauseAction }      from "./actions/pause.js";
 import { WaitAction }       from "./actions/wait.js";
-import { ResumeAction } from "./actions/resume.js";
-import { PanToAction } from "./actions/panTo.js";
-import { PowerUpAction } from "./actions/powerUp.js";
-import { UxView } from "./base/uxView.js";
-import { UxPanel } from "./base/uxPanel.js";
+import { ResumeAction }     from "./actions/resume.js";
+import { PanToAction }      from "./actions/panTo.js";
+import { PowerUpAction }    from "./actions/powerUp.js";
+import { UxPanel }          from "./base/uxPanel.js";
+import { Font }             from "./base/font.js";
+import { Text }             from "./base/text.js";
+import { Event }            from "./base/event.js";
 
 class PlayState extends State {
 
@@ -150,7 +152,13 @@ class PlayState extends State {
         this.actions = [];
 
         // ui state
-        //this.moraleIndicators = [];
+
+        // audio sfxs
+        this.grumbles = [
+            Generator.generate({cls: "Media", tag: "grumble1"}),
+            Generator.generate({cls: "Media", tag: "grumble2"}),
+            Generator.generate({cls: "Media", tag: "grumble3"}),
+        ]
 
         // find game objects...
         this.vendorSparkbase = this.findFirst(v=>v.tag === "sparkbase" && v.ownerTag === "Aodhan");
@@ -189,6 +197,9 @@ class PlayState extends State {
         }
         if (evt.key === "7") {
             Config.dbg.Stats = !Config.dbg.Stats;
+        }
+        if (evt.key === "8") {
+            this.eventQ.push(new Event("npc.chat", {actor: this.player, target: null, msg: "hello there", kind: null}));
         }
         if (evt.key === "p") {
             Atts.paused = !Atts.paused;
@@ -342,6 +353,27 @@ class PlayState extends State {
         let view = new UxMoraleIndicator(xview);
     }
 
+    genChat(target, msg) {
+        // measure text
+        let font = new Font({size: 16});
+        let size = Text.measure(font, msg);
+
+        let xview = {
+            cls: "UxChatBubble",
+            ui: true,
+            target: target,
+            xsketch: { cls: 'Media', tag: "btnGoldOpaqS4" },
+            ttl: 3000,
+            getx: () => target.x*Config.renderScale - this.camera.minx,
+            gety: () => target.y*Config.renderScale - this.camera.miny,
+            xxform: { width: size.x+10, height: size.y+10, dx: -8, dy: -25, x: target.x*Config.renderScale-this.camera.minx, y: target.y*Config.renderScale-this.camera.miny, scalex: Config.renderScale, scaley: Config.renderScale },
+            xchildren: [
+                Templates.playText(null, msg, {xxform: {left: .05, right: .05}}),
+            ],
+        };
+        let view = new UxChatBubble(xview);
+    }
+
     updateGameEvents(ctx) {
         while (this.eventQ.length) {
             let evt = this.eventQ.shift();
@@ -368,6 +400,11 @@ class PlayState extends State {
                     break;
                 case "npc.moraleDown":
                     this.startMoraleIndicator(evt.actor, false);
+                    let sfx = Util.choose(this.grumbles);
+                    sfx.play();
+                    break;
+                case "npc.chat":
+                    this.genChat(evt.actor, evt.msg);
                     break;
             }
 
@@ -421,11 +458,38 @@ class UxMoraleIndicator extends UxPanel {
         this.ttl -= ctx.deltaTime;
         if (this.ttl <= 0) {
             this.destroy();
+            return false;
         }
         this.xform._offx = this.getx();
         this.xform._offy = this.gety();
         this.xform.dx += (this.dx * ctx.deltaTime);
         this.xform.dy += (this.dy * ctx.deltaTime);
+        if (this.dx || this.dy) this.updated = true;
+        return this.updated;
+    }
+}
+
+class UxChatBubble extends UxPanel {
+
+    // CONSTRUCTOR ---------------------------------------------------------
+    cpost(spec={}) {
+        super.cpost(spec);
+        this.target = spec.target || { x: 0, y: 0};
+        this.ttl = spec.ttl || 3000;
+        this.getx = spec.getx || (() => 0);
+        this.gety = spec.gety || (() => 0);
+    }
+
+    iupdate(ctx) {
+        this.updated |= super.iupdate(ctx);
+        this.ttl -= ctx.deltaTime;
+        if (this.ttl <= 0) {
+            this.destroy();
+            console.log("destroy chat bubble");
+            return true;
+        }
+        this.xform._offx = this.getx();
+        this.xform._offy = this.gety();
         if (this.dx || this.dy) this.updated = true;
         return this.updated;
     }

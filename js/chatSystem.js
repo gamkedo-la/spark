@@ -115,7 +115,6 @@ class ChatSystem extends System {
     iterate(ctx, e) {
         // discovery
         if (!(e.gid in this.chatters)) {
-            console.log(`found chatter: ${e}`);
             this.chatters[e.gid] = e;
         }
 
@@ -124,7 +123,7 @@ class ChatSystem extends System {
             for (let [k,v] of Object.entries(e.chatTimers)) {
                 v -= this.deltaTime;
                 if (v <= 0) {
-                    console.log(`${e} removing chat timer for gid:${k}`);
+                    if (this.dbg) console.log(`${e} removing chat timer for gid:${k}`);
                     delete e.chatTimers[k];
                 } else {
                     e.chatTimers[k] = v;
@@ -136,7 +135,7 @@ class ChatSystem extends System {
         if (e.chatTTL) {
             e.chatTTL -= this.deltaTime;
             if (e.chatTTL <= 0) {
-                console.log(`${e} removing general chat timer`);
+                if (this.dbg) console.log(`${e} removing general chat timer`);
                 e.chatTTL = 0;
             } else {
                 // chat blocked by timer
@@ -146,7 +145,6 @@ class ChatSystem extends System {
 
         // has chatter moved?
         if (this.lastx[e.gid] !== e.x || this.lasty[e.gid] !== e.y) {
-            //console.log(`${e} moved: ${e.x},${e.y}`);
             this.lastx[e.gid] = e.x;
             this.lasty[e.gid] = e.y;
             // is chatter in range of any other chatter?
@@ -157,16 +155,13 @@ class ChatSystem extends System {
                 if (other.chatTTL) continue;
                 // FIXME: check for chatter within same area...
                 // skip other if they are out of range
-                //console.log(`check range ${Vect.dist(e, other)}`);
                 if (Vect.dist(e, other) > this.chatRange) continue;
                 // check chatter-specific timers
                 if (e.chatTimers && e.chatTimers[other.gid]) continue;
-                console.log(`chat viable`);
-
                 // chat is viable with other...
                 if (Math.random() > e.chatPct) {
                     // only one chat at a time...
-                    console.log(`${e} starting chat w/ ${other}`);
+                    if (this.dbg) console.log(`${e} starting chat w/ ${other}`);
                     this.chat(e, other);
                     return;
                 }

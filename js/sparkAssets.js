@@ -19,6 +19,9 @@ class SparkAssets {
             { src: "snd/hoverIn.mp3", loader: "Audio", tag: "hoverIn", loop: false },
             { src: "snd/hoverOut.mp3", loader: "Audio", tag: "hoverOut", loop: false },
             { src: "snd/selected.mp3", loader: "Audio", tag: "selected", loop: false },
+            { src: "snd/grumble-1.mp3", loader: "Audio", tag: "grumble1", loop: false },
+            { src: "snd/grumble-2.mp3", loader: "Audio", tag: "grumble2", loop: false },
+            { src: "snd/grumble-3.mp3", loader: "Audio", tag: "grumble3", loop: false },
             // FIXME: for now music would be added the same as normal audio, but using the "loop" variable
             //{ src: "snd/testsong.mp3", loader: "Audio", tag: "testsong", loop: true },
             { src: "img/fountain.png", loader: "Sheet", refs: [
@@ -414,14 +417,14 @@ class SparkAssets {
 
             // a sheet of images
             { src: "img/goldButtonFrames.png", loader: "Sheet", refs: [
-                {tag: "btnGoldOpaqS1", cls: "StretchSprite", width: 50, height: 50, x: 50*0, y: 50*0, border: 30 },
-                {tag: "btnGoldOpaqS2", cls: "StretchSprite", width: 50, height: 50, x: 50*1, y: 50*0, border: 30 },
-                {tag: "btnGoldOpaqS3", cls: "StretchSprite", width: 50, height: 50, x: 50*2, y: 50*0, border: 30 },
-                {tag: "btnGoldOpaqS4", cls: "StretchSprite", width: 50, height: 50, x: 50*3, y: 50*0, border: 30 },
+                {tag: "btnGoldOpaqS1", cls: "StretchSprite", width: 50, height: 50, x: 50*0, y: 50*0, border: 15 },
+                {tag: "btnGoldOpaqS2", cls: "StretchSprite", width: 50, height: 50, x: 50*1, y: 50*0, border: 15 },
+                {tag: "btnGoldOpaqS3", cls: "StretchSprite", width: 50, height: 50, x: 50*2, y: 50*0, border: 15 },
+                {tag: "btnGoldOpaqS4", cls: "StretchSprite", width: 50, height: 50, x: 50*3, y: 50*0, border: 15 },
                 {tag: "btnGoldTranS1", cls: "StretchSprite", width: 50, height: 50, x: 50*0, y: 50*1, border: 15 },
-                {tag: "btnGoldTranS2", cls: "StretchSprite", width: 50, height: 50, x: 50*1, y: 50*1, border: 30 },
-                {tag: "btnGoldTranS3", cls: "StretchSprite", width: 50, height: 50, x: 50*2, y: 50*1, border: 30 },
-                {tag: "btnGoldTranS4", cls: "StretchSprite", width: 50, height: 50, x: 50*3, y: 50*1, border: 30 },
+                {tag: "btnGoldTranS2", cls: "StretchSprite", width: 50, height: 50, x: 50*1, y: 50*1, border: 15 },
+                {tag: "btnGoldTranS3", cls: "StretchSprite", width: 50, height: 50, x: 50*2, y: 50*1, border: 15 },
+                {tag: "btnGoldTranS4", cls: "StretchSprite", width: 50, height: 50, x: 50*3, y: 50*1, border: 15 },
             ]},
 
             { src: "img/gnome.png", loader: "Sheet", refs: [

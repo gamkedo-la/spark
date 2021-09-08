@@ -34,6 +34,30 @@ class Templates {
         }
     }
 
+    static playText(tag, text, spec={}) {
+        let xxform = spec.xxform || {};
+        let color = spec.color || "rgba(0,167,167,1)"
+        return {
+            cls: "UxText",
+            tag: tag,
+            xxform: xxform,
+            xtext: { color: color, text: text, },
+        }
+    }
+
+    static playBubble(tag, spec={}) {
+        let xxform = spec.xxform || {};
+        let xchildren = spec.xchildren || [];
+        let xsketch = spec.xsketch || { cls: 'Media', tag: "btnGoldTranS1" };
+        return {
+            cls: "UxPanel",
+            tag: tag,
+            xxform: xxform,
+            xsketch: xsketch,
+            xchildren: xchildren,
+        }
+    }
+
     static dbgText(tag, text, spec={}) {
         let xxform = spec.xxform || {};
         let color = spec.color || "rgba(167,0,0,.6)"
