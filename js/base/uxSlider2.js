@@ -48,7 +48,7 @@ class UxSlider2 extends UxView {
         // -- knob sketch
         let xknob = spec.xnob || UxSlider2.dfltKnob;
         // -- initial slider value
-        this._value = spec.hasOwnProperty("value") ? Mathf.clamp(spec.value, 0, 1) : 0;
+        this._value = spec.hasOwnProperty("value") ? Mathf.clamp(spec.value, 0, 1) : 1;
         // dynamically build slider knob element
         let xknobView = {
             cls: "UxSlider2Knob",
