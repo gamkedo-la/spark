@@ -1,5 +1,5 @@
 export { UxSlider };
-
+import { Base }             from "./base.js";
 import { Generator }        from "./generator.js";
 import { Mouse }            from "./mouse.js";
 import { Util }             from "./util.js";
@@ -127,6 +127,7 @@ class UxSlider extends UxView {
                 let value = Mathf.clamp(Mathf.lerp(this.xform.minx, this.xform.maxx, 0, 1, lpos.x), 0, 1);
                 if (value !== this._value) {
                     this.value = value;
+                    Base.instance.audioMgr.sfxVol = this._value;
                 }
             } else {
                 this.dragging = false;

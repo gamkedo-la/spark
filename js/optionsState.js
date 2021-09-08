@@ -43,7 +43,7 @@ class OptionsState extends State {
                     {
                         cls: "UxSlider",
                         tag: "volumeSliderSFX",
-                        xxform: { top: -1/4, bottom: 1-1/4 },
+                        xxform: { top: -1/4, bottom: 1-0/4 },
                     },
                     {
                         cls: "UxSlider2",
