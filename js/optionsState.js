@@ -8,6 +8,7 @@ import { MenuState }        from "./menuState.js";
 import { Fmt }              from "./base/fmt.js";
 import { Base }             from "./base/base.js";
 
+
 class OptionsState extends State {
 
     /**
@@ -44,11 +45,13 @@ class OptionsState extends State {
                         cls: "UxSlider",
                         tag: "volumeSliderSFX",
                         xxform: { top: -1/4, bottom: 1-0/4 },
+                        
                     },
                     {
                         cls: "UxSlider2",
                         tag: "volumeSliderMusic",
                         xxform: { top: 0/4, bottom: 1-1/4 },
+                       
                     },
                     //Templates.menuButton("volumeButton", "volume", { xxform: { top: 0/4, bottom: 1-1/4 }}),
                     Templates.menuButton("loadGameButton", "load", { xxform: { top: 1/4, bottom: 1-2/4 }}),
