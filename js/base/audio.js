@@ -29,15 +29,9 @@ class Audio {
         // FIXME
         this.src = this.audioCtx.createBufferSource();
         this.src.buffer = this.buffer;
-        let adjustedVolume = this.volume;
-        if (this.loop) {
-            adjustedVolume *= Base.instance.audioMgr.musicVol;
-        } else {
-            adjustedVolume *= Base.instance.audioMgr.sfxVol;
-        }
-        if (adjustedVolume !== 1) {
+        if (this.volume !== 1) {
             var gainNode = this.audioCtx.createGain()
-            gainNode.gain.value = adjustedVolume;
+            gainNode.gain.value = this.volume;
             gainNode.connect(this.audioCtx.destination);
             this.src.connect(gainNode)
         } else {
