@@ -7,7 +7,7 @@ import { Templates }        from "./templates.js";
 import { MenuState }        from "./menuState.js";
 import { Fmt }              from "./base/fmt.js";
 import { Base }             from "./base/base.js";
-
+import { Color }            from "./base/color.js";
 
 class OptionsState extends State {
 
@@ -42,16 +42,30 @@ class OptionsState extends State {
                     //     the first variable is a UI tag (we'll use this for element lookups below)
                     //     the second variable is the actual text to use within the button
                     {
-                        cls: "UxSlider",
-                        tag: "volumeSliderSFX",
+                        cls: "UxPanel",
                         xxform: { top: -1/4, bottom: 1-0/4 },
-                        
-                    },
-                    {
-                        cls: "UxSlider2",
-                        tag: "volumeSliderMusic",
-                        xxform: { top: 0/4, bottom: 1-1/4 },
-                       
+                        xchildren: [
+                            {
+                               cls: "UxText",
+                               xxform: { right: .7 },
+                               xtext: { color: new Color(0,255,0,.75), text: "sfx volume", },
+                            },
+                            {
+                               cls: "UxSlider",
+                               tag: "volumeSliderSFX",
+                               xxform: { left: .3 },
+                            },
+                            {
+                                cls: "UxText",
+                                xxform: { right: .9 },
+                                xtext: { color: new Color(0,255,0,.75), text: "music volume", },
+                             },
+                             {
+                                cls: "UxSlider",
+                                tag: "volumeSliderSFX",
+                                xxform: { left: .5 },
+                             },
+                        ],
                     },
                     //Templates.menuButton("volumeButton", "volume", { xxform: { top: 0/4, bottom: 1-1/4 }}),
                     Templates.menuButton("loadGameButton", "load", { xxform: { top: 1/4, bottom: 1-2/4 }}),
