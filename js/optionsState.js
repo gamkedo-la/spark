@@ -55,15 +55,21 @@ class OptionsState extends State {
                                tag: "volumeSliderSFX",
                                xxform: { left: .3 },
                             },
+                        ],
+                    },
+                    {
+                        cls: "UxPanel",
+                        xxform: { top: 0/4, bottom: 1-1/4 },
+                        xchildren: [
                             {
                                 cls: "UxText",
-                                xxform: { right: .9 },
+                                xxform: { right: .7 },
                                 xtext: { color: new Color(0,255,0,.75), text: "music volume", },
                              },
                              {
                                 cls: "UxSlider",
                                 tag: "volumeSliderSFX",
-                                xxform: { left: .5 },
+                                xxform: { left: .3 },
                              },
                         ],
                     },
