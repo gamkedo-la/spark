@@ -158,7 +158,12 @@ class PlayState extends State {
             Generator.generate({cls: "Media", tag: "grumble1"}),
             Generator.generate({cls: "Media", tag: "grumble2"}),
             Generator.generate({cls: "Media", tag: "grumble3"}),
-        ]
+        ];
+        this.cheers = [
+            Generator.generate({cls: "Media", tag: "cheer1"}),
+            Generator.generate({cls: "Media", tag: "cheer2"}),
+            Generator.generate({cls: "Media", tag: "cheer3"}),
+        ];
 
         // find game objects...
         this.vendorSparkbase = this.findFirst(v=>v.tag === "sparkbase" && v.ownerTag === "Aodhan");
@@ -379,6 +384,7 @@ class PlayState extends State {
             let evt = this.eventQ.shift();
             console.log(`play state processing game event: ${Fmt.ofmt(evt)}`);
 
+            let sfx;
             switch (evt.tag) {
                 case "npc.moraleMax":
                     // spark base activation for aodhan
@@ -397,10 +403,12 @@ class PlayState extends State {
                     break;
                 case "npc.moraleUp":
                     this.startMoraleIndicator(evt.actor, true);
+                    sfx = Util.choose(this.cheers);
+                    sfx.play();
                     break;
                 case "npc.moraleDown":
                     this.startMoraleIndicator(evt.actor, false);
-                    let sfx = Util.choose(this.grumbles);
+                    sfx = Util.choose(this.grumbles);
                     sfx.play();
                     break;
                 case "npc.chat":

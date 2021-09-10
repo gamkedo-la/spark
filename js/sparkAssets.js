@@ -22,6 +22,9 @@ class SparkAssets {
             { src: "snd/grumble-1.mp3", loader: "Audio", tag: "grumble1", loop: false },
             { src: "snd/grumble-2.mp3", loader: "Audio", tag: "grumble2", loop: false },
             { src: "snd/grumble-3.mp3", loader: "Audio", tag: "grumble3", loop: false },
+            { src: "snd/bless_us_all.mp3", loader: "Audio", tag: "cheer1", loop: false },
+            { src: "snd/happy_heart.mp3", loader: "Audio", tag: "cheer2", loop: false },
+            { src: "snd/we_are_lucky.mp3", loader: "Audio", tag: "cheer3", loop: false },
             // FIXME: for now music would be added the same as normal audio, but using the "loop" variable
             //{ src: "snd/testsong.mp3", loader: "Audio", tag: "testsong", loop: true },
             { src: "img/fountain.png", loader: "Sheet", refs: [
