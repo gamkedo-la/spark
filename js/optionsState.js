@@ -52,7 +52,7 @@ class OptionsState extends State {
                             },
                             {
                                cls: "UxSlider",
-                               tag: "volumeSliderSFX",
+                               tag: "sfxVolumeSlider",
                                xxform: { left: .3 },
                             },
                         ],
@@ -68,7 +68,7 @@ class OptionsState extends State {
                              },
                              {
                                 cls: "UxSlider",
-                                tag: "volumeSliderSFX",
+                                tag: "musicVolumeSlider",
                                 xxform: { left: .3 },
                              },
                         ],
@@ -91,14 +91,21 @@ class OptionsState extends State {
         // NOTE: to avoid errors due to javascript binding of objects, this utility method is called on every event callback function
         // this is equavilent of calling this.onKeyDown = this.onKeyDown.bind(this);  // this tells js to bind the local "this" variable to the given "this".
         Util.bind(this, "onKeyDown", "onVolume", "onLoadGame", "onSaveGame", "onHelp", "onBack");
+        // audio manager
+        this.amgr = spec.amgr || Base.instance.audioMgr;
         // lookup ui element references... 
         // -- using the superclass' findFirst method, look up the UI element that has a tag of "playButton"
-        this.volumeButton = this.findFirst(v=>v.tag === "volumeButton");
+        this.sfxVolumeSlider = this.findFirst(v=>v.tag === "sfxVolumeSlider");
+        this.musicVolumeSlider = this.findFirst(v=>v.tag === "musicVolumeSlider");
         this.loadButton = this.findFirst(v=>v.tag === "loadGameButton");
         this.saveButton = this.findFirst(v=>v.tag === "saveGameButton");
         this.helpButton = this.findFirst(v=>v.tag === "helpButton");
         this.backButton = this.findFirst(v=>v.tag === "backButton");
         // TODO: add additional references for the other buttons
+
+        // set initial slider positions (before wiring event handlers)
+        this.sfxVolumeSlider.value = this.amgr.sfxVolume;
+        this.musicVolumeSlider.value = this.amgr.musicVolume;
 
         // wire event handlers
         // -- listen for key events...
@@ -106,7 +113,8 @@ class OptionsState extends State {
         Keys.evtKeyPressed.listen(this.onKeyDown);
         // -- listen for button events...
         // first call here is to wire the play buttons click handler to a callback function.
-        //this.volumeButton.evtClicked.listen(this.onVolume);
+        this.sfxVolumeSlider.evtValueChanged.listen(this.onVolume);
+        this.musicVolumeSlider.evtValueChanged.listen(this.onVolume);
         this.loadButton.evtClicked.listen(this.onLoadGame);
         this.saveButton.evtClicked.listen(this.onSaveGame);
         this.helpButton.evtClicked.listen(this.onHelp);
@@ -116,7 +124,12 @@ class OptionsState extends State {
 
     // the callback handler for the playButton click event
     onVolume(evt) {
-        console.log("toDO Volume control");
+        console.log(`onVolume w/ evt: ${Fmt.ofmt(evt)}`);
+        if (evt.actor.tag === "musicVolumeSlider") {
+            this.amgr.musicVolume = evt.value;
+        } else if (evt.actor.tag === "sfxVolumeSlider") {
+            this.amgr.sfxVolume = evt.value;
+        }
         // here is an example of how major game states are managed.
         // the main play state is created/loaded
         //let state = new VolumeState();
