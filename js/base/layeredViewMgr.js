@@ -237,7 +237,6 @@ class LayeredViewMgr extends Gizmo {
             this.sliceReady = false;
             // sliced views get rendered to the slice context
             for (const view of this.slicedSorted) {
-                //console.log("==== render view: " + view);
                 view.render(this.sliceCtx);
             }
             this.sliceCtx.resetTransform();
@@ -257,10 +256,8 @@ class LayeredViewMgr extends Gizmo {
             this.uiUpdated = false;
             //this.uiCtx.fillRect(0, 0, this.canvas.width, this.canvas.height);
             this.uiCtx.clearRect(0, 0, this.uiCanvas.width, this.uiCanvas.height);
-            //console.log("ui updated");
             for (const view of this.uiViews) {
                 view.render(this.uiCtx);
-                //console.log(`render ui view: ${view}`);
             }
         }
     }
@@ -291,6 +288,7 @@ class LayeredViewMgr extends Gizmo {
         if (view.ui) {
             let idx = this.uiViews.indexOf(view);
             if (idx !== -1) this.uiViews.splice(idx, 1);
+            this.uiUpdated = true;
         } else {
             this.grid.remove(view);
             //this.sorted.remove(view);

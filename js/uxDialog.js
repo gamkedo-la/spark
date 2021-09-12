@@ -26,6 +26,7 @@ class UxDialogCtrl extends UxCtrl {
         this.view = Generator.generate({
             cls: "UxCanvas",
             ui: true,
+            cvsid: "uicanvas",
             xchildren: [
                 {
                     cls: "UxPanel",
@@ -126,7 +127,7 @@ class UxDialogCtrl extends UxCtrl {
         }
     }
 
-    update(ctx) {
+    iupdate(ctx) {
         // check for dialog completion
         if (this.dialog.done) this.onBack();
         this.updateTitle(ctx);

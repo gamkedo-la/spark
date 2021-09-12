@@ -24,7 +24,7 @@ class UxCtrl extends Gizmo {
         super(spec);
     }
     cpost(spec) {
-        this.view = Generator.generate(spec.xview || UxCtrl.dfltView);
+        //this.view = Generator.generate(spec.xview || UxCtrl.dfltView);
     }
 
     // METHODS -------------------------------------------------------------

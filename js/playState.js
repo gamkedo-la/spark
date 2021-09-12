@@ -60,7 +60,6 @@ class PlayState extends State {
             cvsid: "canvas",
             ui: true,
             tag: "cvs.0",
-            //depth: 30,
             xchildren: [
                 {
                     tag: "daylight.filter",
@@ -96,7 +95,6 @@ class PlayState extends State {
             ],
         };
         spec.xmodel = World.xlvl;
-        //spec.xmodel = { cls: "Level" };
     }
 
 
@@ -105,7 +103,7 @@ class PlayState extends State {
         this.camera = spec.camera || Camera.main;
         //this.camera.dbg = true;
 
-        Util.bind(this, "onKeyDown", "onClicked", "onMenu", "onMorale");
+        Util.bind(this, "onKeyDown", "onClicked", "onMenu", "onMorale", "onCloseDialog");
         Keys.evtKeyPressed.listen(this.onKeyDown);
         Mouse.evtClicked.listen(this.onClicked);
         let gridView = new GridView({depth: 10, grid: this.grid, xxform: {scalex: Config.renderScale, scaley: Config.renderScale}});
@@ -179,6 +177,7 @@ class PlayState extends State {
     }
 
     onKeyDown(evt) {
+        if (!this.view.active) return;
         //console.log("onKeyDown: " + Fmt.ofmt(evt));
         if (evt.key === "1") {
             this.dbgPanel.visible = !this.dbgPanel.visible;
@@ -211,9 +210,11 @@ class PlayState extends State {
             let xdialog = SparkDialog.dialogs.test;
             xdialog.actor = this.player;
             let dialog = new Dialog(xdialog);
-            console.log(`dialog: ${Fmt.ofmt(dialog)}`);
-            let ctrl = new UxDialogCtrl({dialog: dialog});
-            console.log(`ctrl: ${Fmt.ofmt(ctrl)}`);
+            //this.genDialog(undefined, dialog);
+            this.eventQ.push(new Event("npc.dialog", {actor: this.player, target: null, dialog: dialog}));
+            //console.log(`dialog: ${Fmt.ofmt(dialog)}`);
+            //let ctrl = new UxDialogCtrl({dialog: dialog});
+            //console.log(`ctrl: ${Fmt.ofmt(ctrl)}`);
         }
         if (evt.key === "p") {
             Atts.paused = !Atts.paused;
@@ -225,6 +226,7 @@ class PlayState extends State {
     }
 
     onClicked(evt) {
+        if (!this.view.active) return;
         // ignore if within button
         if (this.moraleButton.mouseOver || this.menuButton.mouseOver) return;
         //let localMousePos = this.editorPanel.xform.getLocal(new Vect(evt.x, evt.y))
@@ -388,6 +390,28 @@ class PlayState extends State {
         let view = new UxChatBubble(xview);
     }
 
+    genDialog(dialog) {
+        // don't start new dialog if dialog is already running
+        if (this.currentDialog) return;
+        // create new dialog controller
+        this.currentDialog = new UxDialogCtrl({dialog: dialog});
+        // disable play state ui and mouse clicks
+        this.view.active = false;
+        // pause game
+        Atts.paused = true;
+        // hook destroy event for dialog
+        this.currentDialog.evtDestroyed.listen(this.onCloseDialog);
+    }
+
+    onCloseDialog() {
+        // clear dialog
+        this.currentDialog = null;
+        // re-enable play state
+        this.view.active = true;
+        // unpause game
+        Atts.paused = false;
+    }
+
     updateGameEvents(ctx) {
         while (this.eventQ.length) {
             let evt = this.eventQ.shift();
@@ -422,6 +446,9 @@ class PlayState extends State {
                     break;
                 case "npc.chat":
                     this.genChat(evt.actor, evt.msg);
+                    break;
+                case "npc.dialog":
+                    this.genDialog(evt.dialog);
                     break;
             }
 
