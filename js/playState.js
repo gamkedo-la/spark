@@ -40,6 +40,7 @@ class PlayState extends State {
         "occupy":       {cls: "Text", text: "V", xfitter: { cls: "FitToParent"}, color: new Color(225,0,0,.75)},
         "spark":        {cls: "Text", text: "#", xfitter: { cls: "FitToParent"}, color: new Color(225,0,0,.75)},
         "open":         {cls: "Text", text: "o", xfitter: { cls: "FitToParent"}, color: new Color(225,0,0,.75)},
+        "talk":         {cls: "Text", text: "t", xfitter: { cls: "FitToParent"}, color: new Color(225,0,0,.75)},
     };
 
     cpre(spec) {

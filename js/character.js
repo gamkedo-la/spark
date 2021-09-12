@@ -41,6 +41,12 @@ class Character extends Model {
             this.chatPct = spec.chatPct || .5;
             this.chatTimers = {};
         }
+        // -- assigned dialogs
+        this.xdialogs = spec.xdialogs || [];
+        // -- npc is interactable if dialog has been assigned
+        if (this.xdialogs && this.xdialogs.length) {
+            this.interactTag = "talk";
+        }
     }
 
     toString() {

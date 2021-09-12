@@ -827,7 +827,10 @@ class SparkAssets {
                         "chat.neutral": 1,
                         "chat.insult": 2,
                      },
-                }
+                },
+                xdialogs: [
+                    { tag: "test", predicate: (actor, npc) => true},
+                ],
             }),
 
             Templates.object("c03", "ciara", "Character", {
@@ -877,7 +880,10 @@ class SparkAssets {
                         "chat.insult": 2,
                         "chat.neutral": 1,
                     },
-                }
+                },
+                xdialogs: [
+                    { tag: "test", predicate: (actor, npc) => true},
+                ],
             }),
 
         ];

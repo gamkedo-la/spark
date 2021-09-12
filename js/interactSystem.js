@@ -11,6 +11,9 @@ import { Mathf } from "./base/math.js";
 import { SparkAction } from "./base/action.js";
 import { WaitAction } from "./actions/wait.js";
 import { Atts } from "./base/atts.js";
+import { SparkDialog } from "./sparkDialog.js";
+import { Dialog } from "./base/dialog.js";
+import { Event } from "./base/event.js";
 
 class InteractSystem extends System {
     // CONSTRUCTOR ---------------------------------------------------------
@@ -33,6 +36,7 @@ class InteractSystem extends System {
             "occupy",
             "spark",
         ];
+        this.eventQ = spec.eventQ || Atts.gameEventQ;
         this.interactAction = "none";
         this.interactTarget = undefined;
         this.sparkTarget = undefined;
@@ -174,6 +178,22 @@ class InteractSystem extends System {
             case "spark":
                 if (this.sparkTarget) {
                     this.dospark(ctx, e);
+                }
+                break;
+            case "talk":
+                if (this.interactTarget) {
+                    let xdialog = undefined;
+                    for (const dinfo of this.interactTarget.xdialogs) {
+                        if (dinfo.predicate(e, this.interactTarget)) {
+                            xdialog = Object.assign({}, SparkDialog.dialogs[dinfo.tag]);
+                            if (xdialog) {
+                                xdialog.actor = e;
+                                xdialog.npc = this.interactTarget;
+                                this.eventQ.push(new Event("npc.dialog", {actor: e, target: this.interactTarget, dialog: new Dialog(xdialog)}));
+                                break;
+                            }
+                        }
+                    }
                 }
                 break;
             default:
