@@ -28,6 +28,9 @@ import { UxPanel }          from "./base/uxPanel.js";
 import { Font }             from "./base/font.js";
 import { Text }             from "./base/text.js";
 import { Event }            from "./base/event.js";
+import { SparkDialog } from "./sparkDialog.js";
+import { Dialog } from "./base/dialog.js";
+import { UxDialogCtrl } from "./uxDialog.js";
 
 class PlayState extends State {
 
@@ -204,7 +207,13 @@ class PlayState extends State {
             Config.dbg.Stats = !Config.dbg.Stats;
         }
         if (evt.key === "8") {
-            this.eventQ.push(new Event("npc.chat", {actor: this.player, target: null, msg: "hello there", kind: null}));
+            //this.eventQ.push(new Event("npc.chat", {actor: this.player, target: null, msg: "hello there", kind: null}));
+            let xdialog = SparkDialog.dialogs.test;
+            xdialog.actor = this.player;
+            let dialog = new Dialog(xdialog);
+            console.log(`dialog: ${Fmt.ofmt(dialog)}`);
+            let ctrl = new UxDialogCtrl({dialog: dialog});
+            console.log(`ctrl: ${Fmt.ofmt(ctrl)}`);
         }
         if (evt.key === "p") {
             Atts.paused = !Atts.paused;
