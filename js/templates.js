@@ -297,8 +297,9 @@ class Templates {
     }
 
     static varSpriteRef(tag, coords, spec={}) {
-        let width = spec.width || Config.tileSize;
-        let height = spec.height || Config.tileSize;
+        let tileSize = spec.tileSize || Config.tileSize;
+        let width = spec.width || tileSize;
+        let height = spec.height || tileSize;
         let offx = spec.offx || 0;
         let offy = spec.offy || 0;
         delete spec.width;
@@ -310,10 +311,9 @@ class Templates {
             cls: "VarSprite",
             variations: [],
         });
-        //console.log(`tag: ${tag} coords: ${coords}`);
         for (const [x,y] of coords) {
             xref.variations.push(
-                { x: offx+(width*x), y: offy+(height*y), width: width, height: height },
+                { x: offx+(tileSize*x), y: offy+(tileSize*y), width: width, height: height },
             );
         }
         return xref;
