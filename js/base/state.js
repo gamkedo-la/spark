@@ -52,6 +52,16 @@ class State extends Gizmo {
         }
     }
 
+    get active() {
+        return super.active;
+    }
+    set active(v) {
+        if (v !== this._active) {
+            if (this.view) this.view.active = v;
+            super.active = v;
+        }
+    }
+
     // EVENT HANDLERS ------------------------------------------------------
     onGizmoCreate(evt) {
         if (!this.active) return;
