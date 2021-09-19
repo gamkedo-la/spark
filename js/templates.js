@@ -296,7 +296,7 @@ class Templates {
         }
     }
 
-    static varSpriteRef(tag, coords, spec={}) {
+    static xvarsprite(tag, coords, spec={}) {
         let tileSize = spec.tileSize || Config.tileSize;
         let width = spec.width || tileSize;
         let height = spec.height || tileSize;
@@ -325,21 +325,21 @@ class Templates {
             loader: "Sheet", 
             refs: [],
         };
-        xmedia.refs.push(this.varSpriteRef(`${tag}.a`, [[0,0], [1,1]], this.addHints(spec, tag, {l: "bcdi", r: "blmo", u: "bcfm", d: "bgio"})));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.b`, [[1,0], [0,1]], this.addHints(spec, tag, {l: "akln", r: "adeh", u: "aegn", d: "afhk"})));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.c`, [[3,0], [2,2], [0,3]], this.addHints(spec, tag, {r: "adeh", d: "afhk"})));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.d`, [[4,0], [5,0], [1,3], [8,3]], this.addHints(spec, tag, {l: "bcdi", r: "adeh", d: "j"})));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.e`, [[6,0], [7,2], [9,3]], this.addHints(spec, tag, {l: "bcdi", d: "bgio"})));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.f`, [[3,1], [0,4], [0,5], [3,8]], this.addHints(spec, tag, {r: "j", u: "bcfm", d: "afhk"})));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.g`, [[6,1], [9,4], [9,5], [6,8]], this.addHints(spec, tag, {l: "j", u: "aegn", d: "bgio"})));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.h`, [[3,2], [2,3]], this.addHints(spec, tag, {l: "bcdi", r: "j", u: "bcfm", d: "j"})));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.i`, [[6,2], [7,3]], this.addHints(spec, tag, {l: "j", r: "adeh", u: "aegn", d: "j"})));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.j`, [[1,4], [2,4], [3,4], [4,4], [5,4], [6,4], [7,4], [8,4]], this.addHints(spec, tag, {l: "fhm", r: "gin", u: "dhi", d: "lmn"})));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.k`, [[0,6], [2,7], [3,9]], this.addHints(spec, tag, {r: "blmo", u: "bcfm" })));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.l`, [[1,6], [8,6], [4,9], [5,9]], this.addHints(spec, tag, {l:"akln", r: "blmo", u: "j"})));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.m`, [[2,6], [3,7]], this.addHints(spec, tag, {l: "akln", r: "j", u: "j", d: "afhk"})));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.n`, [[7,6], [6,7]], this.addHints(spec, tag, {l: "j", r: "blmo", u: "j", d: "bgio"})));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.o`, [[9,6], [7,7], [6,9]], this.addHints(spec, tag, {l: "akln", u: "aegn"})));
+        xmedia.refs.push(this.xvarsprite(`${tag}.a`, [[0,0], [1,1]], this.addHints(spec, tag, {l: "bcdi", r: "blmo", u: "bcfm", d: "bgio"})));
+        xmedia.refs.push(this.xvarsprite(`${tag}.b`, [[1,0], [0,1]], this.addHints(spec, tag, {l: "akln", r: "adeh", u: "aegn", d: "afhk"})));
+        xmedia.refs.push(this.xvarsprite(`${tag}.c`, [[3,0], [2,2], [0,3]], this.addHints(spec, tag, {r: "adeh", d: "afhk"})));
+        xmedia.refs.push(this.xvarsprite(`${tag}.d`, [[4,0], [5,0], [1,3], [8,3]], this.addHints(spec, tag, {l: "bcdi", r: "adeh", d: "j"})));
+        xmedia.refs.push(this.xvarsprite(`${tag}.e`, [[6,0], [7,2], [9,3]], this.addHints(spec, tag, {l: "bcdi", d: "bgio"})));
+        xmedia.refs.push(this.xvarsprite(`${tag}.f`, [[3,1], [0,4], [0,5], [3,8]], this.addHints(spec, tag, {r: "j", u: "bcfm", d: "afhk"})));
+        xmedia.refs.push(this.xvarsprite(`${tag}.g`, [[6,1], [9,4], [9,5], [6,8]], this.addHints(spec, tag, {l: "j", u: "aegn", d: "bgio"})));
+        xmedia.refs.push(this.xvarsprite(`${tag}.h`, [[3,2], [2,3]], this.addHints(spec, tag, {l: "bcdi", r: "j", u: "bcfm", d: "j"})));
+        xmedia.refs.push(this.xvarsprite(`${tag}.i`, [[6,2], [7,3]], this.addHints(spec, tag, {l: "j", r: "adeh", u: "aegn", d: "j"})));
+        xmedia.refs.push(this.xvarsprite(`${tag}.j`, [[1,4], [2,4], [3,4], [4,4], [5,4], [6,4], [7,4], [8,4]], this.addHints(spec, tag, {l: "fhm", r: "gin", u: "dhi", d: "lmn"})));
+        xmedia.refs.push(this.xvarsprite(`${tag}.k`, [[0,6], [2,7], [3,9]], this.addHints(spec, tag, {r: "blmo", u: "bcfm" })));
+        xmedia.refs.push(this.xvarsprite(`${tag}.l`, [[1,6], [8,6], [4,9], [5,9]], this.addHints(spec, tag, {l:"akln", r: "blmo", u: "j"})));
+        xmedia.refs.push(this.xvarsprite(`${tag}.m`, [[2,6], [3,7]], this.addHints(spec, tag, {l: "akln", r: "j", u: "j", d: "afhk"})));
+        xmedia.refs.push(this.xvarsprite(`${tag}.n`, [[7,6], [6,7]], this.addHints(spec, tag, {l: "j", r: "blmo", u: "j", d: "bgio"})));
+        xmedia.refs.push(this.xvarsprite(`${tag}.o`, [[9,6], [7,7], [6,9]], this.addHints(spec, tag, {l: "akln", u: "aegn"})));
         return xmedia;
     }
 
@@ -363,21 +363,21 @@ class Templates {
             loader: "Sheet", 
             refs: [],
         };
-        xmedia.refs.push(this.varSpriteRef(`${tag}.a`, [[3,0], [2,3], [0,4], [6,7], [5,8]], this.addHints(spec, tag, {r: "bcik", d: "dk"})));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.b`, [[4,0], [1,4], [1,7], [4,11]], this.addHints(spec, tag, {l: "abjn", r: "bcik", d: "e"})));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.c`, [[5,0], [6,3], [7,4], [2,7], [3,8]], this.addHints(spec, tag, {l: "abjn", d: "fn"})));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.d`, [[3,1], [0,5], [5,9]], this.addHints(spec, tag, {r: "el", u: "a", d: "ghij"})));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.e`, [[4,1], [1,5], [1,8], [4,12]], this.addHints(spec, tag, {l: "dem", r: "efl", u: "b"})));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.f`, [[5,1], [7,5], [3,9]], this.addHints(spec, tag, {l: "dem", u: "c", d: "ghij"})));
+        xmedia.refs.push(this.xvarsprite(`${tag}.a`, [[3,0], [2,3], [0,4], [6,7], [5,8]], this.addHints(spec, tag, {r: "bcik", d: "dk"})));
+        xmedia.refs.push(this.xvarsprite(`${tag}.b`, [[4,0], [1,4], [1,7], [4,11]], this.addHints(spec, tag, {l: "abjn", r: "bcik", d: "e"})));
+        xmedia.refs.push(this.xvarsprite(`${tag}.c`, [[5,0], [6,3], [7,4], [2,7], [3,8]], this.addHints(spec, tag, {l: "abjn", d: "fn"})));
+        xmedia.refs.push(this.xvarsprite(`${tag}.d`, [[3,1], [0,5], [5,9]], this.addHints(spec, tag, {r: "el", u: "a", d: "ghij"})));
+        xmedia.refs.push(this.xvarsprite(`${tag}.e`, [[4,1], [1,5], [1,8], [4,12]], this.addHints(spec, tag, {l: "dem", r: "efl", u: "b"})));
+        xmedia.refs.push(this.xvarsprite(`${tag}.f`, [[5,1], [7,5], [3,9]], this.addHints(spec, tag, {l: "dem", u: "c", d: "ghij"})));
 
-        xmedia.refs.push(this.varSpriteRef(`${tag}.g`, [[3,2], [0,6], [3,10]], this.addHints(spec, tag, {u: "dfgh", d: "ghij"})));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.h`, [[5,2], [7,6], [5,10]], this.addHints(spec, tag, {u: "dfgh", d: "ghij"})));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.i`, [[3,3], [7,7], [5,11]], this.addHints(spec, tag, {l: "abjn", u: "dfgh", d: "l"})));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.j`, [[5,3], [0,7], [3,11]], this.addHints(spec, tag, {r: "bcik", u: "dfgh", d: "m"})));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.k`, [[2,4], [6,8]], this.addHints(spec, tag, {l: "abjn", r: "l", u: "a", d: "l"})));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.l`, [[3,4], [2,5], [7,8], [6,9], [5,12]], this.addHints(spec, tag, {l: "dekm", u: "ik"})));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.m`, [[5,4], [6,5], [0,8], [2,9], [3,12]], this.addHints(spec, tag, {r: "efln", u: "jn"})));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.n`, [[6,4], [2,8]], this.addHints(spec, tag, {l: "m", r: "bcik", u: "c", d: "m"})));
+        xmedia.refs.push(this.xvarsprite(`${tag}.g`, [[3,2], [0,6], [3,10]], this.addHints(spec, tag, {u: "dfgh", d: "ghij"})));
+        xmedia.refs.push(this.xvarsprite(`${tag}.h`, [[5,2], [7,6], [5,10]], this.addHints(spec, tag, {u: "dfgh", d: "ghij"})));
+        xmedia.refs.push(this.xvarsprite(`${tag}.i`, [[3,3], [7,7], [5,11]], this.addHints(spec, tag, {l: "abjn", u: "dfgh", d: "l"})));
+        xmedia.refs.push(this.xvarsprite(`${tag}.j`, [[5,3], [0,7], [3,11]], this.addHints(spec, tag, {r: "bcik", u: "dfgh", d: "m"})));
+        xmedia.refs.push(this.xvarsprite(`${tag}.k`, [[2,4], [6,8]], this.addHints(spec, tag, {l: "abjn", r: "l", u: "a", d: "l"})));
+        xmedia.refs.push(this.xvarsprite(`${tag}.l`, [[3,4], [2,5], [7,8], [6,9], [5,12]], this.addHints(spec, tag, {l: "dekm", u: "ik"})));
+        xmedia.refs.push(this.xvarsprite(`${tag}.m`, [[5,4], [6,5], [0,8], [2,9], [3,12]], this.addHints(spec, tag, {r: "efln", u: "jn"})));
+        xmedia.refs.push(this.xvarsprite(`${tag}.n`, [[6,4], [2,8]], this.addHints(spec, tag, {l: "m", r: "bcik", u: "c", d: "m"})));
         return xmedia;
 
     }
@@ -388,19 +388,19 @@ class Templates {
             loader: "Sheet", 
             refs: [],
         };
-        xmedia.refs.push(this.varSpriteRef(`${tag}.a`, [[0,4], [9,4], [12,4]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.b`, [[1,4], [2,4], [6,4], [7,4], [10,4], [13,4]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.c`, [[8,4], [11,4], [14,4]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.d`, [[0,5], [9,5]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.e`, [[1,5], [2,5], [6,5], [7,5], [10,5]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.f`, [[8,5], [11,5]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.g`, [[12,5]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.h`, [[13,5]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.i`, [[14,5]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.j`, [[0,6]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.k`, [[1,6], [7,6]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.l`, [[8,6]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.m`, [[9,6], [10,6], [11,6]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.a`, [[0,4], [9,4], [12,4]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.b`, [[1,4], [2,4], [6,4], [7,4], [10,4], [13,4]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.c`, [[8,4], [11,4], [14,4]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.d`, [[0,5], [9,5]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.e`, [[1,5], [2,5], [6,5], [7,5], [10,5]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.f`, [[8,5], [11,5]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.g`, [[12,5]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.h`, [[13,5]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.i`, [[14,5]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.j`, [[0,6]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.k`, [[1,6], [7,6]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.l`, [[8,6]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.m`, [[9,6], [10,6], [11,6]], spec));
         return xmedia;
     }
 
@@ -410,24 +410,24 @@ class Templates {
             loader: "Sheet", 
             refs: [],
         };
-        xmedia.refs.push(this.varSpriteRef(`${tag}.a`, [[7,0]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.b`, [[8,0]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.c`, [[9,0]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.d`, [[7,1]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.e`, [[8,1]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.f`, [[9,1]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.g`, [[7,2]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.h`, [[8,2]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.i`, [[9,2]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.j`, [[0,3]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.k`, [[1,3], [7,3]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.l`, [[8,3]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.m`, [[9,3]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.n`, [[10,3]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.o`, [[11,3]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.p`, [[12,3]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.q`, [[13,3]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.r`, [[14,3]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.a`, [[7,0]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.b`, [[8,0]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.c`, [[9,0]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.d`, [[7,1]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.e`, [[8,1]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.f`, [[9,1]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.g`, [[7,2]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.h`, [[8,2]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.i`, [[9,2]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.j`, [[0,3]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.k`, [[1,3], [7,3]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.l`, [[8,3]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.m`, [[9,3]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.n`, [[10,3]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.o`, [[11,3]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.p`, [[12,3]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.q`, [[13,3]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.r`, [[14,3]], spec));
         return xmedia;
     }
 
@@ -437,31 +437,31 @@ class Templates {
             loader: "Sheet", 
             refs: [],
         };
-        xmedia.refs.push(this.varSpriteRef(`${tag}.a`, [[3,0], [2,1]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.b`, [[4,0]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.c`, [[3,1]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.d`, [[4,1], [4,2], [4,5], [4,6], [4,7], [4,8]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.e`, [[2,2], [2,7], [2,8], [2,9]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.f`, [[3,2], [3,7], [3,8]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.g`, [[2,3]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.h`, [[3,3]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.i`, [[4,3]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.j`, [[3,4]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.k`, [[4,4]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.l`, [[3,5]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.m`, [[2,6]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.n`, [[3,6]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.o`, [[3,9]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.p`, [[4,9]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.q`, [[2,10]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.r`, [[3,10]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.s`, [[4,10]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.t`, [[7,8]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.u`, [[9,8]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.v`, [[10,8]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.w`, [[7,9]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.x`, [[9,9]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.y`, [[10,9]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.a`, [[3,0], [2,1]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.b`, [[4,0]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.c`, [[3,1]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.d`, [[4,1], [4,2], [4,5], [4,6], [4,7], [4,8]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.e`, [[2,2], [2,7], [2,8], [2,9]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.f`, [[3,2], [3,7], [3,8]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.g`, [[2,3]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.h`, [[3,3]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.i`, [[4,3]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.j`, [[3,4]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.k`, [[4,4]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.l`, [[3,5]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.m`, [[2,6]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.n`, [[3,6]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.o`, [[3,9]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.p`, [[4,9]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.q`, [[2,10]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.r`, [[3,10]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.s`, [[4,10]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.t`, [[7,8]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.u`, [[9,8]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.v`, [[10,8]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.w`, [[7,9]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.x`, [[9,9]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.y`, [[10,9]], spec));
         return xmedia;
     }
 
@@ -471,21 +471,21 @@ class Templates {
             loader: "Sheet", 
             refs: [],
         };
-        xmedia.refs.push(this.varSpriteRef(`${tag}.a`, [[5,0], [6,1]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.b`, [[5,1]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.c`, [[5,2], [5,7], [5,8]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.d`, [[6,2], [6,7], [6,8], [6,9]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.e`, [[5,3]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.f`, [[6,3]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.g`, [[5,4]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.h`, [[5,5]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.i`, [[5,6]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.j`, [[6,6]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.k`, [[5,9]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.l`, [[5,10]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.m`, [[6,10]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.n`, [[8,8]], spec));
-        xmedia.refs.push(this.varSpriteRef(`${tag}.o`, [[8,9]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.a`, [[5,0], [6,1]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.b`, [[5,1]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.c`, [[5,2], [5,7], [5,8]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.d`, [[6,2], [6,7], [6,8], [6,9]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.e`, [[5,3]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.f`, [[6,3]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.g`, [[5,4]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.h`, [[5,5]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.i`, [[5,6]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.j`, [[6,6]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.k`, [[5,9]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.l`, [[5,10]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.m`, [[6,10]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.n`, [[8,8]], spec));
+        xmedia.refs.push(this.xvarsprite(`${tag}.o`, [[8,9]], spec));
         return xmedia;
     }
 
