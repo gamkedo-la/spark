@@ -127,7 +127,7 @@ class SparkAssets {
                 Templates.xsprite("inn.lvl1.entry1.b", 15, 8, {height: 16*2, width: 16*1}),
                 Templates.xsprite("inn.lvl1.bl", 1, 11, {height: 16*3, width: 16*1}),
                 Templates.xsprite("inn.lvl1.entry2.l", 7, 11, {height: 16*6, width: 16*1}),
-                Templates.xsprite("inn.lvl1.door.b", 8, 13, {height: 16*4, width: 16*2}),
+                Templates.xsprite("inn.lvl1.door.b.close", 8, 12, {height: 16*5, width: 16*2}),
                 Templates.xsprite("inn.lvl1.entry2.r", 10, 11, {height: 16*6, width: 16*1}),
                 Templates.xsprite("inn.lvl1.room.tl", 15, 10, {height: 16*4, width: 16*1}),
                 Templates.xsprite("inn.lvl1.room.bl", 15, 14, {height: 16*3, width: 16*1}),
@@ -138,12 +138,23 @@ class SparkAssets {
                 Templates.xsprite("inn.lvl1.tower.tr", 20, 14, {height: 16*3, width: 16*2}),
                 Templates.xsprite("inn.lvl1.tower.b", 15, 17, {height: 16*6, width: 16*8}),
                 Templates.xsprite("inn.lvl1.b", 2, 11, {height: 16*3, width: 16*1} ),
+                Templates.xsprite("inn.lvl1.stairs", 23, 0, {height: 16*5, width: 16*5} ),
+                Templates.xsprite("inn.lvl1.stairs.rail", 23, 5, {height: 16*3, width: 16*3} ),
+                Templates.xsprite("inn.lvl1.door.b.open", 28, 0, {height: 16*5, width: 16*2} ),
             ]},
 
             { src: "img/icons.png", loader: "Sheet", refs: [
                 Templates.xanim("downArrow", 0, 0, {duration: [500, 500/7], loop: false}),
                 Templates.xanim("upArrow", 1, 0, {duration: [500, 500/7], loop: false}),
             ]},
+
+            { tag: "inn.lvl1.door.b", 
+                cls: "Animator", 
+                animations: { 
+                    [ModelState.close]: { cls: "Media", tag: "inn.lvl1.door.b.close" }, 
+                    [ModelState.open]: { cls: "Media", tag: "inn.lvl1.door.b.open" }, 
+                },
+            },
 
             { tag: "vhouseBed", 
                 cls: "Animator", 
@@ -686,8 +697,20 @@ class SparkAssets {
             Templates.tile("01R", "inn.base.entry1", {offx: 0, offy: -32}), //15, 12, {height: 16*6, width: 16*1}),
             Templates.tile("01S", "inn.base.bl", {offx: 0, offy: -16}), //1, 15, {height: 16*3, width: 16*1}),
             Templates.tile("01T", "inn.base.entry2", {offx: 24, offy: -24}), //7, 16, {height: 16*4, width: 16*4}),
-            Templates.tile("01U", "inn.base.stairs", {offx: 8, offy: -24}), //5, 19, {height: 16*3, width: 16*2}),
-            Templates.tile("01V", "inn.base.stairs.base", {offx: 32, offy: -16}), //7, 19, {height: 16*3, width: 16*5}),
+            Templates.tile("01U", "inn.base.stairs", {
+                offx: 8, offy: -24,
+                xcollider: { cls: "ColliderSet", xitems: [
+                    {width: 32, height: 8, offx: 8, offy: 4},
+                    {width: 16, height: 8, offx: 16, offy: -4},
+                ]},
+            }),
+            Templates.tile("01V", "inn.base.stairs.base", {
+                offx: 32, offy: -16,
+                xcollider: { cls: "ColliderSet", xitems: [
+                    { width: 64, height: 24, offx: 24, offy: -4},
+                    { width: 16, height: 24, offx: 48, offy: -28},
+                ]},
+            }),
             Templates.tile("01X", "inn.base.stairs.rail", {offx: 40, offy: -32}), //5, 24, {height: 16*5, width: 16*6}),
             Templates.tile("01Y", "inn.base.room.tl", {offx: 0, offy: -24}), //15, 18, {height: 16*7, width: 16*1}),
             Templates.tile("01Z", "inn.base.entry3", {offx: 24, offy: -24}), //17, 15, {height: 16*4, width: 16*4}),
@@ -705,7 +728,7 @@ class SparkAssets {
             Templates.tile("02a", "inn.lvl1.entry1.t",  {offx: 0, offy: -16}),
             Templates.tile("02b", "inn.lvl1.bl",        {offx: 0, offy: -16}),
             Templates.tile("02c", "inn.lvl1.entry2.l",  {offx: 0, offy: -40}),
-            Templates.tile("02d", "inn.lvl1.door.b",    {offx: 8, offy: -24}),
+            //Templates.tile("02d", "inn.lvl1.door.b",    {offx: 8, offy: -32}),
             Templates.tile("02e", "inn.lvl1.entry2.r",  {offx: 0, offy: -40}),
             Templates.tile("02f", "inn.lvl1.room.tl",    {offx: 0, offy: -24}),
             Templates.tile("02g", "inn.lvl1.entry3",    {offx: 24, offy: -16}),
@@ -720,6 +743,9 @@ class SparkAssets {
 
             Templates.tile("02p", "inn.base.room.bl", {offx: 0, offy: -16}), //15, 18, {height: 16*7, width: 16*1}),
             Templates.tile("02q", "inn.base.room.br", {offx: 0, offy: -16}), //15, 18, {height: 16*7, width: 16*1}),
+
+            Templates.tile("02r", "inn.lvl1.stairs", {offx: 32, offy: -32}),
+            Templates.tile("02s", "inn.lvl1.stairs.rail", {offx: 16, offy: -32}),
 
             Templates.object("o00", "sparkbase", "SparkBase", { 
                 powered: true,
@@ -841,6 +867,16 @@ class SparkAssets {
                 offx: 8, 
                 offy: -8, 
                 powered: false,
+            }),
+
+            Templates.object("o0g", "inn.lvl1.door.b", "Door", {
+                offx: 8, offy: -32,
+                approachOffsets: [{x:0, y:16},  {x:16, y:16},  {x:0, y:-32}, {x:16, y:-32}],
+                exitOffsets:     [{x:0, y:-32}, {x:16, y:-32}, {x:0, y:16},  {x:16, y:16}],
+                xopenSfx: { cls: "Media", tag: "doorOpening"}, 
+                xcloseSfx: { cls: "Media", tag: "doorClosing"}, 
+                xcollider: { offy: 24, width:48, height:24 }, 
+                linkSrcTag: "inn.lvl1.door",
             }),
 
             { tag: "spark", cls: "SparkProjectile", 
