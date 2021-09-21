@@ -690,12 +690,12 @@ class SparkAssets {
             Templates.tile("01L", "vhouseDoor.top", {offx: 16, offy: -8, linkDstTag: "vhouseDoor"}),
 
             Templates.tile("01M", "inn.base.tl", {offx: 0, offy: -16}),
-            Templates.tile("01N", "inn.base.t", {offx: 0, offy: -16}),
+            Templates.tile("01N", "inn.base.t", {offx: 0, offy: -16, xcollider: {offy: 8}}),
             Templates.tile("01O", "inn.base.tj", {offx: 0, offy: -16}),
             Templates.tile("01P", "inn.base.tr", {offx: 0, offy: -16}),
             Templates.tile("01Q", "inn.base.lr", {offx: 0, offy: 0}),
             Templates.tile("01R", "inn.base.entry1", {offx: 0, offy: -32}),
-            Templates.tile("01S", "inn.base.bl", {offx: 0, offy: -16}),
+            Templates.tile("01S", "inn.base.bl", {offx: 0, offy: -16, xcollider: {width: 8, height: 32, offy: 0}}),
             Templates.tile("01T", "inn.base.entry2", {offx: 24, offy: -24}),
             Templates.tile("01U", "inn.base.stairs", {
                 offx: 8, offy: -24,
