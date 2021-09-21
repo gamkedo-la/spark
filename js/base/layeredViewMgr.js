@@ -280,6 +280,8 @@ class LayeredViewMgr extends Gizmo {
             //console.log(`add view ${view} with vidx: ${view.vidx} y: ${view.y}`);
             //this.sorted.add(view);
             this.grid.add(view);
+            // force update when first added
+            this.modelViewUpdates.push(view);
         }
     }
 
