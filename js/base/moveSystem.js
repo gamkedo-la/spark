@@ -35,6 +35,14 @@ class MoveSystem extends System {
         if (wantx === e.x && wanty === e.y) {
             return;
         }
+        // handle ramp settings on actor
+        if (e.ramp) {
+            let dx = wantx-e.x;
+            wanty += dx*e.ramp;
+            // reset ramp
+            e.ramp = 0;
+        }
+
         // handle wanting new position
         e.wantx = wantx;
         e.wanty = wanty;

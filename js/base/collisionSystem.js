@@ -40,6 +40,7 @@ class CollisionSystem extends System {
                     let overlap = xbounds.overlaps(other.activator);
                     if (overlap) {
                         // trigger activation
+                        //console.log(`activator collision`);
                         if (other.doactivate && !activations.includes(other)) other.doactivate(e, overlap);
                         if (other.doactivate || actorWantsActivation) activations.push(other);
                         // store actor activation state

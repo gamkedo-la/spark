@@ -697,6 +697,7 @@ class SparkAssets {
             Templates.tile("01R", "inn.base.entry1", {offx: 0, offy: -32}),
             Templates.tile("01S", "inn.base.bl", {offx: 0, offy: -16, xcollider: {width: 8, height: 32, offy: 0}}),
             Templates.tile("01T", "inn.base.entry2", {offx: 24, offy: -24}),
+            /*
             Templates.tile("01U", "inn.base.stairs", {
                 offx: 8, offy: -24,
                 xcollider: { cls: "ColliderSet", xitems: [
@@ -704,6 +705,8 @@ class SparkAssets {
                     {width: 16, height: 8, offx: 16, offy: -4},
                 ]},
             }),
+            */
+
             Templates.tile("01V", "inn.base.stairs.base", {
                 offx: 32, offy: -16,
                 xcollider: { cls: "ColliderSet", xitems: [
@@ -890,6 +893,17 @@ class SparkAssets {
                 xcloseSfx: { cls: "Media", tag: "doorClosing"}, 
                 xcollider: { offy: 24, width:48, height:24 }, 
                 linkSrcTag: "inn.lvl1.door",
+            }),
+
+            Templates.object("o0h", "inn.base.stairs", "Ramp", {
+                offx: 8, offy: -24,
+                right: true,
+                traverse: .7,
+                xactivator: { width: 8, height: 32, offx: 8, offy: -24 },
+                xcollider: { cls: "ColliderSet", xitems: [
+                    {width: 32, height: 8, offx: 8, offy: 4},
+                    {width: 16, height: 8, offx: 16, offy: -4},
+                ]},
             }),
 
             { tag: "spark", cls: "SparkProjectile", 
