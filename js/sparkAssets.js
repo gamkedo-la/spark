@@ -323,6 +323,8 @@ class SparkAssets {
                 Templates.xsprite("stove",              0, 8, {width:32, height: 48}),
                 Templates.xsprite("fountain",           0, 11, {width:16*7, height: 16*7}),
                 Templates.xsprite("fountain.top",       7, 11, {width:16*5, height: 16*3}),
+                Templates.xvarsprite("bar",             [[0,18], [1,18], [2,18], [3,18]], { height: 32 }),
+                Templates.xsprite("bar.rqtr",           4, 18, { height: 32 }),
             ]},
 
             { src: "img/vendor.png", loader: "Sheet", refs: [
@@ -762,6 +764,9 @@ class SparkAssets {
 
             Templates.tile("02r", "inn.lvl1.stairs",    {offx: 32, offy: -32}),
             Templates.tile("02s", "inn.lvl1.stairs.rail", {offx: 16, offy: -32}),
+
+            Templates.tile("02t", "bar",                {offy: -8}),
+            Templates.tile("02u", "bar.rqtr",           {offy: -8}),
 
             Templates.object("o00", "sparkbase", "SparkBase", { 
                 powered: true,
