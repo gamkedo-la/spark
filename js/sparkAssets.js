@@ -288,10 +288,10 @@ class SparkAssets {
             ]},
 
             { src: "img/object1.png", loader: "Sheet", refs: [
-                {tag: "stool", cls: "Sprite", width: 16*2, height: 16*3, x: 16*0, y: 16*0 },
-                {tag: "table", cls: "Sprite", width: 16*2, height: 16*3, x: 16*2, y: 16*0 },
-                {tag: "bed.empty", cls: "Sprite", width: 16*2, height: 16*4, x: 16*4, y: 16*0 },
-                {tag: "bed.occupied", cls: "Sprite", width: 16*2, height: 16*4, x: 16*6, y: 16*0 },
+                Templates.xsprite("stool", 0, 0, {width: 32, height: 32}),
+                Templates.xsprite("table", 2, 0, {width: 32, height: 48}),
+                Templates.xsprite("bed.empty", 4, 0, {width: 16*2, height: 16*4}),
+                Templates.xsprite("bed.occupied", 6, 0, {width: 16*2, height: 16*4}),
                 //{tag: "basket", cls: "Sprite", width: 16*2, height: 16*4, x: 16*6, y: 16*0 },
                 Templates.xsprite("roundBasket", 8, 0, {width: 32, height: 48}),
                 //Templates.xsprite("barrel", 10, 0, {width: 32, height: 48}),
@@ -324,7 +324,11 @@ class SparkAssets {
                 Templates.xsprite("fountain",           0, 11, {width:16*7, height: 16*7}),
                 Templates.xsprite("fountain.top",       7, 11, {width:16*5, height: 16*3}),
                 Templates.xvarsprite("bar",             [[0,18], [1,18], [2,18], [3,18]], { height: 32 }),
-                Templates.xsprite("bar.rqtr",           4, 18, { height: 32 }),
+                Templates.xsprite("bar.ljoin",          4, 18, { height: 32 }),
+                Templates.xsprite("bar.rend",           5, 18, { height: 32 }),
+                Templates.xsprite("bar.beerstand",      7, 15, { width: 16*3, height: 16*4 }),
+                Templates.xsprite("bar.stand",          10, 17, { width: 16*3, height: 16*2 }),
+                Templates.xsprite("bar.smtable",        0, 20, { width: 16*2, height: 16*3 }),
             ]},
 
             { src: "img/vendor.png", loader: "Sheet", refs: [
@@ -765,8 +769,12 @@ class SparkAssets {
             Templates.tile("02r", "inn.lvl1.stairs",    {offx: 32, offy: -32}),
             Templates.tile("02s", "inn.lvl1.stairs.rail", {offx: 16, offy: -32}),
 
-            Templates.tile("02t", "bar",                {offy: -8}),
-            Templates.tile("02u", "bar.rqtr",           {offy: -8}),
+            Templates.tile("02t", "bar",                {offy: -8, xcollider: {offy:8}}),
+            Templates.tile("02u", "bar.ljoin",          {offy: -8, xcollider: {width: 8, height:32}}),
+            Templates.tile("02v", "bar.rend",           {offy: -8, xcollider: {offy:8}}),
+            Templates.tile("02w", "bar.beerstand",      {offx: 16, offy: -28, xcollider: {width:48, offy: 16}}),
+            Templates.tile("02x", "bar.smtable",        {offx: 8, offy: -16, xcollider: {width: 20, offy:-4}}),
+            Templates.tile("02y", "bar.stand",          {offx: 16, offy: -12, xcollider: {width:48}}),
 
             Templates.object("o00", "sparkbase", "SparkBase", { 
                 powered: true,
@@ -785,7 +793,7 @@ class SparkAssets {
             }),
 
             Templates.object("o02", "stool", "Chair", {
-                offx: 8, offy: -12,
+                offx: 8, offy: -8,
                 xcollider: { offy: 4, width: 14, height: 14 }, 
                 occupiedDir: Direction.east, 
                 occupiedOffX: 10, occupiedOffY: -14, occupiedOffD: 1,
