@@ -329,6 +329,8 @@ class SparkAssets {
                 Templates.xsprite("bar.beerstand",      7, 15, { width: 16*3, height: 16*4 }),
                 Templates.xsprite("bar.stand",          10, 17, { width: 16*3, height: 16*2 }),
                 Templates.xsprite("bar.smtable",        0, 20, { width: 16*2, height: 16*3 }),
+                Templates.xsprite("bar.lgtable",        2, 20, { width: 16*2, height: 16*4 }),
+                Templates.xsprite("bar.sidetable",      4, 20, { width: 16*2, height: 16*3 }),
             ]},
 
             { src: "img/vendor.png", loader: "Sheet", refs: [
@@ -775,6 +777,8 @@ class SparkAssets {
             Templates.tile("02w", "bar.beerstand",      {offx: 16, offy: -28, xcollider: {width:48, offy: 16}}),
             Templates.tile("02x", "bar.smtable",        {offx: 8, offy: -16, xcollider: {width: 20, offy:-4}}),
             Templates.tile("02y", "bar.stand",          {offx: 16, offy: -12, xcollider: {width:48}}),
+            Templates.tile("02z", "bar.lgtable",        {offx: 8, offy: -24, xcollider: {width: 30, height: 48, offy:0}}),
+            Templates.tile("02A", "bar.sidetable",      {offx: 8, offy: -16, xcollider: {width: 20, height: 40, offy:-4}}),
 
             Templates.object("o00", "sparkbase", "SparkBase", { 
                 powered: true,
