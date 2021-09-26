@@ -27,6 +27,8 @@ class SparkAssets {
             { src: "snd/we_are_lucky.mp3", loader: "Audio", tag: "cheer3", loop: false },
             // FIXME: for now music would be added the same as normal audio, but using the "loop" variable
             //{ src: "snd/testsong.mp3", loader: "Audio", tag: "testsong", loop: true },
+            { src: "img/dislike-indicator.png", loader: "Image", tag: "dislike" },
+            { src: "img/like-indicator.png", loader: "Image", tag: "like" },
             { src: "img/fountain.png", loader: "Sheet", refs: [
                 Templates.anim("fountain.water", {width: 16*7, height:16*7, duration: 250, frames: 8}),
             ]},
