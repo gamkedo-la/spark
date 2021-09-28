@@ -73,10 +73,10 @@ class PathfindingSystem extends System {
         //let src = new Vect(this.grid.xfromidx(eidx, true), this.grid.yfromidx(eidx, true));
         //src.layer = e.layer;
         let target = e.wantPathTo;
-        console.log(`src: ${Fmt.ofmt(src)} target: ${Fmt.ofmt(target)}`);
+        //console.log(`src: ${Fmt.ofmt(src)} target: ${Fmt.ofmt(target)}`);
         //console.log(`heuristic: ${this.heuristic(src, target)}`);
         let pathinfo = this.pathfinder.find(src, target);
-        console.log("pathinfo: " + Fmt.ofmt(pathinfo));
+        //console.log("pathinfo: " + Fmt.ofmt(pathinfo));
         if (pathinfo && pathinfo.actions) {
             e.actions = pathinfo.actions;
         }

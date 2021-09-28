@@ -32,6 +32,7 @@ class Bed extends Model {
         this.interactTag = "occupy";
         // -- actor id (who's in the bed)
         this.actorId = 0;
+        //console.log(`bed spec: ${Fmt.ofmt(spec)}`);
     }
 
     get approaches() {

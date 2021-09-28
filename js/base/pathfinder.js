@@ -4,6 +4,7 @@ import { PriorityQueue }    from "./priq.js";
 import { Fmt }              from "./fmt.js";
 import { Grid } from "./grid.js";
 import { LevelNode } from "../lvlGraph.js";
+import { Collider } from "./collider.js";
 
 class Pathfinder {
     constructor(spec={}) {
@@ -16,7 +17,7 @@ class Pathfinder {
         this.grid = new Grid({columns:20,rows:20});
     }
 
-    find(from, to) {
+    find(from, to, blocking=Collider.all) {
         from = new LevelNode(from.x, from.y, from.layer);
         to = new LevelNode(to.x, to.y, to.layer);
         if (this.dbg) console.log("pathfinder find: from: " + from + " to: " + to);
@@ -43,7 +44,9 @@ class Pathfinder {
                 break;
             }
             // otherwise, iterate through neighbors of current node
-            let neighbors = this.graph.getNeighbors(current.value);
+            // FIXME remove
+            //if (this.dbg && current.value.x === 808 && current.value.y === 120) this.graph.dbg = true;
+            let neighbors = this.graph.getNeighbors(current.value, blocking);
             //if (this.dbg) console.log(" neighbors: " + Array.from(neighbors).join(","));
             for (const neighbor of neighbors) {
                 let cf = cameFrom[neighbor];
@@ -61,6 +64,8 @@ class Pathfinder {
                     if (this.dbg) console.log(`----> add neighbor: ${this.grid.idxfromxy(neighbor.x,neighbor.y)}:${neighbor} pri: ${priority} cf: ${Fmt.ofmt(cameFrom[neighbor])}`);
                 }
             }
+            // FIXME: remove
+            //this.graph.dbg = false;
             if (this.dbg) console.log(`q: ${queue}`);
             // FIXME: remove
             if (tries++ > this.maxTries) {

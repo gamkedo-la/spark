@@ -814,7 +814,7 @@ class SparkAssets {
             Templates.tile("02r", "inn.lvl1.stairs",    {offx: 32, offy: -32}),
             Templates.tile("02s", "inn.lvl1.stairs.rail", {offx: 16, offy: -32}),
 
-            Templates.tile("02t", "bar",                {offy: -8, xcollider: {offy:8}}),
+            Templates.tile("02t", "bar",                {offy: -8, xcollider: {offy:8, height: 14}}),
             Templates.tile("02u", "bar.ljoin",          {offy: -8, xcollider: {width: 8, height:32}}),
             Templates.tile("02v", "bar.rend",           {offy: -8, xcollider: {offy:8}}),
             Templates.tile("02w", "bar.beerstand",      {offx: 16, offy: -28, xcollider: {width:48, offy: 16}}),
@@ -871,7 +871,7 @@ class SparkAssets {
 
             Templates.object("o07", "stove", "Stove", {
                 offx: 8, offy: -24,
-                xcollider: { width: 32, height: 48 }, 
+                xcollider: { width: 32, height: 40, offy: -4 }, 
                 occupiedOffX: 8, occupiedOffY: -22,
                 approachOffsets: [{x:0, y:16},  {x:16, y:16}],
             }),
@@ -964,6 +964,26 @@ class SparkAssets {
                     {width: 32, height: 8, offx: 8, offy: 4},
                     {width: 16, height: 8, offx: 16, offy: -4},
                 ]},
+            }),
+
+            //Templates.tile("02t", "bar",                {offy: -8, xcollider: {offy:8}}),
+            Templates.object("o0i", "bar.work", "Workstation", {
+                mediaTag: "bar",
+                offy: -8,
+                occupiedDir: Direction.south, 
+                occupiedOffX: 0, occupiedOffY: -24,
+                approachOffsets: [
+                    {x: 0, y: -16 },
+                ],
+                xcollider: { offy: 8, height: 14 },
+            }),
+
+            Templates.object("o0j", "bed.ciara", "Bed", {
+                mediaTag: "bed",
+                offx: 12, offy: -24,
+                xcollider: { width: 24, height: 48 }, 
+                occupiedOffX: 12, occupiedOffY: -24, occupiedOffD: 1,
+                approachOffsets: [{x:-16, y:-16},  {x:-16, y:-32},  {x:32, y:-16}, {x:32, y:-32}],
             }),
 
             { tag: "spark", cls: "SparkProjectile", 

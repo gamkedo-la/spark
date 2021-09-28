@@ -11,6 +11,7 @@ import { Stairs }           from "./stairs.js";
 import { Config }           from "./base/config.js";
 import { Mathf }            from "./base/math.js";
 import { Util } from "./base/util.js";
+import { Collider } from "./base/collider.js";
 
 class LevelNode {
     constructor(x,y,layer) {
@@ -41,7 +42,7 @@ class LevelGraph {
         return Bounds.contains(this.grid, obj);
     }
 
-    *getNeighbors(obj) {
+    *getNeighbors(obj, blocking=Collider.all) {
         let gidx = this.grid.idxfromxy(obj.x, obj.y);
         // look along cardinal directions
         let blockedCardinals = 0;
@@ -52,8 +53,8 @@ class LevelGraph {
             let blocked = false;
             let exitNode = undefined;
             let objectToBypass = undefined;
-            // FIXME: this should account for actor's tag vs target blocking mask, not just checking if blocking is set
-            for (const other of this.grid.findgidx(nidx, (gzo) => !gzo.pathfinding && (gzo.layer === obj.layer) && gzo.collider && gzo.collider.blocking)) {
+            for (const other of this.grid.findgidx(nidx, (gzo) => !gzo.pathfinding && (gzo.layer === obj.layer) && gzo.collider && (gzo.collider.tag & blocking))) {
+                if (this.dbg) console.log(`gidx: ${gidx} nidx: ${nidx} lvl graph check obstruction: ${other}`);
                 // is a bypass action allowed?
                 if (other.bypassAction) {
                     let approaches = other.approaches;
@@ -86,7 +87,7 @@ class LevelGraph {
             if (nidx === undefined) continue;
             // find any objects that might be blocking our path
             let blocked = false;
-            for (const other of this.grid.findgidx(nidx, (gzo) => !gzo.pathfinding && (gzo.layer === obj.layer) && gzo.collider && gzo.collider.blocking)) {
+            for (const other of this.grid.findgidx(nidx, (gzo) => !gzo.pathfinding && (gzo.layer === obj.layer) && gzo.collider && (gzo.collider.tag & blocking))) {
                 // is a bypass action allowed?
                 if (other.bypassAction) continue;
                 // is pathing in current direction allowed?

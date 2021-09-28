@@ -119,8 +119,8 @@ class WorldOverrides {
 
             // Ciara (innkeeper) things
             {
-                predicate: (v) => v.x === this.wpos(WorldGen.house2.offx + 2) && 
-                                v.y === this.wpos(WorldGen.house2.offy + 7) &&
+                predicate: (v) => v.x === this.wpos(WorldGen.inn.offx + 16) && 
+                                v.y === this.wpos(WorldGen.inn.offy + 17) &&
                                 v.cls === "Bed",
                 spec: {
                     ownerTag: "Ciara",
@@ -136,9 +136,9 @@ class WorldOverrides {
                 },
             },
             {
-                predicate: (v) => v.x === this.wpos(WorldGen.work2.offx + 2) && 
-                                v.y === this.wpos(WorldGen.work2.offy + 3) &&
-                                v.tag === "vendorBench",
+                predicate: (v) => v.x === this.wpos(WorldGen.inn.offx + 6) && 
+                                v.y === this.wpos(WorldGen.inn.offy + 3) &&
+                                v.tag === "bar.work",
                 spec: {
                     ownerTag: "Ciara",
                 },

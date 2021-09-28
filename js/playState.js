@@ -236,12 +236,11 @@ class PlayState extends State {
         let y = evt.y + this.camera.miny;
         x = x/Config.renderScale;
         y = y/Config.renderScale;
-        /*
         let idx = this.grid.idxfromxy(x, y);
         let target = new LevelNode(x, y, 0);
         console.log("target: " + target);
         this.player.wantPathTo = target;
-        */
+       /*
         if (this.camera.panTarget) {
             this.camera.stopPan();
             this.camera.center();
@@ -249,6 +248,7 @@ class PlayState extends State {
             let target = new Vect(x,y);
             this.camera.startPan(target);
         }
+        */
     }
 
     onGizmoCreate(evt) {

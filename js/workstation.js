@@ -38,6 +38,7 @@ class Workstation extends Model {
         this.closedCondition = spec.closedCondition || Condition.closed;
         // defaults to closed condition
         this.conditions.add(this.closedCondition);
+        //console.log(`workstation spec: ${Fmt.ofmt(spec)}`);
     }
 
     get approaches() {

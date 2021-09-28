@@ -63,9 +63,18 @@ class MovePlan extends AiPlan {
         let best;
         let bestPath;
         //console.log(`===> consider targets: ${targets}`);
+        let pathfinder = this.getPathfinder();
         for (const target of targets) {
-            let pathinfo = this.getPathfinder().find(this.state.a_pos, target);
-            //console.log(`===> pathfinder from ${this.state.a_pos} to ${target} gives: ${Fmt.ofmt(pathinfo)}`);
+            /*
+            if (this.state.a_pos.x===808 && this.state.a_pos.y===120 &&
+                target.x===1000 && target.y===104) {
+                pathfinder.dbg = true;
+            }
+            */
+            let blocking = (this.actor && this.actor.collider) ? this.actor.collider.blocking : 0;
+            let pathinfo = pathfinder.find(this.state.a_pos, target, blocking);
+            //pathfinder.dbg = false;
+            if (!pathinfo) console.log(`===> pathfinder from ${this.state.a_pos} to ${target} failed`);
             if (!pathinfo) continue;
             if (!best || pathinfo.cost < bestPath.cost) {
                 best = target;

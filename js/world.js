@@ -130,8 +130,8 @@ class World {
             //WorldGen.house2,
             //WorldGen.work2,
             WorldGen.fountain,
-            WorldGen.vendor1,
-            WorldGen.vendorHouse,
+            //WorldGen.vendor1,
+            //WorldGen.vendorHouse,
             WorldGen.inn,
             {
                 columns: 8,
