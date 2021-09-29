@@ -243,7 +243,7 @@ class Templates {
             },
             xgoals: [
                 { goal: AiGoal.work, xinfluence: { cls: "AiInfluence", dfltScore: 2 }},  // prioritize work over waiting...
-                { goal: AiGoal.wait },
+                //{ goal: AiGoal.wait },
             ]
         }
 

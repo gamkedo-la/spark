@@ -817,7 +817,7 @@ class SparkAssets {
             Templates.tile("02t", "bar",                {offy: -8, xcollider: {offy:8, height: 14}}),
             Templates.tile("02u", "bar.ljoin",          {offy: -8, xcollider: {width: 8, height:32}}),
             Templates.tile("02v", "bar.rend",           {offy: -8, xcollider: {offy:8}}),
-            Templates.tile("02w", "bar.beerstand",      {offx: 16, offy: -28, xcollider: {width:48, offy: 16}}),
+            //Templates.tile("02w", "bar.beerstand",      {offx: 16, offy: -28, xcollider: {width:48, offy: 16}}),
             Templates.tile("02x", "bar.smtable",        {offx: 8, offy: -16, xcollider: {width: 20, offy:-4}}),
             Templates.tile("02y", "bar.stand",          {offx: 16, offy: -12, xcollider: {width:48}}),
             Templates.tile("02z", "bar.lgtable",        {offx: 8, offy: -24, xcollider: {width: 30, height: 48, offy:0}}),
@@ -991,6 +991,24 @@ class SparkAssets {
                 xsketch: { cls: "Media", tag: "spark"}, 
             },
 
+            Templates.object("o0k", "bar.stool", "MealService", {
+                mediaTag: "stool",
+                offx: 8, offy: -8,
+                xcollider: { offy: 4, width: 14, height: 14 }, 
+                occupiedDir: Direction.east, 
+                occupiedOffX: 10, occupiedOffY: -14, occupiedOffD: 1,
+                approachOffsets: [{x:-16, y:0},  {x:32, y:0},  {x:0, y:16}, {x:16, y:16}, {x:0, y:-32}, {x:16, y:-32}],
+                serviceApproachOffsets: [{x:16, y:-32}],
+            }),
+
+            //Templates.tile("02w", "bar.beerstand",      {offx: 16, offy: -28, xcollider: {width:48, offy: 16}}),
+
+            Templates.object("o0l", "bar.beerstand", "Keg", {
+                offx: 16, offy: -28,
+                xcollider: { width: 48, offy: 16 }, 
+                approachOffsets: [{x:0, y:16}],
+            }),
+
             Templates.object("c01", "player", "Character", {
                 name: "Alette",
                 hoverable: true,
@@ -1087,12 +1105,17 @@ class SparkAssets {
                         "MoveScheme",
                         "OccupyScheme",
                         "OpenAtStationScheme",
+                        "ServeBeerScheme",
                         "SleepAtBedScheme",
                         "RestockAtStockScheme",
                         "SweepAtDirtyScheme",
+                        "TakeBeerOrderScheme",
                         "WantBedScheme",
+                        "WantBeerOrderScheme",
                         "WantChairScheme",
                         "WantDirtyScheme",
+                        "WantKegScheme",
+                        "WantServeBeerScheme",
                         "WantStockScheme",
                         "WantStoveScheme",
                         "WantWorkstationScheme",

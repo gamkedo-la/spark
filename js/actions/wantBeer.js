@@ -1,0 +1,76 @@
+export { WantBeerOrderScheme, WantServeBeerScheme };
+
+import { AiGoal }           from "../base/ai/aiGoal.js";
+import { AiPlan }           from "../base/ai/aiPlan.js";
+import { AiScheme }         from "../base/ai/aiScheme.js";
+import { Condition }        from "../base/condition.js";
+
+class WantBeerOrderScheme extends AiScheme {
+    constructor(spec={}) {
+        super(spec);
+        this.goalPredicate = (goal) => goal === AiGoal.work;
+        this.preconditions.push((state) => !state.v_wantBeerOrder);                               // prevents cycles
+        this.preconditions.push((state) => !state.a_serviceOrderId);
+        this.preconditions.push((state) => !state.a_occupyId);
+        this.preconditions.push((state) => state.v_wantTag === undefined);
+        this.effects.push((state) => state.v_wantTag = "BeerOrder");
+        this.effects.push((state) => state.v_wantBeerOrder = true);
+        // find meal service where: a) service is occupied and b) beer id is 0
+        this.effects.push((state) => state.v_findPredicate = ((v) => v.mealService && v.conditions.has(v.occupiedCondition) && v.beerId === 0));
+    }
+
+    deriveState(env, actor, state) {
+        if (!state.hasOwnProperty("a_occupyId")) state.a_occupyId = actor.occupyId;
+        if (!state.hasOwnProperty("a_serviceOrderId")) state.a_serviceOrderId = actor.serviceOrderId;
+    }
+
+    generatePlan(spec={}) {
+        return new WantBeerOrderPlan(spec);
+    }
+
+}
+
+class WantBeerOrderPlan extends AiPlan {
+
+    finalize() {
+        return {
+            utility: 1,
+            cost: 1,
+        }
+    }
+}
+
+class WantServeBeerScheme extends AiScheme {
+    constructor(spec={}) {
+        super(spec);
+        this.goalPredicate = (goal) => goal === AiGoal.work;
+        this.preconditions.push((state) => state.a_carryTag === "Beer");
+        this.preconditions.push((state) => state.a_serviceOrderId);
+        this.preconditions.push((state) => !state.v_wantServeBeer);                               // prevents cycles in wanting chair, wanting something else, wanting chair...
+        this.preconditions.push((state) => !state.a_occupyId);
+        this.preconditions.push((state) => state.v_wantTag === undefined);
+        this.effects.push((state) => state.v_wantTag = "ServeBeer");
+        this.effects.push((state) => state.v_wantServeBeer = true);
+        this.effects.push((state) => state.v_findPredicate = ((v) => v.gid === state.a_serviceOrderId) );
+    }
+
+    deriveState(env, actor, state) {
+        if (!state.hasOwnProperty("a_occupyId")) state.a_occupyId = actor.occupyId;
+        if (!state.hasOwnProperty("a_serviceOrderId")) state.a_serviceOrderId = actor.serviceOrderId;
+    }
+
+    generatePlan(spec={}) {
+        return new WantServeBeerPlan(spec);
+    }
+
+}
+
+class WantServeBeerPlan extends AiPlan {
+
+    finalize() {
+        return {
+            utility: 1,
+            cost: 1,
+        }
+    }
+}

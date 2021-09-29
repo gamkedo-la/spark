@@ -43,6 +43,12 @@ import { CloseAtStationScheme } from "./actions/closeAtStation.js";
 import { OpenAtStationScheme } from "./actions/openAtStation.js";
 import { Morale }           from "./morale.js";
 import { Ramp }             from "./ramp.js";
+import { MealService } from "./mealService.js";
+import { Keg } from "./keg.js";
+import { TakeBeerOrderScheme } from "./actions/takeBeerOrder.js";
+import { WantBeerOrderScheme, WantServeBeerScheme } from "./actions/wantBeer.js";
+import { ServeBeerScheme } from "./actions/serve.js";
+import { WantKegScheme } from "./actions/wantKeg.js";
 
 class SparkRegistry {
     static init() {
@@ -122,8 +128,10 @@ class SparkRegistry {
         registry.add(TestFx);
         registry.add(SparkFx);
         registry.add(Stove);
+        registry.add(Keg);
         registry.add(Morale);
         registry.add(Ramp);
+        registry.add(MealService);
         // -- register schemes
         registry.add(CloseAtStationScheme);
         registry.add(EatAtChairScheme);
@@ -134,12 +142,17 @@ class SparkRegistry {
         registry.add(OccupyScheme);
         registry.add(OpenAtStationScheme);
         registry.add(RestockAtStockScheme);
+        registry.add(ServeBeerScheme);
         registry.add(SleepAtBedScheme);
         registry.add(SweepAtDirtyScheme);
+        registry.add(TakeBeerOrderScheme);
         registry.add(WakeScheme);
         registry.add(WantBedScheme);
+        registry.add(WantBeerOrderScheme);
         registry.add(WantChairScheme);
         registry.add(WantDirtyScheme);
+        registry.add(WantKegScheme);
+        registry.add(WantServeBeerScheme);
         registry.add(WantStockScheme);
         registry.add(WantStoveScheme);
         registry.add(WantWorkstationScheme);
