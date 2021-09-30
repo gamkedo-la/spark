@@ -31,6 +31,8 @@ import { Event }            from "./base/event.js";
 import { SparkDialog } from "./sparkDialog.js";
 import { Dialog } from "./base/dialog.js";
 import { UxDialogCtrl } from "./uxDialog.js";
+import { Bounds } from "./base/bounds.js";
+import { Hierarchy } from "./base/hierarchy.js";
 
 class PlayState extends State {
 
@@ -171,6 +173,9 @@ class PlayState extends State {
         this.vendorSparkbase = this.findFirst(v=>v.tag === "sparkbase" && v.ownerTag === "Aodhan");
         this.vendorSparkbase2 = this.findFirst(v=>v.tag === "floorRelay" && v.ownerTag === "Aodhan");
 
+        // debug mode
+        this.clickMode = "path";
+
     }
 
     get grid() {
@@ -217,6 +222,17 @@ class PlayState extends State {
             //let ctrl = new UxDialogCtrl({dialog: dialog});
             //console.log(`ctrl: ${Fmt.ofmt(ctrl)}`);
         }
+        if (evt.key === "9") {
+            switch(this.clickMode) {
+            case "check":
+                this.clickMode = "path";
+                break;
+            case "path":
+                this.clickMode = "check";
+                break;
+            }
+            console.log(`changed clickMode to: ${this.clickMode}`);
+        }
         if (evt.key === "p") {
             Atts.paused = !Atts.paused;
             this.pauseText.visible = Atts.paused;
@@ -225,6 +241,44 @@ class PlayState extends State {
            Base.instance.audioMgr.muteToggle();
         }
     }
+
+    checkClickedForCollision(x, y) {
+        let target = new LevelNode(x, y, this.player.layer);
+        console.log("check collisions for target: " + target);
+        let xbounds = new Bounds(target.x-Config.halfSize, target.y-Config.halfSize, Config.tileSize, Config.tileSize);
+        for (const other of this.findOverlaps(xbounds, (v) => ((v.collider) && v.layer === this.player.layer))) {
+            let overlap = xbounds.overlaps(other.collider);
+            console.log(`found collider: ${other} overlap: ${overlap}`);
+        }
+
+        // pull up pathfinding system
+        let pfsys = Hierarchy.find(Base.instance.systemMgr, (o => o.cls === "PathfindingSystem"));
+        console.log(`pfsys: ${pfsys}`);
+        let graph = pfsys.lvlGraph;
+
+        // get neighbors of current target
+        let neighbors = graph.getNeighbors(target, this.player.collider.blocking);
+        for(const n of neighbors) {
+            console.log(`==> neighbor: ${n}`);
+        }
+    }
+
+    pathToClick(x, y) {
+        let target = new LevelNode(x, y, this.player.layer);
+        console.log("player path to target: " + target);
+        this.player.wantPathTo = target;
+    }
+
+    panToClick(x, y) {
+        if (this.camera.panTarget) {
+            this.camera.stopPan();
+            this.camera.center();
+        } else {
+            let target = new Vect(x,y);
+            this.camera.startPan(target);
+        }
+    }
+
 
     onClicked(evt) {
         if (!this.view.active) return;
@@ -236,19 +290,17 @@ class PlayState extends State {
         let y = evt.y + this.camera.miny;
         x = x/Config.renderScale;
         y = y/Config.renderScale;
-        let idx = this.grid.idxfromxy(x, y);
-        let target = new LevelNode(x, y, 0);
-        console.log("target: " + target);
-        this.player.wantPathTo = target;
-       /*
-        if (this.camera.panTarget) {
-            this.camera.stopPan();
-            this.camera.center();
-        } else {
-            let target = new Vect(x,y);
-            this.camera.startPan(target);
+        switch (this.clickMode) {
+            case "check":
+                this.checkClickedForCollision(x,y);
+                break;
+            case "path":
+                this.pathToClick(x,y);
+                break;
+            case "pan":
+                this.panToClick(x,y);
+                break;
         }
-        */
     }
 
     onGizmoCreate(evt) {

@@ -106,7 +106,8 @@ class SparkAssets {
                 Templates.xsprite("inn.base.bl", 1, 13, {height: 16*3, width: 16*1}),
                 Templates.xsprite("inn.base.entry2", 7, 13, {height: 16*4, width: 16*4}),
                 Templates.xsprite("inn.base.stairs", 5, 16, {height: 16*4, width: 16*2}),
-                Templates.xsprite("inn.base.stairs.base", 7, 17, {height: 16*3, width: 16*5}),
+                Templates.xsprite("inn.base.stairs.base.1", 7, 17, {height: 16*3, width: 16*3}),
+                Templates.xsprite("inn.base.stairs.base.2", 10, 17, {height: 16*3, width: 16*2}),
                 Templates.xsprite("inn.base.stairs.rail", 5, 20, {height: 16*5, width: 16*6}),
                 Templates.xsprite("inn.base.room.tl", 15, 12, {height: 16*4, width: 16*1}),
                 Templates.xsprite("inn.base.room.bl", 15, 16, {height: 16*3, width: 16*1}),
@@ -115,7 +116,9 @@ class SparkAssets {
                 Templates.xsprite("inn.base.room.br", 22, 16, {height: 16*3, width: 16*1}),
                 Templates.xsprite("inn.base.tower.tl", 16, 16, {height: 16*3, width: 16*2}),
                 Templates.xsprite("inn.base.tower.tr", 20, 16, {height: 16*3, width: 16*2}),
-                Templates.xsprite("inn.base.tower.b", 15, 19, {height: 16*6, width: 16*8}),
+                Templates.xsprite("inn.base.tower.b.1", 15, 19, {height: 16*6, width: 16*2}),
+                Templates.xsprite("inn.base.tower.b.2", 17, 19, {height: 16*6, width: 16*4}),
+                Templates.xsprite("inn.base.tower.b.3", 21, 19, {height: 16*6, width: 16*2}),
             ]},
 
             { src: "img/inn_lvl1.png", loader: "Sheet", refs: [
@@ -750,36 +753,33 @@ class SparkAssets {
             Templates.tile("01R", "inn.base.entry1", {offx: 0, offy: -32}),
             Templates.tile("01S", "inn.base.bl", {offx: 0, offy: -16, xcollider: {width: 8, height: 32, offy: 0}}),
             Templates.tile("01T", "inn.base.entry2", {offx: 24, offy: -24}),
-            /*
-            Templates.tile("01U", "inn.base.stairs", {
-                offx: 8, offy: -24,
-                xcollider: { cls: "ColliderSet", xitems: [
-                    {width: 32, height: 8, offx: 8, offy: 4},
-                    {width: 16, height: 8, offx: 16, offy: -4},
-                ]},
-            }),
-            */
 
-            Templates.tile("01V", "inn.base.stairs.base", {
-                offx: 32, offy: -16,
-                xcollider: { cls: "ColliderSet", xitems: [
-                    { width: 64, height: 24, offx: 24, offy: -4},
-                    { width: 16, height: 24, offx: 48, offy: -28},
-                ]},
+            Templates.tile("01U", "inn.base.stairs.base.1", {
+                offx: 16, offy: -16,
+                xcollider: { width: 48, height: 24, offy: 12},
             }),
+            Templates.tile("01V", "inn.base.stairs.base.2", {
+                offx: 8, offy: -16,
+                xcollider: { width: 16, height: 48, offx: -8},
+            }),
+
             Templates.tile("01X", "inn.base.stairs.rail", {offx: 40, offy: -32}),
             Templates.tile("01Y", "inn.base.room.tl", {offx: 0, offy: -24, xcollider: {width: 8, height: 64}}),
             Templates.tile("01Z", "inn.base.entry3", {offx: 24, offy: -24}),
             Templates.tile("020", "inn.base.room.tr", {offx: 0, offy: -24, xcollider: {width: 8, height: 64}}),
             Templates.tile("021", "inn.base.tower.tl", {offx: 8, offy: -16, xcollider: {offy: 8, width: 28, height: 16}}),
             Templates.tile("022", "inn.base.tower.tr", {offx: 8, offy: -16, xcollider: {offy: 8, width: 28, height: 16}}),
-            Templates.tile("023", "inn.base.tower.b", {
-                offx: 56, offy: -40,
-                xcollider: { cls: "ColliderSet", xitems: [
-                    {width: 12, height: 48, offx: 6, offy: -72},
-                    {width: 64, height: 16, offx: 56, offy: -32},
-                    {width: 12, height: 48, offx: 106, offy: -72},
-                ]},
+            Templates.tile("023", "inn.base.tower.b.1", {
+                offx: 8, offy: -40,
+                xcollider: {width: 24, height: 80, offy: -8},
+            }),
+            Templates.tile("02d", "inn.base.tower.b.2", {
+                offx: 24, offy: -40,
+                xcollider: {width: 64, height: 40, offy: 20},
+            }),
+            Templates.tile("02w", "inn.base.tower.b.3", {
+                offx: 8, offy: -40,
+                xcollider: {width: 24, height: 80, offy: -8},
             }),
 
             Templates.tile("024", "inn.lvl1.tl",        {offx: 0, offy: -16, xcollider: {offy: 8, width: 8, height: 16}}),
@@ -790,8 +790,7 @@ class SparkAssets {
             Templates.tile("029", "inn.lvl1.r",         {offx: 0, offy: 0, xcollider: {width: 8}}),
             Templates.tile("02a", "inn.lvl1.entry1.t",  {offx: 0, offy: -16, xcollider: {width: 8, height: 48, offy: -4}}),
             Templates.tile("02b", "inn.lvl1.bl",        {offx: 0, offy: -16, xcollider: {offy: 8, height: 16, width: 8}}),
-            Templates.tile("02c", "inn.lvl1.entry2.l",  {offx: 0, offy: -40, xcollider: {width: 8, offy: 12, height: 68}}),
-            //Templates.tile("02d", "inn.lvl1.door.b",    {offx: 8, offy: -32}),
+            Templates.tile("02c", "inn.lvl1.entry2.l",  {offx: 0, offy: -40, }),
             Templates.tile("02e", "inn.lvl1.entry2.r",  {offx: 0, offy: -40, xcollider: {width: 8, offy: 12, height: 68}}),
             Templates.tile("02f", "inn.lvl1.room.tl",    {offx: 0, offy: -24, xcollider: {height: 64, width: 8}}),
             Templates.tile("02g", "inn.lvl1.entry3",    {
@@ -819,7 +818,6 @@ class SparkAssets {
             Templates.tile("02t", "bar",                {offy: -8, xcollider: {offy:8, height: 14}}),
             Templates.tile("02u", "bar.ljoin",          {offy: -8, xcollider: {width: 8, height:32}}),
             Templates.tile("02v", "bar.rend",           {offy: -8, xcollider: {offy:8}}),
-            //Templates.tile("02w", "bar.beerstand",      {offx: 16, offy: -28, xcollider: {width:48, offy: 16}}),
             Templates.tile("02x", "bar.smtable",        {offx: 8, offy: -16, xcollider: {width: 20, offy:-4}}),
             Templates.tile("02y", "bar.stand",          {offx: 16, offy: -12, xcollider: {width:48}}),
             Templates.tile("02z", "bar.lgtable",        {offx: 8, offy: -24, xcollider: {width: 30, height: 48, offy:0}}),

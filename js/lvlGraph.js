@@ -53,6 +53,7 @@ class LevelGraph {
             let blocked = false;
             let exitNode = undefined;
             let objectToBypass = undefined;
+            let bounds = undefined;
             for (const other of this.grid.findgidx(nidx, (gzo) => !gzo.pathfinding && (gzo.layer === obj.layer) && gzo.collider && (gzo.collider.tag & blocking))) {
                 if (this.dbg) console.log(`gidx: ${gidx} nidx: ${nidx} lvl graph check obstruction: ${other}`);
                 // is a bypass action allowed?
@@ -67,6 +68,11 @@ class LevelGraph {
                 }
                 // is pathing in current direction allowed?
                 if (other.collider.allowPathMask&Direction.opposite(dir)) continue;
+                // check for actual collision
+                if (!bounds) bounds = new Bounds(this.grid.xfromidx(nidx), this.grid.yfromidx(nidx), Config.tileSize, Config.tileSize)
+                let overlap = bounds.overlaps(other.collider);
+                //console.log(`${Direction.toString(dir)} -- bounds: ${bounds} checking: ${other.collider} gives: ${overlap}`);
+                if (!overlap) continue;
                 blocked = true;
                 break;
             }
@@ -87,11 +93,17 @@ class LevelGraph {
             if (nidx === undefined) continue;
             // find any objects that might be blocking our path
             let blocked = false;
+            let bounds = undefined;
             for (const other of this.grid.findgidx(nidx, (gzo) => !gzo.pathfinding && (gzo.layer === obj.layer) && gzo.collider && (gzo.collider.tag & blocking))) {
                 // is a bypass action allowed?
                 if (other.bypassAction) continue;
                 // is pathing in current direction allowed?
                 if (other.collider.allowPathMask&Direction.opposite(dir)) continue;
+                // check for actual collision
+                if (!bounds) bounds = new Bounds(this.grid.xfromidx(nidx), this.grid.yfromidx(nidx), Config.tileSize, Config.tileSize)
+                let overlap = bounds.overlaps(other.collider);
+                //console.log(`${Direction.toString(dir)} -- bounds: ${bounds} checking: ${other.collider} gives: ${overlap}`);
+                if (!overlap) continue;
                 blocked = true;
                 break;
             }
