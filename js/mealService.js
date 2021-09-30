@@ -8,14 +8,15 @@ import { Condition }        from './base/condition.js';
 import { LevelNode }        from './lvlGraph.js';
 import { LeaveAction }      from './actions/leave.js';
 import { OccupyAction }     from './actions/occupy.js';
+import { Fmt } from './base/fmt.js';
 
 class MealService extends Model {
 
     cpre(spec) {
         if (!spec.hasOwnProperty("state")) spec.state = ModelState.idle;
     }
-    constructor(spec={}) {
-        super(spec);
+    cpost(spec) {
+        super.cpost(spec);
         // -- empty position
         this.emptyX = spec.emptyX || 0;
         this.emptyY = spec.emptyY || 0;
@@ -34,6 +35,13 @@ class MealService extends Model {
         this.serviceApproachOffsets = spec.serviceApproachOffsets;
         this.beerId = 0;
         this.foodId = 0;
+        // offset for beer location
+        this.beerOffX = spec.beerOffX || 0;
+        this.beerOffY = spec.beerOffY || 0;
+        // offset for actor location when serving
+        this.serveOffX = spec.serveOffX;
+        this.serveOffY = spec.serveOffY;
+        this.serveDir = spec.serveDir || Direction.south;
         // -- approaches
         this.approachOffsets = spec.approachOffsets;
         // -- occupied offset
@@ -53,6 +61,7 @@ class MealService extends Model {
         }
         // -- actor id (who's on object)
         this.actorId = 0;
+        console.log(`${this.cls}: ${Fmt.ofmt(spec)}`);
     }
 
     get approaches() {

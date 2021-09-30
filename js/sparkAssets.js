@@ -333,6 +333,8 @@ class SparkAssets {
                 Templates.xsprite("bar.smtable",        0, 20, { width: 16*2, height: 16*3 }),
                 Templates.xsprite("bar.lgtable",        2, 20, { width: 16*2, height: 16*4 }),
                 Templates.xsprite("bar.sidetable",      4, 20, { width: 16*2, height: 16*3 }),
+                Templates.xsprite("bar.beer.empty",     10, 16, { width: 16*1, height: 16*1 }),
+                Templates.xsprite("bar.beer.full",      11, 16, { width: 16*1, height: 16*1 }),
             ]},
 
             { src: "img/vendor.png", loader: "Sheet", refs: [
@@ -986,13 +988,10 @@ class SparkAssets {
                 approachOffsets: [{x:-16, y:-16},  {x:-16, y:-32},  {x:32, y:-16}, {x:32, y:-32}],
             }),
 
-            { tag: "spark", cls: "SparkProjectile", 
-                xcollider: { tag: Collider.projectile, blocking: Collider.object|Collider.npc, width:8, height:8, color: "rgba(0,0,127,.5)" },
-                xsketch: { cls: "Media", tag: "spark"}, 
-            },
-
             Templates.object("o0k", "bar.stool", "MealService", {
                 mediaTag: "stool",
+                beerOffY: -32, beerOffX: 4,
+                serveOffX: 8, serveOffY: -40,
                 offx: 8, offy: -8,
                 xcollider: { offy: 4, width: 14, height: 14 }, 
                 occupiedDir: Direction.east, 
@@ -1001,13 +1000,23 @@ class SparkAssets {
                 serviceApproachOffsets: [{x:16, y:-32}],
             }),
 
-            //Templates.tile("02w", "bar.beerstand",      {offx: 16, offy: -28, xcollider: {width:48, offy: 16}}),
 
             Templates.object("o0l", "bar.beerstand", "Keg", {
                 offx: 16, offy: -28,
                 xcollider: { width: 48, offy: 16 }, 
                 approachOffsets: [{x:0, y:16}],
             }),
+
+            Templates.object("o0m", "bar.beer", "Food", {
+                mediaTag: "bar.beer.full",
+            }),
+
+            // ------------------------------------------------------------------------------
+
+            { tag: "spark", cls: "SparkProjectile", 
+                xcollider: { tag: Collider.projectile, blocking: Collider.object|Collider.npc, width:8, height:8, color: "rgba(0,0,127,.5)" },
+                xsketch: { cls: "Media", tag: "spark"}, 
+            },
 
             Templates.object("c01", "player", "Character", {
                 name: "Alette",
@@ -1097,6 +1106,7 @@ class SparkAssets {
                         Templates.aiRestDirective,
                     ],
                     xschemes: [
+                        "ClearBeerScheme",
                         "CloseAtStationScheme",
                         "EatAtChairScheme",
                         "FindScheme",
@@ -1111,6 +1121,7 @@ class SparkAssets {
                         "SweepAtDirtyScheme",
                         "TakeBeerOrderScheme",
                         "WantBedScheme",
+                        "WantBeerClearScheme",
                         "WantBeerOrderScheme",
                         "WantChairScheme",
                         "WantDirtyScheme",

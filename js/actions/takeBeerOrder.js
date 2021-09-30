@@ -6,6 +6,7 @@ import { AiPlan }           from "../base/ai/aiPlan.js";
 import { AiProcess }        from "../base/ai/aiProcess.js";
 import { Action }           from "../base/action.js";
 import { Condition }        from "../base/condition.js";
+import { Direction } from "../base/dir.js";
 
 class TakeBeerOrderScheme extends AiScheme {
     constructor(spec={}) {
@@ -70,6 +71,14 @@ class TakeBeerOrderAction extends Action {
     }
 
     start(actor) {
+
+        // update actor state
+        //actor.conditions.add(this.target.actorCondition);
+        if (this.target.serveOffX) actor.x = this.target.x + this.target.serveOffX;
+        if (this.target.serveOffY) actor.y = this.target.y + this.target.serveOffY;
+        if (this.target.serveDir) actor.heading = Direction.asHeading(this.target.serveDir);
+        actor.updated = true;
+
         console.log(`take beer order action actor: ${actor} target: ${this.target}}`);
         this.actor = actor;
     }

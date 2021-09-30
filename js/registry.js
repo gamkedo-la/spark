@@ -46,9 +46,10 @@ import { Ramp }             from "./ramp.js";
 import { MealService } from "./mealService.js";
 import { Keg } from "./keg.js";
 import { TakeBeerOrderScheme } from "./actions/takeBeerOrder.js";
-import { WantBeerOrderScheme, WantServeBeerScheme } from "./actions/wantBeer.js";
-import { ServeBeerScheme } from "./actions/serve.js";
+import { WantBeerClearScheme, WantBeerOrderScheme, WantServeBeerScheme } from "./actions/wantBeer.js";
+import { ClearBeerScheme, ServeBeerScheme } from "./actions/serve.js";
 import { WantKegScheme } from "./actions/wantKeg.js";
+import { Food } from "./food.js";
 
 class SparkRegistry {
     static init() {
@@ -132,7 +133,9 @@ class SparkRegistry {
         registry.add(Morale);
         registry.add(Ramp);
         registry.add(MealService);
+        registry.add(Food);
         // -- register schemes
+        registry.add(ClearBeerScheme);
         registry.add(CloseAtStationScheme);
         registry.add(EatAtChairScheme);
         registry.add(FindScheme);
@@ -148,6 +151,7 @@ class SparkRegistry {
         registry.add(TakeBeerOrderScheme);
         registry.add(WakeScheme);
         registry.add(WantBedScheme);
+        registry.add(WantBeerClearScheme);
         registry.add(WantBeerOrderScheme);
         registry.add(WantChairScheme);
         registry.add(WantDirtyScheme);

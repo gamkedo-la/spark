@@ -1,4 +1,4 @@
-export { WantBeerOrderScheme, WantServeBeerScheme };
+export { WantBeerOrderScheme, WantBeerClearScheme, WantServeBeerScheme };
 
 import { AiGoal }           from "../base/ai/aiGoal.js";
 import { AiPlan }           from "../base/ai/aiPlan.js";
@@ -31,6 +31,39 @@ class WantBeerOrderScheme extends AiScheme {
 }
 
 class WantBeerOrderPlan extends AiPlan {
+
+    finalize() {
+        return {
+            utility: 1,
+            cost: 1,
+        }
+    }
+}
+
+class WantBeerClearScheme extends AiScheme {
+    constructor(spec={}) {
+        super(spec);
+        this.goalPredicate = (goal) => goal === AiGoal.work;
+        this.preconditions.push((state) => !state.v_wantBeerClear);                               // prevents cycles
+        this.preconditions.push((state) => !state.a_occupyId);
+        this.preconditions.push((state) => state.v_wantTag === undefined);
+        this.effects.push((state) => state.v_wantTag = "BeerClear");
+        this.effects.push((state) => state.v_wantBeerClear = true);
+        // find meal service where: a) service is not occupied and b) beer is present
+        this.effects.push((state) => state.v_findPredicate = ((v) => v.mealService && !v.conditions.has(v.occupiedCondition) && v.beerId));
+    }
+
+    deriveState(env, actor, state) {
+        if (!state.hasOwnProperty("a_occupyId")) state.a_occupyId = actor.occupyId;
+    }
+
+    generatePlan(spec={}) {
+        return new WantBeerClearPlan(spec);
+    }
+
+}
+
+class WantBeerClearPlan extends AiPlan {
 
     finalize() {
         return {
