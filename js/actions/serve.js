@@ -118,6 +118,8 @@ class ClearBeerScheme extends AiScheme {
     constructor(spec={}) {
         super(spec);
         this.goalPredicate = (goal) => goal === AiGoal.work;
+        this.preconditions.push((state) => !state.a_occupyId);                              // is actor currently occupying an area
+        this.preconditions.push((state) => !state.v_occupyTag);                             // has occupation already been planned
         this.preconditions.push((state) => state.v_moveTag === "BeerClear");
         this.effects.push((state) => state[AiGoal.toString(AiGoal.work)] = true);
     }

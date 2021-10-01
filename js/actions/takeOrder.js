@@ -1,51 +1,83 @@
-export { TakeBeerOrderScheme };
+export { TakeBeerOrderScheme, TakeFoodOrderScheme };
 
 import { AiScheme }         from "../base/ai/aiScheme.js";
 import { AiGoal }           from "../base/ai/aiGoal.js";
 import { AiPlan }           from "../base/ai/aiPlan.js";
 import { AiProcess }        from "../base/ai/aiProcess.js";
 import { Action }           from "../base/action.js";
-import { Condition }        from "../base/condition.js";
-import { Direction } from "../base/dir.js";
+import { Direction }        from "../base/dir.js";
 
 class TakeBeerOrderScheme extends AiScheme {
     constructor(spec={}) {
         super(spec);
         this.goalPredicate = (goal) => goal === AiGoal.work;
         this.preconditions.push((state) => state.v_moveTag === "BeerOrder");
+        this.preconditions.push((state) => !state.v_occupyTag);                             // has occupation already been planned
         this.effects.push((state) => state[AiGoal.toString(AiGoal.work)] = true);
     }
-
     generatePlan(spec={}) {
         return new TakeBeerOrderPlan(spec);
     }
-
 }
 
 class TakeBeerOrderPlan extends AiPlan {
-
     finalize() {
         // handle success
         return {
             utility: 1,
             cost: 1,
             processes: [
-                new TakeBeerOrderProcess({target: this.state.v_target}),
+                new TakeOrderProcess({
+                    target: this.state.v_target,
+                    serviceTag: "Beer",
+                }),
             ]
         }
     }
-
 }
 
-class TakeBeerOrderProcess extends AiProcess {
+class TakeFoodOrderScheme extends AiScheme {
     constructor(spec={}) {
         super(spec);
+        this.goalPredicate = (goal) => goal === AiGoal.work;
+        this.preconditions.push((state) => state.v_moveTag === "FoodOrder");
+        this.preconditions.push((state) => !state.v_occupyTag);                             // has occupation already been planned
+        this.effects.push((state) => state[AiGoal.toString(AiGoal.work)] = true);
+    }
+    generatePlan(spec={}) {
+        return new TakeFoodOrderPlan(spec);
+    }
+}
+
+class TakeFoodOrderPlan extends AiPlan {
+    finalize() {
+        // handle success
+        return {
+            utility: 1,
+            cost: 1,
+            processes: [
+                new TakeOrderProcess({
+                    target: this.state.v_target,
+                    serviceTag: "Food",
+                }),
+            ]
+        }
+    }
+}
+
+class TakeOrderProcess extends AiProcess {
+    constructor(spec={}) {
+        super(spec);
+        this.serviceTag = spec.serviceTag || "Beer";
         this.target = spec.target;
     }
 
     prepare(actor) {
         this.actions = [
-            new TakeBeerOrderAction({target: this.target}),
+            new TakeOrderAction({
+                target: this.target, 
+                serviceTag: this.serviceTag,
+            }),
         ];
         // set actor's action queue to be the individual actions
         actor.actions = this.actions.slice(0);
@@ -61,13 +93,14 @@ class TakeBeerOrderProcess extends AiProcess {
 
 }
 
-class TakeBeerOrderAction extends Action {
-    static dfltTTL = 2000;
+class TakeOrderAction extends Action {
+    static dfltTTL = 1000;
 
     constructor(spec={}) {
         super(spec);
         this.target = spec.target;
-        this.ttl = spec.ttl || TakeBeerOrderAction.dfltTTL;
+        this.serviceTag = spec.serviceTag || "Beer";
+        this.ttl = spec.ttl || TakeOrderAction.dfltTTL;
     }
 
     start(actor) {
@@ -79,7 +112,7 @@ class TakeBeerOrderAction extends Action {
         if (this.target.serveDir) actor.heading = Direction.asHeading(this.target.serveDir);
         actor.updated = true;
 
-        console.log(`take beer order action actor: ${actor} target: ${this.target}}`);
+        console.log(`take order action actor: ${actor} target: ${this.target}} tag: ${this.serviceTag}`);
         this.actor = actor;
     }
 
@@ -89,7 +122,7 @@ class TakeBeerOrderAction extends Action {
             console.log(`actor ${this.actor} done taking order`);
             this.done = true;
             this.actor.serviceOrderId = this.target.gid;
-            this.actor.serviceTag = "Beer";
+            this.actor.serviceTag = this.serviceTag;
         }
         return this.done;
     }

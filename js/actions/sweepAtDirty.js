@@ -12,6 +12,7 @@ class SweepAtDirtyScheme extends AiScheme {
         super(spec);
         this.goalPredicate = (goal) => goal === AiGoal.work;
         this.preconditions.push((state) => state.v_moveTag === "Dirty");
+        this.preconditions.push((state) => !state.v_occupyTag);                             // has occupation already been planned
         this.effects.push((state) => state[AiGoal.toString(AiGoal.work)] = true);
     }
 

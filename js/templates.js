@@ -261,9 +261,9 @@ class Templates {
             },
             xgoals: [
                 { goal: AiGoal.close, xinfluence: { cls: "AiInfluence", dfltScore: 2 }},  // prioritize closing up shop over others...
-                { goal: AiGoal.eat },
-                { goal: AiGoal.loiter },
                 { goal: AiGoal.socialize },
+                //{ goal: AiGoal.eat },
+                { goal: AiGoal.loiter },
             ]
         }
 
@@ -290,10 +290,21 @@ class Templates {
                 { weight: .1, activity: Activity.sleep },
                 { weight: .2, activity: Activity.wake },
                 { weight: .4, activity: Activity.work },
-                { weight: .2, activity: Activity.relax },
+                { weight: .4, activity: Activity.relax },
                 { weight: .1, activity: Activity.sleep },
             ],
         }
+
+        this.innSchedule = {
+            cls: "ActivitySchedule",
+            activities: [
+                { weight: .1, activity: Activity.sleep },
+                { weight: .2, activity: Activity.wake },
+                { weight: .8, activity: Activity.work },
+                { weight: .1, activity: Activity.sleep },
+            ],
+        }
+
     }
 
     static xvarsprite(tag, coords, spec={}) {

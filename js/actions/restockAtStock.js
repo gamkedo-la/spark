@@ -11,6 +11,7 @@ class RestockAtStockScheme extends AiScheme {
     constructor(spec={}) {
         super(spec);
         this.goalPredicate = (goal) => goal === AiGoal.work;
+        this.preconditions.push((state) => !state.v_occupyTag);                             // has occupation already been planned
         this.preconditions.push((state) => state.v_occupyTag === "Stock");
         this.effects.push((state) => state[AiGoal.toString(AiGoal.work)] = true);
     }

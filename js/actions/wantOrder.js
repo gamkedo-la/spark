@@ -1,4 +1,4 @@
-export { WantBeerOrderScheme, WantBeerClearScheme, WantServeBeerScheme };
+export { WantBeerOrderScheme, WantBeerClearScheme, WantServeBeerScheme, WantFoodOrderScheme, WantFoodClearScheme, WantServeFoodScheme };
 
 import { AiGoal }           from "../base/ai/aiGoal.js";
 import { AiPlan }           from "../base/ai/aiPlan.js";
@@ -99,6 +99,109 @@ class WantServeBeerScheme extends AiScheme {
 }
 
 class WantServeBeerPlan extends AiPlan {
+
+    finalize() {
+        return {
+            utility: 1,
+            cost: 1,
+        }
+    }
+}
+
+class WantFoodOrderScheme extends AiScheme {
+    constructor(spec={}) {
+        super(spec);
+        this.goalPredicate = (goal) => goal === AiGoal.work;
+        this.preconditions.push((state) => !state.v_wantFoodOrder);                               // prevents cycles
+        this.preconditions.push((state) => !state.a_serviceOrderId);
+        this.preconditions.push((state) => !state.a_occupyId);
+        this.preconditions.push((state) => state.v_wantTag === undefined);
+        this.effects.push((state) => state.v_wantTag = "FoodOrder");
+        this.effects.push((state) => state.v_wantFoodOrder = true);
+        // find meal service where: a) service is occupied and b) beer id is 0
+        this.effects.push((state) => state.v_findPredicate = ((v) => v.mealService && v.conditions.has(v.occupiedCondition) && v.beerId === 0));
+    }
+
+    deriveState(env, actor, state) {
+        if (!state.hasOwnProperty("a_occupyId")) state.a_occupyId = actor.occupyId;
+        if (!state.hasOwnProperty("a_serviceOrderId")) state.a_serviceOrderId = actor.serviceOrderId;
+    }
+
+    generatePlan(spec={}) {
+        return new WantFoodOrderPlan(spec);
+    }
+
+}
+
+class WantFoodOrderPlan extends AiPlan {
+
+    finalize() {
+        return {
+            utility: 1,
+            cost: 1,
+        }
+    }
+}
+
+class WantFoodClearScheme extends AiScheme {
+    constructor(spec={}) {
+        super(spec);
+        this.goalPredicate = (goal) => goal === AiGoal.work;
+        this.preconditions.push((state) => !state.v_wantFoodClear);                               // prevents cycles
+        this.preconditions.push((state) => !state.a_occupyId);
+        this.preconditions.push((state) => state.v_wantTag === undefined);
+        this.effects.push((state) => state.v_wantTag = "FoodClear");
+        this.effects.push((state) => state.v_wantFoodClear = true);
+        // find meal service where: a) service is not occupied and b) beer is present
+        this.effects.push((state) => state.v_findPredicate = ((v) => v.mealService && !v.conditions.has(v.occupiedCondition) && v.beerId));
+    }
+
+    deriveState(env, actor, state) {
+        if (!state.hasOwnProperty("a_occupyId")) state.a_occupyId = actor.occupyId;
+    }
+
+    generatePlan(spec={}) {
+        return new WantFoodClearPlan(spec);
+    }
+
+}
+
+class WantFoodClearPlan extends AiPlan {
+
+    finalize() {
+        return {
+            utility: 1,
+            cost: 1,
+        }
+    }
+}
+
+class WantServeFoodScheme extends AiScheme {
+    constructor(spec={}) {
+        super(spec);
+        this.goalPredicate = (goal) => goal === AiGoal.work;
+        this.preconditions.push((state) => state.a_carryTag === "Food");
+        this.preconditions.push((state) => state.a_serviceOrderId);
+        this.preconditions.push((state) => !state.v_wantServeFood);                               // prevents cycles in wanting chair, wanting something else, wanting chair...
+        this.preconditions.push((state) => !state.a_occupyId);
+        this.preconditions.push((state) => state.v_wantTag === undefined);
+        this.effects.push((state) => state.v_wantTag = "ServeFood");
+        this.effects.push((state) => state.v_wantServeFood = true);
+        this.effects.push((state) => state.v_findPredicate = ((v) => v.gid === state.a_serviceOrderId) );
+    }
+
+    deriveState(env, actor, state) {
+        if (!state.hasOwnProperty("a_occupyId")) state.a_occupyId = actor.occupyId;
+        if (!state.hasOwnProperty("a_serviceOrderId")) state.a_serviceOrderId = actor.serviceOrderId;
+    }
+
+    generatePlan(spec={}) {
+        return new WantServeFoodPlan(spec);
+    }
+
+}
+
+class WantServeFoodPlan extends AiPlan {
 
     finalize() {
         return {

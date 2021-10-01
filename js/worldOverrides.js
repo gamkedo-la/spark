@@ -143,6 +143,14 @@ class WorldOverrides {
                     ownerTag: "Ciara",
                 },
             },
+            {
+                predicate: (v) => v.x === this.wpos(WorldGen.inn.offx + 2) && 
+                                v.y === this.wpos(WorldGen.inn.offy + 3) &&
+                                v.tag === "bar.work",
+                spec: {
+                    ownerTag: "Ciara",
+                },
+            },
 
         ];
     }
