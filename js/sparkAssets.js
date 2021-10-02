@@ -998,8 +998,8 @@ class SparkAssets {
                 serveOffX: 8, serveOffY: -40,
                 offx: 8, offy: -8,
                 xcollider: { offy: 4, width: 14, height: 14 }, 
-                occupiedDir: Direction.east, 
-                occupiedOffX: 10, occupiedOffY: -14, occupiedOffD: 1,
+                occupiedDir: Direction.north, 
+                occupiedOffX: 8, occupiedOffY: -14, occupiedOffD: 1,
                 approachOffsets: [{x:-16, y:0},  {x:32, y:0},  {x:0, y:16}, {x:16, y:16}, {x:0, y:-32}, {x:16, y:-32}],
                 serviceApproachOffsets: [{x:16, y:-32}],
             }),
@@ -1065,6 +1065,7 @@ class SparkAssets {
                     xschemes: [
                         "CloseAtStationScheme",
                         "EatAtChairScheme",
+                        "EatAtServiceScheme",
                         "FindScheme",
                         "GatherScheme",
                         "LeaveScheme",

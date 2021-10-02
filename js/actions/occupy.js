@@ -5,6 +5,7 @@ import { AiPlan }           from "../base/ai/aiPlan.js";
 import { AiProcess }        from "../base/ai/aiProcess.js";
 import { Action }           from "../base/action.js";
 import { Direction } from "../base/dir.js";
+import { Fmt } from "../base/fmt.js";
 
 class OccupyScheme extends AiScheme {
     constructor(spec={}) {
@@ -118,6 +119,7 @@ class OccupyAction extends Action {
             if (this.target.occupiedDir) actor.heading = Direction.asHeading(this.target.occupiedDir);
             if (this.target.occupiedOffD) actor.depth += this.target.occupiedOffD;
             actor.occupyId = this.target.gid;
+            actor.occupyCls = this.target.cls;
             actor.updated = true;
 
         }

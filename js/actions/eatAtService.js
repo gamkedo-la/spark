@@ -36,8 +36,14 @@ class EatAtServiceScheme extends AiScheme {
     constructor(spec={}) {
         super(spec);
         this.goalPredicate = (goal) => goal === AiGoal.socialize;
-        this.preconditions.push((state) => state.v_occupyTag === "Service");
+        this.preconditions.push((state) => state.a_occupyCls === "MealService");
+        this.preconditions.push((state) => state.a_conditions.has(Condition.hungry));
         this.effects.push((state) => state[AiGoal.toString(AiGoal.socialize)] = true);
+    }
+
+    deriveState(env, actor, state) {
+        if (!state.hasOwnProperty("a_occupyCls")) state.a_occupyCls = actor.occupyCls;
+        if (!state.hasOwnProperty("a_conditions")) state.a_conditions = new Set(actor.conditions);
     }
 
     generatePlan(spec={}) {
@@ -47,6 +53,19 @@ class EatAtServiceScheme extends AiScheme {
 }
 
 class EatAtServicePlan extends AiPlan {
+
+    prepare(actor, state) {
+        super.prepare(actor, state);
+        // lookup what actor is occupying
+        let oobj = this.entities.get(actor.occupyId);
+        console.log(`============== oobj is: ${oobj}`);
+        if (oobj) console.log(`target foodid is: ${oobj.foodId}`);
+        if (!oobj || !oobj.foodId) {
+            console.log("EatAtServicePlan: no food");
+            return false;
+        }
+        return true;
+    }
 
     finalize() {
         // handle success
@@ -108,6 +127,7 @@ class EatAction extends Action {
             //console.log(`actor ${this.actor} done eating`);
             this.done = true;
             this.actor.conditions.delete(Condition.eating);
+            if (this.actor.maxFedTTL) this.actor.fedTTL = this.actor.maxFedTTL;
         }
         return this.done;
     }

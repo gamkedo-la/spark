@@ -15,6 +15,7 @@ class LeaveScheme extends AiScheme {
         this.preconditions.push((state) => !state.v_left);
         this.preconditions.push((state) => state.a_occupyId);
         this.effects.push((state) => state.a_occupyId = 0);
+        this.effects.push((state) => state.a_occupyCls = undefined);
         this.effects.push((state) => state.v_left = true);
     }
 
@@ -116,6 +117,7 @@ class LeaveAction extends Action {
             actor.y = this.target.actorSavedY;
             actor.depth = this.target.actorSavedDepth;
             actor.occupyId = 0;
+            actor.occupyCls = undefined;
             actor.updated = true;
 
         }
