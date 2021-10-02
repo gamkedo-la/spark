@@ -16,7 +16,8 @@ class Collider {
     static object =         2;
     static projectile =     4;
     static npc =            8;
-    static all =            Collider.player|Collider.object|Collider.projectile|Collider.npc;
+    static sparkthru =      16;
+    static all =            Collider.player|Collider.object|Collider.projectile|Collider.npc|Collider.sparkthru;
 
     // CONSTRUCTOR ---------------------------------------------------------
     constructor(spec={}) {

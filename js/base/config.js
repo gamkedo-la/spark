@@ -16,7 +16,7 @@ class Config {
             ActivityScheduleSystem: false,
             AiDirectiveSystem: false,
             AiGoalSystem: false,
-            AiPlanSystem: true,
+            AiPlanSystem: false,
             AiProcessSystem: false,
             AreaSystem: false,
             DirtySystem: false,
