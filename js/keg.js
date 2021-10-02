@@ -1,5 +1,6 @@
 export { Keg };
 
+    import { Direction } from "./base/dir.js";
 import { Model }            from "./base/model.js";
 import { LevelNode }        from "./lvlGraph.js";
 
@@ -11,7 +12,10 @@ class Keg extends Model {
         // -- interactable
         this.interactable = true;
         this.dispenseTag = spec.dispenseTag || "Beer";
-        console.log(`keg: ${this} approaches: ${Array.from(this.approaches)}`);
+        // offset for actor location when gathering
+        this.gatherOffX = spec.gatherOffX;
+        this.gatherOffY = spec.gatherOffY;
+        this.gatherDir = spec.gatherDir || Direction.north;
     }
 
     get approaches() {

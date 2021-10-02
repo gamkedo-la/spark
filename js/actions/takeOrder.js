@@ -94,7 +94,7 @@ class TakeOrderProcess extends AiProcess {
 }
 
 class TakeOrderAction extends Action {
-    static dfltTTL = 1000;
+    static dfltTTL = 500;
 
     constructor(spec={}) {
         super(spec);

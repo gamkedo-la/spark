@@ -298,10 +298,10 @@ class Templates {
         this.innSchedule = {
             cls: "ActivitySchedule",
             activities: [
-                { weight: .1, activity: Activity.sleep },
-                { weight: .2, activity: Activity.wake },
+                //{ weight: .1, activity: Activity.sleep },
+                //{ weight: .2, activity: Activity.wake },
                 { weight: .8, activity: Activity.work },
-                { weight: .1, activity: Activity.sleep },
+                //{ weight: .1, activity: Activity.sleep },
             ],
         }
 

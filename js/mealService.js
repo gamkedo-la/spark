@@ -35,9 +35,11 @@ class MealService extends Model {
         this.serviceApproachOffsets = spec.serviceApproachOffsets;
         this.beerId = 0;
         this.foodId = 0;
-        // offset for beer location
+        // offset for service item location
         this.beerOffX = spec.beerOffX || 0;
         this.beerOffY = spec.beerOffY || 0;
+        this.foodOffX = spec.foodOffX || 0;
+        this.foodOffY = spec.foodOffY || 0;
         // offset for actor location when serving
         this.serveOffX = spec.serveOffX;
         this.serveOffY = spec.serveOffY;
@@ -61,7 +63,6 @@ class MealService extends Model {
         }
         // -- actor id (who's on object)
         this.actorId = 0;
-        console.log(`${this.cls}: ${Fmt.ofmt(spec)}`);
     }
 
     get approaches() {
@@ -81,7 +82,6 @@ class MealService extends Model {
     }
 
     dointeract(actor) {
-        console.log(this + " dointeract");
         if (this.conditions.has(this.occupiedCondition)) {
             actor.actions.push(new LeaveAction({target: this}));
             //this.leave(actor);

@@ -293,6 +293,10 @@ class SparkAssets {
                 ]},
             ]},
 
+            { src: "img/bar.png", loader: "Sheet", refs: [
+                Templates.xsprite("plate", 1, 0),
+            ]},
+
             { src: "img/object1.png", loader: "Sheet", refs: [
                 Templates.xsprite("stool", 0, 0, {width: 32, height: 32}),
                 Templates.xsprite("table", 2, 0, {width: 32, height: 48}),
@@ -793,7 +797,7 @@ class SparkAssets {
             Templates.tile("02b", "inn.lvl1.bl",        {offx: 0, offy: -16, xcollider: {offy: 8, height: 16, width: 8}}),
             Templates.tile("02c", "inn.lvl1.entry2.l",  {offx: 0, offy: -40, }),
             Templates.tile("02e", "inn.lvl1.entry2.r",  {offx: 0, offy: -40, xcollider: {width: 8, offy: 12, height: 68}}),
-            Templates.tile("02f", "inn.lvl1.room.tl",    {offx: 0, offy: -24, xcollider: {height: 64, width: 8}}),
+            Templates.tile("02f", "inn.lvl1.room.tl",    {offx: 0, offy: -24, xcollider: {height: 70, width: 8}}),
             Templates.tile("02g", "inn.lvl1.entry3",    {
                 offx: 24, offy: -16,
                 xcollider: { cls: "ColliderSet", xitems: [
@@ -989,7 +993,8 @@ class SparkAssets {
 
             Templates.object("o0k", "bar.stool", "MealService", {
                 mediaTag: "stool",
-                beerOffY: -32, beerOffX: 4,
+                beerOffY: -36, beerOffX: -2,
+                foodOffY: -31, foodOffX: 8,
                 serveOffX: 8, serveOffY: -40,
                 offx: 8, offy: -8,
                 xcollider: { offy: 4, width: 14, height: 14 }, 
@@ -1001,6 +1006,9 @@ class SparkAssets {
 
 
             Templates.object("o0l", "bar.beerstand", "Keg", {
+                gatherDir: Direction.north,
+                gatherOffX: 8,
+                gatherOffY: 8,
                 offx: 16, offy: -28,
                 xcollider: { width: 48, offy: 16 }, 
                 approachOffsets: [{x:0, y:16}],
@@ -1008,6 +1016,9 @@ class SparkAssets {
 
             Templates.object("o0m", "bar.beer", "Food", {
                 mediaTag: "bar.beer.full",
+            }),
+
+            Templates.object("o0n", "plate", "Food", {
             }),
 
             // ------------------------------------------------------------------------------
@@ -1108,6 +1119,7 @@ class SparkAssets {
                     ],
                     xschemes: [
                         "ClearBeerScheme",
+                        "ClearFoodScheme",
                         "CloseAtStationScheme",
                         "EatAtChairScheme",
                         "FindScheme",
@@ -1117,17 +1129,23 @@ class SparkAssets {
                         "OccupyScheme",
                         "OpenAtStationScheme",
                         "ServeBeerScheme",
+                        "ServeFoodScheme",
                         "SleepAtBedScheme",
                         "RestockAtStockScheme",
                         "SweepAtDirtyScheme",
                         "TakeBeerOrderScheme",
+                        "TakeFoodOrderScheme",
                         "WantBedScheme",
                         "WantBeerClearScheme",
                         "WantBeerOrderScheme",
                         "WantChairScheme",
                         "WantDirtyScheme",
-                        "WantKegScheme",
+                        "WantFoodClearScheme",
+                        "WantFoodOrderScheme",
+                        "WantPrepBeerServiceScheme",
+                        "WantPrepFoodServiceScheme",
                         "WantServeBeerScheme",
+                        "WantServeFoodScheme",
                         "WantStockScheme",
                         "WantStoveScheme",
                         "WantWorkstationScheme",

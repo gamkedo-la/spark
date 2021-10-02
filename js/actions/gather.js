@@ -4,6 +4,7 @@ import { AiScheme }         from "../base/ai/aiScheme.js";
 import { AiPlan }           from "../base/ai/aiPlan.js";
 import { AiProcess }        from "../base/ai/aiProcess.js";
 import { Action }           from "../base/action.js";
+import { Direction } from "../base/dir.js";
 
 class GatherScheme extends AiScheme {
     constructor(spec={}) {
@@ -78,17 +79,25 @@ class GatherAction extends Action {
     constructor(spec={}) {
         super(spec);
         this.target = spec.target;
+        this.ttl = spec.ttl || 1000;
     }
 
     start(actor) {
         //console.log(`gather action actor: ${actor} target: ${this.target}}`);
+        if (this.target.gatherOffX) actor.x = this.target.x + this.target.gatherOffX;
+        if (this.target.gatherOffY) actor.y = this.target.y + this.target.gatherOffY;
+        if (this.target.gatherDir) actor.heading = Direction.asHeading(this.target.gatherDir);
         this.actor = actor;
-        // actor gathers from target
-        this.target.gather(actor);
     }
 
     update(ctx) {
-        this.done = true;
+        this.ttl -= ctx.deltaTime;
+        if (this.ttl <= 0) {
+            // actor gathers from target
+            this.target.gather(this.actor);
+            console.log(`actor ${this.actor} done gathering`);
+            this.done = true;
+        }
         return this.done;
     }
 

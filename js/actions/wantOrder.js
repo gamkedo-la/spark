@@ -118,8 +118,8 @@ class WantFoodOrderScheme extends AiScheme {
         this.preconditions.push((state) => state.v_wantTag === undefined);
         this.effects.push((state) => state.v_wantTag = "FoodOrder");
         this.effects.push((state) => state.v_wantFoodOrder = true);
-        // find meal service where: a) service is occupied and b) beer id is 0
-        this.effects.push((state) => state.v_findPredicate = ((v) => v.mealService && v.conditions.has(v.occupiedCondition) && v.beerId === 0));
+        // find meal service where: a) service is occupied and b) food id is 0
+        this.effects.push((state) => state.v_findPredicate = ((v) => v.mealService && v.conditions.has(v.occupiedCondition) && v.foodId === 0));
     }
 
     deriveState(env, actor, state) {
@@ -152,8 +152,8 @@ class WantFoodClearScheme extends AiScheme {
         this.preconditions.push((state) => state.v_wantTag === undefined);
         this.effects.push((state) => state.v_wantTag = "FoodClear");
         this.effects.push((state) => state.v_wantFoodClear = true);
-        // find meal service where: a) service is not occupied and b) beer is present
-        this.effects.push((state) => state.v_findPredicate = ((v) => v.mealService && !v.conditions.has(v.occupiedCondition) && v.beerId));
+        // find meal service where: a) service is not occupied and b) food is present
+        this.effects.push((state) => state.v_findPredicate = ((v) => v.mealService && !v.conditions.has(v.occupiedCondition) && v.foodId));
     }
 
     deriveState(env, actor, state) {
