@@ -33,6 +33,7 @@ import { Dialog } from "./base/dialog.js";
 import { UxDialogCtrl } from "./uxDialog.js";
 import { Bounds } from "./base/bounds.js";
 import { Hierarchy } from "./base/hierarchy.js";
+import { PlaySoundAction } from "./base/action.js";
 
 class PlayState extends State {
 
@@ -168,6 +169,7 @@ class PlayState extends State {
             Generator.generate({cls: "Media", tag: "cheer2"}),
             Generator.generate({cls: "Media", tag: "cheer3"}),
         ];
+        this.pillarActivateSfx = Generator.generate({cls: "Media", tag: "pillarActivation"}),
 
         // find game objects...
         this.vendorSparkbase = this.findFirst(v=>v.tag === "sparkbase" && v.ownerTag === "Aodhan");
@@ -478,9 +480,11 @@ class PlayState extends State {
                         // push new actions to queue...
                         this.actions.push(new PauseAction());
                         this.actions.push(new PanToAction({target: this.vendorSparkbase}));
+                        this.actions.push(new PlaySoundAction({sfx: this.pillarActivateSfx}));
                         this.actions.push(new PowerUpAction({target: this.vendorSparkbase}));
                         this.actions.push(new WaitAction());
                         this.actions.push(new PanToAction({target: this.vendorSparkbase2}));
+                        this.actions.push(new PlaySoundAction({sfx: this.pillarActivateSfx}));
                         this.actions.push(new PowerUpAction({target: this.vendorSparkbase2}));
                         this.actions.push(new WaitAction());
                         this.actions.push(new PanToAction({target: this.player}));

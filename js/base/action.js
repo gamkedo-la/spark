@@ -1,4 +1,4 @@
-export { Action, MoveToAction, OpenAction, DummyAction, SparkAction };
+export { Action, PlaySoundAction, MoveToAction, OpenAction, DummyAction, SparkAction };
 
 import { Base }             from "./base.js";
 import { Condition }        from "./condition.js";
@@ -19,9 +19,20 @@ class Action {
     update(ctx) {
         return true;
     }
-
     toString() {
         return Fmt.toString(this.constructor.name, this.info, this.done);
+    }
+}
+
+class PlaySoundAction extends Action {
+    constructor(spec={}) {
+        super(spec);
+        this.sfx = spec.sfx;
+    }
+    start(actor) {
+        this.done = true;
+        this.sfx.loop = false;
+        if (this.sfx) this.sfx.play();
     }
 }
 
