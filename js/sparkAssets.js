@@ -118,8 +118,12 @@ class SparkAssets {
                 Templates.xsprite("inn.base.tower.tl", 16, 16, {height: 16*3, width: 16*2}),
                 Templates.xsprite("inn.base.tower.tr", 20, 16, {height: 16*3, width: 16*2}),
                 Templates.xsprite("inn.base.tower.b.1", 15, 19, {height: 16*6, width: 16*2}),
-                Templates.xsprite("inn.base.tower.b.2", 17, 19, {height: 16*6, width: 16*4}),
-                Templates.xsprite("inn.base.tower.b.3", 21, 19, {height: 16*6, width: 16*2}),
+                Templates.xsprite("inn.base.tower.b.2", 17, 19, {height: 16*6, width: 16*1}),
+                Templates.xsprite("inn.base.tower.b.3", 20, 19, {height: 16*6, width: 16*1}),
+                Templates.xsprite("inn.base.tower.b.4", 21, 19, {height: 16*6, width: 16*2}),
+                Templates.xsprite("inn.base.tower.relay.idle",         23, 21, {width: 32, height: 64}),
+                Templates.xsprite("inn.base.tower.relay.sparked",      25, 21, {width: 32, height: 64}),
+                Templates.xsprite("inn.base.tower.relay.powered",      27, 21, {width: 32, height: 64}),
             ]},
 
             { src: "img/inn_lvl1.png", loader: "Sheet", refs: [
@@ -401,6 +405,15 @@ class SparkAssets {
                     [ModelState.idle]: { cls: "Media", tag: "sparkbase.idle" }, 
                     [ModelState.sparked]: { cls: "Media", tag: "sparkbase.sparked" }, 
                     [ModelState.powered]: { cls: "Media", tag: "sparkbase.powered" }, 
+                },
+            },
+
+            { tag: "inn.base.tower.relay", 
+                cls: "Animator", 
+                animations: { 
+                    [ModelState.idle]: { cls: "Media", tag: "inn.base.tower.relay.idle" }, 
+                    [ModelState.sparked]: { cls: "Media", tag: "inn.base.tower.relay.sparked" }, 
+                    [ModelState.powered]: { cls: "Media", tag: "inn.base.tower.relay.powered" }, 
                 },
             },
 
@@ -779,10 +792,14 @@ class SparkAssets {
                 xcollider: {width: 24, height: 80, offy: -8},
             }),
             Templates.tile("02d", "inn.base.tower.b.2", {
-                offx: 24, offy: -40,
-                xcollider: {width: 64, height: 40, offy: 20},
+                offy: -40,
+                xcollider: {height: 40, offy: 20},
             }),
-            Templates.tile("02w", "inn.base.tower.b.3", {
+            Templates.tile("02B", "inn.base.tower.b.3", {
+                offy: -40,
+                xcollider: {height: 40, offy: 20},
+            }),
+            Templates.tile("02w", "inn.base.tower.b.4", {
                 offx: 8, offy: -40,
                 xcollider: {width: 24, height: 80, offy: -8},
             }),
@@ -796,6 +813,7 @@ class SparkAssets {
             Templates.tile("02a", "inn.lvl1.entry1.t",  {offx: 0, offy: -16, xcollider: {width: 8, height: 48, offy: -4}}),
             Templates.tile("02b", "inn.lvl1.bl",        {offx: 0, offy: -16, xcollider: {offy: 8, height: 16, width: 8}}),
             Templates.tile("02c", "inn.lvl1.entry2.l",  {offx: 0, offy: -40, }),
+            // -- 02d taken
             Templates.tile("02e", "inn.lvl1.entry2.r",  {offx: 0, offy: -40, xcollider: {width: 8, offy: 12, height: 68}}),
             Templates.tile("02f", "inn.lvl1.room.tl",    {offx: 0, offy: -24, xcollider: {height: 70, width: 8}}),
             Templates.tile("02g", "inn.lvl1.entry3",    {
@@ -821,12 +839,15 @@ class SparkAssets {
             Templates.tile("02s", "inn.lvl1.stairs.rail", {offx: 16, offy: -32}),
 
             Templates.tile("02t", "bar",                {offy: -8, xcollider: {offy:8, height: 14}}),
+            // -- 02w taken
             Templates.tile("02u", "bar.ljoin",          {offy: -8, xcollider: {width: 8, height:32}}),
             Templates.tile("02v", "bar.rend",           {offy: -8, xcollider: {offy:8}}),
             Templates.tile("02x", "bar.smtable",        {offx: 8, offy: -16, xcollider: {width: 20, offy:-4}}),
             Templates.tile("02y", "bar.stand",          {offx: 16, offy: -12, xcollider: {width:48}}),
             Templates.tile("02z", "bar.lgtable",        {offx: 8, offy: -24, xcollider: {width: 30, height: 48, offy:0}}),
             Templates.tile("02A", "bar.sidetable",      {offx: 8, offy: -16, xcollider: {width: 20, height: 40, offy:-4}}),
+            // -- 02B taken
+
 
             Templates.object("o00", "sparkbase", "SparkBase", { 
                 powered: true,
@@ -1019,6 +1040,12 @@ class SparkAssets {
             }),
 
             Templates.object("o0n", "plate", "Food", {
+            }),
+
+            Templates.object("o0o", "inn.base.tower.relay", "SparkRelay", { 
+                offy: -24, 
+                offx: 8,
+                xcollider: {width:32, height:40, offy: 4}, 
             }),
 
             // ------------------------------------------------------------------------------
