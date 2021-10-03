@@ -41,88 +41,32 @@ class World {
 
     static xlvl = {
         cls: "Level",
-        columns: 128,
-        rows: 128,
+        columns: 64,
+        rows: 64,
         xregions: [
+            // row 1
             WorldGen.lvl00,
             WorldGen.lvl10,
             WorldGen.lvl20,
             WorldGen.lvl30,
-            WorldGen.lvl40,
-            WorldGen.lvl50,
-            /*
-            WorldGen.lvl60,
-            WorldGen.lvl70,
-            */
 
+            // row 2
             WorldGen.lvl01,
             WorldGen.lvl11,
             WorldGen.lvl21,
             WorldGen.lvl31,
-            WorldGen.lvl41,
-            WorldGen.lvl51,
-            /*
-            WorldGen.lvl61,
-            WorldGen.lvl71,
-            */
 
+            // row 3
             WorldGen.lvl02,
             WorldGen.lvl12,
             WorldGen.lvl22,
             WorldGen.lvl32,
-            WorldGen.lvl42,
-            /*
-            WorldGen.lvl52,
-            WorldGen.lvl62,
-            WorldGen.lvl72,
-            */
 
-            /*
+            // row 4
             WorldGen.lvl03,
             WorldGen.lvl13,
             WorldGen.lvl23,
             WorldGen.lvl33,
-            WorldGen.lvl43,
-            WorldGen.lvl53,
-            WorldGen.lvl63,
-            WorldGen.lvl73,
-
-            WorldGen.lvl04,
-            WorldGen.lvl14,
-            WorldGen.lvl24,
-            WorldGen.lvl34,
-            WorldGen.lvl44,
-            WorldGen.lvl54,
-            WorldGen.lvl64,
-            WorldGen.lvl74,
-
-            WorldGen.lvl05,
-            WorldGen.lvl15,
-            WorldGen.lvl25,
-            WorldGen.lvl35,
-            WorldGen.lvl45,
-            WorldGen.lvl55,
-            WorldGen.lvl65,
-            WorldGen.lvl75,
-
-            WorldGen.lvl06,
-            WorldGen.lvl16,
-            WorldGen.lvl26,
-            WorldGen.lvl36,
-            WorldGen.lvl46,
-            WorldGen.lvl56,
-            WorldGen.lvl66,
-            WorldGen.lvl76,
-
-            WorldGen.lvl07,
-            WorldGen.lvl17,
-            WorldGen.lvl27,
-            WorldGen.lvl37,
-            WorldGen.lvl47,
-            WorldGen.lvl57,
-            WorldGen.lvl67,
-            WorldGen.lvl77,
-            */
 
             //this.genRegion({columns: 128, rows: 128, xlayers: [{ id: '002j' }]}),
             //WorldGen.patch1,
@@ -133,6 +77,7 @@ class World {
             WorldGen.vendor1,
             WorldGen.vendorHouse,
             WorldGen.inn,
+            /*
             {
                 columns: 8,
                 rows: 7,
@@ -152,6 +97,7 @@ class World {
                     },
                 },
             },
+            */
 
         ],
     };

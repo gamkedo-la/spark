@@ -36,7 +36,7 @@ class WorldOverrides {
                                 v.tag === "stool",
                 spec: {
                     ownerTag: "Aodhan",
-                    occupiedDir: Direction.north, 
+                    occupiedDir: Direction.east, 
                 },
             },
             // -- STOVE
