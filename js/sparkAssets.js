@@ -402,6 +402,10 @@ class SparkAssets {
             { src: "img/stuccoWalls1.png", loader: "Sheet", refs: [
                 {tag: "woodDoor.close", cls: "Sprite", width: 16*4, height: 16*5, x: 16*11, y: 16*0 },
                 {tag: "woodDoor.open", cls: "Sprite", width: 16*4, height: 16*5, x: 16*11, y: 16*6 },
+                Templates.xsprite("woodDoor.left.close", 8, 7, {width: 16*3, height: 16*4}),
+                Templates.xsprite("woodDoor.left.open",  6, 12, {width: 16*3, height: 16*4}),
+                Templates.xsprite("woodDoor.right.close",9, 12, {width: 16*3, height: 16*4}),
+                Templates.xsprite("woodDoor.right.open", 12, 12, {width: 16*3, height: 16*4}),
             ]},
 
             { src: "img/stuccoWalls2.png", loader: "Sheet", refs: [
@@ -455,13 +459,13 @@ class SparkAssets {
             },
 
             { tag: "floorRelay", 
-            cls: "Animator", 
-            animations: { 
-                [ModelState.idle]: { cls: "Media", tag: "floorRelay.idle" }, 
-                [ModelState.sparked]: { cls: "Media", tag: "floorRelay.sparked" }, 
-                [ModelState.powered]: { cls: "Media", tag: "floorRelay.powered" }, 
+                cls: "Animator", 
+                animations: { 
+                    [ModelState.idle]: { cls: "Media", tag: "floorRelay.idle" }, 
+                    [ModelState.sparked]: { cls: "Media", tag: "floorRelay.sparked" }, 
+                    [ModelState.powered]: { cls: "Media", tag: "floorRelay.powered" }, 
+                },
             },
-        },
 
             { tag: "woodDoor", 
                 cls: "Animator", 
@@ -477,6 +481,22 @@ class SparkAssets {
                     [ModelState.idle]: { cls: "Media", tag: "woodDoor.top.close" }, 
                     [ModelState.close]: { cls: "Media", tag: "woodDoor.top.close" }, 
                     [ModelState.open]: { cls: "Media", tag: "woodDoor.top.open" }, 
+                },
+            },
+
+            { tag: "woodDoor.left", 
+                cls: "Animator", 
+                animations: { 
+                    [ModelState.close]: { cls: "Media", tag: "woodDoor.left.close" }, 
+                    [ModelState.open]: { cls: "Media", tag: "woodDoor.left.open" }, 
+                },
+            },
+
+            { tag: "woodDoor.right", 
+                cls: "Animator", 
+                animations: { 
+                    [ModelState.close]: { cls: "Media", tag: "woodDoor.right.close" }, 
+                    [ModelState.open]: { cls: "Media", tag: "woodDoor.right.open" }, 
                 },
             },
 
@@ -1071,6 +1091,24 @@ class SparkAssets {
             Templates.object("o0p", "vhouse.rune", "SparkBase", { 
                 powered: false,
                 offx: 16, offy: -16, 
+            }),
+
+            Templates.object("o0q", "woodDoor.left", "Door", {
+                offx: 16, offy: -24,
+                approachOffsets: [{x:-16, y:0},  {x:16, y:0}],
+                exitOffsets:     [{x:16, y:0}, {x:-16, y:0}],
+                xopenSfx: { cls: "Media", tag: "doorOpening"}, 
+                xcloseSfx: { cls: "Media", tag: "doorClosing"}, 
+                xcollider: { offx: -16, width: 8, offy: 24, height:24 }, 
+            }),
+
+            Templates.object("o0r", "woodDoor.right", "Door", {
+                offx: 8, offy: -32,
+                approachOffsets: [{x:0, y:16},  {x:16, y:16},  {x:0, y:-32}, {x:16, y:-32}],
+                exitOffsets:     [{x:0, y:-32}, {x:16, y:-32}, {x:0, y:16},  {x:16, y:16}],
+                xopenSfx: { cls: "Media", tag: "doorOpening"}, 
+                xcloseSfx: { cls: "Media", tag: "doorClosing"}, 
+                xcollider: { offy: 24, width:48, height:24 }, 
             }),
 
             // ------------------------------------------------------------------------------
