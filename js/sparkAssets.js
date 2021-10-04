@@ -95,6 +95,10 @@ class SparkAssets {
 
                 Templates.anim("vhouseRoof2.sparked", {offx:16*29, offy: 0, width: 48, height:32, duration: 250, frames: 8, loop: false}),
                 Templates.anim("vhouseRoof5.sparked", {offx:16*33, offy: 0, width: 48, height:32, duration: 250, frames: 8, loop: false}),
+
+                Templates.xsprite("vhouse.rune.idle", 17, 20, {width: 16*3, height: 16*3}),
+                Templates.xsprite("vhouse.rune.sparked", 20, 20, {width: 16*3, height: 16*3}),
+                Templates.xsprite("vhouse.rune.powered", 23, 20, {width: 16*3, height: 16*3}),
             ]},
 
             { src: "img/inn_base.png", loader: "Sheet", refs: [
@@ -414,6 +418,15 @@ class SparkAssets {
                     [ModelState.idle]: { cls: "Media", tag: "inn.base.tower.relay.idle" }, 
                     [ModelState.sparked]: { cls: "Media", tag: "inn.base.tower.relay.sparked" }, 
                     [ModelState.powered]: { cls: "Media", tag: "inn.base.tower.relay.powered" }, 
+                },
+            },
+
+            { tag: "vhouse.rune", 
+                cls: "Animator", 
+                animations: { 
+                    [ModelState.idle]: { cls: "Media", tag: "vhouse.rune.idle" }, 
+                    [ModelState.sparked]: { cls: "Media", tag: "vhouse.rune.sparked" }, 
+                    [ModelState.powered]: { cls: "Media", tag: "vhouse.rune.powered" }, 
                 },
             },
 
@@ -1046,6 +1059,11 @@ class SparkAssets {
                 offy: -24, 
                 offx: 8,
                 xcollider: {width:32, height:40, offy: 4}, 
+            }),
+
+            Templates.object("o0p", "vhouse.rune", "SparkBase", { 
+                powered: false,
+                offx: 16, offy: -16, 
             }),
 
             // ------------------------------------------------------------------------------

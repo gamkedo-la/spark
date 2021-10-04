@@ -172,7 +172,7 @@ class PlayState extends State {
         this.pillarActivateSfx = Generator.generate({cls: "Media", tag: "pillarActivation"}),
 
         // find game objects...
-        this.vendorSparkbase = this.findFirst(v=>v.tag === "sparkbase" && v.ownerTag === "Aodhan");
+        this.vendorSparkbase = this.findFirst(v=>v.tag === "vhouse.rune" && v.ownerTag === "Aodhan");
         this.vendorSparkbase2 = this.findFirst(v=>v.tag === "floorRelay" && v.ownerTag === "Aodhan");
 
         // debug mode
