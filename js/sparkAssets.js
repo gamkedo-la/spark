@@ -353,6 +353,10 @@ class SparkAssets {
                 Templates.xsprite("bar.beer.full",      11, 16, { width: 16*1, height: 16*1 }),
             ]},
 
+            { src: "img/tower.png", loader: "Sheet", refs: [
+                Templates.xsprite("tower.stub",             2, 6, {width: 16*8, height: 16*9}),
+            ]},
+
             { src: "img/vendor.png", loader: "Sheet", refs: [
                 Templates.xsprite("barrel",             0, 0, {width: 32, height: 48}),
                 Templates.xsprite("barrelCabbage",      2, 0, {width: 32, height: 48}),
@@ -860,6 +864,7 @@ class SparkAssets {
             Templates.tile("02z", "bar.lgtable",        {offx: 8, offy: -24, xcollider: {width: 30, height: 48, offy:0}}),
             Templates.tile("02A", "bar.sidetable",      {offx: 8, offy: -16, xcollider: {width: 20, height: 40, offy:-4}}),
             // -- 02B taken
+            Templates.tile("02C", "tower.stub",         {offx: 56, offy: -64, xcollider: {}}),
 
 
             Templates.object("o00", "sparkbase", "SparkBase", { 
