@@ -78,6 +78,7 @@ class World {
             WorldGen.vendorHouse,
             WorldGen.inn,
             WorldGen.tower,
+            WorldGen.gardenHouse,
             /*
             {
                 columns: 8,
