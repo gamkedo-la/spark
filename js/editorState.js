@@ -1002,8 +1002,8 @@ class EditorEditState extends State {
         // close window
         this.onBack();
     }
-
 }
+
 class EditorLoadState extends State {
     cpre(spec) {
         super.cpre(spec);
