@@ -1103,12 +1103,12 @@ class SparkAssets {
             }),
 
             Templates.object("o0r", "woodDoor.right", "Door", {
-                offx: 8, offy: -32,
-                approachOffsets: [{x:0, y:16},  {x:16, y:16},  {x:0, y:-32}, {x:16, y:-32}],
-                exitOffsets:     [{x:0, y:-32}, {x:16, y:-32}, {x:0, y:16},  {x:16, y:16}],
+                offx: -16, offy: -24,
+                approachOffsets: [{x:-16, y:0},  {x:16, y:0}],
+                exitOffsets:     [{x:16, y:0}, {x:-16, y:0}],
                 xopenSfx: { cls: "Media", tag: "doorOpening"}, 
                 xcloseSfx: { cls: "Media", tag: "doorClosing"}, 
-                xcollider: { offy: 24, width:48, height:24 }, 
+                xcollider: { offx: 16, width: 8, offy: 24, height:24 }, 
             }),
 
             // ------------------------------------------------------------------------------
