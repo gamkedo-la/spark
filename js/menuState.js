@@ -100,7 +100,7 @@ class MenuState extends State {
         // the main play state is created/loaded
         let state = new OptionsState();
         // then the state manager is told to swap the current state (which is the menu state) with the new play state.
-        Base.instance.stateMgr.swap(state);
+        Base.instance.stateMgr.push(state);
         
     }
     onCredits(evt) {

@@ -140,18 +140,13 @@ class OptionsState extends State {
         //Base.instance.stateMgr.swap(state);
     }
     onBack(evt) {
-        // here is an example of how major game states are managed.
-        // the main play state is created/loaded
-        let state = new MenuState();
-        // then the state manager is told to swap the current state (which is the menu state) with the new play state.
-        Base.instance.stateMgr.swap(state);
+        Base.instance.stateMgr.pop();
     }
     // the callback handler for a generic key press
     onKeyDown(evt) {
-        // I've added a shortcut here, so if you hit the escape button, the game will start
+        // escape causes options menu to close
         if (evt.key === "Escape") {
-            let state = new MenuState();
-            Base.instance.stateMgr.swap(state);
+            Base.instance.stateMgr.pop();
         }
     }
 

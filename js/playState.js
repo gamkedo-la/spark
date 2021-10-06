@@ -34,6 +34,7 @@ import { UxDialogCtrl } from "./uxDialog.js";
 import { Bounds } from "./base/bounds.js";
 import { Hierarchy } from "./base/hierarchy.js";
 import { PlaySoundAction } from "./base/action.js";
+import { OptionsState } from "./optionsState.js";
 
 class PlayState extends State {
 
@@ -111,7 +112,7 @@ class PlayState extends State {
         Keys.evtKeyPressed.listen(this.onKeyDown);
         Mouse.evtClicked.listen(this.onClicked);
         let gridView = new GridView({depth: 10, grid: this.grid, xxform: {scalex: Config.renderScale, scaley: Config.renderScale}});
-        let gloomView = new UxGloom({
+        this.gloomView = new UxGloom({
             tag: "gloom", 
             depth: 10, 
             xxform: {
@@ -126,6 +127,8 @@ class PlayState extends State {
                 scaley: Config.renderScale
             },
         });
+        this.daylightView = this.findFirst(v=>v.tag === "daylight.filter");
+        console.log(`daylightview: ${this.daylightView}`);
 
         // load level objects
         this.model.load();
@@ -182,6 +185,21 @@ class PlayState extends State {
 
     get grid() {
         return this.model.grid;
+    }
+
+    get active() {
+        return super.active;
+    }
+    set active(v) {
+        if (v !== this._active) {
+            if (this.view) this.view.active = v;
+            if (this.viewMgr && v) this.viewMgr.renderall = true;
+            if (this.daylightView) {
+                this.daylightView.visible = v;
+                console.log(`setting daylightview visible: ${v} set as: ${this.daylightView.visible}`);
+            }
+            super.active = v;
+        }
     }
 
     onKeyDown(evt) {
@@ -241,6 +259,10 @@ class PlayState extends State {
         }
         if (evt.key === "m"){      
            Base.instance.audioMgr.muteToggle();
+        }
+        if (evt.key === "Escape"){      
+            console.log(`escape pressed`);
+            this.onMenu();
         }
     }
 
@@ -325,6 +347,9 @@ class PlayState extends State {
 
     onMenu(evt) {
         console.log("onMenu clicked");
+        let state = new OptionsState();
+        // then the state manager is told to swap the current state (which is the menu state) with the new play state.
+        Base.instance.stateMgr.push(state);
     }
 
     onGizmoDestroy(evt) {

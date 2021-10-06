@@ -38,6 +38,7 @@ class StateMgr extends Gizmo {
     }
 
     push(ctrl) {
+        if (this._current) this._current.active = false;
         this.stack.unshift(this._current);
         this._current = ctrl;
     }
@@ -48,6 +49,7 @@ class StateMgr extends Gizmo {
         if (this.stack.length > 0) {
             let ctrl = this.stack.shift();
             this._current = ctrl;
+            this._current.active = true;
         } else {
             this._current = undefined;
         }
