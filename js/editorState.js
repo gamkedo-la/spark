@@ -1,4 +1,4 @@
-export { UxEditorView, EditorState };
+export { UxLvlView, UxEditorView, EditorState };
 
 import { State }            from "./base/state.js";
 import { Base }             from "./base/base.js";
@@ -19,6 +19,91 @@ import { Vect }             from "./base/vect.js";
 import { Bounds }           from "./base/bounds.js";
 import { Grid }             from "./base/grid.js";
 import { WorldGen }         from "./worldGen.js";
+
+class UxLvlView extends UxPanel {
+    cpost(spec) {
+        super.cpost(spec);
+        this.xlvl = spec.xlvl;
+        this.assets = spec.assets || Base.instance.assets;   
+        this.loadedRegion = spec.loadedRegion;
+    }
+
+    buildLvl() {
+        this.clear();
+        for (const xregion of this.xlvl.xregions) {
+            if (xregion.tag === this.loadedRegion) continue;
+            this.buildRegion(xregion);
+        }
+    }
+
+    clear() {
+        for (const child of this.children()) {
+            child.orphan();
+            child.destroy();
+        }
+    }
+
+    buildRegion(xregion) {
+        let offx = xregion.offx;
+        let offy = xregion.offy;
+        let columns = xregion.columns || 0;
+        let rows = xregion.rows || 0;
+        // parse layers and layer data
+        for (const layer of Object.keys(Config.layerMap)) {
+            let layerInfo = xregion.layers[layer];
+            if (!layerInfo) continue;
+            for (const depth of Object.keys(Config.depthMap)) {
+                let depthData = layerInfo[depth];
+                if (!depthData) continue;
+                for (let i=0; i<columns; i++) {
+                    for (let j=0; j<rows; j++) {
+                        let idx = i + columns*j;
+                        let id = depthData[idx];
+                        if (!id) continue;
+                        let assetId = id.slice(1);
+                        this.assignTile(layer, depth, i+offx, j+offy, assetId);
+                    }
+                }
+            }
+        }
+    }
+
+    assignTile(layer, depth, i, j, id, offy=1) {
+        let layerId = Config.layerMap[layer];
+        let depthId = Config.depthMap[depth];
+        let xobj = this.assets.fromId(id);
+        if (xobj) {
+            let x = (i*Config.tileSize) + Config.halfSize;
+            let y = ((j-layerId*offy)*Config.tileSize) + Config.halfSize;
+            xobj = Object.assign({
+                x: x, 
+                y: y, 
+                depth: depthId,
+                layer: layerId,
+            }, xobj);
+            let obj = Generator.generate(xobj);
+            let xview = {
+                cls: "ModelView",
+                xsketch: obj.xsketch,
+                xxform: Object.assign({border: .5}, obj.xxform),
+                model: obj,
+            };
+            let view = new ModelView(xview);
+            this.adopt(view);
+        }
+    }
+
+    iupdate(ctx) {
+        let updated = false;
+        if (!this.firstUpdate) {
+            this.firstUpdate = true;
+            this.buildLvl();
+            updated = true;
+        }
+        return updated|super.iupdate(ctx);
+    }
+
+}
 
 class UxEditorView extends UxPanel {
     cpost(spec) {
@@ -64,7 +149,6 @@ class UxEditorView extends UxPanel {
                         let idx = i + columns*j;
                         let id = depthData[idx];
                         if (!id) continue;
-                        let flags = id[0];
                         let assetId = id.slice(1);
                         this.assignTile(layer, depth, i, j, assetId);
                     }
@@ -194,6 +278,14 @@ class EditorState extends State {
             xchildren: [
                 Templates.editorPanel("gridPanel", { xxform: { right: .3, bottom: .3 }, xchildren: [
                     {
+                        cls: "UxLvlView",
+                        tag: "lvlPanel",
+                        loadedRegion: xregion.tag,
+                        xlvl: World.xlvl,
+                        xsketch: {},
+                        xxform: { dx: -xregion.offx*Config.tileSize-xregion.columns*Config.halfSize, dy: -xregion.offy*Config.tileSize-xregion.rows*Config.halfSize, offset: 10, scalex: Config.renderScale, scaley: Config.renderScale },
+                    },
+                    {
                         cls: "UxEditorView",
                         tag: "editorPanel",
                         xregion: xregion,
@@ -213,32 +305,34 @@ class EditorState extends State {
                     ]}),
                     Templates.editorText(null, "Selected Layer/Depth", { xxform: { offset: 10, bottom: .7, top: .2 }}),
                     Templates.panel("layerButtons", { xxform: { top: .3, left: .1, right: .1, bottom: .025 }, xchildren: [
-                        Templates.editorToggle("l1.bg.tog", { xxform: { right: .9, top: 0/12, bottom: 1-1/12 }}),
-                        Templates.editorSelectButton("l1.bg", "layer1 background", { xxform: { left: .1, top: 0/12, bottom: 1-1/12 }}),
-                        Templates.editorToggle("l1.bgo.tog", { xxform: { right: .9, top: 1/12, bottom: 1-2/12 }}),
-                        Templates.editorSelectButton("l1.bgo", "layer1 bg overlay", { xxform: { left: .1, top: 1/12, bottom: 1-2/12 }}),
-                        Templates.editorToggle("l1.fg.tog", { xxform: { right: .9, top: 2/12, bottom: 1-3/12 }}),
-                        Templates.editorSelectButton("l1.fg", "layer1 foreground", { xxform: { left: .1, top: 2/12, bottom: 1-3/12 }}),
-                        Templates.editorToggle("l1.fgo.tog", { xxform: { right: .9, top: 3/12, bottom: 1-4/12 }}),
-                        Templates.editorSelectButton("l1.fgo", "layer1 fg overlay", { xxform: { left: .1, top: 3/12, bottom: 1-4/12 }}),
+                        Templates.editorToggle("l1.bg.tog", { xxform: { right: .9, top: 0/13, bottom: 1-1/13 }}),
+                        Templates.editorSelectButton("l1.bg", "layer1 background", { xxform: { left: .1, top: 0/13, bottom: 1-1/13 }}),
+                        Templates.editorToggle("l1.bgo.tog", { xxform: { right: .9, top: 1/13, bottom: 1-2/13 }}),
+                        Templates.editorSelectButton("l1.bgo", "layer1 bg overlay", { xxform: { left: .1, top: 1/13, bottom: 1-2/13 }}),
+                        Templates.editorToggle("l1.fg.tog", { xxform: { right: .9, top: 2/13, bottom: 1-3/13 }}),
+                        Templates.editorSelectButton("l1.fg", "layer1 foreground", { xxform: { left: .1, top: 2/13, bottom: 1-3/13 }}),
+                        Templates.editorToggle("l1.fgo.tog", { xxform: { right: .9, top: 3/13, bottom: 1-4/13 }}),
+                        Templates.editorSelectButton("l1.fgo", "layer1 fg overlay", { xxform: { left: .1, top: 3/13, bottom: 1-4/13 }}),
 
-                        Templates.editorToggle("l2.bg.tog", { xxform: { right: .9, top: 4/12, bottom: 1-5/12 }}),
-                        Templates.editorSelectButton("l2.bg", "layer2 background", { xxform: { left: .1, top: 4/12, bottom: 1-5/12 }}),
-                        Templates.editorToggle("l2.bgo.tog", { xxform: { right: .9, top: 5/12, bottom: 1-6/12 }}),
-                        Templates.editorSelectButton("l2.bgo", "layer2 bg overlay", { xxform: { left: .1, top: 5/12, bottom: 1-6/12 }}),
-                        Templates.editorToggle("l2.fg.tog", { xxform: { right: .9, top: 6/12, bottom: 1-7/12 }}),
-                        Templates.editorSelectButton("l2.fg", "layer2 foreground", { xxform: { left: .1, top: 6/12, bottom: 1-7/12 }}),
-                        Templates.editorToggle("l2.fgo.tog", { xxform: { right: .9, top: 7/12, bottom: 1-8/12 }}),
-                        Templates.editorSelectButton("l2.fgo", "layer2 fg overlay", { xxform: { left: .1, top: 7/12, bottom: 1-8/12 }}),
+                        Templates.editorToggle("l2.bg.tog", { xxform: { right: .9, top: 4/13, bottom: 1-5/13 }}),
+                        Templates.editorSelectButton("l2.bg", "layer2 background", { xxform: { left: .1, top: 4/13, bottom: 1-5/13 }}),
+                        Templates.editorToggle("l2.bgo.tog", { xxform: { right: .9, top: 5/13, bottom: 1-6/13 }}),
+                        Templates.editorSelectButton("l2.bgo", "layer2 bg overlay", { xxform: { left: .1, top: 5/13, bottom: 1-6/13 }}),
+                        Templates.editorToggle("l2.fg.tog", { xxform: { right: .9, top: 6/13, bottom: 1-7/13 }}),
+                        Templates.editorSelectButton("l2.fg", "layer2 foreground", { xxform: { left: .1, top: 6/13, bottom: 1-7/13 }}),
+                        Templates.editorToggle("l2.fgo.tog", { xxform: { right: .9, top: 7/13, bottom: 1-8/13 }}),
+                        Templates.editorSelectButton("l2.fgo", "layer2 fg overlay", { xxform: { left: .1, top: 7/13, bottom: 1-8/13 }}),
 
-                        Templates.editorToggle("l3.bg.tog", { xxform: { right: .9, top: 8/12, bottom: 1-9/12 }}),
-                        Templates.editorSelectButton("l3.bg", "layer3 background", { xxform: { left: .1, top: 8/12, bottom: 1-9/12 }}),
-                        Templates.editorToggle("l3.bgo.tog", { xxform: { right: .9, top: 9/12, bottom: 1-10/12 }}),
-                        Templates.editorSelectButton("l3.bgo", "layer3 bg overlay", { xxform: { left: .1, top: 9/12, bottom: 1-10/12 }}),
-                        Templates.editorToggle("l3.fg.tog", { xxform: { right: .9, top: 10/12, bottom: 1-11/12 }}),
-                        Templates.editorSelectButton("l3.fg", "layer3 foreground", { xxform: { left: .1, top: 10/12, bottom: 1-11/12 }}),
-                        Templates.editorToggle("l3.fgo.tog", { xxform: { right: .9, top: 11/12, bottom: 1-12/12 }}),
-                        Templates.editorSelectButton("l3.fgo", "layer3 fg overlay", { xxform: { left: .1, top: 11/12, bottom: 1-12/12 }}),
+                        Templates.editorToggle("l3.bg.tog", { xxform: { right: .9, top: 8/13, bottom: 1-9/13 }}),
+                        Templates.editorSelectButton("l3.bg", "layer3 background", { xxform: { left: .1, top: 8/13, bottom: 1-9/13 }}),
+                        Templates.editorToggle("l3.bgo.tog", { xxform: { right: .9, top: 9/13, bottom: 1-10/13 }}),
+                        Templates.editorSelectButton("l3.bgo", "layer3 bg overlay", { xxform: { left: .1, top: 9/13, bottom: 1-10/13 }}),
+                        Templates.editorToggle("l3.fg.tog", { xxform: { right: .9, top: 10/13, bottom: 1-11/13 }}),
+                        Templates.editorSelectButton("l3.fg", "layer3 foreground", { xxform: { left: .1, top: 10/13, bottom: 1-11/13 }}),
+                        Templates.editorToggle("l3.fgo.tog", { xxform: { right: .9, top: 11/13, bottom: 1-12/13 }}),
+                        Templates.editorSelectButton("l3.fgo", "layer3 fg overlay", { xxform: { left: .1, top: 11/13, bottom: 1-12/13 }}),
+                        Templates.editorToggle("lvl.tog", { xxform: { right: .9, top: 12/13, bottom: 1-13/13 }}),
+                        Templates.editorText(null, "level data", { xxform: { left: .1, top: 12/13, bottom: 1-13/13 }}),
                     ]}),
                 ]}),
                 Templates.editorPanel("tilePanel", { xxform: { top: .7 }, xchildren: [
@@ -328,6 +422,7 @@ class EditorState extends State {
         // wire callbacks
         this.gridPanel = Hierarchy.find(this.view, v=>v.tag === "gridPanel");
         this.editorPanel = Hierarchy.find(this.view, v=>v.tag === "editorPanel");
+        this.lvlPanel = Hierarchy.find(this.view, v=>v.tag === "lvlPanel");
         this.tileButtonsPanel = Hierarchy.find(this.view, v=>v.tag === "tileButtonsPanel");
         for (const tool of ["paint", "fill", "get", "delete"]) {
             this[`${tool}Select`] = Hierarchy.find(this.view, v=>v.tag === `${tool}.select`);
@@ -351,6 +446,8 @@ class EditorState extends State {
                 toggle.evtClicked.listen(((l, d) => (evt) => this.editorPanel.assignVisibility(l, d, evt.value))(layer, depth));
             }
         }
+        let toggle = Hierarchy.find(this.view, v=>v.tag === "lvl.tog");
+        toggle.evtClicked.listen(((lvlPanel) => (evt) => lvlPanel.visible = evt.value)(this.lvlPanel));
         this.currentTile = Hierarchy.find(this.view, v=>v.tag === "currentTile");
         for (let i=1; i<=8; i++) {
             let tag = `helpTile${i}`;
@@ -605,6 +702,12 @@ class EditorState extends State {
     }
 
     assignRegion(xregion) {
+        // update lvl panel xform
+        this.lvlPanel.xform.dx = -xregion.offx*Config.tileSize-xregion.columns*Config.halfSize;
+        this.lvlPanel.xform.dy = -xregion.offy*Config.tileSize-xregion.rows*Config.halfSize;
+        // reset lvl panel
+        this.lvlPanel.loadedRegion = xregion.tag;
+        this.lvlPanel.firstUpdate = false;
         // update editor panel xform
         this.editorPanel.xform.dx = -xregion.columns*Config.halfSize;
         this.editorPanel.xform.dy = -xregion.rows*Config.halfSize;

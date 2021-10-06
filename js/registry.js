@@ -25,7 +25,7 @@ import { FindScheme }       from "./actions/find.js";
 import { MoveScheme }       from "./actions/move.js";
 import { OccupyScheme }     from "./actions/occupy.js";
 import { SleepAtBedScheme } from "./actions/sleepAtBed.js";
-import { UxEditorView }     from "./editorState.js";
+import { UxEditorView, UxLvlView }     from "./editorState.js";
 import { UxGloom }          from "./uxGloom.js";
 import { SparkFx, TestFx }  from "./sparkFx.js";
 import { GatherScheme }     from "./actions/gather.js";
@@ -114,6 +114,7 @@ class SparkRegistry {
         // -- register view classes
         registry.add(UxGloom);
         registry.add(UxEditorView);
+        registry.add(UxLvlView);
         // -- register generator classes
         registry.add(Tile);
         registry.add(Character);
