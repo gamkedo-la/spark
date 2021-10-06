@@ -551,12 +551,21 @@ class SparkAssets {
                 },
             },
 
-            { src: "img/buttonOff.png", loader: "Sheet", refs: [
-                {tag: "buttonOff", cls: "StretchSprite", width: 253, height: 56, x: 50*0, y: 50*0, border: 16 },
+            { src: "img/buttons.png", loader: "Sheet", refs: [
+                {tag: "buttonOff", cls: "StretchSprite", width: 48, height: 48, x: 0, y: 0, border: 16 },
+                {tag: "buttonHover", cls: "StretchSprite", width: 48, height: 48, x: 48*1, y: 0, border: 16 },
+                {tag: "buttonTrans", cls: "StretchSprite", width: 48, height: 48, x: 48*2, y: 0, border: 16 },
+                {tag: "buttonPress", cls: "StretchSprite", width: 48, height: 48, x: 48*3, y: 0, border: 16 },
+                {tag: "buttonOff.small", cls: "StretchSprite", width: 32, height: 32, x: 0, y: 48, border: 12 },
+                {tag: "buttonHover.small", cls: "StretchSprite", width: 32, height: 32, x: 32*1, y: 48, border: 12 },
+                {tag: "buttonTrans.small", cls: "StretchSprite", width: 32, height: 32, x: 32*2, y: 48, border: 12 },
+                {tag: "buttonPress.small", cls: "StretchSprite", width: 32, height: 32, x: 32*3, y: 48, border: 12 },
             ]},
+            /*
             { src: "img/buttonHover.png", loader: "Sheet", refs: [
                 {tag: "buttonHover", cls: "StretchSprite", width: 253, height: 56, x: 50*0, y: 50*0, border: 16 },
             ]},
+            */
 
             // a sheet of images
             { src: "img/goldButtonFrames.png", loader: "Sheet", refs: [

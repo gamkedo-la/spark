@@ -8,8 +8,6 @@ import { UxPanel }          from "./uxPanel.js";
 import { Vect }             from "./vect.js";
 import { Mathf }            from "./math.js";
 import { EvtChannel }       from "./event.js";
-import { Color }             from "./color.js";
-import { UxText } from "./uxText.js";
 
 class UxSliderKnob extends UxPanel {
     cpost(spec={}) {
@@ -44,8 +42,8 @@ class UxSlider extends UxView {
         // -- bar sketch
         this._bar = Generator.generate(Object.assign({
             parent: this, 
-            //xfitter: { cls: "FitToParent", top: (1-barHeight)*.5 + barOffset, bottom: (1-barHeight)*.5 - barOffset },
-            xfitter: { cls: "FitToParent", top: .25, bottom: .25},
+            xfitter: { cls: "FitToParent", top: (1-barHeight)*.5 + barOffset, bottom: (1-barHeight)*.5 - barOffset },
+            //xfitter: { cls: "FitToParent", top: .25, bottom: .25},
         }, spec.xbar || UxSlider.dfltBar));
         // -- knob sketch
         let xknob = spec.xnob || UxSlider.dfltKnob;
@@ -65,14 +63,6 @@ class UxSlider extends UxView {
         }
         this.knobView = new UxSliderKnob(xknobView);
         this.adopt(this.knobView);
-        let label =  {
-            cls: "UxText",
-            xxform: xknobView.xxform,
-            xtext: { color:new Color(0,255,0,.75), text: "music volume", },
-        }
-        this.textView = new UxText(label);
-        this.adopt(this.textView);
-        // xtext: { color: new Color(0,255,0,.75), text: "sound" },
         // bind event handlers
         Util.bind(this, "onMouseClick");
         // events

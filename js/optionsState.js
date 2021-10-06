@@ -43,41 +43,22 @@ class OptionsState extends State {
                     //     the second variable is the actual text to use within the button
                     {
                         cls: "UxPanel",
-                        xxform: { top: -1/4, bottom: 1-0/4 },
+                        xxform: { top: 0/4, bottom: 1-2/4 },
+                        xsketch: { cls: 'Media', tag: "buttonTrans" },
                         xchildren: [
-                            {
-                               cls: "UxText",
-                               xxform: { right: .7 },
-                               xtext: { color: new Color(0,255,0,.75), text: "sfx volume", },
-                            },
-                            {
-                               cls: "UxSlider",
-                               tag: "sfxVolumeSlider",
-                               xxform: { left: .3 },
-                            },
+                            Templates.panel(null, { xxform: { offset: 10 }, xchildren: [
+                                Templates.menuText(null, "volume control", {xxform: { top: 0/3, bottom: 1-1/3}}),
+                                Templates.menuText(null, "   sfx   ", {xxform: { top: 1/3, bottom: 1-2/3, right: .7}}),
+                                Templates.menuSlider("sfxVolumeSlider", {xxform: { top: 1/3, bottom: 1-2/3, left: .3}}),
+                                Templates.menuText(null, " music ", {xxform: { top: 2/3, bottom: 1-3/3, right: .7}}),
+                                Templates.menuSlider("musicVolumeSlider", {xxform: { top: 2/3, bottom: 1-3/3, left: .3}}),
+                            ]}),
                         ],
                     },
-                    {
-                        cls: "UxPanel",
-                        xxform: { top: 0/4, bottom: 1-1/4 },
-                        xchildren: [
-                            {
-                                cls: "UxText",
-                                xxform: { right: .7 },
-                                xtext: { color: new Color(0,255,0,.75), text: "music volume", },
-                             },
-                             {
-                                cls: "UxSlider",
-                                tag: "musicVolumeSlider",
-                                xxform: { left: .3 },
-                             },
-                        ],
-                    },
-                    //Templates.menuButton("volumeButton", "volume", { xxform: { top: 0/4, bottom: 1-1/4 }}),
-                    Templates.menuButton("loadGameButton", "load", { xxform: { top: 1/4, bottom: 1-2/4 }}),
-                    Templates.menuButton("saveGameButton", "save", { xxform: { top: 2/4, bottom: 1-3/4 }}),
-                    Templates.menuButton("helpButton", "help", { xxform: { top: 3/4, bottom: 1-4/4 }}),
-                    Templates.menuButton("backButton", "back", { xxform: { top: 4/4, bottom: 1-5/4 }}),
+                    //Templates.menuButton("loadGameButton", "load", { xxform: { top: 1/4, bottom: 1-2/4 }}),
+                    //Templates.menuButton("saveGameButton", "save", { xxform: { top: 2/4, bottom: 1-3/4 }}),
+                    Templates.menuButton("helpButton", "help", { xxform: { top: 2/4, bottom: 1-3/4 }}),
+                    Templates.menuButton("backButton", "back", { xxform: { top: 3/4, bottom: 1-4/4 }}),
                 ]}),
             ],
         };
@@ -97,8 +78,8 @@ class OptionsState extends State {
         // -- using the superclass' findFirst method, look up the UI element that has a tag of "playButton"
         this.sfxVolumeSlider = this.findFirst(v=>v.tag === "sfxVolumeSlider");
         this.musicVolumeSlider = this.findFirst(v=>v.tag === "musicVolumeSlider");
-        this.loadButton = this.findFirst(v=>v.tag === "loadGameButton");
-        this.saveButton = this.findFirst(v=>v.tag === "saveGameButton");
+        //this.loadButton = this.findFirst(v=>v.tag === "loadGameButton");
+        //this.saveButton = this.findFirst(v=>v.tag === "saveGameButton");
         this.helpButton = this.findFirst(v=>v.tag === "helpButton");
         this.backButton = this.findFirst(v=>v.tag === "backButton");
         // TODO: add additional references for the other buttons
@@ -115,16 +96,14 @@ class OptionsState extends State {
         // first call here is to wire the play buttons click handler to a callback function.
         this.sfxVolumeSlider.evtValueChanged.listen(this.onVolume);
         this.musicVolumeSlider.evtValueChanged.listen(this.onVolume);
-        this.loadButton.evtClicked.listen(this.onLoadGame);
-        this.saveButton.evtClicked.listen(this.onSaveGame);
+        //this.loadButton.evtClicked.listen(this.onLoadGame);
+        //this.saveButton.evtClicked.listen(this.onSaveGame);
         this.helpButton.evtClicked.listen(this.onHelp);
         this.backButton.evtClicked.listen(this.onBack);
-        // TODO: wire additional buttons to their respective callback functions (which also need to be added)
     }
 
     // the callback handler for the playButton click event
     onVolume(evt) {
-        console.log(`onVolume w/ evt: ${Fmt.ofmt(evt)}`);
         if (evt.actor.tag === "musicVolumeSlider") {
             this.amgr.musicVolume = evt.value;
         } else if (evt.actor.tag === "sfxVolumeSlider") {

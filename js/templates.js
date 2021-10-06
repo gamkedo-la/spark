@@ -158,6 +158,17 @@ class Templates {
         }
     }
 
+    static menuText(tag, text, spec={}) {
+        let xxform = spec.xxform || {};
+        let color = spec.color || new Color(0,255,0,.75);
+        return {
+            cls: "UxText",
+            tag: tag,
+            xxform: xxform,
+            xtext: { color: color, text: text, },
+        }
+    }
+
     static menuButton(tag, text, spec={}) {
         let xxform = spec.xxform || {};
         return {
@@ -171,6 +182,7 @@ class Templates {
             xpressed: { cls: 'Rect', color: new Color(50,50,50,1), borderWidth: 5, borderColor: new Color(0,0,0,1) },
             // the sketch to show when the button is idle (no mouse over)
             //xunpressed: { cls: 'Rect', color: new Color(50,50,50,.5), borderWidth: 5, borderColor: new Color(0,0,0,1) },
+            xpressed: { cls: 'Media', tag: "buttonPress" },
             xunpressed: { cls: 'Media', tag: "buttonOff" },
             // the sketch to show when the button is highlighted (mouse is over button)
             xhighlight: { cls: 'Media', tag: "buttonHover" },
@@ -178,6 +190,20 @@ class Templates {
             mouseEnteredSound: Generator.generate({ cls: "Media", tag: "hoverIn"}), 
             mouseLeftSound: Generator.generate({ cls: "Media", tag: "hoverOut"}), 
             pressedSound: Generator.generate({ cls: "Media", tag: "selected"}), 
+        };
+    }
+
+    static menuSlider(tag, spec={}) {
+        let xxform = spec.xxform || {};
+        return {
+            // setup of slider metadata
+            cls: "UxSlider",
+            tag: tag,
+            xxform: xxform,
+            xknob: { cls: 'Media', tag: "buttonOff.small" },
+            knobWidth: 24,
+            barHeight: .33,
+            xbar: { cls: 'Media', tag: "buttonOff.small" },
         };
     }
 
