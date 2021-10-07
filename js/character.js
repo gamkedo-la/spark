@@ -16,6 +16,9 @@ class Character extends Model {
         this.speed = 0;
         this.maxSpeed = .1;
         this.ctrlId = spec.hasOwnProperty("ctrlId") ? spec.ctrlId : 1;
+        // -- bio information
+        this.bio = spec.bio;
+        this.portraitTag = spec.portraitTag;
         // -- AI state
         this.ai = (spec.hasOwnProperty("xai")) ? Generator.generate(spec.xai) : undefined;
         //if (this.ai) console.log("char ai: " + Fmt.ofmt(this.ai));

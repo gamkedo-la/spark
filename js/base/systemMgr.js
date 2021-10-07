@@ -48,6 +48,7 @@ class SystemMgr extends Gizmo {
         }
         // postiterate
         for (const sys of this.children()) {
+            if (this.atts.paused && !sys.ignorePause) continue;
             if (!sys.active) continue;
             if (!sys.ready) continue;
             sys.postiterate(ctx);

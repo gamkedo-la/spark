@@ -580,6 +580,7 @@ class SparkAssets {
             ]},
 
             { src: "img/gnome.png", loader: "Sheet", refs: [
+                {tag: "gnome.portrait",      cls: "Sprite", width: 32, height: 32, x: 32*0, y: 16 },
                 {tag: "gnome.idle_south",    cls: "Sprite", width: 32, height: 64, x: 32*0, y: 64*7 },
                 {tag: "gnome.idle_north",    cls: "Sprite", width: 32, height: 64, x: 32*1, y: 64*7 },
                 {tag: "gnome.idle_west",     cls: "Sprite", width: 32, height: 64, x: 32*2, y: 64*7 },
@@ -662,6 +663,7 @@ class SparkAssets {
             }},
 
             { src: "img/fairy.png", loader: "Sheet", refs: [
+                {tag: "fairy.portrait", cls: "Sprite", width: 30, height: 30, x: 9, y: 0 },
                 Templates.xsprite("fairy.static_south", 0, 0, {width: 48, height: 32}),
                 Templates.anim("fairy.idle_south", {offx:0, offy: 0, width: 48, height:32, duration: 200, frames: 4}),
                 Templates.anim("fairy.idle_north", {offx:48*1, offy: 0, width: 48, height:32, duration: 200, frames: 4}),
@@ -1168,6 +1170,13 @@ class SparkAssets {
 
             Templates.object("c01", "player", "Character", {
                 name: "Alette",
+                portraitTag: "fairy.portrait",
+                bio: {
+                    "info": "a fairy finding her way",
+                    "job": "fairy",
+                    "likes": "helping others",
+                    "dislikes": "grumpiness",
+                },
                 hoverable: true,
                 mediaTag: "fairy",
                 ctrlId: 1,

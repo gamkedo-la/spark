@@ -35,6 +35,7 @@ import { Bounds } from "./base/bounds.js";
 import { Hierarchy } from "./base/hierarchy.js";
 import { PlaySoundAction } from "./base/action.js";
 import { OptionsState } from "./optionsState.js";
+import { UxNpcInfo } from "./uxNpcInfo.js";
 
 class PlayState extends State {
 
@@ -108,7 +109,7 @@ class PlayState extends State {
         this.camera = spec.camera || Camera.main;
         //this.camera.dbg = true;
 
-        Util.bind(this, "onKeyDown", "onClicked", "onMenu", "onMorale", "onCloseDialog");
+        Util.bind(this, "onKeyDown", "onClicked", "onMenu", "onMorale", "onCloseDialog", "onCloseNpcInfo");
         Keys.evtKeyPressed.listen(this.onKeyDown);
         Mouse.evtClicked.listen(this.onClicked);
         let gridView = new GridView({depth: 10, grid: this.grid, xxform: {scalex: Config.renderScale, scaley: Config.renderScale}});
@@ -232,15 +233,13 @@ class PlayState extends State {
             Config.dbg.Stats = !Config.dbg.Stats;
         }
         if (evt.key === "8") {
-            //this.eventQ.push(new Event("npc.chat", {actor: this.player, target: null, msg: "hello there", kind: null}));
+            this.genNpcInfo(this.player);
+            /*
             let xdialog = SparkDialog.dialogs.test;
             xdialog.actor = this.player;
             let dialog = new Dialog(xdialog);
-            //this.genDialog(undefined, dialog);
             this.eventQ.push(new Event("npc.dialog", {actor: this.player, target: null, dialog: dialog}));
-            //console.log(`dialog: ${Fmt.ofmt(dialog)}`);
-            //let ctrl = new UxDialogCtrl({dialog: dialog});
-            //console.log(`ctrl: ${Fmt.ofmt(ctrl)}`);
+            */
         }
         if (evt.key === "9") {
             switch(this.clickMode) {
@@ -486,6 +485,28 @@ class PlayState extends State {
     onCloseDialog() {
         // clear dialog
         this.currentDialog = null;
+        // re-enable play state
+        this.view.active = true;
+        // unpause game
+        Atts.paused = false;
+    }
+
+    genNpcInfo(npc) {
+        // don't start new if already running
+        if (this.currentNpcInfo) return;
+        // create new view
+        this.currentNpcInfo = new UxNpcInfo({npc: npc});
+        // disable play state ui and mouse clicks
+        this.view.active = false;
+        // pause game
+        Atts.paused = true;
+        // hook destroy event for dialog
+        this.currentNpcInfo.evtDestroyed.listen(this.onCloseNpcInfo);
+    }
+
+    onCloseNpcInfo() {
+        // clear npc info
+        this.currentNpcInfo = null;
         // re-enable play state
         this.view.active = true;
         // unpause game

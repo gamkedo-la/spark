@@ -44,7 +44,7 @@ class UxInput extends UxView {
         this.charset = spec.charset || 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
         this._text = new Text(Object.assign({parent: this}, UxInput.dfltText, spec.xtext)); 
         this.textOffset = spec.textOffset || 5;
-        this._active = false;
+        this._selected = false;
         // events
         this.__evtClicked = new EvtChannel("clicked", {actor: this});
         // bind event handlers
@@ -111,16 +111,17 @@ class UxInput extends UxView {
 
     // EVENT HANDLERS ------------------------------------------------------
     onMouseClick(evt) {
+        if (!this.active) return;
         const mousePos = Mouse.pos;
         if (this.bounds.contains(mousePos)) {
             // activate/deactivate
-            this._active = (!this._active);
-            if (this._active) {
+            this._selected = (!this._selected);
+            if (this._selected) {
                 this.cursIdx = this._text.text.length;
             }
             this.evtClicked.trigger();
         } else {
-            if (this._active) this._active = false;
+            if (this._selected) this._selected = false;
         }
     }
 
@@ -130,11 +131,12 @@ class UxInput extends UxView {
     }
 
     onKeyDown(evt) {
-        // ignore key events if not active
-        if (!this._active) return;
+        if (!this.active) return;
+        // ignore key events if not selected
+        if (!this._selected) return;
         // handle escape
         if (evt.key === "Escape") {
-            this._active = false;
+            this._selected = false;
             return;
         }
         // handle backspace
@@ -203,7 +205,7 @@ class UxInput extends UxView {
     _render(ctx) {
         if (this._sketch) this._sketch.render(ctx, this.xform.minx, this.xform.miny);
         if (this._text) this._text.render(ctx, this.xform.minx+this.textOffset, this.xform.miny);
-        if (this._active) {
+        if (this._selected) {
             if (this.cursorOn) this.cursor.render(ctx, this.xform.minx+this.cursx, this.xform.miny+this.cursy);
         }
     }

@@ -8,7 +8,12 @@ import { Color }                from "./base/color.js";
 import { Font }                 from "./base/font.js";
 import { Generator } from "./base/generator.js";
 
+
 class Templates {
+    // some values to use in the templates...
+    static playTextColor = "rgba(0,167,167,1)";
+    static playTextColor2 = "rgba(219,124,40,1)";
+    static menuTextColor = new Color(0,255,0,.75);
 
     static panel(tag, spec={}) {
         let xxform = spec.xxform || {};
@@ -36,13 +41,22 @@ class Templates {
 
     static playText(tag, text, spec={}) {
         let xxform = spec.xxform || {};
-        let color = spec.color || "rgba(0,167,167,1)"
+        let color = spec.color || Templates.playTextColor;
         return {
             cls: "UxText",
             tag: tag,
             xxform: xxform,
             xtext: { color: color, text: text, },
         }
+    }
+
+    static playInput(tag, text, spec={}) {
+        let color = spec.color || Templates.playTextColor2;
+        return Object.assign({
+            cls: "UxInput",
+            tag: tag,
+            xtext: { color: color, text: text, },
+        }, spec);
     }
 
     static playBubble(tag, spec={}) {
