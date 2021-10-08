@@ -11,6 +11,8 @@ class Character extends Model {
     // CONSTRUCTOR ---------------------------------------------------------
     cpost(spec) {
         super.cpost(spec);
+        // -- view class
+        this.viewCls = spec.viewCls || "ModelView";
         // -- movement state
         this.heading = 0;
         this.speed = 0;

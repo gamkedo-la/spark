@@ -129,7 +129,6 @@ class PlayState extends State {
             },
         });
         this.daylightView = this.findFirst(v=>v.tag === "daylight.filter");
-        console.log(`daylightview: ${this.daylightView}`);
 
         // load level objects
         this.model.load();
@@ -143,6 +142,8 @@ class PlayState extends State {
         this.pauseText = this.findFirst(v=>v.tag === "pauseText");
         this.pauseText.visible = false;
         this.menuButton = this.findFirst(v=>v.tag === "menu");
+        this.vendor = this.findFirst(v=>v.tag === "aodhan");
+        this.innkeeper = this.findFirst(v=>v.tag === "ciara");
         //console.log(`menuButton: ${this.menuButton}`);
         this.menuButton.evtClicked.listen(this.onMenu);
         this.moraleButton = this.findFirst(v=>v.tag === "morale");
@@ -369,14 +370,15 @@ class PlayState extends State {
             }
             view = new AreaView(xview);
         } else {
+            let viewCls = obj.viewCls || "ModelView";
             let xview = {
-                cls: "ModelView",
+                cls: obj.viewCls || "ModelView",
                 xsketch: obj.xsketch,
                 wantMouse: obj.hoverable,
                 xxform: Object.assign({scalex:Config.renderScale, scaley:Config.renderScale}, obj.xxform),
                 model: obj,
             };
-            view = new ModelView(xview);
+            view = Generator.generate(xview);
             obj.view = view;
         }
         // rig model destroy to view destroy
@@ -552,6 +554,9 @@ class PlayState extends State {
                     break;
                 case "npc.dialog":
                     this.genDialog(evt.dialog);
+                    break;
+                case "npc.click":
+                    this.genNpcInfo(evt.actor);
                     break;
             }
 

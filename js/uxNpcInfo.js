@@ -22,6 +22,8 @@ class UxNpcInfo extends UxCtrl {
         let likes = (this.npc && this.npc.bio) ? this.npc.bio.likes : "<likes>";
         let dislikes = (this.npc && this.npc.bio) ? this.npc.bio.dislikes : "<dislikes>";
         let portraitTag = (this.npc && this.npc.portraitTag) ? this.npc.portraitTag : "gnome.portrait";
+        // FIXME: tie to npc morale
+        let moraleTag = "like";
 
         // construct the UI elements
         this.view = Generator.generate({
@@ -68,7 +70,7 @@ class UxNpcInfo extends UxCtrl {
                             // morale/hint line
                             Templates.playText(null, "morale:", {xxform: {offset: 5, right: .6,                         top: 4/5, bottom: 1-5/5}}),
                             Templates.panel(null, {
-                                xsketch: { cls: "Media", tag: "dislike", lockRatio: true}, 
+                                xsketch: { cls: "Media", tag: moraleTag, lockRatio: true}, 
                                 xxform: {offset: 5, left: .4, right: .4,                                                top: 4/5, bottom: 1-5/5}}),
                             Templates.menuButton("hintButton", "hint", { xxform: { left: .6,                            top: 4/5, bottom: 1-5/5 }}),
                         ]}),

@@ -1,4 +1,4 @@
-export { ModelView };
+export { ModelView, CharacterView };
 
 import { Config }           from "./base/config.js";
 import { UxPanel }          from "./base/uxPanel.js";
@@ -6,10 +6,13 @@ import { Model }            from "./base/model.js";
 import { Direction }        from "./base/dir.js";
 import { Util }             from "./base/util.js";
 import { Fmt }              from "./base/fmt.js";
-import { Stats } from "./base/stats.js";
-import { Vect } from "./base/vect.js";
-import { Color } from "./base/color.js";
-import { Camera } from "./base/camera.js";
+import { Stats }            from "./base/stats.js";
+import { Vect }             from "./base/vect.js";
+import { Color }            from "./base/color.js";
+import { Camera }           from "./base/camera.js";
+import { Mouse }            from "./base/mouse.js";
+import { Event }            from "./base/event.js";
+import { Atts }             from "./base/atts.js";
 
 class ModelView extends UxPanel {
 
@@ -203,5 +206,26 @@ class UxHoverView extends UxPanel {
         this.xform._offy = this.gety();
         if (lastx !== this.xform._offx || lasty != this.xform._offy) this.updated = true;
         return this.updated;
+    }
+}
+
+class CharacterView extends ModelView {
+    cpost(spec) {
+        super.cpost(spec);
+        this.eventQ = spec.eventQ || Atts.gameEventQ;
+        Util.bind(this, "onMouseClick");
+        Mouse.evtClicked.listen(this.onMouseClick);
+    }
+
+    onMouseClick(evt) {
+        if (!this.active) return;
+        if (this.mouseOver) {
+            this.eventQ.push(new Event("npc.click", {actor: this.model}));
+        }
+    }
+
+    destroy() {
+        Mouse.evtClicked.ignore(this.onMouseClick);
+        super.destroy();
     }
 }

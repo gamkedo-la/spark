@@ -13,7 +13,6 @@ class UxInput extends UxView {
     static dfltSketch = {
         cls: "Rect",
         color: "rgba(255,255,255,.25)",
-        xfitter: { cls: "FitToParent" },
     };
     static dfltCursor = {
         cls: "Rect",
@@ -30,12 +29,8 @@ class UxInput extends UxView {
     // CONSTRUCTOR ---------------------------------------------------------
     cpost(spec) {
         super.cpost(spec);
-        this._sketch = Generator.generate(Object.assign({parent: this}, UxInput.dfltSketch, spec.xsketch));
+        this._sketch = Generator.generate(Object.assign({parent: this, xfitter: { cls: "FitToParent" }}, spec.xsketch || UxInput.dfltSketch));
         this.cursor = Generator.generate(Object.assign({}, UxInput.dfltCursor, spec.xcursor));
-        //let xx = Object.assign({}, UxInput.dfltCursor);
-        let xx = Object.assign({}, UxInput.dfltCursor, {height: this.xform.height*.8}, spec.xcursor);
-        console.log("this.xform.height: " + this.xform.height);
-        console.log("xx: " + Fmt.ofmt(xx));
         this.cursorIdx = 0;
         this._cursx = 0;
         this.cursorBlinkRate = spec.cursorBlinkRate || 500;

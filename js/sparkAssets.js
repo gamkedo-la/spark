@@ -622,6 +622,7 @@ class SparkAssets {
             }},
 
             { src: "img/innkeeper.png", loader: "Sheet", refs: [
+                {tag: "innkeeper.portrait",      cls: "Sprite", width: 32, height: 32, x: 32*0, y: 16 },
                 {tag: "innkeeper.idle_south",    cls: "Sprite", width: 32, height: 64, x: 32*0, y: 64*7 },
                 {tag: "innkeeper.idle_north",    cls: "Sprite", width: 32, height: 64, x: 32*1, y: 64*7 },
                 {tag: "innkeeper.idle_west",     cls: "Sprite", width: 32, height: 64, x: 32*2, y: 64*7 },
@@ -1169,6 +1170,7 @@ class SparkAssets {
             },
 
             Templates.object("c01", "player", "Character", {
+                viewCls: "CharacterView",
                 name: "Alette",
                 portraitTag: "fairy.portrait",
                 bio: {
@@ -1190,7 +1192,15 @@ class SparkAssets {
 
             Templates.object("c02", "aodhan", "Character", {
                 name: "Aodhan",
+                viewCls: "CharacterView",
                 mediaTag: "gnome",
+                portraitTag: "gnome.portrait",
+                bio: {
+                    "info": "hi ho, yada yada yada",
+                    "job": "vendor",
+                    "likes": "magic",
+                    "dislikes": "complaints",
+                },
                 ctrlId: 0,
                 offy: -16,
                 ownerTag: "Aodhan",
@@ -1248,6 +1258,14 @@ class SparkAssets {
 
             Templates.object("c03", "ciara", "Character", {
                 name: "Ciara",
+                bio: {
+                    "info": "of all the beerjoints on the island...",
+                    "job": "innkeeper",
+                    "likes": "satisified customers",
+                    "dislikes": "magic, complaints",
+                },
+                viewCls: "CharacterView",
+                portraitTag: "innkeeper.portrait",
                 mediaTag: "innkeeper",
                 ctrlId: 0,
                 offy: -16,

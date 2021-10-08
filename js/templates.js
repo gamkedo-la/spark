@@ -56,6 +56,7 @@ class Templates {
             cls: "UxInput",
             tag: tag,
             xtext: { color: color, text: text, },
+            xsketch: { cls: "Rect", color: "rgba(0,0,0,.25)", },
         }, spec);
     }
 

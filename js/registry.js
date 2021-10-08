@@ -53,6 +53,7 @@ import { Food } from "./food.js";
 import { WantServiceScheme } from "./actions/wantService.js";
 import { EatAtServiceScheme, WaitAtServiceScheme } from "./actions/eatAtService.js";
 import { UxNpcInfo } from "./uxNpcInfo.js";
+import { CharacterView, ModelView } from "./modelView.js";
 
 class SparkRegistry {
     static init() {
@@ -117,6 +118,8 @@ class SparkRegistry {
         registry.add(UxEditorView);
         registry.add(UxLvlView);
         registry.add(UxNpcInfo);
+        registry.add(ModelView);
+        registry.add(CharacterView);
         // -- register generator classes
         registry.add(Tile);
         registry.add(Character);

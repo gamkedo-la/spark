@@ -103,7 +103,7 @@ class MouseSystem extends System {
         // hack... ModelView instances are offset by the camera
         // ideally, world position of these views would reflect that, but don't for a number of reasons...
         // so, adjust world postion of mouse when comparing against ModelView instances
-        if (e.cls === "ModelView") {
+        if (e.cls === "ModelView" || e.cls === "CharacterView") {
             wpos.add(Camera.main.minx, Camera.main.miny);
         }
 
