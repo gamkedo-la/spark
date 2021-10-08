@@ -28,14 +28,13 @@ import { UxPanel }          from "./base/uxPanel.js";
 import { Font }             from "./base/font.js";
 import { Text }             from "./base/text.js";
 import { Event }            from "./base/event.js";
-import { SparkDialog } from "./sparkDialog.js";
-import { Dialog } from "./base/dialog.js";
 import { UxDialogCtrl } from "./uxDialog.js";
 import { Bounds } from "./base/bounds.js";
 import { Hierarchy } from "./base/hierarchy.js";
 import { PlaySoundAction } from "./base/action.js";
 import { OptionsState } from "./optionsState.js";
 import { UxNpcInfo } from "./uxNpcInfo.js";
+import { UxStory } from "./uxStory.js";
 
 class PlayState extends State {
 
@@ -109,7 +108,7 @@ class PlayState extends State {
         this.camera = spec.camera || Camera.main;
         //this.camera.dbg = true;
 
-        Util.bind(this, "onKeyDown", "onClicked", "onMenu", "onMorale", "onCloseDialog", "onCloseNpcInfo");
+        Util.bind(this, "onKeyDown", "onClicked", "onMenu", "onMorale", "onCloseDialog", "onCloseNpcInfo", "onCloseStory");
         Keys.evtKeyPressed.listen(this.onKeyDown);
         Mouse.evtClicked.listen(this.onClicked);
         let gridView = new GridView({depth: 10, grid: this.grid, xxform: {scalex: Config.renderScale, scaley: Config.renderScale}});
@@ -234,7 +233,7 @@ class PlayState extends State {
             Config.dbg.Stats = !Config.dbg.Stats;
         }
         if (evt.key === "8") {
-            this.genNpcInfo(this.player);
+            this.genStory();
             /*
             let xdialog = SparkDialog.dialogs.test;
             xdialog.actor = this.player;
@@ -509,6 +508,28 @@ class PlayState extends State {
     onCloseNpcInfo() {
         // clear npc info
         this.currentNpcInfo = null;
+        // re-enable play state
+        this.view.active = true;
+        // unpause game
+        Atts.paused = false;
+    }
+
+    genStory(npc) {
+        // don't start new if already running
+        if (this.currentStory) return;
+        // create new view
+        this.currentStory = new UxStory({});
+        // disable play state ui and mouse clicks
+        this.view.active = false;
+        // pause game
+        Atts.paused = true;
+        // hook destroy event for dialog
+        this.currentStory.evtDestroyed.listen(this.onCloseStory);
+    }
+
+    onCloseStory() {
+        // clear npc info
+        this.currentStory = null;
         // re-enable play state
         this.view.active = true;
         // unpause game

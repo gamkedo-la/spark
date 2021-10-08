@@ -556,10 +556,14 @@ class SparkAssets {
                 {tag: "buttonHover", cls: "StretchSprite", width: 48, height: 48, x: 48*1, y: 0, border: 16 },
                 {tag: "buttonTrans", cls: "StretchSprite", width: 48, height: 48, x: 48*2, y: 0, border: 16 },
                 {tag: "buttonPress", cls: "StretchSprite", width: 48, height: 48, x: 48*3, y: 0, border: 16 },
+                {tag: "buttonLight", cls: "StretchSprite", width: 48, height: 48, x: 48*4, y: 0, border: 16 },
+                {tag: "buttonDark", cls: "StretchSprite", width: 48, height: 48, x: 48*5, y: 0, border: 16 },
                 {tag: "buttonOff.small", cls: "StretchSprite", width: 32, height: 32, x: 0, y: 48, border: 12 },
                 {tag: "buttonHover.small", cls: "StretchSprite", width: 32, height: 32, x: 32*1, y: 48, border: 12 },
                 {tag: "buttonTrans.small", cls: "StretchSprite", width: 32, height: 32, x: 32*2, y: 48, border: 12 },
                 {tag: "buttonPress.small", cls: "StretchSprite", width: 32, height: 32, x: 32*3, y: 48, border: 12 },
+                {tag: "chatLeft", cls: "Sprite", width: 32, height: 32, x: 0, y: 80 },
+                {tag: "chatRight", cls: "Sprite", width: 32, height: 32, x: 32, y: 80 },
             ]},
             /*
             { src: "img/buttonHover.png", loader: "Sheet", refs: [
@@ -666,6 +670,9 @@ class SparkAssets {
             { src: "img/fairy.png", loader: "Sheet", refs: [
                 {tag: "fairy.portrait", cls: "Sprite", width: 30, height: 30, x: 9, y: 0 },
                 Templates.xsprite("fairy.static_south", 0, 0, {width: 48, height: 32}),
+                //Templates.anim("fairy.right", {offx:48*3+5, offy: 0, width: 28, height:32, duration: 200, frames: 4}),
+                {tag: "fairy.right", cls: "Sprite", width: 28, height: 32, x: 48*3+9, y: 0 },
+                {tag: "fairy.left", cls: "Sprite", width: 28, height: 32, x: 48*2+12, y: 0 },
                 Templates.anim("fairy.idle_south", {offx:0, offy: 0, width: 48, height:32, duration: 200, frames: 4}),
                 Templates.anim("fairy.idle_north", {offx:48*1, offy: 0, width: 48, height:32, duration: 200, frames: 4}),
                 Templates.anim("fairy.idle_west", {offx:48*2, offy: 0, width: 48, height:32, duration: 200, frames: 4}),
