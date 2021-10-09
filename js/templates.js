@@ -16,16 +16,19 @@ class Templates {
     static menuTextColor = new Color(0,255,0,.75);
 
     static panel(tag, spec={}) {
-        let xxform = spec.xxform || {};
-        let xchildren = spec.xchildren || [];
         let xsketch = spec.xsketch || {};
-        return {
+        return Object.assign({
             cls: "UxPanel",
             tag: tag,
-            xxform: xxform,
             xsketch: xsketch,
-            xchildren: xchildren,
-        }
+        }, spec);
+    }
+
+    static fader(tag, fadein, spec={}) {
+        return Object.assign({ 
+            tag: tag, 
+            cls: "UxFader" 
+        }, spec);
     }
 
     static titleText(tag, text, spec={}) {
@@ -47,6 +50,19 @@ class Templates {
             tag: tag,
             xxform: xxform,
             xtext: { color: color, text: text, },
+        }
+    }
+
+    static dialogText(tag, spec={}) {
+        let xxform = spec.xxform || { otop: 25, oleft: 20, oright: 15};
+        let color = spec.color || Templates.playTextColor;
+        let font = spec.font || new Font({size:25});
+        return {
+            cls: "UxText",
+            tag: tag,
+            xxform: xxform,
+            xtext: { color: color, text: "dialog", wrap: true, fit: false, font: font },
+            xxform: xxform,
         }
     }
 

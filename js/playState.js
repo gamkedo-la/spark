@@ -34,9 +34,36 @@ import { Hierarchy } from "./base/hierarchy.js";
 import { PlaySoundAction } from "./base/action.js";
 import { OptionsState } from "./optionsState.js";
 import { UxNpcInfo } from "./uxNpcInfo.js";
-import { UxStory } from "./uxStory.js";
+import { StoryDialogAction, StoryFadeInAction, StoryFadeOutAction, StoryHideAction, UxStory } from "./uxStory.js";
 
 class PlayState extends State {
+    static startScript = [
+        new StoryFadeInAction({xtarget: "actor2"}),
+        new StoryDialogAction({speaker: "actor2", "text": "Alette!", ttl: 2000}),
+        new StoryFadeInAction({xtarget: "actor1", ttl: 500}),
+        new StoryFadeOutAction({xtarget: "actor1", ttl: 700}),
+        new StoryDialogAction({speaker: "actor2", "text": "Alette, wake up my dear!", ttl: 2000}),
+        new StoryFadeInAction({xtarget: "actor1", ttl: 1000}),
+        new StoryDialogAction({speaker: "actor1", "text": "Mom!?! I thought you were...", ttl: 2000}),
+        new StoryDialogAction({speaker: "actor2", "text": "Now, now. I know you’re scared, I know none of this makes any sense...", ttl: 2000}),
+        new StoryDialogAction({speaker: "actor1", "text": "Of course it doesn’t! I.. I thought you were dead! And you decide to show up now!?!", ttl: 2500}),
+        new StoryDialogAction({speaker: "actor2", "text": "Darling, please listen to me. You have a lot of questions, and I can answer them. But you need to be patient. Forgive me, I know it’s been 5 years.", ttl: 4000}),
+        new StoryDialogAction({speaker: "actor2", "text": "When you open your eyes, you will land in the world of Innis Fhaolain.", ttl: 3000}),
+        new StoryDialogAction({speaker: "actor1", "text": "What why? And wh-what would I have to do there?", ttl: 2500}),
+        new StoryDialogAction({speaker: "actor2", "text": "You are there because, well…", ttl: 2000}),
+        new StoryDialogAction({speaker: "actor2", "text": "You are my child, my sweetheart. You have no idea how beautiful you are, and how your beauty will pass on to make everyone's lives a little better. To help others...", ttl: 5000}),
+        new StoryDialogAction({speaker: "actor1", "text": "I don’t care about any of that Mama!", ttl: 2500}),
+        new StoryDialogAction({speaker: "actor1", "text": "Not when you’re not here with me....", ttl: 2500}),
+        new StoryDialogAction({speaker: "actor2", "text": "Who said that I wouldn’t be without you? My presence shall bestow upon you powers, but they will be limited. I have gotten old… even in the afterlife.", ttl: 5000}),
+        new StoryDialogAction({speaker: "actor1", "text": "I’ll admit, I do like helping...", ttl: 2500}),
+        new StoryDialogAction({speaker: "actor1", "text": "It makes me feel a little better, and the ones around me…", ttl: 2500}),
+        new StoryDialogAction({speaker: "actor1", "text": "But how can I make such a difference? How can I help people? After all, I’m just one person…", ttl: 3500}),
+        new StoryDialogAction({speaker: "actor2", "text": "You might be surprised at what may happen. Let’s give it a shot and find out.  Alette, there’s no need to fear. I’ll be with you throughout this journey.", ttl: 5000}),
+        new StoryDialogAction({speaker: "actor1", "text": "Well then, let’s get started...”", ttl: 2500}),
+        new StoryFadeOutAction({xtarget: "overlay", ttl: 3000}),
+        new StoryHideAction(),
+        new StoryFadeInAction({xtarget: "main", ttl: 3000}),
+    ]
 
     static actionSketches = {
         "none":         {cls: "Text", text: "X", xfitter: { cls: "FitToParent"}, color: new Color(225,0,0,.75)},
@@ -233,7 +260,7 @@ class PlayState extends State {
             Config.dbg.Stats = !Config.dbg.Stats;
         }
         if (evt.key === "8") {
-            this.genStory();
+            //this.genStory();
             /*
             let xdialog = SparkDialog.dialogs.test;
             xdialog.actor = this.player;
@@ -514,11 +541,11 @@ class PlayState extends State {
         Atts.paused = false;
     }
 
-    genStory(npc) {
+    genStory(script) {
         // don't start new if already running
         if (this.currentStory) return;
         // create new view
-        this.currentStory = new UxStory({});
+        this.currentStory = new UxStory({script: script});
         // disable play state ui and mouse clicks
         this.view.active = false;
         // pause game
@@ -592,6 +619,10 @@ class PlayState extends State {
     }
 
     iupdate(ctx) {
+        if (!this.storyInitialized) {
+            this.storyInitialized = true;
+            this.genStory(PlayState.startScript);
+        }
         if (!this.firstUpdated && Base.instance.audioMgr.resumed) {
             this.firstUpdated = true;
             this.firstUpdate(ctx);
