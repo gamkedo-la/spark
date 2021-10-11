@@ -191,7 +191,7 @@ class UxStory extends UxCtrl {
                     ],
                 }),
                 Templates.panel(null, {xxform: {offset: 20, left: .7, right: .1, top: .5, bottom: .2}, xchildren: [
-                    Templates.panel("actor2", { xsketch: {cls: "Media", tag: "fairy.left"}}),
+                    Templates.panel("actor2", { xsketch: {cls: "Media", tag: "fairyMother"}}),
                     Templates.fader("actor2Fader", true, {active: false}),
                 ]}),
                 Templates.menuButton("skipButton", "skip", { xxform: { left: .4, right: .4, top: .8, bottom: .15}}),

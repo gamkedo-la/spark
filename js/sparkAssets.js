@@ -667,6 +667,9 @@ class SparkAssets {
                     [ModelState.eating_east]:  { cls: "Media", tag: "innkeeper.eating_east" },
             }},
 
+            { src: "img/fairyMother.png", loader: "Sheet", refs: [
+                {tag: "fairyMother", cls: "Sprite", width: 35, height: 32, x: 10, y: 0 },
+            ]},
             { src: "img/fairy.png", loader: "Sheet", refs: [
                 {tag: "fairy.portrait", cls: "Sprite", width: 30, height: 30, x: 9, y: 0 },
                 Templates.xsprite("fairy.static_south", 0, 0, {width: 48, height: 32}),
