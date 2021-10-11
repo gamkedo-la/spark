@@ -159,8 +159,8 @@ class PlayState extends State {
         // load level objects
         this.model.load();
 
-        this.xupSketch = Base.instance.media.get("upArrow");
-        this.xdownSketch = Base.instance.media.get("downArrow");
+        this.xupSketch = Base.instance.media.get("like");
+        this.xdownSketch = Base.instance.media.get("dislike");
 
         // lookup object references
         this.player = this.findFirst(v=>v.tag === "player");
@@ -260,6 +260,8 @@ class PlayState extends State {
             Config.dbg.Stats = !Config.dbg.Stats;
         }
         if (evt.key === "8") {
+            //case "npc.moraleUp":
+            this.eventQ.push(new Event("npc.moraleDown", {actor: this.innkeeper}));
             //this.genStory();
             /*
             let xdialog = SparkDialog.dialogs.test;
@@ -459,8 +461,8 @@ class PlayState extends State {
 
     startMoraleIndicator(target, up=true) {
         // create new indicator
-        let dx = target.x*Config.renderScale - this.camera.minx;
-        let dy = target.y*Config.renderScale - this.camera.miny;
+        let dx = target.x*Config.renderScale/2 - this.camera.minx;
+        let dy = target.y*Config.renderScale/2 - this.camera.miny;
         let xview = {
             cls: "UxMoraleIndicator",
             ui: true,
@@ -471,7 +473,7 @@ class PlayState extends State {
             dy: -.01,
             getx: () => target.x*Config.renderScale - this.camera.minx,
             gety: () => target.y*Config.renderScale - this.camera.miny,
-            xxform: { dx: -8, dy: -25, x: dx, y: dy, scalex: Config.renderScale, scaley: Config.renderScale },
+            xxform: { dx: -16, dy: -50, x: dx, y: dy, scalex: Config.renderScale/2, scaley: Config.renderScale/2 },
         };
         let view = new UxMoraleIndicator(xview);
     }
@@ -662,7 +664,7 @@ class UxMoraleIndicator extends UxPanel {
         this.ttl -= ctx.deltaTime;
         if (this.ttl <= 0) {
             this.destroy();
-            return false;
+            return true;
         }
         this.xform._offx = this.getx();
         this.xform._offy = this.gety();
