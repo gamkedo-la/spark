@@ -261,8 +261,7 @@ class PlayState extends State {
         }
         if (evt.key === "8") {
             //case "npc.moraleUp":
-            this.eventQ.push(new Event("npc.moraleDown", {actor: this.innkeeper}));
-            //this.genStory();
+            this.eventQ.push(new Event("npc.moraleMax", {actor: this.vendor}));
             /*
             let xdialog = SparkDialog.dialogs.test;
             xdialog.actor = this.player;

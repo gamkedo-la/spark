@@ -36,6 +36,8 @@ class StateSystem extends System {
                 wantState = ModelState.sparked;
             } else if (e.conditions.has(Condition.powered)) {
                 wantState = ModelState.powered;
+            } else if (e.conditions.has(Condition.spun)) {
+                wantState = ModelState.spin;
             }
         }
 

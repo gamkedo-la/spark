@@ -37,6 +37,7 @@ class Animation extends Sprite {
         this.elapsed = 0;
         this._done = false;
         this.step = false;
+        this.noreset = spec.noreset || false;
     }
 
     // PROPERTIES ----------------------------------------------------------
@@ -61,6 +62,7 @@ class Animation extends Sprite {
 
     // METHODS -------------------------------------------------------------
     reset() {
+        if (this.noreset) return;
         this.cidx = 0;
         this.elapsed = 0;
         this._done = false;

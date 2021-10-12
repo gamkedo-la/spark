@@ -668,8 +668,9 @@ class Templates {
         // duration is fixed or specified as array of durations corresponding to each frame
         const duration = spec.duration || 100;
         const loop = spec.hasOwnProperty("loop") ? spec.loop : true;
+        const noreset = spec.hasOwnProperty("noreset") ? spec.noreset : false;
         const horizontal = spec.horizontal || false;
-        let anim = {tag: tag, cls: "Animation", cels: [], loop: loop};
+        let anim = {tag: tag, cls: "Animation", cels: [], loop: loop, noreset: noreset};
         for (let i=0; i<frames; i++) {
             let x = offx + ((horizontal) ? i*width : 0);
             let y = offy + ((horizontal) ? 0 : i*height);

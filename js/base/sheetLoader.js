@@ -104,6 +104,7 @@ class SheetLoader {
             const animSpec = {
                 tag: ref.tag, 
                 loop: ref.loop,
+                noreset: ref.noreset,
                 syncTag: ref.syncTag,
                 cls: ref.cls, 
                 cels: [],

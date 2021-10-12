@@ -69,13 +69,18 @@ class SparkSystem extends System {
                     if (obj.gid === e.srcid) {
                         continue;
                     }
-                    obj.conditions.add(Condition.powered);
-                    console.log(`powering up relay`);
-                    obj.srcid = e.srcid;
+                    // check if relay needs to be spun
+                    if (obj.spinme && !obj.conditions.has(Condition.spun)) {
+                        console.log(`spinning relay: ${obj}`);
+                        obj.conditions.add(Condition.spun);
+                    } else {
+                        obj.conditions.add(Condition.powered);
+                        console.log(`powering up relay`);
+                        obj.srcid = e.srcid;
+                    }
                     hitRelay = true;
-                }
                 // -- sparkable
-                if (obj.sparkable) {
+                } else if (obj.sparkable) {
                     obj.conditions.add(Condition.sparked);
                     if (obj.maxSparkTTL) obj.sparkTTL = obj.maxSparkTTL;
                     if (obj.morale) {

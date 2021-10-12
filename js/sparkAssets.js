@@ -34,6 +34,12 @@ class SparkAssets {
             { src: "img/fountain.png", loader: "Sheet", refs: [
                 Templates.anim("fountain.water", {width: 16*7, height:16*7, duration: 250, frames: 8}),
             ]},
+            { src: "img/crate.png", loader: "Sheet", refs: [
+                Templates.xsprite("crate.relay.idle", 0, 0, {width: 32, height: 48}),
+                Templates.xanim("crate.relay.spin", 2, 0, {frames: 8, width: 32, height: 48, duration: 200, loop: false, noreset: true}),
+                Templates.xsprite("crate.relay.powered", 4, 0, {width: 32, height: 48}),
+                Templates.xsprite("crate.relay.sparked", 4, 3, {width: 32, height: 48}),
+            ]},
             { src: "img/terrain1.png", loader: "Sheet", refs: [
                 Templates.xvarsprite("road", [[0,0], [1,0], [2,0], [3,0]], ),
                 Templates.xvarsprite("brickFloor", [[0,1], [1,1], [2,1], [3,1]], ),
@@ -466,6 +472,16 @@ class SparkAssets {
                     [ModelState.idle]: { cls: "Media", tag: "relay.idle" }, 
                     [ModelState.sparked]: { cls: "Media", tag: "relay.sparked" }, 
                     [ModelState.powered]: { cls: "Media", tag: "relay.powered" }, 
+                },
+            },
+
+            { tag: "crate.relay", 
+                cls: "Animator", 
+                animations: { 
+                    [ModelState.idle]: { cls: "Media", tag: "crate.relay.idle" }, 
+                    [ModelState.spin]: { cls: "Media", tag: "crate.relay.spin" }, 
+                    [ModelState.sparked]: { cls: "Media", tag: "crate.relay.sparked" }, 
+                    [ModelState.powered]: { cls: "Media", tag: "crate.relay.powered" }, 
                 },
             },
 
@@ -925,7 +941,7 @@ class SparkAssets {
             Templates.tile("02v", "bar.rend",           {offy: -8, xcollider: {offy:8}}),
             Templates.tile("02x", "bar.smtable",        {offx: 8, offy: -16, xcollider: {width: 20, offy:-4}}),
             Templates.tile("02y", "bar.stand",          {offx: 16, offy: -12, xcollider: {width:48}}),
-            Templates.tile("02z", "bar.lgtable",        {offx: 8, offy: -24, xcollider: {width: 30, height: 48, offy:0}}),
+            Templates.tile("02z", "bar.lgtable",        {offx: 8, offy: -24, xcollider: {tag: Collider.sparkthru, width: 30, height: 48, offy:0}}),
             Templates.tile("02A", "bar.sidetable",      {offx: 8, offy: -16, xcollider: {width: 20, height: 40, offy:-4}}),
             // -- 02B taken
             Templates.tile("02C", "tower.stub",         {offx: 56, offy: -64, xcollider: {}}),
@@ -1173,6 +1189,13 @@ class SparkAssets {
                 xcollider: { offx: 16, width: 8, offy: 24, height:24 }, 
             }),
 
+            Templates.object("o0s", "crate.relay", "SparkRelay", { 
+                offx: 8, 
+                offy: -16, 
+                spinme: true,
+                xcollider: {width:10, height:20, offy: 10}, 
+            }),
+
             // ------------------------------------------------------------------------------
 
             { tag: "spark", cls: "SparkProjectile", 
@@ -1194,7 +1217,7 @@ class SparkAssets {
                 mediaTag: "fairy",
                 ctrlId: 1,
                 offy: -8,
-                xcollider: { tag: Collider.player, blocking: Collider.object, width:14, height:10, offy:8, color: "rgba(0,0,127,.5)" },
+                xcollider: { tag: Collider.player, blocking: Collider.object|Collider.sparkthru, width:14, height:10, offy:8, color: "rgba(0,0,127,.5)" },
                 xstateSfxs: {
                     [ModelState.walk]: { cls: "Media", tag: "chimes"}, 
                     [ModelState.enlightenedWalk]: { cls: "Media", tag: "chimesHigh"}, 

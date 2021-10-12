@@ -12,6 +12,7 @@ class SparkRelay extends Model {
         this.relay = true;
         this.range = spec.range || Config.tileSize * 10;
         this.srcid = 0;
+        this.spinme = spec.spinme || false;
         if (spec.powered) this.conditions.add(Condition.powered);
     }
 

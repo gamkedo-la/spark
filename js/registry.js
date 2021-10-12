@@ -93,6 +93,7 @@ class SparkRegistry {
         ModelState.register("eating_west");
         ModelState.register("eating_east");
         ModelState.register("enlightenedWalk");
+        ModelState.register("spin");
         // -- register activities
         Activity.register("wake");
         Activity.register("work");
@@ -111,6 +112,7 @@ class SparkRegistry {
         Condition.register("sweeping");
         Condition.register("closed");
         Condition.register("enlightened");
+        Condition.register("spun");
     }
     static setup(registry) {
         // -- register view classes
