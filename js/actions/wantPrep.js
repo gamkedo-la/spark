@@ -3,6 +3,7 @@ export { WantPrepFoodServiceScheme, WantPrepBeerServiceScheme };
 import { AiGoal }           from "../base/ai/aiGoal.js";
 import { AiPlan }           from "../base/ai/aiPlan.js";
 import { AiScheme }         from "../base/ai/aiScheme.js";
+import { Condition }        from "../base/condition.js";
 import { Fmt }              from "../base/fmt.js";
 
 class WantPrepFoodServiceScheme extends AiScheme {
@@ -57,6 +58,7 @@ class WantPrepBeerServiceScheme extends AiScheme {
         this.effects.push((state) => state.v_wantTag = "Keg");
         this.effects.push((state) => state.v_gatherTag = "Beer");
         this.effects.push((state) => state.v_wantPrepBeerService = true);
+        this.effects.push((state) => state.v_findPredicate = ((v) => v.dispenseTag === "Beer" && v.conditions.has(Condition.sparked)));
     }
 
     deriveState(env, actor, state) {

@@ -5,6 +5,7 @@ import { Condition }                from "../js/base/condition.js";
 import { SparkRegistry }            from "../js/registry.js";
 import { Generator }                from "../js/base/generator.js";
 import { Base }                     from "../js/base/base.js";
+import { SparkAssets } from "../js/sparkAssets.js";
 
 Config.init();
 SparkRegistry.init();
@@ -36,17 +37,15 @@ let aiPlanSystemSuite = describe("AI Plan System", () => {
             xschemes: [ "WantDirtyScheme", "FindScheme", "MoveScheme", "SweepAtDirtyScheme" ], 
             xplans: [["WantDirtyPlan", "FindPlan", "MovePlan", "SweepAtDirtyPlan" ]]},
 
+            /*
         {desc: "restock at stock test", env: {}, actor: Object.assign({}, actor, {}), goal: AiGoal.work, 
             xschemes: [ "WantStockScheme", "FindScheme", "MoveScheme", "OccupyScheme", "RestockAtStockScheme" ], 
             xplans: [["WantStockPlan", "FindPlan", "MovePlan", "OccupyPlan", "RestockAtStockPlan" ]]},
-
-            /*
-        {desc: "work test", env: {}, actor: Object.assign({}, actor, {}), goal: AiGoal.work, 
-            xschemes: [ "EatAtChairScheme", "FindScheme", "GatherScheme", "LeaveScheme", "MoveScheme", "OccupyScheme", "SleepAtBedScheme", "RestockAtStockScheme",
-                        "SweepAtDirtyScheme", "WantBedScheme", "WantChairScheme", "WantDirtyScheme", "WantStockScheme", "WantStoveScheme", "WantWorkstationScheme",
-                        "WorkAtStationScheme", ],
-            xplans: [["WantStockPlan", "FindPlan", "MovePlan", "OccupyPlan", "RestockAtStockPlan" ]]},
             */
+
+        {desc: "innkeeper work test", env: {}, actor: Object.assign({}, actor, {}), goal: AiGoal.work, 
+            xschemes: SparkAssets.innkeeperSchemes,
+            xplans: [["WantStockPlan", "FindPlan", "MovePlan", "OccupyPlan", "RestockAtStockPlan" ]]},
 
 
     ]
