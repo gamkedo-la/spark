@@ -486,7 +486,7 @@ class PlayState extends State {
             cls: "UxChatBubble",
             ui: true,
             target: target,
-            xsketch: { cls: 'Media', tag: "btnGoldOpaqS4" },
+            xsketch: { cls: 'Media', tag: "buttonOff.small" },
             ttl: 3000,
             getx: () => target.x*Config.renderScale - this.camera.minx,
             gety: () => target.y*Config.renderScale - this.camera.miny,

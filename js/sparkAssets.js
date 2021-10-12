@@ -353,7 +353,8 @@ class SparkAssets {
                 Templates.xvarsprite("bar",             [[0,18], [1,18], [2,18], [3,18]], { height: 32 }),
                 Templates.xsprite("bar.ljoin",          4, 18, { height: 32 }),
                 Templates.xsprite("bar.rend",           5, 18, { height: 32 }),
-                Templates.xsprite("bar.beerstand",      7, 15, { width: 16*3, height: 16*4 }),
+                Templates.xsprite("bar.beerstand.idle", 7, 15, { width: 16*3, height: 16*4 }),
+                Templates.xsprite("bar.beerstand.sparked", 10, 19, { width: 16*3, height: 16*4 }),
                 Templates.xsprite("bar.stand",          10, 17, { width: 16*3, height: 16*2 }),
                 Templates.xsprite("bar.smtable",        0, 20, { width: 16*2, height: 16*3 }),
                 Templates.xsprite("bar.lgtable",        2, 20, { width: 16*2, height: 16*4 }),
@@ -438,6 +439,14 @@ class SparkAssets {
                 {tag: "woodDoor.top.open", cls: "Sprite", width: 16*4, height: 16*2, x: 16*7, y: 16*1 },
                 {tag: "woodDoor.top.close", cls: "Sprite", width: 16*4, height: 16*2, x: 16*11, y: 16*1 },
             ]},
+
+            { tag: "bar.beerstand", 
+                cls: "Animator", 
+                animations: { 
+                    [ModelState.idle]: { cls: "Media", tag: "bar.beerstand.idle" }, 
+                    [ModelState.sparked]: { cls: "Media", tag: "bar.beerstand.sparked" }, 
+                },
+            },
 
             { tag: "sparkbase", 
                 cls: "Animator", 
@@ -940,7 +949,7 @@ class SparkAssets {
             Templates.tile("02u", "bar.ljoin",          {offy: -8, xcollider: {width: 8, height:32}}),
             Templates.tile("02v", "bar.rend",           {offy: -8, xcollider: {offy:8}}),
             Templates.tile("02x", "bar.smtable",        {offx: 8, offy: -16, xcollider: {width: 20, offy:-4}}),
-            Templates.tile("02y", "bar.stand",          {offx: 16, offy: -12, xcollider: {width:48}}),
+            Templates.tile("02y", "bar.stand",          {offx: 16, offy: -12, xcollider: {tag: Collider.sparkthru, width:48}}),
             Templates.tile("02z", "bar.lgtable",        {offx: 8, offy: -24, xcollider: {tag: Collider.sparkthru, width: 30, height: 48, offy:0}}),
             Templates.tile("02A", "bar.sidetable",      {offx: 8, offy: -16, xcollider: {width: 20, height: 40, offy:-4}}),
             // -- 02B taken
@@ -965,6 +974,7 @@ class SparkAssets {
             Templates.tile("02T", "rail.b",             {offy: -8}),
             Templates.tile("02U", "rail.tb.l",          {offy: -8}),
             Templates.tile("02V", "rail.tb.r",          {offy: -8}),
+            Templates.tile("02W", "bar.stand.r",        {offx: 16, offy: -12, xcollider: {tag: Collider.sparkthru, width:48}}),
 
 
             Templates.object("o00", "sparkbase", "SparkBase", { 
@@ -1151,6 +1161,7 @@ class SparkAssets {
                 offx: 16, offy: -28,
                 xcollider: { width: 48, offy: 16 }, 
                 approachOffsets: [{x:0, y:16}],
+                sparkable: true,
             }),
 
             Templates.object("o0m", "bar.beer", "Food", {
