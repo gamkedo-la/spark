@@ -20,7 +20,7 @@ class WantStoveScheme extends AiScheme {
         this.effects.push((state) => state.v_wantTag = "Food");
         this.effects.push((state) => state.v_gatherTag = "Food");
         this.effects.push((state) => state.v_wantStove = true);
-        this.effects.push((state) => state.v_findPredicate = ((v) => v.tag == "Stove" && !v.conditions.has(v.occupiedCondition)));
+        this.effects.push((state) => state.v_findPredicate = ((v) => v.cls === "Stove"));
     }
 
     deriveState(env, actor, state) {

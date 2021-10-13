@@ -15,7 +15,7 @@ class FindScheme extends AiScheme {
         this.preconditions.push((state) => state.v_findTag !== state.v_wantTag);
         this.preconditions.push((state) => state.v_moveTag !== state.v_wantTag);
         this.effects.push((state) => state.v_findTag = state.v_wantTag);
-        this.effects.push((state) => state.v_findpredicate = undefined);
+        this.effects.push((state) => state.v_findPredicate = undefined);
     }
 
     deriveState(env, actor, state) {
