@@ -6,6 +6,7 @@ import { AiPlan }           from "../base/ai/aiPlan.js";
 import { AiProcess }        from "../base/ai/aiProcess.js";
 import { Action }           from "../base/action.js";
 import { Direction }        from "../base/dir.js";
+import { Condition }        from "../base/condition.js";
 
 class TakeBeerOrderScheme extends AiScheme {
     constructor(spec={}) {
@@ -16,7 +17,6 @@ class TakeBeerOrderScheme extends AiScheme {
         this.preconditions.push((state) => !state.v_occupyTag);                     // has occupation already been planned
         this.effects.push((state) => state.v_wantTag = "Beer");
         this.effects.push((state) => state.v_gatherTag = "Beer");
-        this.effects.push((state) => state.v_deliverTag = "ServeBeer");
         this.effects.push((state) => state.v_hasOrder = true);
         this.effects.push((state) => state.v_findPredicate = ((v) => v.dispenseTag === "Beer" && v.conditions.has(Condition.sparked)));
     }
@@ -47,9 +47,13 @@ class TakeFoodOrderScheme extends AiScheme {
     constructor(spec={}) {
         super(spec);
         this.goalPredicate = (goal) => goal === AiGoal.work;
-        this.preconditions.push((state) => state.v_moveTag === "FoodOrder");
-        this.preconditions.push((state) => !state.v_occupyTag);                             // has occupation already been planned
-        this.effects.push((state) => state[AiGoal.toString(AiGoal.work)] = true);
+        this.preconditions.push((state) => !state.v_hasOrder);                      // prevent cycles
+        this.preconditions.push((state) => state.v_moveTag === "FoodOrder");        // at food
+        this.preconditions.push((state) => !state.v_occupyTag);                     // has occupation already been planned
+        this.effects.push((state) => state.v_wantTag = "Food");
+        this.effects.push((state) => state.v_gatherTag = "Food");
+        this.effects.push((state) => state.v_hasOrder = true);
+        this.effects.push((state) => state.v_findPredicate = ((v) => v.cls === "Stove"));
     }
     generatePlan(spec={}) {
         return new TakeFoodOrderPlan(spec);

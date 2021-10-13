@@ -47,6 +47,7 @@ class ServeFoodScheme extends AiScheme {
         this.goalPredicate = (goal) => goal === AiGoal.work;
         this.preconditions.push((state) => state.a_carryTag === "Food");
         this.preconditions.push((state) => state.v_moveTag === "ServeFood");
+        this.preconditions.push((state) => !state.v_occupyTag);                     // has occupation already been planned
         this.effects.push((state) => state[AiGoal.toString(AiGoal.work)] = true);
     }
     generatePlan(spec={}) {
