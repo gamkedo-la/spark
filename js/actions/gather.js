@@ -13,10 +13,10 @@ class GatherScheme extends AiScheme {
         this.preconditions.push((state) => !state.v_gathered);
         this.preconditions.push((state) => state.a_carryTag === undefined);
         this.preconditions.push((state) => state.v_gatherTag !== undefined);
-        this.preconditions.push((state) => state.v_moveTag === state.v_wantTag);
+        this.preconditions.push((state) => state.v_moveTag === state.v_gatherTag);
         this.effects.push((state) => state.a_carryTag = state.v_gatherTag);
         this.effects.push((state) => state.v_gathered = true);
-        this.effects.push((state) => state.v_wantTag = undefined);
+        //this.effects.push((state) => state.v_wantTag = undefined);
     }
 
     deriveState(env, actor, state) {

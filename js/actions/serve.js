@@ -16,6 +16,7 @@ class ServeBeerScheme extends AiScheme {
         this.goalPredicate = (goal) => goal === AiGoal.work;
         this.preconditions.push((state) => state.a_carryTag === "Beer");
         this.preconditions.push((state) => state.v_moveTag === "ServeBeer");
+        this.preconditions.push((state) => !state.v_occupyTag);                     // has occupation already been planned
         this.effects.push((state) => state[AiGoal.toString(AiGoal.work)] = true);
     }
     generatePlan(spec={}) {

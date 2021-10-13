@@ -9,13 +9,12 @@ class WantBeerOrderScheme extends AiScheme {
     constructor(spec={}) {
         super(spec);
         this.goalPredicate = (goal) => goal === AiGoal.work;
-        this.preconditions.push((state) => !state.v_wantBeerOrder);             // prevents cycles
-        this.preconditions.push((state) => !state.a_serviceOrderId);
         this.preconditions.push((state) => !state.a_occupyId);                  // not currently occupying
+        this.preconditions.push((state) => !state.v_wantOrder);                 // prevents cycles
         this.preconditions.push((state) => !state.v_wantTag);                   // wanting wasn't planned previous
         this.preconditions.push((state) => !state.v_occupyTag);                 // occupy wasn't planned previous
         this.effects.push((state) => state.v_wantTag = "BeerOrder");
-        this.effects.push((state) => state.v_wantBeerOrder = true);
+        this.effects.push((state) => state.v_wantOrder = true);
         // find meal service where: a) service is occupied and b) beer id is 0
         this.effects.push((state) => state.v_findPredicate = ((v) => v.mealService && v.conditions.has(v.occupiedCondition) && v.beerId === 0));
     }
@@ -79,20 +78,17 @@ class WantServeBeerScheme extends AiScheme {
     constructor(spec={}) {
         super(spec);
         this.goalPredicate = (goal) => goal === AiGoal.work;
-        this.preconditions.push((state) => state.a_carryTag === "Beer");
-        this.preconditions.push((state) => state.a_serviceOrderId);
-        this.preconditions.push((state) => !state.v_wantServeBeer);             // prevents cycles
+        this.preconditions.push((state) => state.a_carryTag === "Beer");        // carrying beer?
+        this.preconditions.push((state) => !state.v_wantServe);                 // prevents cycles
         this.preconditions.push((state) => !state.v_occupyTag);                 // occupy wasn't planned previous
         this.preconditions.push((state) => !state.a_occupyId);                  // not currently occupying
-        this.preconditions.push((state) => !state.v_wantTag);                   // wanting wasn't planned previous
         this.effects.push((state) => state.v_wantTag = "ServeBeer");
-        this.effects.push((state) => state.v_wantServeBeer = true);
-        this.effects.push((state) => state.v_findPredicate = ((v) => v.gid === state.a_serviceOrderId) );
+        this.effects.push((state) => state.v_findTag = "ServeBeer");
+        this.effects.push((state) => state.v_wantServe= true);
     }
 
     deriveState(env, actor, state) {
         if (!state.hasOwnProperty("a_occupyId")) state.a_occupyId = actor.occupyId;
-        if (!state.hasOwnProperty("a_serviceOrderId")) state.a_serviceOrderId = actor.serviceOrderId;
     }
 
     generatePlan(spec={}) {
@@ -105,6 +101,7 @@ class WantServeBeerPlan extends AiPlan {
 
     finalize() {
         return {
+            effects: [ (state) => state.v_patron = state.v_target ],
             utility: 1,
             cost: 1,
         }
@@ -211,6 +208,7 @@ class WantServeFoodPlan extends AiPlan {
 
     finalize() {
         return {
+            effects: [ (state) => state.v_patron = state.v_target ],
             utility: 1,
             cost: 1,
         }

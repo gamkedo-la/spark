@@ -43,11 +43,14 @@ let aiPlanSystemSuite = describe("AI Plan System", () => {
             xplans: [["WantStockPlan", "FindPlan", "MovePlan", "OccupyPlan", "RestockAtStockPlan" ]]},
             */
 
+        {desc: "innkeeper temp test", env: {}, actor: Object.assign({}, actor, {}), goal: AiGoal.work, 
+            xschemes: ["WantBeerOrderScheme", "FindScheme", "MoveScheme", "GatherScheme", "TakeBeerOrderScheme", "WantServeBeerScheme", "ServeBeerScheme"],
+            xplans: [['WantBeerOrderPlan', 'FindPlan', 'MovePlan', 'TakeBeerOrderPlan', 'FindPlan', 'MovePlan', 'GatherPlan', 'WantServeBeerPlan', 'MovePlan', 'ServeBeerPlan' ]]},
         {desc: "innkeeper work test", env: {}, actor: Object.assign({}, actor, {}), goal: AiGoal.work, 
             xschemes: SparkAssets.innkeeperSchemes,
             xplans: [
                 [ "WantBeerClearPlan", "FindPlan", "MovePlan", "ClearBeerPlan" ],
-                [ "WantBeerOrderPlan", "FindPlan", "MovePlan", "TakeBeerOrderPlan" ],
+                [ 'WantBeerOrderPlan', 'FindPlan', 'MovePlan', 'TakeBeerOrderPlan', 'FindPlan', 'MovePlan', 'GatherPlan', 'WantServeBeerPlan', 'MovePlan', 'ServeBeerPlan' ],
                 [ 'WantDirtyPlan', 'FindPlan', 'MovePlan', 'SweepAtDirtyPlan' ],
                 [ 'WantFoodClearPlan', 'FindPlan', 'MovePlan', 'ClearFoodPlan' ],
                 [ 'WantFoodOrderPlan', 'FindPlan', 'MovePlan', 'TakeFoodOrderPlan' ],

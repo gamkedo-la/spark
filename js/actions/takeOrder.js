@@ -11,9 +11,14 @@ class TakeBeerOrderScheme extends AiScheme {
     constructor(spec={}) {
         super(spec);
         this.goalPredicate = (goal) => goal === AiGoal.work;
-        this.preconditions.push((state) => state.v_moveTag === "BeerOrder");
-        this.preconditions.push((state) => !state.v_occupyTag);                             // has occupation already been planned
-        this.effects.push((state) => state[AiGoal.toString(AiGoal.work)] = true);
+        this.preconditions.push((state) => !state.v_hasOrder);                      // prevent cycles
+        this.preconditions.push((state) => state.v_moveTag === "BeerOrder");        // at beer
+        this.preconditions.push((state) => !state.v_occupyTag);                     // has occupation already been planned
+        this.effects.push((state) => state.v_wantTag = "Beer");
+        this.effects.push((state) => state.v_gatherTag = "Beer");
+        this.effects.push((state) => state.v_deliverTag = "ServeBeer");
+        this.effects.push((state) => state.v_hasOrder = true);
+        this.effects.push((state) => state.v_findPredicate = ((v) => v.dispenseTag === "Beer" && v.conditions.has(Condition.sparked)));
     }
     generatePlan(spec={}) {
         return new TakeBeerOrderPlan(spec);
@@ -23,7 +28,9 @@ class TakeBeerOrderScheme extends AiScheme {
 class TakeBeerOrderPlan extends AiPlan {
     finalize() {
         // handle success
+        let effects = [ (state) => state.v_patron = state.v_target ];
         return {
+            effects: effects,
             utility: 1,
             cost: 1,
             processes: [
@@ -52,7 +59,9 @@ class TakeFoodOrderScheme extends AiScheme {
 class TakeFoodOrderPlan extends AiPlan {
     finalize() {
         // handle success
+        let effects = [ (state) => state.v_patron = state.v_target ];
         return {
+            effects: effects,
             utility: 1,
             cost: 1,
             processes: [
@@ -64,6 +73,7 @@ class TakeFoodOrderPlan extends AiPlan {
         }
     }
 }
+
 
 class TakeOrderProcess extends AiProcess {
     constructor(spec={}) {

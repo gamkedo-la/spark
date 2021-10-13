@@ -70,3 +70,79 @@ EatAtSeat (eat)
     - v_occupyTag == seat
     => a_conditions.add(Condition.eating)
     => eat = true
+
+==================
+
+WantBeerOrder (work)
+    - !a_occupyId
+    - !v_wantOrder
+    - !v_wantTag
+    - !v_occupyTag
+    => v_wantTag = "BeerOrder");
+    => v_wantOrder = true);
+    => v_find_predicate
+
+Find (any)
+    - v_wantTag
+    - v_findTag != v_wantTag
+    - v_moveTag != v_wantTag
+    => v_findTag = v_wantTag
+    ** v_target = <Gizmo>
+
+Move (any)
+    - v_findTag
+    - v_moveTag != v_findTag
+    => v_moveTag = v_findTag
+    ** a_pos = <Vect>
+
+TakeBeerOrder (work)
+    - !v_hasOrder
+    - a_moveTag == BeerOrder
+    - !v_occupyTag
+    => v_wantTag = Keg
+    => v_gatherTag = Beer
+    => v_hasOrder = true
+    => v_find_predicate
+    ** v_patron = v_target
+
+Find (any)
+    - v_findTag != v_wantTag
+    - v_moveTag != v_wantTag
+    => v_findTag = v_wantTag
+    ** v_target = <Gizmo>
+
+Move (any)
+    - v_findTag
+    - v_moveTag != v_findTag
+    => v_moveTag = v_findTag
+    ** a_pos = <Vect>
+
+Gather (any)
+    - !v_gathered
+    - !a_carryTag
+    - v_gatherTag
+    - v_moveTag == v_gatherTag
+    => a_carryTag = v_gatherTag
+    => v_gathered = true
+    => v_wantTag = undefined
+
+WantServeBeer (work)
+    - a_carryTag == Beer
+    - !v_wantServe
+    - !v_occupyTag
+    - !a_occupyId
+    - !v_wantTag
+    => v_findTag = ServeBeer
+    => v_wantServe
+    ** v_target = v_patron
+
+Move (any)
+    - v_findTag
+    - v_moveTag != v_findTag
+    => v_moveTag = v_findTag
+    ** a_pos = <Vect>
+
+ServeBeer (work)
+    - a_carryTag == beer
+    - a_moveTag == ServeBeer
+    => work = true
