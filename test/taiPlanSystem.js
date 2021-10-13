@@ -45,8 +45,14 @@ let aiPlanSystemSuite = describe("AI Plan System", () => {
 
         {desc: "innkeeper work test", env: {}, actor: Object.assign({}, actor, {}), goal: AiGoal.work, 
             xschemes: SparkAssets.innkeeperSchemes,
-            xplans: [["WantStockPlan", "FindPlan", "MovePlan", "OccupyPlan", "RestockAtStockPlan" ]]},
-
+            xplans: [
+                [ "WantBeerClearPlan", "FindPlan", "MovePlan", "ClearBeerPlan" ],
+                [ "WantBeerOrderPlan", "FindPlan", "MovePlan", "TakeBeerOrderPlan" ],
+                [ 'WantDirtyPlan', 'FindPlan', 'MovePlan', 'SweepAtDirtyPlan' ],
+                [ 'WantFoodClearPlan', 'FindPlan', 'MovePlan', 'ClearFoodPlan' ],
+                [ 'WantFoodOrderPlan', 'FindPlan', 'MovePlan', 'TakeFoodOrderPlan' ],
+                [ 'WantWorkstationPlan', 'FindPlan', 'MovePlan', 'OccupyPlan', 'OpenAtStationPlan' ],
+            ]},
 
     ]
     for (const test of buildPlansTests) {
@@ -54,9 +60,9 @@ let aiPlanSystemSuite = describe("AI Plan System", () => {
             const schemes = test.xschemes.map((v) => Generator.generate({cls: v}));
             const solutions = AiPlanSystem.buildPlans(test.env, test.actor, schemes, test.goal)
             const plans = solutions.map((solution) => solution.plans.map((plan) => plan.constructor.name));
-            for (const plan of plans) {
-                console.log(`plan is: ${plan}`);
-            }
+            //for (const plan of plans) {
+                //console.log(`plan is: ${plan}`);
+            //}
             expect(plans).toEqual(test.xplans);
         })
     }
