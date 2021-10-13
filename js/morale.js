@@ -13,4 +13,10 @@ class Morale {
         this.events = [];
     }
 
+    reset() {
+        if (this.value !== Morale.max) {
+            this.value = this.start;
+        }
+    }
+
 }

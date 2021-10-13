@@ -220,7 +220,7 @@ class Base {
         this.systemMgr.adopt(new ActionSystem({ dbg: Config.dbg.ActionSystem, ignorePause: true, fixedPredicate: ((e) => (e.cat === "State")) }));
         this.systemMgr.adopt(new AreaSystem({ dbg: Config.dbg.AreaSystem }));
         this.systemMgr.adopt(new PathfindingSystem({ getgrid: (() => this.grid), dbg: Config.dbg.PathfindingSystem, }));
-        this.systemMgr.adopt(new DaytimeSystem({ getTimeScale: () => 60, dbg: Config.dbg.DaytimeSystem, }));
+        this.systemMgr.adopt(new DaytimeSystem({ getTimeScale: () => 30, dbg: Config.dbg.DaytimeSystem, }));
         this.systemMgr.adopt(new ActivityScheduleSystem({ dbg: Config.dbg.ActivityScheduleSystem }));
         this.systemMgr.adopt(new StateSystem({ dbg: Config.dbg.StateSystem }));
         this.systemMgr.adopt(new EQuerySystem({ eQueryQ: Atts.eQueryQ, dbg: Config.dbg.EQuerySystem, }));
