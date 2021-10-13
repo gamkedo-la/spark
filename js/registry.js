@@ -92,6 +92,11 @@ class SparkRegistry {
         ModelState.register("eating_north");
         ModelState.register("eating_west");
         ModelState.register("eating_east");
+        ModelState.register("drinking");
+        ModelState.register("drinking_south");
+        ModelState.register("drinking_north");
+        ModelState.register("drinking_west");
+        ModelState.register("drinking_east");
         ModelState.register("enlightenedWalk");
         ModelState.register("spin");
         // -- register activities
@@ -105,7 +110,9 @@ class SparkRegistry {
         Condition.register("waiting");
         Condition.register("cast");
         Condition.register("hungry");
+        Condition.register("thirsty");
         Condition.register("eating");
+        Condition.register("drinking");
         Condition.register("seated");
         Condition.register("dirty");
         Condition.register("restock");

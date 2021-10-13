@@ -35,6 +35,8 @@ class Character extends Model {
         // -- hunger variables
         this.maxFedTTL = spec.maxFedTTL;        // max time from eating until character is "hungry"
         this.fedTTL = 0;                        // current timer since last meal
+        this.maxQuenchTTL = spec.maxQuenchTTL;        // max time from eating until character is "hungry"
+        this.quenchTTL = 0;                        // current timer since last meal
         //console.log(`spec: ${Fmt.ofmt(spec)} gives: ${Fmt.ofmt(this)}}`);
         // -- carrying
         this.carryTag = undefined;

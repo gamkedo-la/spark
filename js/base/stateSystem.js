@@ -24,6 +24,8 @@ class StateSystem extends System {
                 wantState = ModelState.sleep;
             } else if (e.conditions.has(Condition.eating)) {
                 wantState = ModelState.eating;
+            } else if (e.conditions.has(Condition.drinking)) {
+                wantState = ModelState.drinking;
             } else if (e.conditions.has(Condition.seated)) {
                 wantState = ModelState.seated;
             } else if (e.conditions.has(Condition.occupied)) {

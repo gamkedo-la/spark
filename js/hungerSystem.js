@@ -28,6 +28,21 @@ class HungerSystem extends System {
                 e.conditions.delete(Condition.hungry);
             }
         }
+
+        // update current quench timer (if non-zero)
+        if (e.quenchTTL > 0) e.quenchTTL -= ctx.deltaTime;
+        if (e.quenchTTL <= 0) {
+            if (!e.conditions.has(Condition.thirsty)) {
+                if (this.dbg) console.log(`${e} has become thirsty`);
+                e.conditions.add(Condition.thirsty);
+            }
+        } else {
+            if (e.conditions.has(Condition.thirsty)) {
+                if (this.dbg) console.log(`${e} is no longer thirsty`);
+                e.conditions.delete(Condition.thirsty);
+            }
+        }
+
     }
 
 }
