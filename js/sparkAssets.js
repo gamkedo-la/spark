@@ -224,7 +224,19 @@ class SparkAssets {
                 Templates.xsprite("inn.lvl1.stairs", 23, 0, {height: 16*5, width: 16*5} ),
                 Templates.xsprite("inn.lvl1.stairs.rail", 23, 5, {height: 16*3, width: 16*3} ),
                 Templates.xsprite("inn.lvl1.door.b.open", 28, 0, {height: 16*5, width: 16*2} ),
+                Templates.xsprite("inn.wall.rune.idle", 24, 11, {height: 16*3, width: 16*2} ),
+                Templates.xsprite("inn.wall.rune.powered", 26, 11, {height: 16*3, width: 16*2} ),
+                Templates.xsprite("inn.wall.rune.sparked", 28, 11, {height: 16*3, width: 16*2} ),
             ]},
+
+            { tag: "inn.wall.rune", 
+                cls: "Animator", 
+                animations: { 
+                    [ModelState.idle]: { cls: "Media", tag: "inn.wall.rune.idle" }, 
+                    [ModelState.sparked]: { cls: "Media", tag: "inn.wall.rune.sparked" }, 
+                    [ModelState.powered]: { cls: "Media", tag: "inn.wall.rune.powered" }, 
+                },
+            },
 
             { src: "img/icons.png", loader: "Sheet", refs: [
                 Templates.xanim("downArrow", 0, 0, {duration: [500, 500/7], loop: false}),
@@ -1265,6 +1277,11 @@ class SparkAssets {
                 offy: -16, 
                 spinme: true,
                 xcollider: {width:10, height:20, offy: 10}, 
+            }),
+
+            Templates.object("o0t", "inn.wall.rune", "SparkBase", { 
+                powered: false,
+                offx: 8, offy: -16, 
             }),
 
             // ------------------------------------------------------------------------------

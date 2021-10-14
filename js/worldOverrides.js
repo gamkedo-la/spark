@@ -151,6 +151,15 @@ class WorldOverrides {
                     ownerTag: "Ciara",
                 },
             },
+            {
+                predicate: (v) => v.x === this.wpos(WorldGen.inn.offx + 13) && 
+                                v.y === this.wpos(WorldGen.inn.offy + 9) &&
+                                v.tag === "inn.wall.rune",
+                spec: {
+                    ownerTag: "Ciara",
+                    powered: false,
+                },
+            },
 
         ];
     }

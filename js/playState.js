@@ -170,15 +170,11 @@ class PlayState extends State {
         this.menuButton = this.findFirst(v=>v.tag === "menu");
         this.vendor = this.findFirst(v=>v.tag === "aodhan");
         this.innkeeper = this.findFirst(v=>v.tag === "ciara");
-        //console.log(`menuButton: ${this.menuButton}`);
         this.menuButton.evtClicked.listen(this.onMenu);
         this.moraleButton = this.findFirst(v=>v.tag === "morale");
-        //console.log(`moraleButton: ${this.moraleButton}`);
         this.moraleButton.evtClicked.listen(this.onMorale);
         this.zPanel = this.findFirst(v=>v.tag === "zPanel");
         this.coordsText = this.findFirst(v=>v.tag === "coords");
-        //console.log(`zPanel: ${this.zPanel}`);
-        //console.log(`PlayState player is ${this.player}`);
         // hook camera
         if (this.player) this.camera.trackTarget(this.player);
         this.camera.trackWorld(this.model);
@@ -205,6 +201,7 @@ class PlayState extends State {
         // find game objects...
         this.vendorSparkbase = this.findFirst(v=>v.tag === "vhouse.rune" && v.ownerTag === "Aodhan");
         this.vendorSparkbase2 = this.findFirst(v=>v.tag === "floorRelay" && v.ownerTag === "Aodhan");
+        this.innkeeperSparkbase = this.findFirst(v=>v.tag === "inn.wall.rune" && v.ownerTag === "Ciara");
 
         // debug mode
         this.clickMode = "path";
@@ -586,6 +583,14 @@ class PlayState extends State {
                         this.actions.push(new WaitAction());
                         this.actions.push(new PanToAction({target: this.player}));
                         this.actions.push(new ResumeAction());
+                    } else if (evt.actor.tag === "ciara") {
+                        this.actions.push(new PauseAction());
+                        this.actions.push(new ResumeAction());
+                        this.actions.push(new PanToAction({target: this.innkeeperSparkbase}));
+                        this.actions.push(new PlaySoundAction({sfx: this.pillarActivateSfx}));
+                        this.actions.push(new PowerUpAction({target: this.innkeeperSparkbase}));
+                        this.actions.push(new PanToAction({target: this.player}));
+                        this.actions.push(new WaitAction());
                     }
                     break;
                 case "npc.moraleUp":
