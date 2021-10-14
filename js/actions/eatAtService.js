@@ -1,4 +1,4 @@
-export { WaitAtServiceScheme, EatAtServiceScheme, DrinkAtServiceScheme };
+export { WaitAtServiceScheme, EatAtServiceScheme, DrinkAtServiceScheme, ComplimentAtServiceScheme };
 
 import { AiScheme }         from "../base/ai/aiScheme.js";
 import { AiGoal }           from "../base/ai/aiGoal.js";
@@ -6,6 +6,8 @@ import { AiPlan }           from "../base/ai/aiPlan.js";
 import { AiProcess }        from "../base/ai/aiProcess.js";
 import { Action }           from "../base/action.js";
 import { Condition } from "../base/condition.js";
+import { ChatSystem } from "../chatSystem.js";
+import { ComplimentAction } from "./compliment.js";
 
 class WaitAtServiceScheme extends AiScheme {
     constructor(spec={}) {
@@ -66,6 +68,22 @@ class DrinkAtServiceScheme extends AiScheme {
     }
 }
 
+class ComplimentAtServiceScheme extends AiScheme {
+    constructor(spec={}) {
+        super(spec);
+        this.goalPredicate = (goal) => goal === AiGoal.socialize;
+        this.preconditions.push((state) => state.a_occupyCls === "MealService");
+        this.effects.push((state) => state[AiGoal.toString(AiGoal.socialize)] = true);
+    }
+    deriveState(env, actor, state) {
+        if (!state.hasOwnProperty("a_occupyCls")) state.a_occupyCls = actor.occupyCls;
+        if (!state.hasOwnProperty("a_conditions")) state.a_conditions = new Set(actor.conditions);
+    }
+    generatePlan(spec={}) {
+        return new ComplimentAtServicePlan(spec);
+    }
+}
+
 class EatAtServicePlan extends AiPlan {
     prepare(actor, state) {
         super.prepare(actor, state);
@@ -111,6 +129,42 @@ class DrinkAtServicePlan extends AiPlan {
             cost: 1,
             processes: [
                 new DrinkProcess({target: this.state.v_target}),
+            ]
+        }
+    }
+}
+
+class ComplimentAtServicePlan extends AiPlan {
+    prepare(actor, state) {
+        super.prepare(actor, state);
+        // lookup what actor is occupying
+        let service = this.entities.get(actor.occupyId);
+        // lookup innkeeper
+        this.innkeeper = this.entities.findFirst((e) => e.tag === "ciara");
+        if (!this.innkeeper) {
+            console.log(`cant find inkeeper`);
+            return false;
+        }
+        // check if occupy location has been served food and beer...
+        if (service) console.log(`service beerId is: ${service.beerId} foodId is: ${service.foodId}`);
+        if (!service || !service.beerId || !service.foodId) {
+            console.log("ComplimentAtServicePlan: missing food or beer");
+            return false;
+        }
+        // check for chat timers
+        if (!ChatSystem.checkChat(actor, this.innkeeper, "chat.compliment")) {
+            console.log("compliment timer hit");
+            return false;
+        }
+        return true;
+    }
+    finalize() {
+        // handle success
+        return {
+            utility: 1,
+            cost: 1,
+            processes: [
+                new ComplimentProcess({innkeeper: this.innkeeper, msg: "yay! beer!"}),
             ]
         }
     }
@@ -207,5 +261,27 @@ class DrinkAction extends Action {
             if (this.actor.maxFedTTL) this.actor.quenchTTL = this.actor.maxQuenchTTL;
         }
         return this.done;
+    }
+}
+
+class ComplimentProcess extends AiProcess {
+    constructor(spec={}) {
+        super(spec);
+        this.innkeeper = spec.innkeeper;
+        this.msg = spec.msg;
+    }
+    prepare(actor) {
+        this.actions = [
+            new ComplimentAction({target: this.innkeeper, msg: this.msg}),
+        ];
+        // set actor's action queue to be the individual actions
+        actor.actions = this.actions.slice(0);
+        return true;
+    }
+    update(ctx) {
+        if (this.actions.length === 0) return true;
+        // wait for actions to be completed
+        let lastAction = this.actions[this.actions.length-1];
+        return lastAction.done;
     }
 }

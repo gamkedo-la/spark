@@ -51,7 +51,7 @@ import { ClearBeerScheme, ClearFoodScheme, ServeBeerScheme, ServeFoodScheme } fr
 import { WantPrepBeerServiceScheme, WantPrepFoodServiceScheme } from "./actions/wantPrep.js";
 import { Food } from "./food.js";
 import { WantServiceScheme } from "./actions/wantService.js";
-import { EatAtServiceScheme, WaitAtServiceScheme } from "./actions/eatAtService.js";
+import { ComplimentAtServiceScheme, EatAtServiceScheme, WaitAtServiceScheme } from "./actions/eatAtService.js";
 import { UxNpcInfo } from "./uxNpcInfo.js";
 import { CharacterView, ModelView } from "./modelView.js";
 
@@ -155,6 +155,7 @@ class SparkRegistry {
         registry.add(ClearBeerScheme);
         registry.add(ClearFoodScheme);
         registry.add(CloseAtStationScheme);
+        registry.add(ComplimentAtServiceScheme);
         registry.add(EatAtChairScheme);
         registry.add(EatAtServiceScheme);
         registry.add(FindScheme);

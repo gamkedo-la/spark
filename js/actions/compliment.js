@@ -2,19 +2,21 @@ export { ComplimentAction };
 
 import { Action } from "../base/action.js";
 import { Atts } from "../base/atts.js";
+import { Base } from "../base/base.js";
 import { Event } from "../base/event.js";
+import { Hierarchy } from "../base/hierarchy.js";
 
 class ComplimentAction extends Action {
     constructor(spec={}) {
         super(spec);
         this.target = spec.target;
         this.msg = spec.msg;
-        this.eventQ = spec.eventQ || Atts.gameEventQ;
+        this.chatSys = spec.chatSys || Hierarchy.find(Base.instance.systemMgr, (o => o.cls === "ChatSystem"));
     }
     start(actor) {
-        //console.log(`eat action actor: ${actor} target: ${this.target}}`);
+        console.log(`compliment action actor: ${actor} target: ${this.target}}`);
         this.actor = actor;
-        this.eventQ.push(new Event("npc.chat", {actor: actor, target: this.target, msg: this.msg, kind: "chat.compliment"}));
+        this.chatSys.doChat(actor, this.target, this.msg, "chat.compliment");
     }
     update(ctx) {
         this.done = true;

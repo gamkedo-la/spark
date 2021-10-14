@@ -46,6 +46,7 @@ class SparkAssets {
 
     static vendorSchemes = [
         "CloseAtStationScheme",
+        "ComplimentAtServiceScheme",
         "EatAtChairScheme",
         "EatAtServiceScheme",
         "FindScheme",
@@ -1328,9 +1329,10 @@ class SparkAssets {
                 },
                 xmorale: {
                     cls: "Morale",
-                    likes: { "spark": 2 },
+                    likes: { 
+                        "spark": 2, 
+                    },
                     dislikes: { 
-                        "chat.neutral": 1,
                         "chat.insult": 2,
                      },
                 },
@@ -1371,10 +1373,13 @@ class SparkAssets {
                 },
                 xmorale: {
                     cls: "Morale",
-                    likes: { "spark": 2 },
+                    likes: { 
+                        // FIXME: chat value should decrease here
+                        "chat.compliment": 5,
+                    },
                     dislikes: { 
+                        "spark": 2, 
                         "chat.insult": 2,
-                        "chat.neutral": 1,
                     },
                 },
                 xdialogs: [

@@ -46,7 +46,9 @@ class Character extends Model {
         this.chatable = spec.hasOwnProperty("chatable") ? spec.chatable : false;
         if (this.chatable) {
             this.chatPct = spec.chatPct || .5;
-            this.chatTimers = {};
+            this.chatComplimentTimers = {};
+            this.chatNeutralTimers = {};
+            this.chatInsultTimers = {};
         }
         // -- assigned dialogs
         this.xdialogs = spec.xdialogs || [];

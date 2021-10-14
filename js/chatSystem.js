@@ -34,6 +34,22 @@ class ChatSystem extends System {
         "Spark you well.",
     ];
 
+    static checkChat(speaker, target, kind) {
+        if (speaker.chatTTL) return false;
+        switch (kind) {
+            case "chat.compliment":
+                if (speaker.chatComplimentTimers && speaker.chatComplimentTimers[target.gid]) return false;
+                break;
+            case "chat.neutral":
+                if (speaker.chatNeutralTimers && speaker.chatNeutralTimers[target.gid]) return false;
+                break;
+            case "chat.insult":
+                if (speaker.chatInsultTimers && speaker.chatInsultTimers[target.gid]) return false;
+                break;
+        }
+        return true;
+    }
+
     cpre(spec) {
         spec.iterateTTL = spec.iterateTTL || 500;
         spec.fixedPredicate = spec.fixedPredicate || ((e) => e.cat === "Model" && e.chatable);
@@ -95,6 +111,9 @@ class ChatSystem extends System {
                 msg = Util.choose(ChatSystem.dfltCompliments);
                 break;
         }
+        if (!ChatSystem.checkChat(speaker, target, kind)) return;
+        this.doChat(speaker, target, msg, kind);
+        /*
         // push target morale event...
         if (target.morale) {
             target.morale.events.push(kind);
@@ -109,6 +128,35 @@ class ChatSystem extends System {
         // manage target chat state
         target.chatTTL = Util.jitter(this.chatTTL, this.chatJitter);
         target.chatTimers[speaker.gid] = sameTTL;
+        */
+    }
+
+    doChat(speaker, target, msg, kind) {
+        if (target.morale) {
+            target.morale.events.push(kind);
+        }
+        // now pick a chat based on kind of chat
+        // drive game event
+        this.eventQ.push(new Event("npc.chat", {actor: speaker, target: target, msg: msg, kind: kind}));
+        // manage speaker chat state
+        speaker.chatTTL = Util.jitter(this.chatTTL, this.chatJitter);
+        let sameTTL = Util.jitter(this.targetChatTTL, this.chatJitter);
+        switch (kind) {
+            case "chat.compliment":
+                console.log(`${speaker} setting compliment timer for target: ${target}`);
+                speaker.chatComplimentTimers[target.gid] = sameTTL;
+                break;
+            case "chat.neutral":
+                console.log(`${speaker} setting neutral timer for target: ${target}`);
+                speaker.chatNeutralTimers[target.gid] = sameTTL;
+                break;
+            case "chat.insult":
+                console.log(`${speaker} setting insult timer for target: ${target}`);
+                speaker.chatInsultTimers[target.gid] = sameTTL;
+                break;
+        }
+        // manage target chat state
+        target.chatTTL = Util.jitter(this.chatTTL, this.chatJitter);
     }
 
     // METHODS -------------------------------------------------------------
@@ -119,17 +167,18 @@ class ChatSystem extends System {
         }
 
         // update chatter-specific timers
-        if (e.chatTimers) {
-            for (let [k,v] of Object.entries(e.chatTimers)) {
-                v -= this.deltaTime;
-                if (v <= 0) {
-                    if (this.dbg) console.log(`${e} removing chat timer for gid:${k}`);
-                    delete e.chatTimers[k];
-                } else {
-                    e.chatTimers[k] = v;
+        for (const timers of ["chatComplimentTimers", "chatNeutralTimers", "chatInsultTimers"])
+            if (e[timers]) {
+                for (let [k,v] of Object.entries(e[timers])) {
+                    v -= this.deltaTime;
+                    if (v <= 0) {
+                        if (this.dbg) console.log(`${e} removing chat timer for gid:${k}`);
+                        delete e[timers][k];
+                    } else {
+                        e[timers][k] = v;
+                    }
                 }
             }
-        }
 
         // check for general chat timer
         if (e.chatTTL) {
@@ -156,8 +205,6 @@ class ChatSystem extends System {
                 // FIXME: check for chatter within same area...
                 // skip other if they are out of range
                 if (Vect.dist(e, other) > this.chatRange) continue;
-                // check chatter-specific timers
-                if (e.chatTimers && e.chatTimers[other.gid]) continue;
                 // chat is viable with other...
                 if (Math.random() > e.chatPct) {
                     // only one chat at a time...
