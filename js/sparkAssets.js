@@ -818,8 +818,16 @@ class SparkAssets {
                     'idle_west:walk_west':   { cls: "Media", tag: "fairy.takeoff_west" },
             }},
 
-        ];
+            { src: "img/z-action-icons.png", loader: "Sheet", refs: [
+                {tag: "z_action.none", cls: "Sprite", width: 64, height: 64, x: 0, y: 0*64 },
+                {tag: "z_action.leave", cls: "Sprite", width: 64, height: 64, x: 0, y: 1*64 },
+                {tag: "z_action.occupy", cls: "Sprite", width: 64, height: 64, x: 0, y: 2*64 },
+                {tag: "z_action.spark", cls: "Sprite", width: 64, height: 64, x: 0, y: 3*64 },
+                {tag: "z_action.open", cls: "Sprite", width: 64, height: 64, x: 0, y: 4*64 },
+                {tag: "z_action.talk", cls: "Sprite", width: 64, height: 64, x: 0, y: 5*64 },
+            ]},
 
+        ];
         this.assets = [
             // NOTE: do not assign objects to "000": reserved for empty index
             Templates.tile("001", "brickFloor.l"),
