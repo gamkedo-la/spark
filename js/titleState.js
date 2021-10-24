@@ -20,7 +20,7 @@ class TitleState extends State {
             tag: "cvs.0",
             xchildren: [
                 Templates.titleText(null, "Spark", { xxform: { left: .3, right: .3, top: .3, bottom: .55}}),
-                Templates.titleText(null, "-- Press Any Key --", { xxform: { left: .3, right: .3, top: .515, bottom: .45}}),
+                Templates.titleText(null, "-- Click or Press Any Key --", { xxform: { left: .3, right: .3, top: .515, bottom: .45}}),
                 Templates.titleText(null, "A HomeTeam GameDev Creation", { xxform: { left: .3, right: .3, top: .8, bottom: .175}}),
             ],
         };

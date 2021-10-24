@@ -700,6 +700,7 @@ class SparkAssets {
                 Templates.anim("gnome.eating_north", {frames: 9, offx:32*13, width: 32, height:64, duration: 70}),
                 Templates.anim("gnome.eating_west", {frames: 9, offx:32*14, width: 32, height:64, duration: 70}),
                 Templates.anim("gnome.eating_east", {frames: 9, offx:32*15, width: 32, height:64, duration: 70}),
+                Templates.anim("gnome.sweeping_south", {frames: 4, offx:32*16, width: 32, height:64, duration: 70}),
             ]},
 
             { tag: "gnome",               cls: "Animator", animations: {
@@ -721,6 +722,7 @@ class SparkAssets {
                     [ModelState.eating_north]: { cls: "Media", tag: "gnome.eating_north" },
                     [ModelState.eating_west]:  { cls: "Media", tag: "gnome.eating_west" },
                     [ModelState.eating_east]:  { cls: "Media", tag: "gnome.eating_east" },
+                    [ModelState.sweeping_south]: { cls: "Media", tag: "gnome.sweeping_south" },
             }},
 
             { src: "img/innkeeper.png", loader: "Sheet", refs: [
