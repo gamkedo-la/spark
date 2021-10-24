@@ -826,6 +826,10 @@ class SparkAssets {
                 {tag: "z_action.open", cls: "Sprite", width: 64, height: 64, x: 0, y: 4*64 },
                 {tag: "z_action.talk", cls: "Sprite", width: 64, height: 64, x: 0, y: 5*64 },
             ]},
+            { src: "img/topright-ui-icons.png", loader: "Sheet", refs: [
+                {tag: "topright_icons.morale", cls: "Sprite", width: 64, height: 64, x: 0, y: 0*64 },
+                {tag: "topright_icons.options", cls: "Sprite", width: 64, height: 64, x: 0, y: 1*64 },
+            ]},
 
         ];
         this.assets = [
