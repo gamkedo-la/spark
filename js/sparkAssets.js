@@ -238,6 +238,24 @@ class SparkAssets {
                 },
             },
 
+            { src: "img/inn_lvl2.png", loader: "Sheet", refs: [
+                Templates.xsprite("inn.lvl2.1", 1, 1, {width: 16*7, height: 16*14}),
+                Templates.xsprite("inn.lvl2.2", 8, 1, {width: 16*2, height: 16*12}),
+                Templates.xsprite("inn.lvl2.door.close", 8, 13, {width: 16*2, height: 16*2}),
+                Templates.xsprite("inn.lvl2.3", 10, 1, {width: 16*4, height: 16*14}),
+                Templates.xsprite("inn.lvl2.4", 14, 1, {width: 16*10, height: 16*21}),
+                Templates.xsprite("inn.lvl2.door.open", 24, 1, {width: 16*2, height: 16*2}),
+            ]},
+
+            { tag: "inn.lvl2.door", 
+                cls: "Animator", 
+                animations: { 
+                    [ModelState.idle]: { cls: "Media", tag: "inn.lvl2.door.close" }, 
+                    [ModelState.close]: { cls: "Media", tag: "inn.lvl2.door.close" }, 
+                    [ModelState.open]: { cls: "Media", tag: "inn.lvl2.door.open" }, 
+                },
+            },
+
             { src: "img/icons.png", loader: "Sheet", refs: [
                 Templates.xanim("downArrow", 0, 0, {duration: [500, 500/7], loop: false}),
                 Templates.xanim("upArrow", 1, 0, {duration: [500, 500/7], loop: false}),
@@ -1061,6 +1079,17 @@ class SparkAssets {
             Templates.tile("02U", "rail.tb.l",          {offy: -8}),
             Templates.tile("02V", "rail.tb.r",          {offy: -8}),
             Templates.tile("02W", "bar.stand.r",        {offx: 16, offy: -12, xcollider: {tag: Collider.sparkthru, width:48}}),
+
+            //Templates.tile("02X", "woodDoor.top", { offx: 24, offy: -8, linkDstTag: "woodDoor"}),
+
+            Templates.tile("02X", "inn.lvl2.1",         {offx: 48, offy: -104 }), //1, 1, {width: 16*7, height: 16*14}),
+            Templates.tile("02Y", "inn.lvl2.2",         {offx: 8, offy: -88 }), //8, 1, {width: 16*2, height: 16*12}),
+            Templates.tile("02Z", "inn.lvl2.door",      {offx: 8, offy: -8, linkDstTag: "inn.lvl1.door" }), //8, 13, {width: 16*2, height: 16*2}),
+            Templates.tile("030", "inn.lvl2.3",         {offx: 24, offy: -104 }), //10, 1, {width: 16*4, height: 16*14}),
+            Templates.tile("031", "inn.lvl2.4",         {offx: 72, offy: -160 }), //14, 1, {width: 16*10, height: 16*21}),
+
+
+            // ------------------------------------------------------------------------------
 
 
             Templates.object("o00", "sparkbase", "SparkBase", { 
