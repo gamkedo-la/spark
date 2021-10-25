@@ -792,7 +792,7 @@ class SparkAssets {
                 {tag: "fairy.portrait", cls: "Sprite", width: 30, height: 30, x: 9, y: 0 },
                 Templates.xsprite("fairy.static_south", 0, 0, {width: 48, height: 32}),
                 //Templates.anim("fairy.right", {offx:48*3+5, offy: 0, width: 28, height:32, duration: 200, frames: 4}),
-                {tag: "fairy.right", cls: "Sprite", width: 28, height: 32, x: 48*3+9, y: 0 },
+                {tag: "fairy.right", cls: "Sprite", width: 28, height: 32, x: 48*3+8, y: 0 },
                 {tag: "fairy.left", cls: "Sprite", width: 28, height: 32, x: 48*2+12, y: 0 },
                 Templates.anim("fairy.idle_south", {offx:0, offy: 0, width: 48, height:32, duration: 200, frames: 4}),
                 Templates.anim("fairy.idle_north", {offx:48*1, offy: 0, width: 48, height:32, duration: 200, frames: 4}),
