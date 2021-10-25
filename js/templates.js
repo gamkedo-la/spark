@@ -162,9 +162,9 @@ class Templates {
                     cls: "UxButton",
                     tag: tag,
                     xtext: { text: " " },
-                    xpressed: { cls: 'Rect', color: new Color(50,50,50,1), borderWidth: 5, borderColor: new Color(0,0,0,1) },
-                    xunpressed: { cls: 'Rect', color: new Color(50,50,50,.5), borderWidth: 5, borderColor: new Color(0,0,0,1) },
-                    xhighlight: { cls: 'Rect', color: new Color(50,50,50,.75), borderWidth: 5, borderColor: new Color(0,0,0,1) },
+                    xpressed: { cls: 'Rect', color: new Color(50,50,50,1), borderWidth: 5, borderColor: new Color(0,0,0,0) },
+                    xunpressed: { cls: 'Rect', color: new Color(50,50,50,.5), borderWidth: 5, borderColor: new Color(0,0,0,0) },
+                    xhighlight: { cls: 'Rect', color: new Color(50,50,50,.75), borderWidth: 5, borderColor: new Color(0,0,0,0) },
                 },
                 {
                     cls: "UxPanel",

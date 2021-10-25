@@ -66,12 +66,12 @@ class PlayState extends State {
     ]
 
     static actionSketches = {
-        "none":         {cls: "Text", text: "X", xfitter: { cls: "FitToParent"}, color: new Color(225,0,0,.75)},
-        "leave":        {cls: "Text", text: "^", xfitter: { cls: "FitToParent"}, color: new Color(225,0,0,.75)},
-        "occupy":       {cls: "Text", text: "V", xfitter: { cls: "FitToParent"}, color: new Color(225,0,0,.75)},
-        "spark":        {cls: "Text", text: "#", xfitter: { cls: "FitToParent"}, color: new Color(225,0,0,.75)},
-        "open":         {cls: "Text", text: "o", xfitter: { cls: "FitToParent"}, color: new Color(225,0,0,.75)},
-        "talk":         {cls: "Text", text: "t", xfitter: { cls: "FitToParent"}, color: new Color(225,0,0,.75)},
+        "none":         {cls: "Media", tag: "z_action.none", xfitter: { cls: "FitToParent"}, color: new Color(225,0,0,.75)},
+        "leave":        {cls: "Media", tag: "z_action.leave", xfitter: { cls: "FitToParent"}, color: new Color(225,0,0,.75)},
+        "occupy":       {cls: "Media", tag: "z_action.occupy", xfitter: { cls: "FitToParent"}, color: new Color(225,0,0,.75)},
+        "spark":        {cls: "Media", tag: "z_action.spark", xfitter: { cls: "FitToParent"}, color: new Color(225,0,0,.75)},
+        "open":         {cls: "Media", tag: "z_action.open", xfitter: { cls: "FitToParent"}, color: new Color(225,0,0,.75)},
+        "talk":         {cls: "Media", tag: "z_action.talk", xfitter: { cls: "FitToParent"}, color: new Color(225,0,0,.75)},
     };
 
     cpre(spec) {
@@ -109,8 +109,8 @@ class PlayState extends State {
                             xtext: {},
                             xsketch: { cls: 'Rect', color: new Color(50,50,50,1), borderWidth: 5, borderColor: new Color(0,0,0,1) },
                         },
-                        Templates.playIconButton("menu", { cls: "Text", text: "*" }, { xxform: {oright: 40, otop: 40, left: .91, bottom: .885}}),
-                        Templates.playIconButton("morale", { cls: "Text", text: "8>" }, { xxform: {otop: 40, right: .09, left: .86, bottom: .885}}),
+                        Templates.playIconButton("menu", { cls: "Media", tag: "topright_icons.options" }, { xxform: {oright: 40, otop: 40, left: .91, bottom: .885}}),
+                        Templates.playIconButton("morale", { cls: "Media", tag: "topright_icons.morale" }, { xxform: {otop: 40, right: .09, left: .86, bottom: .885}}),
 
                     ],
                 },
