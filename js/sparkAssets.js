@@ -1452,7 +1452,7 @@ class SparkAssets {
 
         this.assets = this.assets.concat(Templates.overlayTiles("X1", "oceanDeep"));
         this.assets = this.assets.concat(Templates.overlayTiles("X2", "grass"));
-        this.assets = this.assets.concat(Templates.overlayTiles("X3", "ocean"));
+        this.assets = this.assets.concat(Templates.overlayTiles("X3", "ocean", Templates.overlayColliders()));
         this.assets = this.assets.concat(Templates.overlayTiles("X4", "oceanMid"));
         this.assets = this.assets.concat(Templates.wallTiles("X5", "stuccoWalls1", Templates.wallColliders()));
         this.assets = this.assets.concat(Templates.wallTiles("X6", "stuccoWalls2"));

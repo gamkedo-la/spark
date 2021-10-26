@@ -570,15 +570,41 @@ class Templates {
         return xmedia;
     }
 
-    static overlayTiles(baseId, baseTag) {
+    static overlayTiles(baseId, baseTag, xcolliders={}) {
         let xtiles = [];
         for (const c of "abcdefghijklmno") {
             let id = `${baseId}${c}`;
             let tag = `${baseTag}.${c}`;
-            xtiles.push(Templates.tile(id, tag))
+            let spec = {};
+            let xcollider = xcolliders[c];
+            if (xcollider) {
+                spec.xcollider = xcollider;
+            }
+            xtiles.push(Templates.tile(id, tag, spec))
         }
         return xtiles;
     };
+
+    static overlayColliders(width=16) {
+        let qtr = width/4;
+        let half = width/2;
+        return {
+            a: { width: width, height: width, offx: 0, offy: 0 },
+            b: { width: width, height: width, offx: 0, offy: 0 },
+            c: { width: half, height: half, offx: qtr, offy: qtr },
+            d: { width: width, height: half, offx: 0, offy: qtr },
+            e: { width: half, height: half, offx: -qtr, offy: qtr },
+            f: { width: half, height: width, offx: qtr, offy: 0 },
+            g: { width: half, height: width, offx: -qtr, offy: 0 },
+            h: { width: width, height: width, offx: 0, offy: 0 },
+            i: { width: width, height: width, offx: 0, offy: 0 },
+            j: { width: width, height: width, offx: 0, offy: 0 },
+            k: { width: half, height: half, offx: qtr, offy: -qtr },
+            l: { width: width, height: half, offx: 0, offy: -qtr },
+            m: { width: width, height: width, offx: 0, offy: 0 },
+            n: { width: width, height: width, offx: 0, offy: 0 },
+        }
+    }
 
     static wallColliders(width=8, offset=0) {
         return {
