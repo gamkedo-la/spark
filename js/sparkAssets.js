@@ -108,6 +108,10 @@ class SparkAssets {
                 Templates.xsprite("road.r", 5, 0),
                 Templates.xsprite("brickFloor.l", 4, 1),
                 Templates.xsprite("brickFloor.r", 5, 1),
+                Templates.xvarsprite("dirt", [[0,3], [1,3]], ),
+                Templates.xvarsprite("gardenRow", [[0,4], [1,4], [2,4], [3,4]], ),
+                Templates.xsprite("gardenRow.r", 4, 4),
+                Templates.xsprite("gardenRow.l", 5, 4),
             ]},
             { src: "img/vendorHouse.png", loader: "Sheet", refs: [
                 Templates.xvarsprite("greenWoodFloor", [[0,0], [1,0], [2,0], [3,0]], ),
@@ -1093,6 +1097,10 @@ class SparkAssets {
 
             Templates.tile("032", "rail.t.r",           {offy: -8}),
             Templates.tile("033", "rail.b.l",           {offy: -8, xcollider: {tag: Collider.sparkthru, width: 8, height: 32, offx: 4}}),
+            Templates.tile("034", "dirt"),
+            Templates.tile("035", "gardenRow"),
+            Templates.tile("036", "gardenRow.r"),
+            Templates.tile("037", "gardenRow.l"),
 
             // ------------------------------------------------------------------------------
 
