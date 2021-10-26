@@ -476,6 +476,10 @@ class SparkAssets {
                 Templates.xsprite("rail.b.l",           9, 26, { width: 16*1, height: 16*2 }),
                 Templates.xsprite("rail.tb.l",          10, 26, { width: 16*1, height: 16*2 }),
                 Templates.xsprite("rail.tb.r",          11, 26, { width: 16*1, height: 16*2 }),
+                Templates.xsprite("scarecrow",          0, 27, { width: 16*3, height: 16*3 }),
+                Templates.xsprite("plant.cabbage",      3, 28, { width: 16*2, height: 16*2 }),
+                Templates.xsprite("plant.potato",       5, 28, { width: 16*2, height: 16*2 }),
+                Templates.xsprite("plant.carrot",       7, 28, { width: 16*2, height: 16*2 }),
             ]},
 
             { src: "img/tower.png", loader: "Sheet", refs: [
@@ -1101,6 +1105,10 @@ class SparkAssets {
             Templates.tile("035", "gardenRow"),
             Templates.tile("036", "gardenRow.r"),
             Templates.tile("037", "gardenRow.l"),
+            Templates.tile("038", "scarecrow",          {offx: 16, offy: -16, xcollider: {width: 16, height: 16, offy: 16}}),
+            Templates.tile("039", "plant.cabbage",      {offx: 8, offy: -8}),
+            Templates.tile("03a", "plant.potato",       {offx: 8, offy: -8}),
+            Templates.tile("03b", "plant.carrot",       {offx: 8, offy: -8}),
 
             // ------------------------------------------------------------------------------
 
