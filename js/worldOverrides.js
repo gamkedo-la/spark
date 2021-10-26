@@ -161,6 +161,90 @@ class WorldOverrides {
                 },
             },
 
+            // ocean collider overrides
+            {
+                predicate: (v) => v.x === this.wpos(WorldGen.lvl12.offx + 14) && v.y === this.wpos(WorldGen.lvl12.offy + 9) && v.tag.startsWith("ocean"),
+                spec: { xcollider: null },
+            },
+            {
+                predicate: (v) => v.x === this.wpos(WorldGen.lvl12.offx + 15) && v.y === this.wpos(WorldGen.lvl12.offy + 9) && v.tag.startsWith("ocean"),
+                spec: { xcollider: null },
+            },
+            {
+                predicate: (v) => v.x === this.wpos(WorldGen.lvl12.offx + 15) && v.y === this.wpos(WorldGen.lvl12.offy + 10) && v.tag.startsWith("ocean"),
+                spec: { xcollider: null },
+            },
+
+            {
+                predicate: (v) => v.x === this.wpos(WorldGen.lvl22.offx + 0) && v.y === this.wpos(WorldGen.lvl22.offy + 10) && v.tag.startsWith("ocean"),
+                spec: { xcollider: null },
+            },
+            {
+                predicate: (v) => v.x === this.wpos(WorldGen.lvl22.offx + 1) && v.y === this.wpos(WorldGen.lvl22.offy + 10) && v.tag.startsWith("ocean"),
+                spec: { xcollider: null },
+            },
+            {
+                predicate: (v) => v.x === this.wpos(WorldGen.lvl22.offx + 2) && v.y === this.wpos(WorldGen.lvl22.offy + 10) && v.tag.startsWith("ocean"),
+                spec: { xcollider: null },
+            },
+            {
+                predicate: (v) => v.x === this.wpos(WorldGen.lvl22.offx + 3) && v.y === this.wpos(WorldGen.lvl22.offy + 10) && v.tag.startsWith("ocean"),
+                spec: { xcollider: null },
+            },
+            {
+                predicate: (v) => v.x === this.wpos(WorldGen.lvl22.offx + 3) && v.y === this.wpos(WorldGen.lvl22.offy + 11) && v.tag.startsWith("ocean"),
+                spec: { xcollider: null },
+            },
+            {
+                predicate: (v) => v.x === this.wpos(WorldGen.lvl22.offx + 4) && v.y === this.wpos(WorldGen.lvl22.offy + 11) && v.tag.startsWith("ocean"),
+                spec: { xcollider: null },
+            },
+            {
+                predicate: (v) => v.x === this.wpos(WorldGen.lvl22.offx + 5) && v.y === this.wpos(WorldGen.lvl22.offy + 11) && v.tag.startsWith("ocean"),
+                spec: { xcollider: null },
+            },
+            {
+                predicate: (v) => v.x === this.wpos(WorldGen.lvl22.offx + 5) && v.y === this.wpos(WorldGen.lvl22.offy + 12) && v.tag.startsWith("ocean"),
+                spec: { xcollider: null },
+            },
+            {
+                predicate: (v) => v.x === this.wpos(WorldGen.lvl22.offx + 6) && v.y === this.wpos(WorldGen.lvl22.offy + 12) && v.tag.startsWith("ocean"),
+                spec: { xcollider: null },
+            },
+            {
+                predicate: (v) => v.x === this.wpos(WorldGen.lvl22.offx + 6) && v.y === this.wpos(WorldGen.lvl22.offy + 13) && v.tag.startsWith("ocean"),
+                spec: { xcollider: null },
+            },
+            {
+                predicate: (v) => v.x === this.wpos(WorldGen.lvl22.offx + 7) && v.y === this.wpos(WorldGen.lvl22.offy + 13) && v.tag.startsWith("ocean"),
+                spec: { xcollider: null },
+            },
+            {
+                predicate: (v) => v.x === this.wpos(WorldGen.lvl22.offx + 7) && v.y === this.wpos(WorldGen.lvl22.offy + 14) && v.tag.startsWith("ocean"),
+                spec: { xcollider: null },
+            },
+            {
+                predicate: (v) => v.x === this.wpos(WorldGen.lvl22.offx + 7) && v.y === this.wpos(WorldGen.lvl22.offy + 15) && v.tag.startsWith("ocean"),
+                spec: { xcollider: null },
+            },
+
+            {
+                predicate: (v) => v.x === this.wpos(WorldGen.lvl23.offx + 7) && v.y === this.wpos(WorldGen.lvl23.offy + 0) && v.tag.startsWith("ocean"),
+                spec: { xcollider: null },
+            },
+            {
+                predicate: (v) => v.x === this.wpos(WorldGen.lvl23.offx + 8) && v.y === this.wpos(WorldGen.lvl23.offy + 0) && v.tag.startsWith("ocean"),
+                spec: { xcollider: null },
+            },
+            {
+                predicate: (v) => v.x === this.wpos(WorldGen.lvl23.offx + 8) && v.y === this.wpos(WorldGen.lvl23.offy + 1) && v.tag.startsWith("ocean"),
+                spec: { xcollider: null },
+            },
+            {
+                predicate: (v) => v.x === this.wpos(WorldGen.lvl23.offx + 8) && v.y === this.wpos(WorldGen.lvl23.offy + 2) && v.tag.startsWith("ocean"),
+                spec: { xcollider: null },
+            },
+
         ];
     }
 
