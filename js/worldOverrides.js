@@ -1,5 +1,6 @@
 export { WorldOverrides };
 
+import { Collider } from "./base/collider.js";
 import { Config }               from "./base/config.js";
 import { Direction } from "./base/dir.js";
 import { WorkTimer }            from "./dirtySystem.js";
@@ -243,6 +244,12 @@ class WorldOverrides {
             {
                 predicate: (v) => v.x === this.wpos(WorldGen.lvl23.offx + 8) && v.y === this.wpos(WorldGen.lvl23.offy + 2) && v.tag.startsWith("ocean"),
                 spec: { xcollider: null },
+            },
+
+            // pier collider overrides
+            {
+                predicate: (v) => v.x === this.wpos(WorldGen.pier.offx + 1) && v.y === this.wpos(WorldGen.pier.offy + 10) && v.tag.startsWith("lamppost"),
+                spec: { xcollider: {tag: Collider.sparkthru, width: 8, height: 32, offx: -4}},
             },
 
         ];
