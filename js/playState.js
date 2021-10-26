@@ -100,7 +100,7 @@ class PlayState extends State {
                 {
                     cls: "UxPanel",
                     tag: "mainPanel",
-                    xsketch: media.get("btnGoldTranS1"),
+                    xsketch: media.get("buttonBlackBg"),
                     xchildren: [
                         {
                             cls: "UxPanel",
