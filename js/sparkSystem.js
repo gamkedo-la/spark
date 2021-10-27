@@ -6,6 +6,8 @@ import { Store }            from "./base/store.js";
 import { Fmt }              from "./base/fmt.js";
 import { Base } from "./base/base.js";
 import { Condition } from "./base/condition.js";
+import { Direction } from "./base/dir.js";
+import { Generator } from "./base/generator.js";
 
 class SparkSystem extends System {
     // CONSTRUCTOR ---------------------------------------------------------
@@ -18,6 +20,7 @@ class SparkSystem extends System {
         super.cpost(spec);
         this.sparkSources = spec.sparkSources || new Store();
         this.getentities = spec.getentities || (() => Base.instance.entities);
+        this.assets = spec.assets || Base.instance.assets;
     }
 
     // PROPERTIES ----------------------------------------------------------
@@ -63,6 +66,8 @@ class SparkSystem extends System {
             for (const id of (e.collisionIds || [])) {
                 let obj = this.entities.get(id);
                 if (!obj) continue;
+                // -- caster
+                if (obj.gid === e.ignoreId) continue;
                 // -- relay
                 if (obj.relay) {
                     // relays can't power themselves...
@@ -79,6 +84,29 @@ class SparkSystem extends System {
                         obj.srcid = e.srcid;
                     }
                     hitRelay = true;
+                // -- bouncer
+                } else if (obj.bouncer) {
+                    // determine if spark has hit backside or frontside of bouncer
+                    if (Direction.opposite(Direction.fromHeading(e.heading)) & Direction.composites[obj.facing]) {
+                        let newDir = Direction.composites[obj.facing] & ~Direction.opposite(Direction.fromHeading(e.heading));
+                        // spawn spark projectile at bouncer
+                        let xspark = Object.assign(
+                            this.assets.fromTag("spark"),
+                            {
+                                heading: Direction.asHeading(newDir),
+                                x: e.collision.midx,
+                                y: e.collision.midy,
+                                depth: e.depth,
+                                layer: e.layer,
+                                srcid: e.srcid,
+                            }
+                        );
+                        let spark = Generator.generate(xspark);
+                        spark.ignoreId = obj.gid;
+                        hitRelay = true;
+                    } else {
+                        console.log(`hit backside`);
+                    }
                 // -- sparkable
                 } else if (obj.sparkable) {
                     obj.conditions.add(Condition.sparked);

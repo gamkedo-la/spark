@@ -8,6 +8,8 @@ class Bouncer extends Model {
         super(spec);
         // -- interactable
         this.interactTag = "open";
+        // -- mark as a bouncer
+        this.bouncer = true;
         // -- direction handling
         this.facing = spec.facing || Direction.northEast;
         this.clockwise = spec.hasOwnProperty("clockwise") ? spec.clockwise : true;

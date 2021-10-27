@@ -46,6 +46,8 @@ class CollisionSystem extends System {
                         // store actor activation state
                         if (actorWantsActivation) actorActivation = Bounds.newOrExtend(actorActivation, overlap);
                     }
+                    // check if other is ignored
+                    if (other.gid === e.ignoreId) continue;
                     // check overlap w/ any colliders
                     if (other.collider.tag & e.collider.blocking) {
                         overlap = xbounds.overlaps(other.collider);
