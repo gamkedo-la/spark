@@ -1128,10 +1128,10 @@ class SparkAssets {
             Templates.tile("039", "plant.cabbage",      {offx: 8, offy: -8}),
             Templates.tile("03a", "plant.potato",       {offx: 8, offy: -8}),
             Templates.tile("03b", "plant.carrot",       {offx: 8, offy: -8}),
-            Templates.tile("03c", "stoneWall.1",        {offx: 16, offy: -8}), //2, 8, { width: 16*3, height: 16*2 }),
-            Templates.tile("03d", "stoneWall.2",        {offx: 8, offy: -16}), //13, 7, { width: 16*2, height: 16*3 }),
-            Templates.tile("03e", "stoneWall.3",        {offx: 16, offy: -8}), //11, 10, { width: 16*3, height: 16*2 }),
-            Templates.tile("03f", "well",               {offx: 24, offy: -24}), //12, 12, { width: 16*4, height: 16*4 }),
+            Templates.tile("03c", "stoneWall.1",        {offx: 16, offy: -8, xcollider: {width: 44, height: 20, offy: 4}}),
+            Templates.tile("03d", "stoneWall.2",        {offx: 8, offy: -16, xcollider: {width: 28, height: 36, offy: 4}}),
+            Templates.tile("03e", "stoneWall.3",        {offx: 16, offy: -8, xcollider: {width: 44, height: 20, offy: 4}}),
+            Templates.tile("03f", "well",               {offx: 24, offy: -24, xcollider: {width: 24, height: 24, offy: 16}}), //12, 12, { width: 16*4, height: 16*4 }),
 
             // ------------------------------------------------------------------------------
 
