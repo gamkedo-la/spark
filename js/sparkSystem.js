@@ -87,6 +87,7 @@ class SparkSystem extends System {
                 // -- bouncer
                 } else if (obj.bouncer) {
                     // determine if spark has hit backside or frontside of bouncer
+                    //console.log(`heading: ${e.heading} from: ${Direction.opposite(Direction.fromHeading(e.heading))} facing: ${obj.facing} composites: ${Direction.composites[obj.facing]}`);
                     if (Direction.opposite(Direction.fromHeading(e.heading)) & Direction.composites[obj.facing]) {
                         let newDir = Direction.composites[obj.facing] & ~Direction.opposite(Direction.fromHeading(e.heading));
                         // spawn spark projectile at bouncer
@@ -101,6 +102,7 @@ class SparkSystem extends System {
                                 srcid: e.srcid,
                             }
                         );
+                        //console.log(`newDir: ${newDir} xspark: ${Fmt.ofmt(xspark)}`);
                         let spark = Generator.generate(xspark);
                         spark.ignoreId = obj.gid;
                         hitRelay = true;
@@ -115,7 +117,7 @@ class SparkSystem extends System {
                         obj.morale.events.push("spark");
                     }
                 }
-                console.log(`spark collided w: ${id}:${obj}`);
+                console.log(`spark ${e} collided w: ${id}:${obj}`);
             }
             // if we did not hit a relay, spark chain is broken
             if (!hitRelay) this.breakSparkChain(e);
