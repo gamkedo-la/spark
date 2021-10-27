@@ -133,7 +133,9 @@ class ModelView extends UxPanel {
         Stats.count("modelView.iupdate");
         // update context w/ current model state
         ctx = Object.assign({ state: this.model.state }, ctx);
-        if (this.model.hasOwnProperty("heading")) {
+        if (this.model.hasOwnProperty("facing")) {
+            ctx.facing = this.model.facing;
+        } else if (this.model.hasOwnProperty("heading")) {
             ctx.facing = Direction.fromHeading(this.model.heading);
         }
         this.updated = super.iupdate(ctx);

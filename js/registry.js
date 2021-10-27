@@ -54,6 +54,7 @@ import { WantServiceScheme } from "./actions/wantService.js";
 import { ComplimentAtServiceScheme, EatAtServiceScheme, WaitAtServiceScheme } from "./actions/eatAtService.js";
 import { UxNpcInfo } from "./uxNpcInfo.js";
 import { CharacterView, ModelView } from "./modelView.js";
+import { Bouncer } from "./bouncer.js";
 
 class SparkRegistry {
     static init() {
@@ -66,6 +67,10 @@ class SparkRegistry {
         AiGoal.register("loiter");
         AiGoal.register("socialize");
         // -- register model states
+        ModelState.register("idle_northEast");
+        ModelState.register("idle_northWest");
+        ModelState.register("idle_southEast");
+        ModelState.register("idle_southWest");
         ModelState.register("powered");
         ModelState.register("sparked");
         ModelState.register("sparked_south");
@@ -152,6 +157,7 @@ class SparkRegistry {
         registry.add(Ramp);
         registry.add(MealService);
         registry.add(Food);
+        registry.add(Bouncer);
         // -- register schemes
         registry.add(ClearBeerScheme);
         registry.add(ClearFoodScheme);

@@ -484,11 +484,22 @@ class SparkAssets {
                 Templates.xsprite("stoneWall.2",        13, 7, { width: 16*2, height: 16*3 }),
                 Templates.xsprite("stoneWall.3",        11, 10, { width: 16*3, height: 16*2 }),
                 Templates.xsprite("well",               12, 12, { width: 16*4, height: 16*4 }),
-                Templates.xsprite("bounce.tl",          12, 26, { width: 16*2, height: 16*3 }),
-                Templates.xsprite("bounce.tr",          14, 26, { width: 16*2, height: 16*3 }),
-                Templates.xsprite("bounce.bl",          12, 29, { width: 16*2, height: 16*3 }),
-                Templates.xsprite("bounce.br",          14, 29, { width: 16*2, height: 16*3 }),
+                Templates.xsprite("bouncer.se",          12, 26, { width: 16*2, height: 16*3 }),
+                Templates.xsprite("bouncer.sw",          14, 26, { width: 16*2, height: 16*3 }),
+                Templates.xsprite("bouncer.ne",          12, 29, { width: 16*2, height: 16*3 }),
+                Templates.xsprite("bouncer.nw",          14, 29, { width: 16*2, height: 16*3 }),
             ]},
+
+            { tag: "bouncer", 
+                cls: "Animator", 
+                animations: { 
+                    [ModelState.idle]: { cls: "Media", tag: "bouncer.ne" }, 
+                    [ModelState.idle_northEast]: { cls: "Media", tag: "bouncer.ne" }, 
+                    [ModelState.idle_northWest]: { cls: "Media", tag: "bouncer.nw" }, 
+                    [ModelState.idle_southEast]: { cls: "Media", tag: "bouncer.se" }, 
+                    [ModelState.idle_southWest]: { cls: "Media", tag: "bouncer.sw" }, 
+                },
+            },
 
             { src: "img/tower.png", loader: "Sheet", refs: [
                 Templates.xsprite("tower.stub",             2, 6, {width: 16*8, height: 16*9}),
@@ -1121,10 +1132,6 @@ class SparkAssets {
             Templates.tile("03d", "stoneWall.2",        {offx: 8, offy: -16}), //13, 7, { width: 16*2, height: 16*3 }),
             Templates.tile("03e", "stoneWall.3",        {offx: 16, offy: -8}), //11, 10, { width: 16*3, height: 16*2 }),
             Templates.tile("03f", "well",               {offx: 24, offy: -24}), //12, 12, { width: 16*4, height: 16*4 }),
-            Templates.tile("03g", "bounce.tl",          {offx: 8, offy: -16}), //12, 26, { width: 16*2, height: 16*3 }),
-            Templates.tile("03h", "bounce.tr",          {offx: 8, offy: -16}), //14, 26, { width: 16*2, height: 16*3 }),
-            Templates.tile("03i", "bounce.bl",          {offx: 8, offy: -16}), //12, 29, { width: 16*2, height: 16*3 }),
-            Templates.tile("03j", "bounce.br",          {offx: 8, offy: -16}), //14, 29, { width: 16*2, height: 16*3 }),
 
             // ------------------------------------------------------------------------------
 
@@ -1364,7 +1371,12 @@ class SparkAssets {
                 offx: 8, offy: -16, 
             }),
 
-            // ------------------------------------------------------------------------------
+            Templates.object("o0u", "bouncer", "Bouncer", { 
+                offx: 8, offy: -16, 
+                xcollider: {width:20, height: 20, offy: 8},
+            }),
+
+            // @@@ ------------------------------------------------------------------------------
 
             { tag: "spark", cls: "SparkProjectile", 
                 xcollider: { tag: Collider.projectile, blocking: Collider.object|Collider.npc, width:8, height:8, color: "rgba(0,0,127,.5)" },

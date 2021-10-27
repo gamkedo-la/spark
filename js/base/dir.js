@@ -61,6 +61,19 @@ class Direction {
         return this.strMap[dir] || "invalid";
     }
 
+    // kinds should be cardinals, diagonals, or all
+    static nextInRotation(kinds, current, clockwise=true) {
+        let idx = kinds.indexOf(current);
+        if (idx === -1) return current;
+        if (clockwise) {
+            idx = (idx+1)%kinds.length;
+            return kinds[idx];
+        } else {
+            idx = (kinds.length + idx - 1) % kinds.length;
+            return kinds[idx];
+        }
+    }
+
     static fromHeading(heading) {
         if (heading >= -Math.PI*.70 && heading < -Math.PI*.3) {
             return this.north;
