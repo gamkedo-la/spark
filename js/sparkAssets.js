@@ -483,12 +483,21 @@ class SparkAssets {
                 Templates.xsprite("stoneWall.1",        2, 8, { width: 16*3, height: 16*2 }),
                 Templates.xsprite("stoneWall.2",        13, 7, { width: 16*2, height: 16*3 }),
                 Templates.xsprite("stoneWall.3",        11, 10, { width: 16*3, height: 16*2 }),
-                Templates.xsprite("well",               12, 12, { width: 16*4, height: 16*4 }),
-                Templates.xsprite("bouncer.se",          12, 26, { width: 16*2, height: 16*3 }),
-                Templates.xsprite("bouncer.sw",          14, 26, { width: 16*2, height: 16*3 }),
-                Templates.xsprite("bouncer.ne",          12, 29, { width: 16*2, height: 16*3 }),
-                Templates.xsprite("bouncer.nw",          14, 29, { width: 16*2, height: 16*3 }),
+                Templates.xsprite("well.idle",          12, 12, { width: 16*4, height: 16*4 }),
+                Templates.xsprite("well.sparked",       16, 12, { width: 16*4, height: 16*4 }),
+                Templates.xsprite("bouncer.se",         12, 26, { width: 16*2, height: 16*3 }),
+                Templates.xsprite("bouncer.sw",         14, 26, { width: 16*2, height: 16*3 }),
+                Templates.xsprite("bouncer.ne",         12, 29, { width: 16*2, height: 16*3 }),
+                Templates.xsprite("bouncer.nw",         14, 29, { width: 16*2, height: 16*3 }),
             ]},
+
+            { tag: "well", 
+                cls: "Animator", 
+                animations: { 
+                    [ModelState.idle]: { cls: "Media", tag: "well.idle" }, 
+                    [ModelState.sparked]: { cls: "Media", tag: "well.sparked" }, 
+                },
+            },
 
             { tag: "bouncer", 
                 cls: "Animator", 
@@ -543,7 +552,19 @@ class SparkAssets {
                 Templates.xsprite("vendorBench",        30, 0, {width: 16*2, height: 16*3}),
                 Templates.xsprite("appleBlueberryBench", 32, 0, {width: 16, height: 16*4}),
                 Templates.xsprite("postFishline",       33, 0, {width: 16*5, height: 16*4}),
+                Templates.xsprite("lamppost.relay.idle", 8, 6, {width: 32, height: 64}),
+                Templates.xsprite("lamppost.relay.powered", 10, 6, {width: 32, height: 64}),
+                Templates.xsprite("lamppost.relay.sparked", 12, 6, {width: 32, height: 64}),
             ]},
+
+            { tag: "lamppost.relay", 
+                cls: "Animator", 
+                animations: { 
+                    [ModelState.idle]: { cls: "Media", tag: "lamppost.relay.idle" }, 
+                    [ModelState.powered]: { cls: "Media", tag: "lamppost.relay.powered" }, 
+                    [ModelState.sparked]: { cls: "Media", tag: "lamppost.relay.sparked" }, 
+                },
+            },
 
             { src: "img/stuccoWalls1.png", loader: "Sheet", refs: [
                 {tag: "woodDoor.close", cls: "Sprite", width: 16*4, height: 16*5, x: 16*11, y: 16*0 },
@@ -1131,7 +1152,7 @@ class SparkAssets {
             Templates.tile("03c", "stoneWall.1",        {offx: 16, offy: -8, xcollider: {width: 44, height: 20, offy: 4}}),
             Templates.tile("03d", "stoneWall.2",        {offx: 8, offy: -16, xcollider: {width: 28, height: 36, offy: 4}}),
             Templates.tile("03e", "stoneWall.3",        {offx: 16, offy: -8, xcollider: {width: 44, height: 20, offy: 4}}),
-            Templates.tile("03f", "well",               {offx: 24, offy: -24, xcollider: {width: 24, height: 24, offy: 16}}), //12, 12, { width: 16*4, height: 16*4 }),
+            Templates.tile("03f", "well",               {offx: 24, offy: -24, xcollider: {width: 24, height: 24, offy: 16}, sparkable: true}),
 
             // ------------------------------------------------------------------------------
 
@@ -1255,6 +1276,7 @@ class SparkAssets {
             Templates.object("o0f", "floorRelay", "SparkBase", { 
                 offx: 8, 
                 offy: -8, 
+                range: 16*8.5,
                 powered: false,
             }),
 
@@ -1374,6 +1396,12 @@ class SparkAssets {
             Templates.object("o0u", "bouncer", "Bouncer", { 
                 offx: 8, offy: -16, 
                 xcollider: {width:20, height: 20, offy: 8},
+            }),
+
+            Templates.object("o0v", "lamppost.relay", "SparkRelay", { 
+                offx: -8, offy: -24, 
+                range: 4.2*16,
+                xcollider: { width: 10, height: 10, offy: 24, offx: 8},
             }),
 
             // @@@ ------------------------------------------------------------------------------

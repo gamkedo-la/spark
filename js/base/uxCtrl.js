@@ -29,7 +29,6 @@ class UxCtrl extends Gizmo {
 
     // METHODS -------------------------------------------------------------
     destroy() {
-        console.log("destroy ctrl");
         if (this.view) this.view.destroy();
         super.destroy();
     }
