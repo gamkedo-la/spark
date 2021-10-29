@@ -114,14 +114,15 @@ class PlayState extends State {
 
                     ],
                 },
-                Templates.panel("dbgPanel", {xxform: { left: .8, right: .025, top: .125, bottom: .6 }, xchildren: [
-                    Templates.dbgText("coords", "x,y",                  { xxform: { top: 0/7, bottom: 1-1/7 }}),
-                    Templates.dbgText(null, "1 - hide debug",       { xxform: { top: 1/7, bottom: 1-2/7 }}),
-                    Templates.dbgText(null, "2 - show colliders",   { xxform: { top: 2/7, bottom: 1-3/7 }}),
-                    Templates.dbgText(null, "3 - show areas",       { xxform: { top: 3/7, bottom: 1-4/7 }}),
-                    Templates.dbgText(null, "4 - show grid",        { xxform: { top: 4/7, bottom: 1-5/7 }}),
-                    Templates.dbgText(null, "5 - hide night",       { xxform: { top: 5/7, bottom: 1-6/7 }}),
-                    Templates.dbgText(null, "6 - hide gloom",       { xxform: { top: 6/7, bottom: 1-7/7 }}),
+                Templates.panel("dbgPanel", {xxform: { left: .8, right: .025, top: .125, bottom: .5 }, xchildren: [
+                    Templates.dbgText("coords", "x,y",              { xxform: { top: 0/8, bottom: 1-1/8 }}),
+                    Templates.dbgText(null, "1 - hide debug",       { xxform: { top: 1/8, bottom: 1-2/8 }}),
+                    Templates.dbgText(null, "2 - show colliders",   { xxform: { top: 2/8, bottom: 1-3/8 }}),
+                    Templates.dbgText(null, "3 - show areas",       { xxform: { top: 3/8, bottom: 1-4/8 }}),
+                    Templates.dbgText(null, "4 - show grid",        { xxform: { top: 4/8, bottom: 1-5/8 }}),
+                    Templates.dbgText(null, "5 - hide night",       { xxform: { top: 5/8, bottom: 1-6/8 }}),
+                    Templates.dbgText(null, "6 - hide gloom",       { xxform: { top: 6/8, bottom: 1-7/8 }}),
+                    Templates.dbgText(null, "8 - unlock puzzle",    { xxform: { top: 7/8, bottom: 1-8/8 }}),
                 ]}),
                 Templates.dbgText("pauseText", "paused",       { xxform: { border: .4 }}),
             ],
@@ -258,7 +259,13 @@ class PlayState extends State {
         }
         if (evt.key === "8") {
             //case "npc.moraleUp":
-            this.eventQ.push(new Event("npc.moraleMax", {actor: this.vendor}));
+            if (!this.vendorMoraleMax) {
+                this.eventQ.push(new Event("npc.moraleMax", {actor: this.vendor}));
+                this.vendorMoraleMax = true;
+            } else if (!this.innkeeperMoraleMax) {
+                this.eventQ.push(new Event("npc.moraleMax", {actor: this.innkeeper}));
+                this.innkeeperMoraleMax = true;
+            }
             /*
             let xdialog = SparkDialog.dialogs.test;
             xdialog.actor = this.player;

@@ -1396,6 +1396,7 @@ class SparkAssets {
 
             Templates.object("o0t", "inn.wall.rune", "SparkBase", { 
                 powered: false,
+                range: 16*16,
                 offx: 8, offy: -16, 
             }),
 
