@@ -114,10 +114,9 @@ class DrinkAtServicePlan extends AiPlan {
         super.prepare(actor, state);
         // lookup what actor is occupying
         let oobj = this.entities.get(actor.occupyId);
-        console.log(`============== oobj is: ${oobj}`);
-        if (oobj) console.log(`target beerId is: ${oobj.beerId}`);
+        //if (oobj) console.log(`target beerId is: ${oobj.beerId}`);
         if (!oobj || !oobj.beerId) {
-            console.log("DrinkAtServicePlan: no beer");
+            //console.log("DrinkAtServicePlan: no beer");
             return false;
         }
         return true;
@@ -146,14 +145,14 @@ class ComplimentAtServicePlan extends AiPlan {
             return false;
         }
         // check if occupy location has been served food and beer...
-        if (service) console.log(`service beerId is: ${service.beerId} foodId is: ${service.foodId}`);
+        //if (service) console.log(`service beerId is: ${service.beerId} foodId is: ${service.foodId}`);
         if (!service || !service.beerId || !service.foodId) {
-            console.log("ComplimentAtServicePlan: missing food or beer");
+            //console.log("ComplimentAtServicePlan: missing food or beer");
             return false;
         }
         // check for chat timers
         if (!ChatSystem.checkChat(actor, this.innkeeper, "chat.compliment")) {
-            console.log("compliment timer hit");
+            //console.log("compliment timer hit");
             return false;
         }
         return true;
