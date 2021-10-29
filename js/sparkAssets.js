@@ -489,6 +489,9 @@ class SparkAssets {
                 Templates.xsprite("bouncer.sw",         14, 26, { width: 16*2, height: 16*3 }),
                 Templates.xsprite("bouncer.ne",         12, 29, { width: 16*2, height: 16*3 }),
                 Templates.xsprite("bouncer.nw",         14, 29, { width: 16*2, height: 16*3 }),
+                Templates.xsprite("plant.cabbage.nv",   3, 30, { width: 16*2, height: 16*2 }),
+                Templates.xsprite("plant.potato.nv",    5, 30, { width: 16*2, height: 16*2 }),
+                Templates.xsprite("plant.carrot.nv",    7, 30, { width: 16*2, height: 16*2 }),
             ]},
 
             { tag: "well", 
@@ -1153,6 +1156,9 @@ class SparkAssets {
             Templates.tile("03d", "stoneWall.2",        {offx: 8, offy: -16, xcollider: {width: 28, height: 36, offy: 4}}),
             Templates.tile("03e", "stoneWall.3",        {offx: 16, offy: -8, xcollider: {width: 44, height: 20, offy: 4}}),
             Templates.tile("03f", "well",               {offx: 24, offy: -24, xcollider: {width: 24, height: 24, offy: 16}, sparkable: true}),
+            Templates.tile("03g", "plant.cabbage.nv",      {offx: 8, offy: -8}),
+            Templates.tile("03h", "plant.potato.nv",       {offx: 8, offy: -8}),
+            Templates.tile("03i", "plant.carrot.nv",       {offx: 8, offy: -8}),
 
             // ------------------------------------------------------------------------------
 
