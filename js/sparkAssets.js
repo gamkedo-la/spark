@@ -492,6 +492,8 @@ class SparkAssets {
                 Templates.xsprite("plant.cabbage.nv",   3, 30, { width: 16*2, height: 16*2 }),
                 Templates.xsprite("plant.potato.nv",    5, 30, { width: 16*2, height: 16*2 }),
                 Templates.xsprite("plant.carrot.nv",    7, 30, { width: 16*2, height: 16*2 }),
+                Templates.xsprite("bridge.rail",        14, 18, { width: 16*6, height: 16*3 }),
+                Templates.xsprite("bridge",             15, 21, { width: 16*4, height: 16*3 }),
             ]},
 
             { tag: "well", 
@@ -1200,9 +1202,12 @@ class SparkAssets {
             Templates.tile("03d", "stoneWall.2",        {offx: 8, offy: -16, xcollider: {width: 28, height: 36, offy: 4}}),
             Templates.tile("03e", "stoneWall.3",        {offx: 16, offy: -8, xcollider: {width: 44, height: 20, offy: 4}}),
             Templates.tile("03f", "well",               {offx: 24, offy: -24, xcollider: {width: 24, height: 24, offy: 16}, sparkable: true}),
-            Templates.tile("03g", "plant.cabbage.nv",      {offx: 8, offy: -8}),
-            Templates.tile("03h", "plant.potato.nv",       {offx: 8, offy: -8}),
-            Templates.tile("03i", "plant.carrot.nv",       {offx: 8, offy: -8}),
+            Templates.tile("03g", "plant.cabbage.nv",   {offx: 8, offy: -8}),
+            Templates.tile("03h", "plant.potato.nv",    {offx: 8, offy: -8}),
+            Templates.tile("03i", "plant.carrot.nv",    {offx: 8, offy: -8}),
+            Templates.tile("03j", "bridge.rail",        {offx: 40, offy: -16}),
+            Templates.tile("03k", "bridge",             {offx: 24, offy: -16, xcollider: {width: 32, height: 12, offy: 16}}),
+            Templates.tile("03l", "bridge.rail.upper",  {mediaTag: "bridge.rail", offx: 40, offy: -26}),
 
             // ------------------------------------------------------------------------------
 
