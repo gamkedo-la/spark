@@ -162,6 +162,27 @@ class WorldOverrides {
                 },
             },
 
+            // Finn (gardener) things
+            // -- BED
+            {
+                predicate: (v) => v.x === this.wpos(WorldGen.gardenHouse.offx + 4) && 
+                                v.y === this.wpos(WorldGen.gardenHouse.offy + 4) &&
+                                v.cls === "Bed",
+                spec: {
+                    ownerTag: "Finn",
+                },
+            },
+            // -- STOOL/TABLE
+            {
+                predicate: (v) => v.x === this.wpos(WorldGen.vendorHouse.offx + 2) && 
+                                v.y === this.wpos(WorldGen.vendorHouse.offy + 3) &&
+                                v.tag === "stool",
+                spec: {
+                    ownerTag: "Finn",
+                    occupiedDir: Direction.east, 
+                },
+            },
+
             // ocean collider overrides
             {
                 predicate: (v) => v.x === this.wpos(WorldGen.lvl12.offx + 14) && v.y === this.wpos(WorldGen.lvl12.offy + 9) && v.tag.startsWith("ocean"),
