@@ -482,7 +482,7 @@ class SparkAssets {
                 Templates.xsprite("plant.carrot",       7, 28, { width: 16*2, height: 16*2 }),
                 Templates.xsprite("stoneWall.1",        2, 8, { width: 16*3, height: 16*2 }),
                 Templates.xsprite("stoneWall.2",        13, 7, { width: 16*2, height: 16*3 }),
-                Templates.xsprite("stoneWall.3",        11, 10, { width: 16*3, height: 16*2 }),
+                Templates.xsprite("stoneWall.3",        12, 10, { width: 16*3, height: 16*2 }),
                 Templates.xsprite("well.idle",          12, 12, { width: 16*4, height: 16*4 }),
                 Templates.xsprite("well.sparked",       16, 12, { width: 16*4, height: 16*4 }),
                 Templates.xsprite("bouncer.se",         12, 26, { width: 16*2, height: 16*3 }),
