@@ -32,7 +32,7 @@ class MenuState extends State {
                 // Here, the panel is being used to group together the main menu buttons.  Note the xxform variable which provides a rect transform for the panel
                 // - the specification for this xxform is saying use a top/bottom margin of 20% of the parent height (.2 for top/bottom keys) and 30% of the parent
                 // - width (.3 for left/right keys).  Each parent/child level you go down will always be in local coordinate space... see below.
-                Templates.panel("mainButtons", { xxform: { top: .2, bottom: .2, left: .3, right: .3}, xchildren: [
+                Templates.panel("mainButtons", { xxform: { top: .3, bottom: .3, left: .3, right: .3}, xchildren: [
                     // under the top level panel, there are the four button definitions.
                     // -- again, note the use of the template here.  We can modify the look/feel of all the main menu buttons by modifying the single template.
                     // -- also note the xxform: here, I'm saying use only a top and bottom margin.  i'm using a little math here to "simplify" the layout.
@@ -41,10 +41,9 @@ class MenuState extends State {
                     // -- also note a few other variables here... 
                     //     the first variable is a UI tag (we'll use this for element lookups below)
                     //     the second variable is the actual text to use within the button
-                    Templates.menuButton("playButton", "play", { xxform: { top: 0/4, bottom: 1-1/4 }}),
-                    Templates.menuButton("continueButton", "continue", { xxform: { top: 1/4, bottom: 1-2/4 }}),
-                    Templates.menuButton("optionsButton", "options", { xxform: { top: 2/4, bottom: 1-3/4 }}),
-                    Templates.menuButton("creditsButton", "credits", { xxform: { top: 3/4, bottom: 1-4/4 }}),
+                    Templates.menuButton("playButton", "play",          { xxform: { top: 0/3, bottom: 1-1/3 }}),
+                    Templates.menuButton("optionsButton", "options",    { xxform: { top: 1/3, bottom: 1-2/3 }}),
+                    Templates.menuButton("creditsButton", "credits",    { xxform: { top: 2/3, bottom: 1-3/3 }}),
                 ]}),
             ],
         };
@@ -61,10 +60,8 @@ class MenuState extends State {
         // lookup ui element references... 
         // -- using the superclass' findFirst method, look up the UI element that has a tag of "playButton"
         this.playButton = this.findFirst(v=>v.tag === "playButton");
-        this.continueButton = this.findFirst(v=>v.tag === "continueButton");
         this.optionsButton = this.findFirst(v=>v.tag === "optionsButton");
         this.creditsButton = this.findFirst(v=>v.tag === "creditsButton");
-        // TODO: add additional references for the other buttons
 
         // wire event handlers
         // -- listen for key events...
@@ -73,10 +70,8 @@ class MenuState extends State {
         // -- listen for button events...
         // first call here is to wire the play buttons click handler to a callback function.
         this.playButton.evtClicked.listen(this.onPlay);
-        this.continueButton.evtClicked.listen(this.onContinue);
         this.optionsButton.evtClicked.listen(this.onOptions);
         this.creditsButton.evtClicked.listen(this.onCredits);
-        // TODO: wire additional buttons to their respective callback functions (which also need to be added)
     }
 
     // the callback handler for the playButton click event
