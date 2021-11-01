@@ -7,6 +7,7 @@ import { Keys } from "./base/keys.js";
 import { Util } from "./base/util.js";
 import { UxCtrl } from "./base/uxCtrl.js";
 import { Templates } from "./templates.js";
+import { UxHints } from "./uxHints.js";
 
 class UxNpcInfo extends UxCtrl {
     
@@ -88,7 +89,7 @@ class UxNpcInfo extends UxCtrl {
             this.hintButton.active = false;
         }
         // event handling...
-        Util.bind(this, "onKeyDown", "onHint", "onBack");
+        Util.bind(this, "onKeyDown", "onHint", "onCloseHints", "onBack");
         Keys.evtKeyPressed.listen(this.onKeyDown);
         this.hintButton.evtClicked.listen(this.onHint);
         this.backButton.evtClicked.listen(this.onBack);
@@ -103,9 +104,21 @@ class UxNpcInfo extends UxCtrl {
 
     onHint(evt) {
         console.log("onHint");
+        this.hints = new UxHints({hints: this.npc.bio.hints});
+        // disable play state ui and mouse clicks
+        this.view.active = false;
+        // hook destroy event for dialog
+        this.hints.evtDestroyed.listen(this.onCloseHints);
     }
 
-    onBack() {
+    onCloseHints() {
+        // clear npc info
+        this.hints = null;
+        // re-enable play state
+        this.view.active = true;
+    }
+
+    onBack(evt) {
         // tear down current view
         this.destroy();
     }

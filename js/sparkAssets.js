@@ -1541,6 +1541,13 @@ class SparkAssets {
                     "job": "innkeeper",
                     "likes": "satisified customers",
                     "dislikes": "magic, complaints",
+                    "hints": [
+                        "something's preventing her from fully serving customers",
+                        "need to spark beer keg",
+                        "find rune relay in SE corner of inn",
+                        "find another hidden relay in kitchen",
+                        "move within range of beer and cast spark",
+                    ]
                 },
                 viewCls: "CharacterView",
                 portraitTag: "innkeeper.portrait",
