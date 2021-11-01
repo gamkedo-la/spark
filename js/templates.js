@@ -45,11 +45,14 @@ class Templates {
     static playText(tag, text, spec={}) {
         let xxform = spec.xxform || {};
         let color = spec.color || Templates.playTextColor;
+        let wrap = spec.wrap || false;
+        let fit = !wrap;
+        let font = spec.font || new Font({size:25});
         return {
             cls: "UxText",
             tag: tag,
             xxform: xxform,
-            xtext: { color: color, text: text, },
+            xtext: { color: color, text: text, wrap: wrap, fit: fit, font: font},
         }
     }
 
@@ -191,7 +194,22 @@ class Templates {
 
     static menuText(tag, text, spec={}) {
         let xxform = spec.xxform || {};
-        let color = spec.color || new Color(0,255,0,.75);
+        let color = spec.color || Templates.menuTextColor;
+        let wrap = spec.wrap || false;
+        let fit = !wrap;
+        let font = spec.font || new Font({size:25});
+        return {
+            cls: "UxText",
+            tag: tag,
+            xxform: xxform,
+            xtext: { color: color, text: text, wrap: wrap, fit: fit, font: font},
+        }
+    }
+
+    /*
+    static menuText(tag, text, spec={}) {
+        let xxform = spec.xxform || {};
+        let color = spec.color || Templates.menuTextColor;
         return {
             cls: "UxText",
             tag: tag,
@@ -199,6 +217,7 @@ class Templates {
             xtext: { color: color, text: text, },
         }
     }
+    */
 
     static menuButton(tag, text, spec={}) {
         let xxform = spec.xxform || {};

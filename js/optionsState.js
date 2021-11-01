@@ -8,6 +8,7 @@ import { MenuState }        from "./menuState.js";
 import { Fmt }              from "./base/fmt.js";
 import { Base }             from "./base/base.js";
 import { Color }            from "./base/color.js";
+import { HelpState } from "./helpState.js";
 
 class OptionsState extends State {
 
@@ -25,22 +26,7 @@ class OptionsState extends State {
             cvsid: "canvas",
             // a list of first level children of the canvas
             xchildren: [
-                // the only child at his level is a panel.  Panels are simple non-interactive UI elements that can either just be placeholders for organization 
-                // (no attached sketch) or provide a visual background (attached sketch).
-                // Note the use of a template here.  Templates are used to "hide" details of the data specification, as well as provide consistant look/feel 
-                // for elements.  See templates.js for all of these definitions.
-                // Here, the panel is being used to group together the main menu buttons.  Note the xxform variable which provides a rect transform for the panel
-                // - the specification for this xxform is saying use a top/bottom margin of 20% of the parent height (.2 for top/bottom keys) and 30% of the parent
-                // - width (.3 for left/right keys).  Each parent/child level you go down will always be in local coordinate space... see below.
                 Templates.panel("mainButtons", { xxform: { top: .2, bottom: .2, left: .3, right: .3}, xchildren: [
-                    // under the top level panel, there are the four button definitions.
-                    // -- again, note the use of the template here.  We can modify the look/feel of all the main menu buttons by modifying the single template.
-                    // -- also note the xxform: here, I'm saying use only a top and bottom margin.  i'm using a little math here to "simplify" the layout.
-                    // -- it equates to the top button has a top margin of 0 and bottom margin of .75.  Second button has top of .25, bottom of .5, etc.
-                    // -- note that no left/right margins are specified, and will default to 0 (no margin) and will fill the entire space of the parent.
-                    // -- also note a few other variables here... 
-                    //     the first variable is a UI tag (we'll use this for element lookups below)
-                    //     the second variable is the actual text to use within the button
                     {
                         cls: "UxPanel",
                         xxform: { top: 0/4, bottom: 1-2/4 },
@@ -55,8 +41,6 @@ class OptionsState extends State {
                             ]}),
                         ],
                     },
-                    //Templates.menuButton("loadGameButton", "load", { xxform: { top: 1/4, bottom: 1-2/4 }}),
-                    //Templates.menuButton("saveGameButton", "save", { xxform: { top: 2/4, bottom: 1-3/4 }}),
                     Templates.menuButton("helpButton", "help", { xxform: { top: 2/4, bottom: 1-3/4 }}),
                     Templates.menuButton("backButton", "back", { xxform: { top: 3/4, bottom: 1-4/4 }}),
                 ]}),
@@ -71,18 +55,15 @@ class OptionsState extends State {
         super.cpost(spec);
         // NOTE: to avoid errors due to javascript binding of objects, this utility method is called on every event callback function
         // this is equavilent of calling this.onKeyDown = this.onKeyDown.bind(this);  // this tells js to bind the local "this" variable to the given "this".
-        Util.bind(this, "onKeyDown", "onVolume", "onLoadGame", "onSaveGame", "onHelp", "onBack");
+        Util.bind(this, "onKeyDown", "onVolume", "onHelp", "onBack");
         // audio manager
         this.amgr = spec.amgr || Base.instance.audioMgr;
         // lookup ui element references... 
         // -- using the superclass' findFirst method, look up the UI element that has a tag of "playButton"
         this.sfxVolumeSlider = this.findFirst(v=>v.tag === "sfxVolumeSlider");
         this.musicVolumeSlider = this.findFirst(v=>v.tag === "musicVolumeSlider");
-        //this.loadButton = this.findFirst(v=>v.tag === "loadGameButton");
-        //this.saveButton = this.findFirst(v=>v.tag === "saveGameButton");
         this.helpButton = this.findFirst(v=>v.tag === "helpButton");
         this.backButton = this.findFirst(v=>v.tag === "backButton");
-        // TODO: add additional references for the other buttons
 
         // set initial slider positions (before wiring event handlers)
         this.sfxVolumeSlider.value = this.amgr.sfxVolume;
@@ -96,8 +77,6 @@ class OptionsState extends State {
         // first call here is to wire the play buttons click handler to a callback function.
         this.sfxVolumeSlider.evtValueChanged.listen(this.onVolume);
         this.musicVolumeSlider.evtValueChanged.listen(this.onVolume);
-        //this.loadButton.evtClicked.listen(this.onLoadGame);
-        //this.saveButton.evtClicked.listen(this.onSaveGame);
         this.helpButton.evtClicked.listen(this.onHelp);
         this.backButton.evtClicked.listen(this.onBack);
     }
@@ -115,29 +94,9 @@ class OptionsState extends State {
         // then the state manager is told to swap the current state (which is the menu state) with the new play state.
         //Base.instance.stateMgr.swap(state);
     }
-    onLoadGame(evt) {
-        console.log("toDO Load Game");
-        // here is an example of how major game states are managed.
-        // the main play state is created/loaded
-        //let state = new LoadGameState();
-        // then the state manager is told to swap the current state (which is the menu state) with the new play state.
-        //Base.instance.stateMgr.swap(state);
-    }
-    onSaveGame(evt) {
-        console.log("toDO Save Game");
-        // here is an example of how major game states are managed.
-        // the main play state is created/loaded
-        //let state = new SaveGameState();
-        // then the state manager is told to swap the current state (which is the menu state) with the new play state.
-        //Base.instance.stateMgr.swap(state);
-    }
     onHelp(evt) {
-        console.log("toDO Help text");
-        // here is an example of how major game states are managed.
-        // the main play state is created/loaded
-        //let state = new HelpState();
-        // then the state manager is told to swap the current state (which is the menu state) with the new play state.
-        //Base.instance.stateMgr.swap(state);
+        let state = new HelpState();
+        Base.instance.stateMgr.push(state);
     }
     onBack(evt) {
         Base.instance.stateMgr.pop();
