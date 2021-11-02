@@ -35,6 +35,7 @@ import { PlaySoundAction } from "./base/action.js";
 import { OptionsState } from "./optionsState.js";
 import { UxNpcInfo } from "./uxNpcInfo.js";
 import { StoryDialogAction, StoryFadeInAction, StoryFadeOutAction, StoryHideAction, UxStory } from "./uxStory.js";
+import { UxTutorial } from "./uxTutorial.js";
 
 class PlayState extends State {
     static startScript = [
@@ -136,7 +137,7 @@ class PlayState extends State {
         this.camera = spec.camera || Camera.main;
         //this.camera.dbg = true;
 
-        Util.bind(this, "onKeyDown", "onClicked", "onMenu", "onMorale", "onCloseDialog", "onCloseNpcInfo", "onCloseStory");
+        Util.bind(this, "onKeyDown", "onClicked", "onMenu", "onMorale", "onCloseDialog", "onCloseNpcInfo", "onCloseStory", "onCloseTutorial");
         Keys.evtKeyPressed.listen(this.onKeyDown);
         Mouse.evtClicked.listen(this.onClicked);
         let gridView = new GridView({depth: 10, grid: this.grid, xxform: {scalex: Config.renderScale, scaley: Config.renderScale}});
@@ -562,6 +563,31 @@ class PlayState extends State {
     onCloseStory() {
         // clear npc info
         this.currentStory = null;
+        // re-enable play state
+        this.view.active = true;
+        // unpause game
+        Atts.paused = false;
+        // generate tutorial
+        // FIXME: conditionalize based on beginning story vs end story
+        this.genTutorial();
+    }
+
+    genTutorial() {
+        // don't start new if already running
+        if (this.currentStory) return;
+        // create new view
+        this.tutorial = new UxTutorial();
+        // disable play state ui and mouse clicks
+        this.view.active = false;
+        // pause game
+        Atts.paused = true;
+        // hook destroy event for dialog
+        this.tutorial.evtDestroyed.listen(this.onCloseTutorial);
+    }
+
+    onCloseTutorial() {
+        // clear npc info
+        this.tutorial = null;
         // re-enable play state
         this.view.active = true;
         // unpause game
