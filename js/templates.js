@@ -134,6 +134,21 @@ class Templates {
         }
     }
 
+    static hintSelectButton(tag, buttonText, hintText, spec={}) {
+        let xxform = spec.xxform || {};
+        return {
+            cls: "UxPanel",
+            tag: tag,
+            ui: true,
+            xxform: xxform,
+            xsketch: { cls: 'Media', tag: "buttonLight" },
+            xchildren: [
+                { cls: "UxText", tag: `${tag}.text`, xxform: { offset: 10 }, xtext: { color: Templates.playTextColor, text: hintText }},
+                Templates.menuButton(`${tag}.button`, buttonText ),
+            ],
+        };
+    }
+
     static editorSelectButton(tag, text, spec={}) {
         let xxform = spec.xxform || {};
         return {
