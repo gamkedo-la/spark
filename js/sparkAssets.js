@@ -736,6 +736,8 @@ class SparkAssets {
                 {tag: "chatLeft", cls: "Sprite", width: 32, height: 32, x: 0, y: 80 },
                 {tag: "chatRight", cls: "Sprite", width: 32, height: 32, x: 32, y: 80 },
                 {tag: "buttonBlackBg", cls: "StretchSprite", width: 48, height: 48, x: 16*8, y: 16*3, border: 16 },
+                {tag: "markerLeft", cls: "Sprite", width: 32, height: 32, x: 16*11, y: 16*3 },
+                {tag: "markerRight", cls: "Sprite", width: 32, height: 32, x: 16*13, y: 16*3 },
             ]},
             /*
             { src: "img/buttonHover.png", loader: "Sheet", refs: [

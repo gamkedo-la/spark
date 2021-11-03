@@ -34,8 +34,8 @@ class UxTutorial extends UxCtrl {
                     xxform: { border: .2 }, 
                     xchildren: [
                         Templates.menuText(null, "tutorial", {xxform: {otop: 20, bottom: .85}}),
-                        Templates.menuButton("skipButton", "skip", { xxform: { left: .1, right: .7, top: .85, bottom: .025 }}),
-                        Templates.menuButton("nextButton", "back", { xxform: { left: .7, right: .1, top: .85, bottom: .025 }}),
+                        Templates.menuButton("skipButton", "skip", { xxform: { left: .1, right: .7, top: .875, bottom: .025 }}),
+                        Templates.menuButton("nextButton", "next", { xxform: { left: .7, right: .1, top: .875, bottom: .025 }}),
                     ],
                 }),
             ],
@@ -48,6 +48,42 @@ class UxTutorial extends UxCtrl {
         Keys.evtKeyPressed.listen(this.onKeyDown);
         this.skipButton.evtClicked.listen(this.onSkip);
         this.nextButton.evtClicked.listen(this.onNext);
+        this.stageWelcome();
+    }
+
+    stageWelcome() {
+        let xmodal = {
+            cls: "UxPanel",
+            xsketch: { cls: "Media", tag: "buttonLight" },
+            xxform: { left: .2, right: .2, top: .4, bottom: .4 },
+            xchildren: [
+                Templates.playText(null, "welcome to Innis Fhaolain!!!", {xxform: { offset: 15 }}),
+            ]
+        };
+        this.modal = Generator.generate(xmodal);
+        this.panel.adopt(this.modal);
+        this.nextStage = this.stageShowAlette;
+    }
+
+    stageShowAlette() {
+        let xmodal = Templates.panel(null, {
+            xchildren: [
+                Templates.panel(null, {
+                    xsketch: { cls: "Media", tag: "markerLeft", lockRatio: true },
+                    xxform: { left: .535, right: .465, top: .45, bottom: .55, width: 32, height: 32 },
+                }),
+                Templates.panel(null, {
+                    xsketch: { cls: "Media", tag: "buttonLight" },
+                    xxform: { left: .55, right: .05, top: .3, bottom: .5 },
+                    xchildren: [
+                        Templates.playText(null, "this is Alette, your character", {xxform: { offset: 15 }}),
+                    ],
+                }),
+            ],
+        });
+        this.modal = Generator.generate(xmodal);
+        this.panel.adopt(this.modal);
+        this.nextStage = undefined;
     }
 
     onSkip(evt) {
@@ -56,8 +92,14 @@ class UxTutorial extends UxCtrl {
     }
 
     onNext(evt) {
-        // tear down current view
         console.log("onNext");
+        // tear down current modal (if any)
+        this.modal.destroy();
+        if (this.nextStage) {
+            this.nextStage();
+        } else {
+            this.destroy();
+        }
     }
 
     // the callback handler for a generic key press
