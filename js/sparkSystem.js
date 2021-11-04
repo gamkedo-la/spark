@@ -125,7 +125,10 @@ class SparkSystem extends System {
                     // spark hit a non-sparkable Tile
                 }
 
+                // this DOES output to console
                 console.log(`spark ${e} collided w: ${id}:${obj}`);
+                // this DOES NOT output to console
+                console.log("hello world");
 
             }
             // if we did not hit a relay, spark chain is broken
