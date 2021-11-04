@@ -74,7 +74,7 @@ class MovePlan extends AiPlan {
             let blocking = (this.actor && this.actor.collider) ? this.actor.collider.blocking : 0;
             let pathinfo = pathfinder.find(this.state.a_pos, target, blocking);
             //pathfinder.dbg = false;
-            if (!pathinfo) console.log(`===> pathfinder from ${this.state.a_pos} to ${target} failed`);
+            //if (!pathinfo) console.log(`===> pathfinder from ${this.state.a_pos} to ${target} failed`);
             if (!pathinfo) continue;
             if (!best || pathinfo.cost < bestPath.cost) {
                 best = target;
