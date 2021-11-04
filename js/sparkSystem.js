@@ -127,8 +127,6 @@ class SparkSystem extends System {
 
                 // this DOES output to console
                 console.log(`spark ${e} collided w: ${id}:${obj}`);
-                // this DOES NOT output to console
-                console.log("hello world");
 
             }
             // if we did not hit a relay, spark chain is broken
