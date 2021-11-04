@@ -58,7 +58,7 @@ class Text extends Sketch {
         let line = "";
         let lines = [];
         for (const token of tokens) {
-            let testStr = `${line} ${token}`;
+            let testStr = (line) ? `${line} ${token}` : token;
             // measure test string
             let tsize = Text.measure(font, testStr);
             if (tsize.x > width) {

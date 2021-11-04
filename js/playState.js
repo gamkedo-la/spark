@@ -36,6 +36,7 @@ import { OptionsState } from "./optionsState.js";
 import { UxNpcInfo } from "./uxNpcInfo.js";
 import { StoryDialogAction, StoryFadeInAction, StoryFadeOutAction, StoryHideAction, UxStory } from "./uxStory.js";
 import { UxTutorial } from "./uxTutorial.js";
+import { WorldOverrides } from "./worldOverrides.js";
 
 class PlayState extends State {
     static startScript = [
@@ -204,6 +205,7 @@ class PlayState extends State {
         this.vendorSparkbase = this.findFirst(v=>v.tag === "vhouse.rune" && v.ownerTag === "Aodhan");
         this.vendorSparkbase2 = this.findFirst(v=>v.tag === "floorRelay" && v.ownerTag === "Aodhan");
         this.innkeeperSparkbase = this.findFirst(v=>v.tag === "inn.wall.rune" && v.ownerTag === "Ciara");
+        this.fountainBase = this.findFirst(v=>v.tag === "sparkbase" && v.x === 504 && v.y === 456);
 
         // debug mode
         this.clickMode = "path";
@@ -576,7 +578,7 @@ class PlayState extends State {
         // don't start new if already running
         if (this.currentStory) return;
         // create new view
-        this.tutorial = new UxTutorial();
+        this.tutorial = new UxTutorial({state: this});
         // disable play state ui and mouse clicks
         this.view.active = false;
         // pause game

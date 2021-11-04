@@ -6,6 +6,8 @@ import { Templates }        from "./templates.js";
 import { UxCtrl }           from "./base/uxCtrl.js";
 import { Generator }        from "./base/generator.js";
 import { Hierarchy }        from "./base/hierarchy.js";
+import { Font }             from "./base/font.js";
+import { Text }             from "./base/text.js";
 
 class UxTutorial extends UxCtrl {
 
@@ -23,7 +25,7 @@ class UxTutorial extends UxCtrl {
     cpost(spec) {
         super.cpost(spec);
         // pull UI state vars
-        this.hints = spec.hints || [];
+        this.state = spec.state;
         // construct the UI elements
         this.view = Generator.generate({
             cls: "UxCanvas",
@@ -48,6 +50,7 @@ class UxTutorial extends UxCtrl {
         Keys.evtKeyPressed.listen(this.onKeyDown);
         this.skipButton.evtClicked.listen(this.onSkip);
         this.nextButton.evtClicked.listen(this.onNext);
+        this.font = spec.font || new Font({size:25});
         this.stageWelcome();
     }
 
@@ -62,10 +65,10 @@ class UxTutorial extends UxCtrl {
         };
         this.modal = Generator.generate(xmodal);
         this.panel.adopt(this.modal);
-        this.nextStage = this.stageShowAlette;
+        this.nextStage = this.stageAletteShow;
     }
 
-    stageShowAlette() {
+    stageAletteShow() {
         let xmodal = Templates.panel(null, {
             xchildren: [
                 Templates.panel(null, {
@@ -83,7 +86,95 @@ class UxTutorial extends UxCtrl {
         });
         this.modal = Generator.generate(xmodal);
         this.panel.adopt(this.modal);
+        this.nextStage = this.stageAletteGuide;
+    }
+
+    stageAletteGuide() {
+        let text = "guide her to help the gnomes find their spark";
+        let xmodal = Templates.panel(null, {
+            xchildren: [
+                Templates.panel(null, {
+                    xsketch: { cls: "Media", tag: "buttonLight" },
+                    xxform: { left: .55, right: .05, top: .4, bottom: .6, height: 100 },
+                    xchildren: [
+                        {
+                            cls: "UxText",
+                            tag: "modalText",
+                            xtext: { color: Templates.playTextColor, text: "replace", wrap: true, fit: false, font: this.font},
+                            xxform: { otop: 15, oleft: 20, oright: 5 },
+                        },
+                    ],
+                }),
+            ],
+        });
+        this.modal = Generator.generate(xmodal);
+        this.panel.adopt(this.modal);
+        this.modalText = Hierarchy.find(this.modal, (v) => v.tag === "modalText");
+        let height = Text.measureWrapHeight(this.font, text, this.modalText.width) + 25;
+        this.modal.xform.height = height;
+        this.modalText.text = text;
+        this.nextStage = this.stageAletteMagic;
+    }
+
+    stageAletteMagic() {
+        let text = "Alette has powerful fairy magic that she casts with the Z key, this is Alette's Spark!";
+        let xmodal = Templates.panel(null, {
+            xchildren: [
+                Templates.panel("modalPanel", {
+                    xsketch: { cls: "Media", tag: "buttonLight", xfitter: { cls: "FitToParent" }},
+                    xxform: { top: .4, bottom: .6, left: .1, right: .1, height: 50 },
+                    xchildren: [
+                        {
+                            cls: "UxText",
+                            tag: "modalText",
+                            xtext: { color: Templates.playTextColor, text: "replace", wrap: true, fit: false, font: this.font},
+                            xxform: { otop: 15, oleft: 20, oright: 5 },
+                        },
+                    ],
+                }),
+            ],
+        });
+        this.modal = Generator.generate(xmodal);
+        this.panel.adopt(this.modal);
+        this.modalPanel = Hierarchy.find(this.modal, (v) => v.tag === "modalPanel");
+        this.modalText = Hierarchy.find(this.modal, (v) => v.tag === "modalText");
+        let height = Text.measureWrapHeight(this.font, text, this.modalText.width) + 5;
+        this.modalPanel.xform.height = height;
+        this.modalText.text = text;
         this.nextStage = undefined;
+    }
+
+    stageRuneShow() {
+        // FIXME:
+        /*
+        this.actions.push(new PanToAction({target: this.fountainBase}));
+
+        let text = "Alette has powerful fairy magic that she casts with the Z key, this is Alette's Spark!";
+        let xmodal = Templates.panel(null, {
+            xchildren: [
+                Templates.panel("modalPanel", {
+                    xsketch: { cls: "Media", tag: "buttonLight", xfitter: { cls: "FitToParent" }},
+                    xxform: { top: .4, bottom: .6, left: .1, right: .1, height: 50 },
+                    xchildren: [
+                        {
+                            cls: "UxText",
+                            tag: "modalText",
+                            xtext: { color: Templates.playTextColor, text: "replace", wrap: true, fit: false, font: this.font},
+                            xxform: { otop: 15, oleft: 20, oright: 5 },
+                        },
+                    ],
+                }),
+            ],
+        });
+        this.modal = Generator.generate(xmodal);
+        this.panel.adopt(this.modal);
+        this.modalPanel = Hierarchy.find(this.modal, (v) => v.tag === "modalPanel");
+        this.modalText = Hierarchy.find(this.modal, (v) => v.tag === "modalText");
+        let height = Text.measureWrapHeight(this.font, text, this.modalText.width) + 5;
+        this.modalPanel.xform.height = height;
+        this.modalText.text = text;
+        this.nextStage = undefined;
+        */
     }
 
     onSkip(evt) {
