@@ -74,6 +74,7 @@ class SparkAssets {
             { src: "snd/gameplayMusic.mp3", loader: "Audio", tag: "gameplayMusic", volume: .5, loop: true, kind: "music" },
             { src: "snd/doorClosing.mp3", loader: "Audio", tag: "doorClosing" },
             { src: "snd/doorOpenning.mp3", loader: "Audio", tag: "doorOpening" },
+            { src: "snd/poweringUp.mp3", loader: "Audio", tag: "poweringUp" },
             { src: "snd/fairyChimes.mp3", loader: "Audio", tag: "chimes", volume: .1, loop: true },
             { src: "snd/chime-solid.mp3", loader: "Audio", tag: "chimesHigh", volume: .1, loop: true },
             { src: "snd/hoverIn.mp3", loader: "Audio", tag: "hoverIn", loop: false },
@@ -994,8 +995,17 @@ class SparkAssets {
             Templates.tile("00D", "bread"),
             Templates.tile("00E", "halfcrate", {offy: -8, xcollider: { width: 12, height: 12, offy: 4 }}),
             Templates.tile("00F", "bag", {offy: -8}),
-            Templates.tile("00G", "lamppostRight", {offx: 8, offy: -24, xcollider: { width: 10, height: 10, offy: 24, offx: -8 }, sparkable: true}),
-            Templates.tile("00H", "lamppostLeft", {offx: -8, offy: -24, xcollider: { width: 10, height: 10, offy: 24, offx: 8}, sparkable: true}),
+            
+            //originals with no sound
+            //Templates.tile("00G", "lamppostRight", {offx: 8, offy: -24, xcollider: { width: 10, height: 10, offy: 24, offx: -8 }, sparkable: true}),
+            //Templates.tile("00H", "lamppostLeft", {offx: -8, offy: -24, xcollider: { width: 10, height: 10, offy: 24, offx: 8}, sparkable: true}),
+            
+            // lamp posts with poweringUp sound on spark
+            Templates.tile("00G", "lamppostRight", {offx: 8, offy: -24, xcollider: { width: 10, height: 10, offy: 24, offx: -8 }, 
+                sparkable: true, xsparkSfx: { cls: "Media", tag: "poweringUp"}}),
+            Templates.tile("00H", "lamppostLeft", {offx: -8, offy: -24, xcollider: { width: 10, height: 10, offy: 24, offx: 8},
+                sparkable: true, xsparkSfx: { cls: "Media", tag: "poweringUp"}}),
+
             Templates.tile("00I", "sack", {offx: 8, offy: -8, xcollider: { width: 28, height: 16, offy: 4 }}),
             Templates.tile("00J", "table1x2", {offy: -16}),
             Templates.tile("00K", "basket", {offx: 8, offy: -8 }),

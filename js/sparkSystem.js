@@ -61,9 +61,12 @@ class SparkSystem extends System {
             e.destroy();
         }
         // check for collisions
-        if (e.collision) {
+        if (e.collision) { // this is never true for lampposts
+
             // what did we hit?
             let hitRelay = false;
+            
+            // does not find any lampposts
             for (const id of (e.collisionIds || [])) {
                 let obj = this.entities.get(id);
                 if (!obj) continue;
@@ -111,14 +114,24 @@ class SparkSystem extends System {
                         console.log(`hit backside`);
                     }
                 // -- sparkable
-                } else if (obj.sparkable) {
+                } else if (obj.sparkable) { 
+
                     obj.conditions.add(Condition.sparked);
                     if (obj.maxSparkTTL) obj.sparkTTL = obj.maxSparkTTL;
                     if (obj.morale) {
                         obj.morale.events.push("spark");
                     }
+                    // optional sound effect
+                    if (obj.xsparkSfx) {
+                        obj.xsparkSfx.play();
+                    }
+
+                } else {
+                    // spark hit a non-sparkable Tile
                 }
+
                 console.log(`spark ${e} collided w: ${id}:${obj}`);
+
             }
             // if we did not hit a relay, spark chain is broken
             if (!hitRelay) this.breakSparkChain(e);
