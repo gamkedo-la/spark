@@ -38,7 +38,7 @@ class UxTutorial extends UxCtrl {
                 Templates.panel("tutorialPanel", { 
                     xxform: { border: .2 }, 
                     xchildren: [
-                        Templates.menuText(null, "tutorial", {xxform: {otop: 20, bottom: .85}}),
+                        Templates.menuText(null, "Tutorial", {xxform: {otop: 20, bottom: .85}}),
                         Templates.menuButton("skipButton", "skip", { xxform: { left: .1, right: .7, top: .875, bottom: .025 }}),
                         Templates.menuButton("nextButton", "next", { xxform: { left: .7, right: .1, top: .875, bottom: .025 }}),
                     ],
@@ -106,27 +106,27 @@ class UxTutorial extends UxCtrl {
     }
 
     stageWelcome() {
-        this.genModal("welcome to Innis Fhaolain!!!", "left", false);
+        this.genModal("Welcome to Innis Fhaolain!!!", "left", false);
         this.nextStage = this.stageAletteShow;
     }
 
     stageAletteShow() {
-        this.genModal( "this is Alette, your character", "right", true);
+        this.genModal( "This is Alette, your character.", "right", true);
         this.nextStage = this.stageAletteGuide;
     }
 
     stageAletteGuide() {
-        this.genModal( "your goal is to guide her in helping the gnomes to find their spark", "right", false);
+        this.genModal( "Your goal is to guide her in helping the gnomes to find their spark.", "right", false);
         this.nextStage = this.stageAletteMagic;
     }
 
     stageAletteMagic() {
-        this.genModal( "Alette has powerful fairy magic that she casts with the Z key, this is Alette's Spark!", "center", false);
+        this.genModal( "Alette has powerful fairy magic that she casts with the Z key. This is Alette's Spark!", "center", false);
         this.nextStage = this.stageAletteOther;
     }
 
     stageAletteOther() {
-        this.genModal( "the Z key will also be used to interact with the world, open doors, sit down, and talk to NPCs.  watch the icon in the upper left to see the current available action", "center", false);
+        this.genModal( "The Z key will also be used to interact with the world, open doors, sit down, and talk to NPCs.  Watch the icon in the upper left to see the current available action.", "center", false);
         this.nextStage = this.stageRuneShow;
     }
 
@@ -135,7 +135,7 @@ class UxTutorial extends UxCtrl {
         let pan = new PanToAction({target: target});
         this.state.actions.push(pan);
         pan.evtDone.listen((evt) => {
-            this.genModal( "within the center of the fountain is a Spark rune... the source of a fairy's magic...", "right", true);
+            this.genModal( "Within the center of the fountain is a Spark rune... the source of a fairy's magic...", "right", true);
         });
         this.nextStage = this.stageRuneRing;
     }
@@ -145,13 +145,13 @@ class UxTutorial extends UxCtrl {
         let pan = new PanToAction({target: target});
         this.state.actions.push(pan);
         pan.evtDone.listen((evt) => {
-            this.genModal( "every Spark rune has a range, the influence of the rune brings beauty to the world and lifts the surrounding gloom", "right", true);
+            this.genModal( "Every Spark rune has a range, the influence of the rune brings beauty to the world and lifts the surrounding gloom.", "right", true);
         });
         this.nextStage = this.stageRuneRing2;
     }
 
     stageRuneRing2() {
-        this.genModal( "Alette can only cast her spark within the influence of a Spark rune", "right", false);
+        this.genModal( "Alette can only cast her spark within the influence of a Spark rune.", "right", false);
         this.nextStage = this.stageRuneRelay;
     }
 
@@ -160,13 +160,13 @@ class UxTutorial extends UxCtrl {
         let pan = new PanToAction({target: target});
         this.state.actions.push(pan);
         pan.evtDone.listen((evt) => {
-            this.genModal( "some runes act as a relay, casting your spark on these runes will temporarily expand the influence and range of your magic", "right", true);
+            this.genModal( "Some runes act as a relay. Casting your spark on these runes will temporarily expand the influence and range of your magic.", "right", true);
         });
         this.nextStage = this.stageRunesOther;
     }
 
     stageRunesOther() {
-        this.genModal( "some runes will only be activated by helping out each of the gnomes, find how to make the gnomes happy to unlock their associated runes and expand the magical influence", "center", true);
+        this.genModal( "Some runes will only be activated by helping out each of the gnomes. Find how to make the gnomes happy to unlock their associated runes and expand the magical influence.", "center", true);
         this.nextStage = this.stageVendor;
     }
 
@@ -175,13 +175,13 @@ class UxTutorial extends UxCtrl {
         let pan = new PanToAction({target: target});
         this.state.actions.push(pan);
         pan.evtDone.listen((evt) => {
-            this.genModal( "this is Aodhan, one of the gnomes of Innis Fhaolain, he's the vendor for the village, wonder what could be bothering him?", "left", true);
+            this.genModal( "This is Aodhan, one of the gnomes of Innis Fhaolain. He's the vendor for the village. Wonder what could be bothering him?", "left", true);
         });
         this.nextStage = this.stageVendor2;
     }
 
     stageVendor2() {
-        this.genModal( "try speaking with him to get clues on how you could possible help him.  you can also click on any NPC to view their current morale and find hints if you get stuck", "center", false);
+        this.genModal( "Try speaking with him to get clues on how you could possibly help him. You can also click on any NPC to view their current morale and find hints if you get stuck.", "center", false);
         this.nextStage = this.stageSpark;
     }
 
@@ -189,7 +189,7 @@ class UxTutorial extends UxCtrl {
         let pan = new PanToAction({target: this.state.player});
         this.state.actions.push(pan);
         pan.evtDone.listen((evt) => {
-            this.genModal( "experiment, explore, and have fun!  who knows where your Spark of imagination and kindness may lead?", "center", true);
+            this.genModal( "Experiment, explore, and have fun! Who knows where your Spark of imagination and kindness may lead?", "center", true);
         });
         this.nextStage = undefined;
     }
