@@ -1510,6 +1510,11 @@ class SparkAssets {
                     "job": "vendor",
                     "likes": "magic",
                     "dislikes": "complaints",
+                    "hints": [
+                        "what does the vendor like?",
+                        "try giving the vendor a little spark",
+                        "maybe a few sparks...",
+                    ]
                 },
                 ctrlId: 0,
                 offy: -16,
