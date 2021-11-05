@@ -68,40 +68,15 @@ class World {
             WorldGen.lvl23,
             WorldGen.lvl33,
 
-            //this.genRegion({columns: 128, rows: 128, xlayers: [{ id: '002j' }]}),
-            //WorldGen.patch1,
-            //WorldGen.house1,
-            //WorldGen.house2,
-            //WorldGen.work2,
+            // other areas
             WorldGen.fountain,
             WorldGen.vendor1,
             WorldGen.vendorHouse,
             WorldGen.inn,
             WorldGen.tower,
             WorldGen.gardenHouse,
-            WorldGen.tinkerHouse,
+            //WorldGen.tinkerHouse,
             WorldGen.pier,
-            /*
-            {
-                columns: 8,
-                rows: 7,
-                offx: 15,
-                offy: 25,
-                layers: {
-                    l1: {
-                        fg: [   
-                            "0000","0000","000s","0000","000q","0000","000s","0000",
-                            "000s","0000","0000","0000","0000","0000","0000","000s",
-                            "000s","000s","0000","000r","0000","000v","0000","0000",
-                            "0000","0000","0000","000o","000s","0000","0000","0o05",
-                            "0000","0o06","0000","0000","0000","0000","0000","0000",
-                            "0000","0000","0000","0000","0000","0000","0000","0000",
-                            "0000","0000","0000","0000","0000","0000","0000","0000",
-                        ],
-                    },
-                },
-            },
-            */
 
         ],
     };
