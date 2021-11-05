@@ -342,6 +342,7 @@ class PlayState extends State {
 
     onClicked(evt) {
         if (!this.view.active) return;
+        if (Atts.paused) return;
         // ignore if within button
         if (this.moraleButton.mouseOver || this.menuButton.mouseOver) return;
         //let localMousePos = this.editorPanel.xform.getLocal(new Vect(evt.x, evt.y))

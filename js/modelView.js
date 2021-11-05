@@ -221,6 +221,7 @@ class CharacterView extends ModelView {
 
     onMouseClick(evt) {
         if (!this.active) return;
+        if (Atts.paused) return;
         if (this.mouseOver) {
             this.eventQ.push(new Event("npc.click", {actor: this.model}));
         }
