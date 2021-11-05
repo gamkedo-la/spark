@@ -122,6 +122,11 @@ class UxTutorial extends UxCtrl {
 
     stageAletteMagic() {
         this.genModal( "Alette has powerful fairy magic that she casts with the Z key, this is Alette's Spark!", "center", false);
+        this.nextStage = this.stageAletteOther;
+    }
+
+    stageAletteOther() {
+        this.genModal( "the Z key will also be used to interact with the world, open doors, sit down, and talk to NPCs.  watch the icon in the upper left to see the current available action", "center", false);
         this.nextStage = this.stageRuneShow;
     }
 
