@@ -1513,6 +1513,7 @@ class SparkAssets {
                     "hints": [
                         "what does the vendor like?",
                         "try giving the vendor a little spark",
+                        "extend the range using the relay closest to vendor",
                         "maybe a few sparks...",
                     ]
                 },
