@@ -12,7 +12,7 @@ class PanToAction extends Action {
     }
 
     start(actor) {
-        console.log(`starting PanToAction`);
+        //console.log(`starting PanToAction`);
         if (this.target) {
             this.camera.startPan(this.target);
         } else {
@@ -23,7 +23,7 @@ class PanToAction extends Action {
 
     update(ctx) {
         if (this.camera.panReached) {
-            console.log(`PanToAction done`);
+            //console.log(`PanToAction done`);
             this.camera.stopPan();
             this.done = true;
         }

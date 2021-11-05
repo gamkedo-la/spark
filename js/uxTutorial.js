@@ -8,6 +8,9 @@ import { Generator }        from "./base/generator.js";
 import { Hierarchy }        from "./base/hierarchy.js";
 import { Font }             from "./base/font.js";
 import { Text }             from "./base/text.js";
+import { PanToAction }      from "./actions/panTo.js";
+import { Fmt } from "./base/fmt.js";
+import { Config } from "./base/config.js";
 
 class UxTutorial extends UxCtrl {
 
@@ -54,136 +57,143 @@ class UxTutorial extends UxCtrl {
         this.stageWelcome();
     }
 
-    stageWelcome() {
-        let xmodal = {
-            cls: "UxPanel",
-            xsketch: { cls: "Media", tag: "buttonLight" },
-            xxform: { left: .2, right: .2, top: .4, bottom: .4 },
+    genModal(text, align, pointer) {
+        if (this.modal) this.modal.destroy();
+        let xxform;
+        if (align === "left") {
+            xxform = { left: .05, right: .55, top: .4, bottom: .6, height: 50 };
+        } else if (align === "right") {
+            xxform = { left: .55, right: .05, top: .4, bottom: .6, height: 50 };
+        } else {
+            xxform = { top: .4, bottom: .6, left: .1, right: .1, height: 50 };
+        }
+        let xmodal = Templates.panel(null, {
             xchildren: [
-                Templates.playText(null, "welcome to Innis Fhaolain!!!", {xxform: { offset: 15 }}),
-            ]
-        };
+                Templates.panel("modalPanel", {
+                    xsketch: { cls: "Media", tag: "buttonLight", xfitter: { cls: "FitToParent" }},
+                    xxform: xxform,
+                    xchildren: [
+                        {
+                            cls: "UxText",
+                            tag: "modalText",
+                            xtext: { color: Templates.playTextColor, text: "replace", wrap: true, fit: false, font: this.font},
+                            xxform: { otop: 15, oleft: 20, oright: 5 },
+                        },
+                    ],
+                }),
+            ],
+        });
+        if (pointer) {
+            if (align === "left") {
+                xmodal['xchildren'].unshift(Templates.panel(null, {
+                    xsketch: { cls: "Media", tag: "markerRight", lockRatio: true },
+                    xxform: { right: .535, left: .465, top: .45, bottom: .55, width: 32, height: 32 },
+                }));
+            } else {
+                xmodal['xchildren'].unshift(Templates.panel(null, {
+                    xsketch: { cls: "Media", tag: "markerLeft", lockRatio: true },
+                    xxform: { left: .535, right: .465, top: .45, bottom: .55, width: 32, height: 32 },
+                }));
+            }
+        }
         this.modal = Generator.generate(xmodal);
         this.panel.adopt(this.modal);
+        let modalPanel = Hierarchy.find(this.modal, (v) => v.tag === "modalPanel");
+        let modalText = Hierarchy.find(this.modal, (v) => v.tag === "modalText");
+        let height = Text.measureWrapHeight(this.font, text, modalText.width) + 5;
+        modalPanel.xform.height = height;
+        modalText.text = text;
+    }
+
+    stageWelcome() {
+        this.genModal("welcome to Innis Fhaolain!!!", "left", false);
         this.nextStage = this.stageAletteShow;
     }
 
     stageAletteShow() {
-        let xmodal = Templates.panel(null, {
-            xchildren: [
-                Templates.panel(null, {
-                    xsketch: { cls: "Media", tag: "markerLeft", lockRatio: true },
-                    xxform: { left: .535, right: .465, top: .45, bottom: .55, width: 32, height: 32 },
-                }),
-                Templates.panel(null, {
-                    xsketch: { cls: "Media", tag: "buttonLight" },
-                    xxform: { left: .55, right: .05, top: .3, bottom: .5 },
-                    xchildren: [
-                        Templates.playText(null, "this is Alette, your character", {xxform: { offset: 15 }}),
-                    ],
-                }),
-            ],
-        });
-        this.modal = Generator.generate(xmodal);
-        this.panel.adopt(this.modal);
+        this.genModal( "this is Alette, your character", "right", true);
         this.nextStage = this.stageAletteGuide;
     }
 
     stageAletteGuide() {
-        let text = "guide her to help the gnomes find their spark";
-        let xmodal = Templates.panel(null, {
-            xchildren: [
-                Templates.panel(null, {
-                    xsketch: { cls: "Media", tag: "buttonLight" },
-                    xxform: { left: .55, right: .05, top: .4, bottom: .6, height: 100 },
-                    xchildren: [
-                        {
-                            cls: "UxText",
-                            tag: "modalText",
-                            xtext: { color: Templates.playTextColor, text: "replace", wrap: true, fit: false, font: this.font},
-                            xxform: { otop: 15, oleft: 20, oright: 5 },
-                        },
-                    ],
-                }),
-            ],
-        });
-        this.modal = Generator.generate(xmodal);
-        this.panel.adopt(this.modal);
-        this.modalText = Hierarchy.find(this.modal, (v) => v.tag === "modalText");
-        let height = Text.measureWrapHeight(this.font, text, this.modalText.width) + 25;
-        this.modal.xform.height = height;
-        this.modalText.text = text;
+        this.genModal( "your goal is to guide her in helping the gnomes to find their spark", "right", false);
         this.nextStage = this.stageAletteMagic;
     }
 
     stageAletteMagic() {
-        let text = "Alette has powerful fairy magic that she casts with the Z key, this is Alette's Spark!";
-        let xmodal = Templates.panel(null, {
-            xchildren: [
-                Templates.panel("modalPanel", {
-                    xsketch: { cls: "Media", tag: "buttonLight", xfitter: { cls: "FitToParent" }},
-                    xxform: { top: .4, bottom: .6, left: .1, right: .1, height: 50 },
-                    xchildren: [
-                        {
-                            cls: "UxText",
-                            tag: "modalText",
-                            xtext: { color: Templates.playTextColor, text: "replace", wrap: true, fit: false, font: this.font},
-                            xxform: { otop: 15, oleft: 20, oright: 5 },
-                        },
-                    ],
-                }),
-            ],
-        });
-        this.modal = Generator.generate(xmodal);
-        this.panel.adopt(this.modal);
-        this.modalPanel = Hierarchy.find(this.modal, (v) => v.tag === "modalPanel");
-        this.modalText = Hierarchy.find(this.modal, (v) => v.tag === "modalText");
-        let height = Text.measureWrapHeight(this.font, text, this.modalText.width) + 5;
-        this.modalPanel.xform.height = height;
-        this.modalText.text = text;
-        this.nextStage = undefined;
+        this.genModal( "Alette has powerful fairy magic that she casts with the Z key, this is Alette's Spark!", "center", false);
+        this.nextStage = this.stageRuneShow;
     }
 
     stageRuneShow() {
-        // FIXME:
-        /*
-        this.actions.push(new PanToAction({target: this.fountainBase}));
-
-        let text = "Alette has powerful fairy magic that she casts with the Z key, this is Alette's Spark!";
-        let xmodal = Templates.panel(null, {
-            xchildren: [
-                Templates.panel("modalPanel", {
-                    xsketch: { cls: "Media", tag: "buttonLight", xfitter: { cls: "FitToParent" }},
-                    xxform: { top: .4, bottom: .6, left: .1, right: .1, height: 50 },
-                    xchildren: [
-                        {
-                            cls: "UxText",
-                            tag: "modalText",
-                            xtext: { color: Templates.playTextColor, text: "replace", wrap: true, fit: false, font: this.font},
-                            xxform: { otop: 15, oleft: 20, oright: 5 },
-                        },
-                    ],
-                }),
-            ],
+        let target = { x: this.state.fountainBase.x + 16, y: this.state.fountainBase.y - 16};
+        let pan = new PanToAction({target: target});
+        this.state.actions.push(pan);
+        pan.evtDone.listen((evt) => {
+            this.genModal( "within the center of the fountain is a Spark rune... the source of a fairy's magic...", "right", true);
         });
-        this.modal = Generator.generate(xmodal);
-        this.panel.adopt(this.modal);
-        this.modalPanel = Hierarchy.find(this.modal, (v) => v.tag === "modalPanel");
-        this.modalText = Hierarchy.find(this.modal, (v) => v.tag === "modalText");
-        let height = Text.measureWrapHeight(this.font, text, this.modalText.width) + 5;
-        this.modalPanel.xform.height = height;
-        this.modalText.text = text;
+        this.nextStage = this.stageRuneRing;
+    }
+
+    stageRuneRing() {
+        let target = { x: this.state.fountainBase.x + this.state.fountainBase.range - 10, y: this.state.fountainBase.y - 16};
+        let pan = new PanToAction({target: target});
+        this.state.actions.push(pan);
+        pan.evtDone.listen((evt) => {
+            this.genModal( "every Spark rune has a range, the influence of the rune brings beauty to the world and lifts the surrounding gloom", "right", true);
+        });
+        this.nextStage = this.stageRuneRing2;
+    }
+
+    stageRuneRing2() {
+        this.genModal( "Alette can only cast her spark within the influence of a Spark rune", "right", false);
+        this.nextStage = this.stageRuneRelay;
+    }
+
+    stageRuneRelay() {
+        let target = { x: this.state.exampleRelay.x + 8, y: this.state.exampleRelay.y - 16};
+        let pan = new PanToAction({target: target});
+        this.state.actions.push(pan);
+        pan.evtDone.listen((evt) => {
+            this.genModal( "some runes act as a relay, casting your spark on these runes will temporarily expand the influence and range of your magic", "right", true);
+        });
+        this.nextStage = this.stageRunesOther;
+    }
+
+    stageRunesOther() {
+        this.genModal( "some runes will only be activated by helping out each of the gnomes, find how to make the gnomes happy to unlock their associated runes and expand the magical influence", "center", true);
+        this.nextStage = this.stageVendor;
+    }
+
+    stageVendor() {
+        let target = { x: this.state.vendor.x, y: this.state.vendor.y};
+        let pan = new PanToAction({target: target});
+        this.state.actions.push(pan);
+        pan.evtDone.listen((evt) => {
+            this.genModal( "this is Aodhan, one of the gnomes of Innis Fhaolain, he's the vendor for the village, wonder what could be bothering him?", "left", true);
+        });
+        this.nextStage = this.stageVendor2;
+    }
+
+    stageVendor2() {
+        this.genModal( "try speaking with him to get clues on how you could possible help him.  you can also click on any NPC to view their current morale and find hints if you get stuck", "center", false);
+        this.nextStage = this.stageSpark;
+    }
+
+    stageSpark() {
+        let pan = new PanToAction({target: this.state.player});
+        this.state.actions.push(pan);
+        pan.evtDone.listen((evt) => {
+            this.genModal( "experiment, explore, and have fun!  who knows where your Spark of imagination and kindness may lead?", "center", true);
+        });
         this.nextStage = undefined;
-        */
     }
 
     onSkip(evt) {
-        console.log("onSkip");
         this.destroy();
     }
 
     onNext(evt) {
-        console.log("onNext");
         // tear down current modal (if any)
         this.modal.destroy();
         if (this.nextStage) {

@@ -205,7 +205,9 @@ class PlayState extends State {
         this.vendorSparkbase = this.findFirst(v=>v.tag === "vhouse.rune" && v.ownerTag === "Aodhan");
         this.vendorSparkbase2 = this.findFirst(v=>v.tag === "floorRelay" && v.ownerTag === "Aodhan");
         this.innkeeperSparkbase = this.findFirst(v=>v.tag === "inn.wall.rune" && v.ownerTag === "Ciara");
-        this.fountainBase = this.findFirst(v=>v.tag === "sparkbase" && v.x === 504 && v.y === 456);
+        this.fountainBase = this.findFirst(v=>v.tag === "sparkbase.fountain" && v.x === 504 && v.y === 456);
+        this.exampleRelay = this.findFirst(v=>v.tag === "relay" && v.x === 632 && v.y === 504);
+        console.log(`exampleRelay: ${this.exampleRelay}`);
 
         // debug mode
         this.clickMode = "path";

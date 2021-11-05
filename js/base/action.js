@@ -2,17 +2,30 @@ export { Action, PlaySoundAction, MoveToAction, OpenAction, DummyAction, SparkAc
 
 import { Base }             from "./base.js";
 import { Condition }        from "./condition.js";
+import { EvtChannel }       from "./event.js";
 import { Fmt }              from "./fmt.js";
 import { Generator }        from "./generator.js";
 import { ModelState }       from "./modelState.js";
 import { Vect }             from "./vect.js";
 
+
 class Action {
     constructor(spec={}) {
         this.dbg = spec.dbg;
-        this.done = false;
+        this._done = false;
         this.ok = true;
         this.info = spec.info || "action";
+        this.evtDone = new EvtChannel("done", {actor: this});
+    }
+    get done() {
+        return this._done;
+    }
+    set done(v) {
+        if (v !== this._done) {
+            this._done = v;
+            if (v) this.evtDone.trigger();
+        }
+        return this._done;
     }
     start(actor) {
     }
