@@ -42,8 +42,8 @@ class WorldOverrides {
             },
             // -- STOVE
             {
-                predicate: (v) => v.x === this.wpos(WorldGen.house1.offx + 8) && 
-                                v.y === this.wpos(WorldGen.house1.offy + 3) &&
+                predicate: (v) => v.x === this.wpos(WorldGen.vendorHouse.offx + 8) && 
+                                v.y === this.wpos(WorldGen.vendorHouse.offy + 3) &&
                                 v.cls === "Stove",
                 spec: {
                     ownerTag: "Aodhan",
@@ -128,8 +128,8 @@ class WorldOverrides {
                 },
             },
             {
-                predicate: (v) => v.x === this.wpos(WorldGen.house2.offx + 8) && 
-                                v.y === this.wpos(WorldGen.house2.offy + 8) &&
+                predicate: (v) => v.x === this.wpos(WorldGen.inn.offx + 8) && 
+                                v.y === this.wpos(WorldGen.inn.offy + 8) &&
                                 v.tag === "stool",
                 spec: {
                     ownerTag: "Ciara",
