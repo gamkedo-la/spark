@@ -517,7 +517,30 @@ class SparkAssets {
             },
 
             { src: "img/tower.png", loader: "Sheet", refs: [
-                Templates.xsprite("tower.stub",             2, 6, {width: 16*8, height: 16*9}),
+                Templates.xsprite("tower.1",            2, 6, {width: 16*2, height: 16*3}),
+                Templates.xsprite("tower.door.close",   4, 3, {width: 16*4, height: 16*6}),
+                Templates.xsprite("tower.door.open",    11, 3, {width: 16*4, height: 16*6}),
+                Templates.xsprite("tower.2",            8, 6, {width: 16*2, height: 16*3}),
+                Templates.xsprite("tower.3",            2, 9, {width: 16*2, height: 16*2}),
+                Templates.xsprite("tower.4",            8, 9, {width: 16*2, height: 16*2}),
+                Templates.xsprite("tower.5",            2, 11, {width: 16*2, height: 16*2}),
+                Templates.xsprite("tower.6",            4, 11, {width: 16*4, height: 16*2}),
+                Templates.xsprite("tower.7",            8, 11, {width: 16*2, height: 16*2}),
+                Templates.xsprite("tower.8",            3, 13, {width: 16*6, height: 16*2}),
+            ]},
+
+            { tag: "tower.door", 
+                cls: "Animator", 
+                animations: { 
+                    [ModelState.idle]: { cls: "Media", tag: "tower.door.close" }, 
+                    [ModelState.close]: { cls: "Media", tag: "tower.door.close" }, 
+                    [ModelState.open]: { cls: "Media", tag: "tower.door.open" }, 
+                },
+            },
+
+            { src: "img/tower1.png", loader: "Sheet", refs: [
+                Templates.xsprite("tower.roof",         0, 0, {width: 16*12, height: 16*14}),
+                Templates.xsprite("tower.slice",        12, 0, {width: 16*8, height: 16*5}),
             ]},
 
             { src: "img/vendor.png", loader: "Sheet", refs: [
@@ -1169,7 +1192,7 @@ class SparkAssets {
             Templates.tile("02z", "bar.lgtable",        {offx: 8, offy: -24, xcollider: {tag: Collider.sparkthru, width: 30, height: 48, offy:0}}),
             Templates.tile("02A", "bar.sidetable",      {offx: 8, offy: -16, xcollider: {width: 20, height: 40, offy:-4}}),
             // -- 02B taken
-            Templates.tile("02C", "tower.stub",         {offx: 56, offy: -64, xcollider: {}}),
+            //Templates.tile("02C", "tower.stub",         {offx: 56, offy: -64, xcollider: {}}),
 
             Templates.tile("02D", "dock.t"),
             Templates.tile("02E", "dock.l",             {offy: -8}),
@@ -1220,6 +1243,25 @@ class SparkAssets {
             Templates.tile("03j", "bridge.rail",        {offx: 40, offy: -16}),
             Templates.tile("03k", "bridge",             {offx: 24, offy: -16, xcollider: {width: 32, height: 12, offy: 16}}),
             Templates.tile("03l", "bridge.rail.upper",  {mediaTag: "bridge.rail", offx: 40, offy: -26}),
+
+            Templates.tile("03m", "tower.roof",         {offx: 88, offy: -104}),
+            Templates.tile("03n", "tower.slice",        {offx: 56, offy: -32}),
+
+            Templates.tile("03o", "tower.1",            {offx: 8, offy: -16}),
+            //Templates.xsprite("tower.door.close",   4, 3, {width: 16*4, height: 16*6}),
+            Templates.tile("03p", "tower.2",            {offx: 8, offy: -16}), //8, 6, {width: 16*2, height: 16*3}),
+            Templates.tile("03q", "tower.3",            {offx: 8, offy: -8}), //2, 9, {width: 16*2, height: 16*2}),
+            Templates.tile("03r", "tower.4",            {offx: 8, offy: -8}), //8, 9, {width: 16*2, height: 16*2}),
+            Templates.tile("03s", "tower.5",            {offx: 8, offy: -8}), //2, 11, {width: 16*2, height: 16*2}),
+            Templates.tile("03t", "tower.6",            {offx: 24, offy: -8}), //4, 11, {width: 16*4, height: 16*2}),
+            Templates.tile("03u", "tower.7",            {offx: 8, offy: -8}), //8, 11, {width: 16*2, height: 16*2}),
+            Templates.tile("03v", "tower.8",            {offx: 40, offy: -8}), //3, 13, {width: 16*6, height: 16*2}),
+
+
+            /*
+                Templates.xsprite("tower.roof",             0, 0, {width: 16*12, height: 16*14}),
+                Templates.xsprite("tower.slice",            12, 0, {width: 16*8, height: 16*5}),
+                */
 
             // ------------------------------------------------------------------------------
 
@@ -1470,6 +1512,15 @@ class SparkAssets {
                 offx: -8, offy: -24, 
                 range: 4.2*16,
                 xcollider: { width: 10, height: 10, offy: 24, offx: 8},
+            }),
+
+            Templates.object("o0w", "tower.door", "Door", { 
+                offx: 24, offy: -40, 
+                approachOffsets: [{x:0, y:16},  {x:16, y:16},  {x:0, y:-32}, {x:16, y:-32}],
+                exitOffsets:     [{x:0, y:-32}, {x:16, y:-32}, {x:0, y:16},  {x:16, y:16}],
+                xopenSfx: { cls: "Media", tag: "doorOpening"}, 
+                xcloseSfx: { cls: "Media", tag: "doorClosing"}, 
+                xcollider: { offx: 8, offy: 24, width:48, height:24 }, 
             }),
 
             // @@@ ------------------------------------------------------------------------------
