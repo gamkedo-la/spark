@@ -518,8 +518,8 @@ class SparkAssets {
 
             { src: "img/tower.png", loader: "Sheet", refs: [
                 Templates.xsprite("tower.1",            2, 6, {width: 16*2, height: 16*3}),
-                Templates.xsprite("tower.door.close",   4, 3, {width: 16*4, height: 16*6}),
-                Templates.xsprite("tower.door.open",    11, 3, {width: 16*4, height: 16*6}),
+                Templates.xsprite("tower.door.close",   0, 0, {width: 16*2, height: 16*5}),
+                Templates.xsprite("tower.door.open",    2, 0, {width: 16*2, height: 16*5}),
                 Templates.xsprite("tower.2",            8, 6, {width: 16*2, height: 16*3}),
                 Templates.xsprite("tower.3",            2, 9, {width: 16*2, height: 16*2}),
                 Templates.xsprite("tower.4",            8, 9, {width: 16*2, height: 16*2}),
@@ -527,6 +527,9 @@ class SparkAssets {
                 Templates.xsprite("tower.6",            4, 11, {width: 16*4, height: 16*2}),
                 Templates.xsprite("tower.7",            8, 11, {width: 16*2, height: 16*2}),
                 Templates.xsprite("tower.8",            3, 13, {width: 16*6, height: 16*2}),
+                Templates.xsprite("tower.9",            4, 5, {width: 16*1, height: 16*4}),
+                Templates.xsprite("tower.10",           5, 7, {width: 16*2, height: 16*2}),
+                Templates.xsprite("tower.11",           7, 5, {width: 16*1, height: 16*4}),
             ]},
 
             { tag: "tower.door", 
@@ -983,7 +986,7 @@ class SparkAssets {
             Templates.tile("003", "road"),
             Templates.tile("004", "brickFloor"),
             Templates.tile("005", "woodDoor.top", { offx: 24, offy: -8, linkDstTag: "woodDoor"}),
-            Templates.tile("006", "roundBasket"),
+            Templates.tile("006", "roundBasket", {xcollider: {width: 16, height: 16, offy: 8}}),
             Templates.tile("007", "brickFloor.r"),
             Templates.tile("008", "halfTable", {xxform: {dx:8}}),
             Templates.tile("009", "road.l"),
@@ -1031,7 +1034,7 @@ class SparkAssets {
 
             Templates.tile("00I", "sack", {offx: 8, offy: -8, xcollider: { width: 28, height: 16, offy: 4 }}),
             Templates.tile("00J", "table1x2", {offy: -16}),
-            Templates.tile("00K", "basket", {offx: 8, offy: -8 }),
+            Templates.tile("00K", "basket", {offx: 8, offy: -8, xcollider: {width: 20, height: 12, offy: 8}}),
             Templates.tile("00L", "table2x1", {offx: 8, offy: -8}),
             Templates.tile("00M", "largePost", {offy: -16, xcollider: { tag: Collider.sparkthru, width: 10, height: 10, offy: 16 }}),
             Templates.tile("00N", "smallPostBCross", {offy: -16, xcollider: { tag: Collider.sparkthru, width: 10, height: 10, offy: 16 }}),
@@ -1247,21 +1250,17 @@ class SparkAssets {
             Templates.tile("03m", "tower.roof",         {offx: 88, offy: -104}),
             Templates.tile("03n", "tower.slice",        {offx: 56, offy: -32}),
 
-            Templates.tile("03o", "tower.1",            {offx: 8, offy: -16}),
-            //Templates.xsprite("tower.door.close",   4, 3, {width: 16*4, height: 16*6}),
-            Templates.tile("03p", "tower.2",            {offx: 8, offy: -16}), //8, 6, {width: 16*2, height: 16*3}),
-            Templates.tile("03q", "tower.3",            {offx: 8, offy: -8}), //2, 9, {width: 16*2, height: 16*2}),
-            Templates.tile("03r", "tower.4",            {offx: 8, offy: -8}), //8, 9, {width: 16*2, height: 16*2}),
-            Templates.tile("03s", "tower.5",            {offx: 8, offy: -8}), //2, 11, {width: 16*2, height: 16*2}),
-            Templates.tile("03t", "tower.6",            {offx: 24, offy: -8}), //4, 11, {width: 16*4, height: 16*2}),
-            Templates.tile("03u", "tower.7",            {offx: 8, offy: -8}), //8, 11, {width: 16*2, height: 16*2}),
-            Templates.tile("03v", "tower.8",            {offx: 40, offy: -8}), //3, 13, {width: 16*6, height: 16*2}),
-
-
-            /*
-                Templates.xsprite("tower.roof",             0, 0, {width: 16*12, height: 16*14}),
-                Templates.xsprite("tower.slice",            12, 0, {width: 16*8, height: 16*5}),
-                */
+            Templates.tile("03o", "tower.1",            {offx: 8, offy: -16, xcollider: {width: 16, height: 24, offx: 8, offy: 12}}),
+            Templates.tile("03p", "tower.2",            {offx: 8, offy: -16, xcollider: {width: 16, height: 24, offx: -8, offy: 12}}),
+            Templates.tile("03q", "tower.3",            {offx: 8, offy: -8, xcollider: {width: 12, height: 32, offx: -2}}),
+            Templates.tile("03r", "tower.4",            {offx: 8, offy: -8, xcollider: {width: 12, height: 32, offx: 2}}),
+            Templates.tile("03s", "tower.5",            {offx: 8, offy: -8, xcollider: {width: 12, height: 32, offx: 10}}),
+            Templates.tile("03t", "tower.6",            {offx: 24, offy: -8, xcollider: {width: 64, height: 8, offy: 12}}),
+            Templates.tile("03u", "tower.7",            {offx: 8, offy: -8, xcollider: {width: 20, height: 32, offx: -4}}),
+            Templates.tile("03v", "tower.8",            {offx: 40, offy: -8, xcollider: {width: 80, height: 32}}), //3, 13, {width: 16*6, height: 16*2}),
+            Templates.tile("03w", "tower.9",            {offy: -24, xcollider: {width: 16, height: 24, offy: 8}}),
+            Templates.tile("03x", "tower.10",           {offx: 8, offy: -8}),
+            Templates.tile("03y", "tower.11",           {offy: -24, xcollider: {width: 16, height: 24, offy: 8}}),
 
             // ------------------------------------------------------------------------------
 
@@ -1515,7 +1514,7 @@ class SparkAssets {
             }),
 
             Templates.object("o0w", "tower.door", "Door", { 
-                offx: 24, offy: -40, 
+                offx: 8, offy: -32, 
                 approachOffsets: [{x:0, y:16},  {x:16, y:16},  {x:0, y:-32}, {x:16, y:-32}],
                 exitOffsets:     [{x:0, y:-32}, {x:16, y:-32}, {x:0, y:16},  {x:16, y:16}],
                 xopenSfx: { cls: "Media", tag: "doorOpening"}, 
