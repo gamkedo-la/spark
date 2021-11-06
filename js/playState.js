@@ -112,7 +112,6 @@ class PlayState extends State {
                             xsketch: { cls: 'Rect', color: new Color(50,50,50,1), borderWidth: 5, borderColor: new Color(0,0,0,1) },
                         },
                         Templates.playIconButton("menu", { cls: "Media", tag: "topright_icons.options" }, { xxform: {oright: 40, otop: 40, left: .91, bottom: .885}}),
-                        Templates.playIconButton("morale", { cls: "Media", tag: "topright_icons.morale" }, { xxform: {otop: 40, right: .09, left: .86, bottom: .885}}),
 
                     ],
                 },
@@ -138,7 +137,7 @@ class PlayState extends State {
         this.camera = spec.camera || Camera.main;
         //this.camera.dbg = true;
 
-        Util.bind(this, "onKeyDown", "onClicked", "onMenu", "onMorale", "onCloseDialog", "onCloseNpcInfo", "onCloseStory", "onCloseTutorial");
+        Util.bind(this, "onKeyDown", "onClicked", "onMenu", "onCloseDialog", "onCloseNpcInfo", "onCloseStory", "onCloseTutorial");
         Keys.evtKeyPressed.listen(this.onKeyDown);
         Mouse.evtClicked.listen(this.onClicked);
         let gridView = new GridView({depth: 10, grid: this.grid, xxform: {scalex: Config.renderScale, scaley: Config.renderScale}});
@@ -174,8 +173,6 @@ class PlayState extends State {
         this.vendor = this.findFirst(v=>v.tag === "aodhan");
         this.innkeeper = this.findFirst(v=>v.tag === "ciara");
         this.menuButton.evtClicked.listen(this.onMenu);
-        this.moraleButton = this.findFirst(v=>v.tag === "morale");
-        this.moraleButton.evtClicked.listen(this.onMorale);
         this.zPanel = this.findFirst(v=>v.tag === "zPanel");
         this.coordsText = this.findFirst(v=>v.tag === "coords");
         // hook camera
@@ -344,7 +341,7 @@ class PlayState extends State {
         if (!this.view.active) return;
         if (Atts.paused) return;
         // ignore if within button
-        if (this.moraleButton.mouseOver || this.menuButton.mouseOver) return;
+        if (this.menuButton.mouseOver) return;
         //let localMousePos = this.editorPanel.xform.getLocal(new Vect(evt.x, evt.y))
         console.log("onClicked: " + Fmt.ofmt(evt));
         let x = evt.x + this.camera.minx;
@@ -376,10 +373,6 @@ class PlayState extends State {
                 this.addView(gzo);
             }
         }
-    }
-
-    onMorale(evt) {
-        console.log("onMorale clicked");
     }
 
     onMenu(evt) {
