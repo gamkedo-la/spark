@@ -136,8 +136,6 @@ class ServeAction extends Action {
             this.actor.serviceOrderId = 0;
             this.actor.serviceTag = null;
             // spawn served item
-            console.log(`offx: ${this.serveTag}OffX`);
-            console.log(`offy: ${this.serveTag}OffY`);
             let offx = this.target.hasOwnProperty(`${this.serveTag}OffX`) ? this.target[`${this.serveTag}OffX`] : 0;
             let offy = this.target.hasOwnProperty(`${this.serveTag}OffY`) ? this.target[`${this.serveTag}OffY`] : 0;
             let xserved = this.assets.fromTag(this.assetTag);

@@ -10,8 +10,9 @@ class Tile extends Model {
     // CONSTRUCTOR ---------------------------------------------------------
     cpost(spec) {
         super.cpost(spec);
-        // tiles are passive if they do not have a collider
-        if (!this.collider && !this.dirty) this.passive = true;
+        // tiles are passive (i.e.: they don't move) 
+        // -- the exception is dirty tiles
+        if (!this.dirty) this.passive = true;
         // -- sounds
         if (spec.xsparkSfx) {
             //console.log("Discovered a Tile with a sparkSfx!"); // confirm data is good

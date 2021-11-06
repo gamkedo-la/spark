@@ -2,6 +2,7 @@ export { CollisionSystem };
 
 import { System }       from "./system.js";
 import { Bounds }       from "./bounds.js";
+import { Stats } from "./stats.js";
 
 class CollisionSystem extends System {
     cpre(spec) {
@@ -13,6 +14,7 @@ class CollisionSystem extends System {
 
     // METHODS -------------------------------------------------------------
     iterate(ctx, e) {
+        Stats.count('system.collision.iterate');
         // skip entities that are not seeking new position
         if (e.wantx === undefined || e.wanty === undefined) return;
         let resx = e.wantx;
