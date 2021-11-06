@@ -86,6 +86,9 @@ class Spark extends Game {
         // ---- chat system
         this.base.systemMgr.adopt(new ChatSystem({ dbg: Config.dbg.ChatSystem }));
 
+        // pause the game initially
+        Atts.paused = true;
+
         // init font
         Font.dfltFamily = "Irish Grover";
 

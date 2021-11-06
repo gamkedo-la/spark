@@ -28,7 +28,8 @@ class DaytimeSystem extends System {
         this.dawnTwilightTTL = this.dayTTL * twilightPct + this.dawnTTL;
         this.duskTTL = this.dayTTL * duskPct;
         this.duskTwilightTTL = this.dayTTL * twilightPct + this.duskTTL;
-        this.timeOfDay = 0;
+        // start game at midday
+        this.timeOfDay = this.dawnTwilightTTL + 1;
         this.light = 0;
     }
 
