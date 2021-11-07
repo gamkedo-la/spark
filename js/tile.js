@@ -12,7 +12,7 @@ class Tile extends Model {
         super.cpost(spec);
         // tiles are passive (i.e.: they don't move) 
         // -- the exception is dirty tiles
-        if (!this.dirty) this.passive = true;
+        if (!this.dirty && !this.sparkable) this.passive = true;
         // -- sounds
         if (spec.xsparkSfx) {
             //console.log("Discovered a Tile with a sparkSfx!"); // confirm data is good
