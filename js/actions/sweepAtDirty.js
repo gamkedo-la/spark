@@ -71,7 +71,7 @@ class SweepAction extends Action {
     }
 
     start(actor) {
-        //console.log(`sweep action actor: ${actor} target: ${this.target}}`);
+        console.log(`sweep action actor: ${actor} target: ${this.target}}`);
         this.actor = actor;
         // actor applies sweeping condition
         this.actor.conditions.add(Condition.sweeping);
@@ -80,7 +80,7 @@ class SweepAction extends Action {
     update(ctx) {
         this.ttl -= ctx.deltaTime;
         if (this.ttl <= 0) {
-            //console.log(`actor ${this.actor} done sweeping`);
+            console.log(`actor ${this.actor} done sweeping`);
             this.done = true;
             this.actor.conditions.delete(Condition.sweeping);
             // mark area as clean
