@@ -84,7 +84,7 @@ class Animator extends Sketch {
             wantState = ModelState[tag];
         }
         let fromState = (this.pendingState) ? this.pendingState : this.state;
-        //console.log(`from: ${fromState} want: ${wantState}`);
+        //console.log(`-- animator ${this} from: ${ModelState.toString(fromState)} want: ${ModelState.toString(wantState)}`);
         // check for no state change
         if (wantState === fromState) {
             // if currently in transition/pending state, check for animation completion
@@ -134,7 +134,7 @@ class Animator extends Sketch {
     }
 
     toString() {
-        return Fmt.toString(this.constructor.name, this.state, Fmt.ofmt(this.animations));
+        return Fmt.toString(this.constructor.name, ModelState.toString(this.state));
     }
 
 }

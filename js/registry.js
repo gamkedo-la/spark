@@ -97,7 +97,11 @@ class SparkRegistry {
         ModelState.register("eating_north");
         ModelState.register("eating_west");
         ModelState.register("eating_east");
+        ModelState.register("sweeping");
         ModelState.register("sweeping_south");
+        ModelState.register("sweeping_north");
+        ModelState.register("sweeping_west");
+        ModelState.register("sweeping_east");
         ModelState.register("drinking");
         ModelState.register("drinking_south");
         ModelState.register("drinking_north");

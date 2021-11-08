@@ -813,7 +813,7 @@ class SparkAssets {
                 Templates.anim("gnome.eating_north", {frames: 9, offx:32*13, width: 32, height:64, duration: 70}),
                 Templates.anim("gnome.eating_west", {frames: 9, offx:32*14, width: 32, height:64, duration: 70}),
                 Templates.anim("gnome.eating_east", {frames: 9, offx:32*15, width: 32, height:64, duration: 70}),
-                Templates.anim("gnome.sweeping_south", {frames: 4, offx:32*16, width: 32, height:64, duration: 70}),
+                Templates.anim("gnome.sweeping_south", {frames: 4, offx:32*16, width: 32, height:64, duration: 120}),
             ]},
 
             { tag: "gnome",               cls: "Animator", animations: {
@@ -835,7 +835,10 @@ class SparkAssets {
                     [ModelState.eating_north]: { cls: "Media", tag: "gnome.eating_north" },
                     [ModelState.eating_west]:  { cls: "Media", tag: "gnome.eating_west" },
                     [ModelState.eating_east]:  { cls: "Media", tag: "gnome.eating_east" },
+                    [ModelState.sweeping_north]: { cls: "Media", tag: "gnome.sweeping_south" },
                     [ModelState.sweeping_south]: { cls: "Media", tag: "gnome.sweeping_south" },
+                    [ModelState.sweeping_west]: { cls: "Media", tag: "gnome.sweeping_south" },
+                    [ModelState.sweeping_east]: { cls: "Media", tag: "gnome.sweeping_south" },
             }},
 
             { src: "img/gardener.png", loader: "Sheet", refs: [
@@ -1639,7 +1642,7 @@ class SparkAssets {
                 maxQuenchTTL: 30000,
                 xcollider: { tag: Collider.npc, blocking: Collider.projectile|Collider.object, width:14, height:12, offy:16, color: "rgba(0,0,127,.5)" },
                 xactivitySchedule: Templates.innSchedule,
-                xai: { 
+                xxai: { 
                     cls: "AiState",
                     xdirectives: [
                         Templates.aiWakeDirective,
@@ -1687,7 +1690,7 @@ class SparkAssets {
                 sparkable: true,
                 chatable: true,
                 maxSparkTTL: 500,
-                xai: { 
+                xxai: { 
                     cls: "AiState",
                     xdirectives: [
                         Templates.aiWakeDirective,
