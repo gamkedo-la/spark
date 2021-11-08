@@ -264,6 +264,16 @@ class SparkAssets {
             { src: "img/icons.png", loader: "Sheet", refs: [
                 Templates.xanim("downArrow", 0, 0, {duration: [500, 500/7], loop: false}),
                 Templates.xanim("upArrow", 1, 0, {duration: [500, 500/7], loop: false}),
+                Templates.xsprite("morale.0", 2, 0, {width: 16*2, height: 16*2}),
+                Templates.xsprite("morale.1", 4, 0, {width: 16*2, height: 16*2}),
+                Templates.xsprite("morale.2", 6, 0, {width: 16*2, height: 16*2}),
+                Templates.xsprite("morale.3", 8, 0, {width: 16*2, height: 16*2}),
+                Templates.xsprite("morale.4", 10, 0, {width: 16*2, height: 16*2}),
+                Templates.xsprite("morale.5", 12, 0, {width: 16*2, height: 16*2}),
+                Templates.xsprite("morale.6", 14, 0, {width: 16*2, height: 16*2}),
+                Templates.xsprite("morale.7", 16, 0, {width: 16*2, height: 16*2}),
+                Templates.xsprite("morale.8", 18, 0, {width: 16*2, height: 16*2}),
+                Templates.xsprite("morale.9", 20, 0, {width: 16*2, height: 16*2}),
             ]},
 
             { tag: "inn.lvl1.door.b", 

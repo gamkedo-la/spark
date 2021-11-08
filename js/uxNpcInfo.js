@@ -23,8 +23,7 @@ class UxNpcInfo extends UxCtrl {
         let likes = (this.npc && this.npc.bio) ? this.npc.bio.likes : "<likes>";
         let dislikes = (this.npc && this.npc.bio) ? this.npc.bio.dislikes : "<dislikes>";
         let portraitTag = (this.npc && this.npc.portraitTag) ? this.npc.portraitTag : "gnome.portrait";
-        // FIXME: tie to npc morale
-        let moraleTag = "like";
+        let moraleTag = (this.npc && this.npc.morale) ? `morale.${this.npc.morale.value}` : "morale.4";
 
         // construct the UI elements
         this.view = Generator.generate({

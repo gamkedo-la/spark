@@ -1,8 +1,9 @@
 export { Morale };
 
 class Morale {
+    // min 0, max 9, range 10
     static dflt = 5;
-    static max = 10;
+    static max = 9;
 
     // CONSTRUCTOR ---------------------------------------------------------
     constructor(spec={}) {
