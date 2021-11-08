@@ -13,6 +13,7 @@ class WantBedScheme extends AiScheme {
         this.preconditions.push((state) => !state.a_occupyId);                              // is actor currently occupying an area
         this.preconditions.push((state) => !state.v_occupyTag);                             // has occupation already been planned
         this.preconditions.push((state) => state.v_wantTag === undefined);
+        this.preconditions.push((state) => !state.a_conditions.has(Condition.asleep));      //
         this.effects.push((state) => state.v_wantTag = "Bed");
         this.effects.push((state) => state.v_wantBed = true);
     }
