@@ -380,6 +380,10 @@ class PlayState extends State {
         let state = new OptionsState();
         // then the state manager is told to swap the current state (which is the menu state) with the new play state.
         Base.instance.stateMgr.push(state);
+        // pause game
+        Atts.paused = true;
+        // hook destroy event for dialog
+        state.evtDestroyed.listen(() => Atts.paused = false);
     }
 
     onGizmoDestroy(evt) {
