@@ -204,7 +204,7 @@ class PlayState extends State {
         this.innkeeperSparkbase = this.findFirst(v=>v.tag === "inn.wall.rune" && v.ownerTag === "Ciara");
         this.fountainBase = this.findFirst(v=>v.tag === "sparkbase.fountain" && v.x === 504 && v.y === 456);
         this.exampleRelay = this.findFirst(v=>v.tag === "relay" && v.x === 632 && v.y === 504);
-        console.log(`exampleRelay: ${this.exampleRelay}`);
+        //console.log(`exampleRelay: ${this.exampleRelay}`);
 
         // debug mode
         this.clickMode = "path";
@@ -730,7 +730,6 @@ class UxChatBubble extends UxPanel {
         this.ttl -= ctx.deltaTime;
         if (this.ttl <= 0) {
             this.destroy();
-            console.log("destroy chat bubble");
             return true;
         }
         this.xform._offx = this.getx();

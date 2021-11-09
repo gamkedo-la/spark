@@ -75,27 +75,37 @@ class WorldOverrides {
                 spec: {
                     ownerTag: "Aodhan",
                     powered: false,
+                    dirty: new WorkTimer({maxTTL: 30000}),
                 },
             },
 
             // -- SWEEP locations
             {
                 predicate: (v) => v.x === this.wpos(WorldGen.vendor1.offx + 2) && 
-                                v.y === this.wpos(WorldGen.vendor1.offy + 7) &&
+                                v.y === this.wpos(WorldGen.vendor1.offy + 2) &&
                                 v.tag === "road",
-                spec: { ownerTag: "Aodhan", dirty: new WorkTimer(), },
+                spec: { 
+                    ownerTag: "Aodhan", 
+                    dirty: new WorkTimer({maxTTL: 30000}),
+                },
+            },
+            {
+                predicate: (v) => v.x === this.wpos(WorldGen.vendor1.offx + 5) && 
+                                v.y === this.wpos(WorldGen.vendor1.offy + 5) &&
+                                v.tag === "road",
+                spec: { 
+                    ownerTag: "Aodhan", 
+                    dirty: new WorkTimer({maxTTL: 30000}),
+                },
             },
             {
                 predicate: (v) => v.x === this.wpos(WorldGen.vendor1.offx + 3) && 
                                 v.y === this.wpos(WorldGen.vendor1.offy + 7) &&
                                 v.tag === "road",
-                spec: { ownerTag: "Aodhan", dirty: new WorkTimer(), },
-            },
-            {
-                predicate: (v) => v.x === this.wpos(WorldGen.vendor1.offx + 3) && 
-                                v.y === this.wpos(WorldGen.vendor1.offy + 6) &&
-                                v.tag === "road",
-                spec: { ownerTag: "Aodhan", dirty: new WorkTimer(), },
+                spec: { 
+                    ownerTag: "Aodhan", 
+                    dirty: new WorkTimer({maxTTL: 30000}),
+                },
             },
 
             // -- STOCK locations

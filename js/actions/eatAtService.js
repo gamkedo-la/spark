@@ -89,10 +89,10 @@ class EatAtServicePlan extends AiPlan {
         super.prepare(actor, state);
         // lookup what actor is occupying
         let oobj = this.entities.get(actor.occupyId);
-        console.log(`============== oobj is: ${oobj}`);
-        if (oobj) console.log(`target foodid is: ${oobj.foodId}`);
+        //console.log(`============== oobj is: ${oobj}`);
+        //if (oobj) console.log(`target foodid is: ${oobj.foodId}`);
         if (!oobj || !oobj.foodId) {
-            console.log("EatAtServicePlan: no food");
+            //console.log("EatAtServicePlan: no food");
             return false;
         }
         return true;

@@ -42,7 +42,8 @@ class AiPlanSystem extends System {
             let sinfo = scheme.check(actor, parent.state);
             // if not viable skip...
             if (!sinfo) {
-                //console.log(`XXX scheme: ${scheme} not viable for state: ${Fmt.ofmt(parent.state)}`);
+                //if (scheme.constructor.name === 'WantStockScheme') console.log(`XXX scheme: ${scheme} not viable for state: ${Fmt.ofmt(parent.state)}`);
+                //if (scheme.constructor.name === 'RestockAtStockScheme') console.log(`XXX scheme: ${scheme} not viable for state: ${Fmt.ofmt(parent.state)}`);
                 continue;
             }
             //console.log(`====> scheme: ${scheme} gives: ${Fmt.ofmt(sinfo)}`);
