@@ -138,12 +138,28 @@ class WorldOverrides {
                 },
             },
             {
-                predicate: (v) => v.x === this.wpos(WorldGen.inn.offx + 8) && 
-                                v.y === this.wpos(WorldGen.inn.offy + 8) &&
+                predicate: (v) => v.x === this.wpos(WorldGen.inn.offx + 11) && 
+                                v.y === this.wpos(WorldGen.inn.offy + 7) &&
                                 v.tag === "stool",
                 spec: {
                     ownerTag: "Ciara",
+                    occupiedDir: Direction.east, 
+                },
+            },
+            {
+                predicate: (v) => v.x === this.wpos(WorldGen.inn.offx + 13) && 
+                                v.y === this.wpos(WorldGen.inn.offy + 3) &&
+                                v.tag === "stool",
+                spec: {
                     occupiedDir: Direction.north, 
+                },
+            },
+            {
+                predicate: (v) => v.x === this.wpos(WorldGen.inn.offx + 6) && 
+                                v.y === this.wpos(WorldGen.inn.offy + 7) &&
+                                v.tag === "stool",
+                spec: {
+                    occupiedDir: Direction.west, 
                 },
             },
             {

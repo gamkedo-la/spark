@@ -505,6 +505,8 @@ class SparkAssets {
                 Templates.xsprite("plant.carrot.nv",    7, 30, { width: 16*2, height: 16*2 }),
                 Templates.xsprite("bridge.rail",        14, 18, { width: 16*6, height: 16*3 }),
                 Templates.xsprite("bridge",             15, 21, { width: 16*4, height: 16*3 }),
+                Templates.xsprite("table.cards",        16, 0, { width: 16*2, height: 16*3 }),
+                Templates.xsprite("table.checkers",     18, 0, { width: 16*2, height: 16*3 }),
             ]},
 
             { tag: "well", 
@@ -1275,6 +1277,9 @@ class SparkAssets {
             Templates.tile("03x", "tower.10",           {offx: 8, offy: -8}),
             Templates.tile("03y", "tower.11",           {offy: -24, xcollider: {width: 16, height: 24, offy: 8}}),
 
+            Templates.tile("03z", "table.cards",        {offx: 8, offy: -16, xcollider: {width: 20, offy:-4}}),
+            Templates.tile("040", "table.checkers",     {offx: 8, offy: -16, xcollider: {width: 20, offy:-4}}),
+
             // ------------------------------------------------------------------------------
 
 
@@ -1642,7 +1647,7 @@ class SparkAssets {
                 maxQuenchTTL: 30000,
                 xcollider: { tag: Collider.npc, blocking: Collider.projectile|Collider.object, width:14, height:12, offy:16, color: "rgba(0,0,127,.5)" },
                 xactivitySchedule: Templates.innSchedule,
-                xxai: { 
+                xai: { 
                     cls: "AiState",
                     xdirectives: [
                         Templates.aiWakeDirective,
