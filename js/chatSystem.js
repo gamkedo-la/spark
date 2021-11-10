@@ -7,6 +7,7 @@ import { Atts }                 from "./base/atts.js";
 import { Util }                 from "./base/util.js";
 import { Event }                from "./base/event.js";
 import { Morale } from "./morale.js";
+import { Fmt } from "./base/fmt.js";
 
 /**
  * system to manage npc chat interactions
@@ -98,6 +99,10 @@ class ChatSystem extends System {
             } else if (choice >= 7) {
                 kind = "chat.compliment";
             }
+        }
+        // hackety-hack: prevent innkeeper from receiving compliments from normal chat
+        if (target.tag === "ciara" && target.morale.value !== Morale.max && kind === "chat.compliment") {
+            kind = "chat.neutral";
         }
         let msg = "undefined";
         switch (kind) {
