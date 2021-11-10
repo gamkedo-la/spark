@@ -1,9 +1,11 @@
 export { SparkAssets };
 
 import { Collider }             from "./base/collider.js";
+import { Condition } from "./base/condition.js";
 import { Direction }            from "./base/dir.js";
 import { Fmt }                  from "./base/fmt.js";
 import { ModelState }           from "./base/modelState.js";
+import { WorkTimer } from "./dirtySystem.js";
 import { Templates }            from "./templates.js";
 
 const moveDuration = 90;
@@ -67,6 +69,27 @@ class SparkAssets {
         "WantStoveScheme",
         "WantWorkstationScheme",
         "WorkAtStationScheme",
+    ];
+
+    static gardenerSchemes = [
+        "CloseAtStationScheme",
+        "ComplimentAtServiceScheme",
+        "EatAtChairScheme",
+        "EatAtServiceScheme",
+        "FindScheme",
+        "GatherScheme",
+        "LeaveScheme",
+        "MoveScheme",
+        "OccupyScheme",
+        "SleepAtBedScheme",
+        "WaitAtServiceScheme",
+        "WantBedScheme",
+        "WantChairScheme",
+        "WantServiceScheme",
+        "WantStoveScheme",
+        "WantWaterScheme",
+        "WantPlantScheme",
+        "WaterAtPlantScheme",
     ];
 
     static init() {
@@ -1248,7 +1271,7 @@ class SparkAssets {
             Templates.tile("036", "gardenRow.r"),
             Templates.tile("037", "gardenRow.l"),
             Templates.tile("038", "scarecrow",          {offx: 16, offy: -16, xcollider: {width: 16, height: 16, offy: 16}}),
-            Templates.tile("039", "plant.cabbage",      {offx: 8, offy: -8}),
+            Templates.tile("039", "plant.cabbage",      {offx: 8, offy: -8, xthirsty: {maxTTL: 5000, condition: Condition.thirsty}}),
             Templates.tile("03a", "plant.potato",       {offx: 8, offy: -8}),
             Templates.tile("03b", "plant.carrot",       {offx: 8, offy: -8}),
             Templates.tile("03c", "stoneWall.1",        {offx: 16, offy: -8, xcollider: {width: 44, height: 20, offy: 4}}),
@@ -1596,7 +1619,7 @@ class SparkAssets {
                 sparkable: true,
                 chatable: true,
                 maxSparkTTL: 500,
-                xai: { 
+                xxai: { 
                     cls: "AiState",
                     xdirectives: [
                         Templates.aiWakeDirective,
@@ -1647,7 +1670,7 @@ class SparkAssets {
                 maxQuenchTTL: 30000,
                 xcollider: { tag: Collider.npc, blocking: Collider.projectile|Collider.object, width:14, height:12, offy:16, color: "rgba(0,0,127,.5)" },
                 xactivitySchedule: Templates.innSchedule,
-                xai: { 
+                xxai: { 
                     cls: "AiState",
                     xdirectives: [
                         Templates.aiWakeDirective,
@@ -1679,10 +1702,10 @@ class SparkAssets {
                 mediaTag: "gardener",
                 portraitTag: "gardener.portrait",
                 bio: {
-                    "info": "hi ho, yada yada yada",
+                    "info": "weeds have met their match",
                     "job": "gardener",
-                    "likes": "magic",
-                    "dislikes": "complaints",
+                    "likes": "watering, weeding, planting",
+                    "dislikes": "time away from gardening",
                 },
                 ctrlId: 0,
                 offy: -16,
@@ -1695,7 +1718,7 @@ class SparkAssets {
                 sparkable: true,
                 chatable: true,
                 maxSparkTTL: 500,
-                xxai: { 
+                xai: { 
                     cls: "AiState",
                     xdirectives: [
                         Templates.aiWakeDirective,
@@ -1703,12 +1726,11 @@ class SparkAssets {
                         Templates.aiRelaxDirective,
                         Templates.aiRestDirective,
                     ],
-                    xschemes: this.vendorSchemes,
+                    xschemes: this.gardenerSchemes,
                 },
                 xmorale: {
                     cls: "Morale",
                     likes: { 
-                        "spark": 2, 
                     },
                     dislikes: { 
                         "chat.insult": 2,

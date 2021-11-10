@@ -15,6 +15,10 @@ class WorkTimer {
         this.needsReset = false;
         this.condition = spec.condition || Condition.dirty;
     }
+
+    toString() {
+        return Fmt.toString(this.constructor.name, this.ttl, this.condition);
+    }
 }
 
 /**
@@ -23,13 +27,13 @@ class WorkTimer {
 class DirtySystem extends System {
     cpre(spec) {
         spec.iterateTTL = spec.iterateTTL || 1000;
-        spec.fixedPredicate = spec.fixedPredicate || ((e) => e.cat === "Model" && (e.dirty || e.restock));
+        spec.fixedPredicate = spec.fixedPredicate || ((e) => e.cat === "Model" && (e.dirty || e.restock || e.thirsty));
         super.cpre(spec);
     }
 
     // METHODS -------------------------------------------------------------
     iterate(ctx, e) {
-        for (const tag of ["dirty", "restock"]) {
+        for (const tag of ["dirty", "restock", "thirsty"]) {
             let timer = e[tag];
             if (!timer) continue;
 

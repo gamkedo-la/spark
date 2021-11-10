@@ -55,6 +55,9 @@ import { ComplimentAtServiceScheme, EatAtServiceScheme, WaitAtServiceScheme } fr
 import { UxNpcInfo } from "./uxNpcInfo.js";
 import { CharacterView, ModelView } from "./modelView.js";
 import { Bouncer } from "./bouncer.js";
+import { WantWaterScheme } from "./actions/wantWater.js";
+import { WantPlantScheme } from "./actions/wantPlant.js";
+import { WaterAtPlantScheme } from "./actions/waterAtPlant.js";
 
 class SparkRegistry {
     static init() {
@@ -130,6 +133,7 @@ class SparkRegistry {
         Condition.register("closed");
         Condition.register("enlightened");
         Condition.register("spun");
+        Condition.register("watering");
     }
     static setup(registry) {
         // -- register view classes
@@ -191,6 +195,7 @@ class SparkRegistry {
         registry.add(WantDirtyScheme);
         registry.add(WantFoodClearScheme);
         registry.add(WantFoodOrderScheme);
+        registry.add(WantPlantScheme);
         registry.add(WantPrepBeerServiceScheme);
         registry.add(WantPrepFoodServiceScheme);
         registry.add(WantServeBeerScheme);
@@ -198,7 +203,9 @@ class SparkRegistry {
         registry.add(WantServiceScheme);
         registry.add(WantStockScheme);
         registry.add(WantStoveScheme);
+        registry.add(WantWaterScheme);
         registry.add(WantWorkstationScheme);
+        registry.add(WaterAtPlantScheme);
         registry.add(WorkAtStationScheme);
         // -- setup global atts
         Atts.sparkSources = new Store({getkey: (v) => v.gid});

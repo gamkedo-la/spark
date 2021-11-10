@@ -4,6 +4,7 @@ import { Gizmo }            from "./gizmo.js";
 import { ModelState }       from "./modelState.js";
 import { Stats }            from "./stats.js";
 import { Generator }        from "./generator.js";
+import { WorkTimer } from "../dirtySystem.js";
 
 /** ========================================================================
  * The base game model for holding game data and state
@@ -42,6 +43,8 @@ class Model extends Gizmo {
         this.conditions = new Set(spec.conditions);
         // -- dirty (can the object get dirty?)
         this.dirty = spec.dirty;
+        // -- thirsty (can the object get thirsty?)
+        this.thirsty = (spec.xthirsty) ? new WorkTimer(spec.xthirsty) : undefined;
         // -- sketch
         this.xsketch = spec.xsketch || {};
         // -- xform
