@@ -192,20 +192,32 @@ class WorldOverrides {
             // -- BED
             {
                 predicate: (v) => v.x === this.wpos(WorldGen.gardenHouse.offx + 4) && 
-                                v.y === this.wpos(WorldGen.gardenHouse.offy + 4) &&
+                                v.y === this.wpos(WorldGen.gardenHouse.offy + 7) &&
                                 v.cls === "Bed",
                 spec: {
                     ownerTag: "Finn",
+                    approachOffsets: [{x:-16, y:0}],
                 },
             },
             // -- STOOL/TABLE
             {
-                predicate: (v) => v.x === this.wpos(WorldGen.vendorHouse.offx + 2) && 
-                                v.y === this.wpos(WorldGen.vendorHouse.offy + 3) &&
+                predicate: (v) => v.x === this.wpos(WorldGen.gardenHouse.offx + 2) && 
+                                v.y === this.wpos(WorldGen.gardenHouse.offy + 5) &&
                                 v.tag === "stool",
                 spec: {
                     ownerTag: "Finn",
-                    occupiedDir: Direction.east, 
+                    occupiedDir: Direction.north, 
+                },
+            },
+            // -- RUNES
+            {
+                predicate: (v) => v.x === this.wpos(WorldGen.lvl32.offx + 6) && 
+                                v.y === this.wpos(WorldGen.lvl32.offy + 15) &&
+                                v.tag === "rockRelay",
+                spec: {
+                    ownerTag: "Finn",
+                    powered: false,
+                    range: Config.tileSize * 16,
                 },
             },
 

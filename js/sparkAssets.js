@@ -1355,9 +1355,9 @@ class SparkAssets {
                 xcollider: {width:10, height:20, offy: 10}, 
             }),
 
-            Templates.object("o06", "rockRelay", "SparkRelay", { 
+            Templates.object("o06", "rockRelay", "SparkBase", { 
                 offy: 0, 
-                xcollider: {width:10, height:10, offy: 10}, 
+                xcollider: { width:24, height:24 }, 
             }),
 
             Templates.object("o07", "stove", "Stove", {

@@ -172,6 +172,7 @@ class PlayState extends State {
         this.menuButton = this.findFirst(v=>v.tag === "menu");
         this.vendor = this.findFirst(v=>v.tag === "aodhan");
         this.innkeeper = this.findFirst(v=>v.tag === "ciara");
+        this.gardener = this.findFirst(v=>v.tag === "finn");
         this.menuButton.evtClicked.listen(this.onMenu);
         this.zPanel = this.findFirst(v=>v.tag === "zPanel");
         this.coordsText = this.findFirst(v=>v.tag === "coords");
@@ -204,6 +205,7 @@ class PlayState extends State {
         this.innkeeperSparkbase = this.findFirst(v=>v.tag === "inn.wall.rune" && v.ownerTag === "Ciara");
         this.fountainBase = this.findFirst(v=>v.tag === "sparkbase.fountain" && v.x === 504 && v.y === 456);
         this.exampleRelay = this.findFirst(v=>v.tag === "relay" && v.x === 632 && v.y === 504);
+        this.gardenerSparkbase = this.findFirst(v=>v.tag === "rockRelay" && v.ownerTag === "Finn");
         //console.log(`exampleRelay: ${this.exampleRelay}`);
 
         // debug mode
@@ -267,6 +269,9 @@ class PlayState extends State {
             } else if (!this.innkeeperMoraleMax) {
                 this.eventQ.push(new Event("npc.moraleMax", {actor: this.innkeeper}));
                 this.innkeeperMoraleMax = true;
+            } else if (!this.gardenerMoraleMax) {
+                this.eventQ.push(new Event("npc.moraleMax", {actor: this.gardener}));
+                this.gardenerMoraleMax = true;
             }
             /*
             let xdialog = SparkDialog.dialogs.test;
@@ -620,13 +625,22 @@ class PlayState extends State {
                         this.actions.push(new ResumeAction());
                     } else if (evt.actor.tag === "ciara") {
                         this.actions.push(new PauseAction());
-                        this.actions.push(new ResumeAction());
                         this.actions.push(new PanToAction({target: this.innkeeperSparkbase}));
                         this.actions.push(new PlaySoundAction({sfx: this.pillarActivateSfx}));
                         this.actions.push(new PowerUpAction({target: this.innkeeperSparkbase}));
-                        this.actions.push(new PanToAction({target: this.player}));
                         this.actions.push(new WaitAction());
+                        this.actions.push(new PanToAction({target: this.player}));
+                        this.actions.push(new ResumeAction());
+                    } else if (evt.actor.tag === "finn") {
+                        this.actions.push(new PauseAction());
+                        this.actions.push(new PanToAction({target: this.gardenerSparkbase}));
+                        this.actions.push(new PlaySoundAction({sfx: this.pillarActivateSfx}));
+                        this.actions.push(new PowerUpAction({target: this.gardenerSparkbase}));
+                        this.actions.push(new WaitAction());
+                        this.actions.push(new PanToAction({target: this.player}));
+                        this.actions.push(new ResumeAction());
                     }
+
                     break;
                 case "npc.moraleUp":
                     this.startMoraleIndicator(evt.actor, true);

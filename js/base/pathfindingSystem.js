@@ -33,7 +33,7 @@ class PathfindingSystem extends System {
         this.layerCost = spec.layerCost || Config.tileSize;
         Util.bind(this, "heuristic");
         this.pathfinder = new Pathfinder({
-            maxTries: 800,
+            maxTries: 1500,
             graph: this.lvlGraph, 
             heuristicFcn: this.heuristic,
             equalsFcn: PathfindingSystem.targetEquals,
