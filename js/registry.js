@@ -58,6 +58,7 @@ import { Bouncer } from "./bouncer.js";
 import { WantWaterScheme } from "./actions/wantWater.js";
 import { WantPlantScheme } from "./actions/wantPlant.js";
 import { WaterAtPlantScheme } from "./actions/waterAtPlant.js";
+import { Dispenser } from "./dispenser.js";
 
 class SparkRegistry {
     static init() {
@@ -147,6 +148,7 @@ class SparkRegistry {
         registry.add(Tile);
         registry.add(Character);
         registry.add(Door);
+        registry.add(Dispenser);
         registry.add(Chair);
         registry.add(Stairs);
         registry.add(Bed);

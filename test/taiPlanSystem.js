@@ -42,9 +42,9 @@ let aiPlanSystemSuite = describe("AI Plan System", () => {
             xplans: [["WantStockPlan", "FindPlan", "MovePlan", "OccupyPlan", "RestockAtStockPlan" ]]},
 
         {desc: "water test", env: {}, actor: Object.assign({}, actor, {}), goal: AiGoal.work, 
-            xschemes: [ "WantWaterScheme", "WantPlantScheme", "FindScheme", "GatherScheme", "MoveScheme", "OccupyScheme", "WaterAtPlantScheme" ], 
-            xplans: [["WantStockPlan", "FindPlan", "MovePlan", "OccupyPlan", "RestockAtStockPlan" ]]},
-
+            //xschemes: [ "WantWaterScheme", "WantPlantScheme", "FindScheme", "GatherScheme", "MoveScheme", "OccupyScheme", "WaterAtPlantScheme" ], 
+            xschemes: SparkAssets.gardenerSchemes,
+            xplans: [[ 'WantWaterPlan', 'FindPlan', 'MovePlan', 'GatherPlan', 'WantPlantPlan', 'FindPlan', 'MovePlan', 'WaterAtPlantPlan' ]]},
 
         {desc: "innkeeper order beer test", env: {}, actor: Object.assign({}, actor, {}), goal: AiGoal.work, 
             xschemes: ["WantBeerOrderScheme", "FindScheme", "MoveScheme", "GatherScheme", "TakeBeerOrderScheme", "WantServeBeerScheme", "ServeBeerScheme"],

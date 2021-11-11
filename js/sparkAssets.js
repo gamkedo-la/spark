@@ -1136,13 +1136,14 @@ class SparkAssets {
             Templates.tile("01E", "vhouseRoof2", {offx: 16, offy: -8, sparkable: true, linkDstTag: "vhouse.flowers.l"}),
             Templates.tile("01F", "vhouseRoof3", {offx: 16, offy: -8}),
             Templates.tile("01G", "vhouseRoof5", {offx: 16, offy: -8, sparkable: true, linkDstTag: "vhouse.flowers.r"}),
-            Templates.tile("01H", "fountain", {
+            Templates.object("01H", "fountain", "Dispenser", { 
                 offx: 48, offy: -48,
                 xcollider: { cls: "ColliderSet", xitems: [
                     {width: 76, height: 40, offx: 48, offy: -50},
                     {width: 40, height: 76, offx: 48, offy: -50},
                     {width: 60, height: 60, offx: 48, offy: -50},
                 ]},
+                approachOffsets: [{x:48, y:0}],
             }),
             Templates.tile("01I", "fountain.top", {offx: 32, offy: -16}),
             Templates.tile("01J", "fountain.water", {offx: 48, offy: -48}),
@@ -1277,7 +1278,14 @@ class SparkAssets {
             Templates.tile("03c", "stoneWall.1",        {offx: 16, offy: -8, xcollider: {width: 44, height: 20, offy: 4}}),
             Templates.tile("03d", "stoneWall.2",        {offx: 8, offy: -16, xcollider: {width: 28, height: 36, offy: 4}}),
             Templates.tile("03e", "stoneWall.3",        {offx: 16, offy: -8, xcollider: {width: 44, height: 20, offy: 4}}),
-            Templates.tile("03f", "well",               {offx: 24, offy: -24, xcollider: {width: 24, height: 24, offy: 16}, sparkable: true}),
+            Templates.object("03f", "well", "Dispenser",{
+                offx: 24, offy: -24, 
+                xcollider: {width: 24, height: 24, offy: 16}, 
+                sparkable: true,
+                dispenseTag: "None",
+                gatherDir: Direction.east,
+                moraleEvent: "magic.water",
+            }),
             Templates.tile("03g", "plant.cabbage.nv",   {offx: 8, offy: -8}),
             Templates.tile("03h", "plant.potato.nv",    {offx: 8, offy: -8}),
             Templates.tile("03i", "plant.carrot.nv",    {offx: 8, offy: -8}),
@@ -1731,6 +1739,7 @@ class SparkAssets {
                 xmorale: {
                     cls: "Morale",
                     likes: { 
+                        "magic.water": 2,
                     },
                     dislikes: { 
                         "chat.insult": 2,

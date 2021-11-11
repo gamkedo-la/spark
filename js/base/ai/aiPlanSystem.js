@@ -46,11 +46,11 @@ class AiPlanSystem extends System {
                 //if (scheme.constructor.name === 'RestockAtStockScheme') console.log(`XXX scheme: ${scheme} not viable for state: ${Fmt.ofmt(parent.state)}`);
                 continue;
             }
-            console.log(`====> scheme: ${scheme} gives: ${Fmt.ofmt(sinfo)}`);
             // apply effects
             let state = Object.assign({}, parent.state);
             if (state.hasOwnProperty("a_conditions")) state.a_conditions = new Set(state.a_conditions);
             if (sinfo.effects) sinfo.effects.forEach((effect) => effect(state));
+            //console.log(`====> scheme: ${scheme} gives: ${Fmt.ofmt(sinfo)} state: ${Fmt.ofmt(state)}`);
             // create plan associated w/ scheme
             // FIXME: pass thru dbg
             let plan = scheme.generatePlan({dbg: true});

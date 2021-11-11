@@ -18,7 +18,7 @@ class Tile extends Model {
             //console.log("Discovered a Tile with a sparkSfx!"); // confirm data is good
             this.xsparkSfx = Generator.generate(spec.xsparkSfx);
         }
-        if (this.tag === "plant.cabbage") console.log(`tile spec: ${Fmt.ofmt(spec)}, thirsty: ${this.thirsty}`);
+        //if (this.tag === "plant.cabbage") console.log(`tile spec: ${Fmt.ofmt(spec)}, thirsty: ${this.thirsty}`);
     }
 
 }

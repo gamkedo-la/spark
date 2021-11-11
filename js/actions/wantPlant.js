@@ -13,11 +13,11 @@ class WantPlantScheme extends AiScheme {
         this.preconditions.push((state) => !state.v_occupyTag);                 // occupy wasn't planned previous
         this.preconditions.push((state) => !state.a_occupyId);                  // not currently occupying
         this.preconditions.push((state) => !state.v_wantPlant);                 // prevents cycles
-        this.preconditions.push((state) => !state.v_wantTag);                   // wanting wasn't planned previous
+        //this.preconditions.push((state) => !state.v_wantTag);                   // wanting wasn't planned previous
         this.preconditions.push((state) => state.a_carryTag === "Water");       // carrying resource
         this.effects.push((state) => state.v_wantTag = "Plant");
         this.effects.push((state) => state.v_wantPlant = true);
-        this.effects.push((state) => state.v_findPredicate = ((v) => v.tag.startswith("plant") && v.conditions && v.conditions.has(Condition.thirsty)) );
+        this.effects.push((state) => state.v_findPredicate = ((v) => v.tag.startsWith("plant") && v.conditions && v.conditions.has(Condition.thirsty)) );
     }
 
     deriveState(env, actor, state) {

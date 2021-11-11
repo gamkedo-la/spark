@@ -120,6 +120,10 @@ class SparkSystem extends System {
                     if (obj.xsparkSfx) {
                         obj.xsparkSfx.play();
                     }
+                    // hackety hack: if the well is sparked, it will dispense water
+                    if (obj.tag === "well") {
+                        obj.dispenseTag = "Water";
+                    }
 
                 } else {
                     // spark hit a non-sparkable Tile
