@@ -25,7 +25,7 @@ class SparkAssets {
         "ServeBeerScheme",
         "ServeFoodScheme",
         "SleepAtBedScheme",
-        "RestockAtStockScheme",
+        //"RestockAtStockScheme",
         "SweepAtDirtyScheme",
         "TakeBeerOrderScheme",
         "TakeFoodOrderScheme",
@@ -40,7 +40,7 @@ class SparkAssets {
         "WantPrepFoodServiceScheme",
         "WantServeBeerScheme",
         "WantServeFoodScheme",
-        "WantStockScheme",
+        //"WantStockScheme",
         "WantStoveScheme",
         "WantWorkstationScheme",
         "WorkAtStationScheme",
@@ -1445,7 +1445,7 @@ class SparkAssets {
                 exitOffsets:     [{x:0, y:-32}, {x:16, y:-32}, {x:0, y:16},  {x:16, y:16}],
                 xopenSfx: { cls: "Media", tag: "doorOpening"}, 
                 xcloseSfx: { cls: "Media", tag: "doorClosing"}, 
-                xcollider: { offy: 24, width:48, height:24 }, 
+                xcollider: { offy: 24, width:48, height:16 }, 
                 linkSrcTag: "inn.lvl1.door",
             }),
 
@@ -1629,7 +1629,7 @@ class SparkAssets {
                 sparkable: true,
                 chatable: true,
                 maxSparkTTL: 500,
-                xxai: { 
+                xai: { 
                     cls: "AiState",
                     xdirectives: [
                         Templates.aiWakeDirective,
@@ -1759,7 +1759,7 @@ class SparkAssets {
                 maxQuenchTTL: 30000,
                 xcollider: { tag: Collider.npc, blocking: Collider.projectile|Collider.object, width:14, height:12, offy:16, color: "rgba(0,0,127,.5)" },
                 xactivitySchedule: Templates.innSchedule,
-                xxai: { 
+                xai: { 
                     cls: "AiState",
                     xdirectives: [
                         Templates.aiWakeDirective,

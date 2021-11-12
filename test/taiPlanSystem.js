@@ -56,7 +56,7 @@ let aiPlanSystemSuite = describe("AI Plan System", () => {
                 [ 'WantBeerOrderPlan', 'FindPlan', 'MovePlan', 'TakeBeerOrderPlan', 'FindPlan', 'MovePlan', 'GatherPlan', 'WantServeBeerPlan', 'MovePlan', 'ServeBeerPlan' ],
                 [ 'WantDirtyPlan', 'FindPlan', 'MovePlan', 'SweepAtDirtyPlan' ],
                 [ 'WantFoodClearPlan', 'FindPlan', 'MovePlan', 'ClearFoodPlan' ],
-                [ 'WantFoodOrderPlan', 'FindPlan', 'MovePlan', 'TakeFoodOrderPlan' ],
+                [ 'WantFoodOrderPlan', 'FindPlan', 'MovePlan', 'TakeFoodOrderPlan', 'FindPlan', 'MovePlan', 'GatherPlan', 'WantServeFoodPlan', 'MovePlan', 'ServeFoodPlan' ],
                 [ 'WantWorkstationPlan', 'FindPlan', 'MovePlan', 'OccupyPlan', 'OpenAtStationPlan' ],
             ]},
 

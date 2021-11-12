@@ -10,9 +10,9 @@ class WantStockScheme extends AiScheme {
         super(spec);
         this.goalPredicate = (goal) => goal === AiGoal.work;
         this.preconditions.push((state) => !state.v_wantStock);                           // prevents cycles in wanting stove, wanting something else, wanting stove...
-        //this.preconditions.push((state) => !state.a_occupyId);
-        //this.preconditions.push((state) => state.v_wantTag === undefined);
-        //this.preconditions.push((state) => !state.v_occupyTag);                             // has occupation already been planned
+        this.preconditions.push((state) => !state.a_occupyId);
+        this.preconditions.push((state) => state.v_wantTag === undefined);
+        this.preconditions.push((state) => !state.v_occupyTag);                             // has occupation already been planned
         this.effects.push((state) => state.v_wantTag = "Stock");
         this.effects.push((state) => state.v_findPredicate = ((v) => v.conditions && v.conditions.has(Condition.restock)) );
         this.effects.push((state) => state.v_wantStock = true);
