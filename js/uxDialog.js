@@ -9,6 +9,7 @@ import { Keys } from "./base/keys.js";
 import { Text } from "./base/text.js";
 import { Util } from "./base/util.js";
 import { UxCtrl } from "./base/uxCtrl.js";
+import { Templates } from "./templates.js";
 
 class UxDialogCtrl extends UxCtrl {
     
@@ -16,9 +17,9 @@ class UxDialogCtrl extends UxCtrl {
         super.cpost(spec);
 
         this.dialog = spec.dialog;
-        this.responseColor || new Color(168,36,36);
-        const titleColor = spec.titleColor || new Color(168,36,36);
-        const dialogColor = spec.dialogColor || new Color(168,36,36);
+        this.responseColor = Templates.playTextColor;
+        const titleColor = spec.titleColor || Templates.menuTextColor;
+        const dialogColor = spec.dialogColor || Templates.playTextColor2;
         this.font = spec.font || new Font({size:25});
         this.media = spec.media || Base.instance.media;
 
@@ -31,7 +32,7 @@ class UxDialogCtrl extends UxCtrl {
                 {
                     cls: "UxPanel",
                     tag: "dialogPanel",
-                    xsketch: Object.assign({}, this.media.get("btnGoldOpaqS1"), {xfitter: { cls: "FitToParent" }}),
+                    xsketch: Object.assign({}, this.media.get("buttonDark"), {xfitter: { cls: "FitToParent" }}),
                     xxform: { left: .2, right: .2, top: .5, bottom: .5, height: 100 },
                     xchildren: [
                         {
@@ -39,7 +40,7 @@ class UxDialogCtrl extends UxCtrl {
                             tag: "titleText",
                             xtext: { color: titleColor, text: "title", xfitter: {cls: "FitToParent", top: .2, bottom: .125} },
                             xxform: {top: 0, bottom:1, left: .35, right: .35, height: 35},
-                            xunpressed: Object.assign({}, this.media.get("btnGoldOpaqS3")),
+                            xunpressed: Object.assign({}, this.media.get("buttonOff.small")),
                             active: false,
                         },
                         {
@@ -54,8 +55,6 @@ class UxDialogCtrl extends UxCtrl {
         });
         // lookup UI elements
         this.titleText = Hierarchy.find(this.view, (v) => v.tag === "titleText");
-        console.log(`this.view: ${this.view}`);
-        console.log(`titleText: ${this.titleText}`);
         this.dialogPanel = Hierarchy.find(this.view, (v) => v.tag === "dialogPanel");
         this.dialogText = Hierarchy.find(this.view, (v) => v.tag === "dialogText");
         this.responseButtons = [];
@@ -67,15 +66,16 @@ class UxDialogCtrl extends UxCtrl {
     // METHODS -------------------------------------------------------------
 
     addResponseButton(parent, responseColor, response, left, right) {
+        console.log(`response color: ${responseColor}`);
         let bspec = {
             cls: "UxButton",
             dfltDepth: parent.depth + 1,
             dfltLayer: parent.layer,
             parent: parent,
             xxform: {parent: parent.xform, top: 1, bottom:0, left: left, right: right, height: 32},
-            xunpressed: Object.assign({}, this.media.get("btnGoldOpaqS3")),
-            //xpressed: Object.assign({}, this.media.get("btnGoldOpaqS3")),
-            //xhighlight: Object.assign({}, this.media.get("btnGoldOpaqS3")),
+            xpressed: { cls: 'Media', tag: "buttonPress.small" },
+            xunpressed: { cls: 'Media', tag: "buttonOff.small" },
+            xhighlight: { cls: 'Media', tag: "buttonHover.small" },
             xtext: {color: responseColor, text: response, xfitter: {cls: "FitToParent", top: .2, bottom: .15} },
         };
         let b = Generator.generate(bspec);

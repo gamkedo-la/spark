@@ -1647,7 +1647,18 @@ class SparkAssets {
                      },
                 },
                 xdialogs: [
-                    { tag: "test", predicate: (actor, npc) => true},
+                    { 
+                        tag: "test", 
+                        predicate: (actor, npc) => true,
+                        dialogs: {
+                            start: {
+                                text: "hey you there...",
+                                responses: {
+                                    "ya?": (d) => d.load("next"),
+                                },
+                            }
+                        },
+                    },
                 ],
             }),
 

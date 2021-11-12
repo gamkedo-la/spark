@@ -243,13 +243,8 @@ class Templates {
             xxform: xxform,
             // the text to display along w/ the color to use for the text
             xtext: { color: new Color(0,255,0,.75), text: text, },
-            // the sketch to show when the button is pressed
-            xpressed: { cls: 'Rect', color: new Color(50,50,50,1), borderWidth: 5, borderColor: new Color(0,0,0,1) },
-            // the sketch to show when the button is idle (no mouse over)
-            //xunpressed: { cls: 'Rect', color: new Color(50,50,50,.5), borderWidth: 5, borderColor: new Color(0,0,0,1) },
             xpressed: { cls: 'Media', tag: "buttonPress" },
             xunpressed: { cls: 'Media', tag: "buttonOff" },
-            // the sketch to show when the button is highlighted (mouse is over button)
             xhighlight: { cls: 'Media', tag: "buttonHover" },
             //xhighlight: { cls: 'Rect', color: new Color(50,50,50,.75), borderWidth: 5, borderColor: new Color(0,0,0,1) },
             mouseEnteredSound: Generator.generate({ cls: "Media", tag: "hoverIn"}), 

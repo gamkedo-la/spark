@@ -185,13 +185,14 @@ class InteractSystem extends System {
                     let xdialog = undefined;
                     for (const dinfo of this.interactTarget.xdialogs) {
                         if (dinfo.predicate(e, this.interactTarget)) {
-                            xdialog = Object.assign({}, SparkDialog.dialogs[dinfo.tag]);
-                            if (xdialog) {
-                                xdialog.actor = e;
-                                xdialog.npc = this.interactTarget;
-                                this.eventQ.push(new Event("npc.dialog", {actor: e, target: this.interactTarget, dialog: new Dialog(xdialog)}));
-                                break;
+                            xdialog = { 
+                                dialogs: dinfo.dialogs,
+                                actor: e,
+                                npc: this.interactTarget,
+                                dfltTitle: this.interactTarget.name,
                             }
+                            this.eventQ.push(new Event("npc.dialog", {actor: e, target: this.interactTarget, dialog: new Dialog(xdialog)}));
+                            break;
                         }
                     }
                 }
