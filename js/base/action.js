@@ -154,6 +154,10 @@ class SparkAction extends Action {
         );
         let spark = Generator.generate(xspark);
 
+        // play sound
+        let sfx = Generator.generate({cls: "Media", tag: "sparkSfx"});
+        sfx.play();
+
         // apply condition to source
         // -- cleared when spark is destroyed
         this.src.conditions.add(Condition.sparked);
