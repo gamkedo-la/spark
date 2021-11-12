@@ -1,12 +1,12 @@
 export { SparkAssets };
 
 import { Collider }             from "./base/collider.js";
-import { Condition } from "./base/condition.js";
+import { Condition }            from "./base/condition.js";
 import { Direction }            from "./base/dir.js";
 import { Fmt }                  from "./base/fmt.js";
 import { ModelState }           from "./base/modelState.js";
-import { WorkTimer } from "./dirtySystem.js";
 import { Templates }            from "./templates.js";
+import { Morale }               from "./morale.js";
 
 const moveDuration = 90;
 
@@ -1648,16 +1648,84 @@ class SparkAssets {
                 },
                 xdialogs: [
                     { 
-                        tag: "test", 
-                        predicate: (actor, npc) => true,
+                        predicate: (actor, npc) => !npc.introDone,
                         dialogs: {
                             start: {
-                                text: "hey you there...",
+                                text: "AHHH... everything is bad, bad!  First my shoes have gone missing and now this...  You there, out of my sight!",
                                 responses: {
-                                    "ya?": (d) => d.load("next"),
+                                    "Sir, what's the matter?": (d) => d.load("diag2"),
+                                    "Wow, so rude! Goodbye!": (d) => {
+                                        d.done = true;
+                                        d.npc.morale.events.push("chat.insult");
+                                    }
                                 },
-                            }
+                            },
+                            diag2: {
+                                text: "Huh?  Why are you still here?  I-I'm sorry.  Please forgive this old chap, it's just...",
+                                responses: {
+                                    "...": (d) => d.load("diag3"),
+                                },
+                            },
+                            diag3: {
+                                text: "I-uh, I'm not sure how to say this but you seem nice enough.  That wouldn't usually cut it, but you seem to have this aura around you.  But first, let me introduce you to Innis Fhaolin...",
+                                responses: {
+                                    "Ok I guess...": (d) => d.load("diag4"),
+                                },
+                            },
+                            diag4: {
+                                text: "Well yes... as you can see the town is very, very dreadful.  The very definition of dreadful.  You know, dreadful suffering, dreadful fear, dreadful unhappiness.  There is this dreadful gloom that hangs over us all.  So very dreadful.",
+                                responses: {
+                                    "Is dreadful your favorite word?": (d) => d.load("diag5"),
+                                },
+                            },
+                            diag5: {
+                                text: "It's the only way I know how to describe this sensation chap.  I don't know what you're doing here, but I think you've definitely lost your way.  Why would anyone want to come to this cursed village...",
+                                responses: {
+                                    "...": (d) => d.load("diag6"),
+                                },
+                            },
+                            diag6: {
+                                text: "Please if there is anything you could do to lift this curse... actually wait... You've already done a lot child, talking to an old grump like me.  Wherever are you from?  I suggest you leave, there's not much you can do here.  This is no place for a bright young child such as yourself.",
+                                responses: {
+                                    "...": (d) => d.load("diag7"),
+                                },
+                            },
+                            diag7: {
+                                text: "(Wait a minute, I think I can help...  Mom did seem to talk about some power she gave me... perhaps all I need to do is to share some of that energy with him?)",
+                                title: "Alette",
+                                responses: {
+                                    "...": (d) => d.load("diag8"),
+                                },
+                            },
+                            diag8: {
+                                text: "(I don't believe the village is cursed, it's something else that I can't put my finger on yet.  Something about the people.)",
+                                title: "Alette",
+                                responses: {
+                                    "...": (d) => d.load("diag9"),
+                                },
+                            },
+                            diag9: {
+                                text: "(But why should I help them?  He was rude!  And I don't even know what I'm doing!?  But I can't just leave them like this, either!  Arghh!  Fine!  Let's see what I can do to help these folks out.  A little spark here, and little spark there... Fine, not that it will make a difference... Then maybe I can leave!)",
+                                title: "Alette",
+                                responses: {
+                                    "Fine, I'll try to help": (d) => {
+                                        d.done = true;
+                                        d.npc.introDone = true;
+                                    }
+                                },
+                            },
                         },
+                    },
+                    { 
+                        predicate: (actor, npc) => npc.introDone && npc.morale.value !== Morale.max,
+                        dialogs: {
+                            start: {
+                                text: "I'm sure you're doing the best you can, but now I need to work...",
+                                responses: {
+                                    "OK": (d) => d.done = true,
+                                }
+                            }
+                        }
                     },
                 ],
             }),

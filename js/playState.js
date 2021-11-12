@@ -20,7 +20,7 @@ import { Templates }        from "./templates.js";
 import { Atts }             from "./base/atts.js";
 import { Vect }             from "./base/vect.js";
 import { PauseAction }      from "./actions/pause.js";
-import { WaitAction }       from "./actions/wait.js";
+import { WaitAction, WaitForDialog }       from "./actions/wait.js";
 import { ResumeAction }     from "./actions/resume.js";
 import { PanToAction }      from "./actions/panTo.js";
 import { PowerUpAction }    from "./actions/powerUp.js";
@@ -37,6 +37,7 @@ import { UxNpcInfo } from "./uxNpcInfo.js";
 import { StoryDialogAction, StoryFadeInAction, StoryFadeOutAction, StoryHideAction, UxStory } from "./uxStory.js";
 import { UxTutorial } from "./uxTutorial.js";
 import { WorldOverrides } from "./worldOverrides.js";
+import { Morale } from "./morale.js";
 
 class PlayState extends State {
     static startScript = [
@@ -65,7 +66,68 @@ class PlayState extends State {
         new StoryFadeOutAction({xtarget: "overlay", ttl: 3000}),
         new StoryHideAction(),
         new StoryFadeInAction({xtarget: "main", ttl: 3000}),
-    ]
+    ];
+
+    static vendorSparkDialog = {
+        dfltTitle: "Aodhan",
+        dialogs: {
+            start: {
+                text: "Ah... Thanks a bunch little one, I don't know what you did; my mind seems to be lifted from the gutter!  Is this how it feels to be happy for a change?  And look, the gloom is lifting... well, I guess just for me...",
+                responses: {
+                    "...": (d) => d.load("diag2"),
+                }
+            },
+            diag2: {
+                text: "I'm so sorry, where are my manners, child?  I never did ask your name... Also, I've never seen you around here... where are you from, who are you?  Anywho... you're always welcome here!",
+                responses: {
+                    "I'm Alette and...": (d) => d.load("diag3"),
+                    "I'm Alette": (d) => d.done = true,
+                }
+            },
+            diag3: {
+                title: "Alette",
+                text: "(Wow... I actually did it!  Did you see that Mom, wherever you are!  Not quite sure why, but it seems my Spark has really made a difference to this man...)",
+                responses: {
+                    "...": (d) => d.load("diag4"),
+                }
+            },
+            diag4: {
+                title: "Aodhan",
+                text: "You still there child... you seem a bit, er, distant?",
+                responses: {
+                    "Sorry, yes?": (d) => d.load("diag5"),
+                }
+            },
+            diag5: {
+                title: "Aodhan",
+                text: "You have an incredible gift, I know this now.  Thank you so much once again.  I-I do have a request though... if it's not too much trouble?",
+                responses: {
+                    "A request?": (d) => d.load("diag6"),
+                }
+            },
+            diag6: {
+                title: "Aodhan",
+                text: "The innkeeper Ciara, a good friend of mine could use some of your help too.  She's been in a foul mood, but I'm sure she'll talk to you.  Maybe you could figure out what's troubling her and help her out?",
+                responses: {
+                    "...": (d) => d.load("diag7"),
+                }
+            },
+            diag7: {
+                title: "Alette",
+                text: "(These folks seem nice enough down deep.  But the rest of the town doesn't seem to be doing too well... and it would seem that I'm stuck here until I figure this out...)",
+                responses: {
+                    "...": (d) => d.load("diag8"),
+                }
+            },
+            diag8: {
+                title: "Alette",
+                text: "(And I did enjoy helping this man.  I think I could help the others too... and figure things out along the way.)",
+                responses: {
+                    "I'll see what I can do": (d) => d.done = true,
+                }
+            },
+        }
+    };
 
     static actionSketches = {
         "none":         {cls: "Media", tag: "z_action.none", xfitter: { cls: "FitToParent"}, color: new Color(225,0,0,.75)},
@@ -265,20 +327,17 @@ class PlayState extends State {
             //case "npc.moraleUp":
             if (!this.vendorMoraleMax) {
                 this.eventQ.push(new Event("npc.moraleMax", {actor: this.vendor}));
+                this.vendor.morale.value = Morale.max;
                 this.vendorMoraleMax = true;
             } else if (!this.innkeeperMoraleMax) {
                 this.eventQ.push(new Event("npc.moraleMax", {actor: this.innkeeper}));
+                this.innkeeper.morale.value = Morale.max;
                 this.innkeeperMoraleMax = true;
             } else if (!this.gardenerMoraleMax) {
                 this.eventQ.push(new Event("npc.moraleMax", {actor: this.gardener}));
+                this.gardener.morale.value = Morale.max;
                 this.gardenerMoraleMax = true;
             }
-            /*
-            let xdialog = SparkDialog.dialogs.test;
-            xdialog.actor = this.player;
-            let dialog = new Dialog(xdialog);
-            this.eventQ.push(new Event("npc.dialog", {actor: this.player, target: null, dialog: dialog}));
-            */
         }
         if (evt.key === "9") {
             switch(this.clickMode) {
@@ -315,7 +374,6 @@ class PlayState extends State {
 
         // pull up pathfinding system
         let pfsys = Hierarchy.find(Base.instance.systemMgr, (o => o.cls === "PathfindingSystem"));
-        console.log(`pfsys: ${pfsys}`);
         let graph = pfsys.lvlGraph;
 
         // get neighbors of current target
@@ -621,6 +679,8 @@ class PlayState extends State {
                         this.actions.push(new PlaySoundAction({sfx: this.pillarActivateSfx}));
                         this.actions.push(new PowerUpAction({target: this.vendorSparkbase2}));
                         this.actions.push(new WaitAction());
+                        this.actions.push(new PanToAction({target: this.vendor}));
+                        this.actions.push(new WaitForDialog({xdialog: Object.assign({}, PlayState.vendorSparkDialog, {actor: this.player, npc: this.vendor})}));
                         this.actions.push(new PanToAction({target: this.player}));
                         this.actions.push(new ResumeAction());
                     } else if (evt.actor.tag === "ciara") {

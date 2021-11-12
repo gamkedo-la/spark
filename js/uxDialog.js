@@ -47,7 +47,7 @@ class UxDialogCtrl extends UxCtrl {
                             cls: "UxText",
                             tag: "dialogText",
                             xtext: { color: dialogColor, text: "dialog", wrap: true, fit: false, font: this.font},
-                            xxform: { otop: 25, oleft: 20, oright: 15 },
+                            xxform: { otop: 45, oleft: 20, oright: 15 },
                         },
                     ],
                 },
@@ -66,7 +66,6 @@ class UxDialogCtrl extends UxCtrl {
     // METHODS -------------------------------------------------------------
 
     addResponseButton(parent, responseColor, response, left, right) {
-        console.log(`response color: ${responseColor}`);
         let bspec = {
             cls: "UxButton",
             dfltDepth: parent.depth + 1,
@@ -102,7 +101,7 @@ class UxDialogCtrl extends UxCtrl {
     updateDialog(ctx) {
         if (this.dialog.text !== this.lastText) {
             this.lastText = this.dialog.text;
-            let height = Text.measureWrapHeight(this.font, this.dialog.text, this.dialogText.width) + 25;
+            let height = Text.measureWrapHeight(this.font, this.dialog.text, this.dialogText.width) + 35;
             this.dialogPanel.xform.height = height;
             this.dialogText.text = this.dialog.text;
         }
@@ -144,6 +143,7 @@ class UxDialogCtrl extends UxCtrl {
     }
 
     destroy() {
+        this.dialog.done = true;
         Keys.evtKeyPressed.ignore(this.onKeyDown);
         this.view.destroy();
         super.destroy();
