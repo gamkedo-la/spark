@@ -229,6 +229,7 @@ class PlayState extends State {
         // lookup object references
         this.player = this.findFirst(v=>v.tag === "player");
         this.dbgPanel = this.findFirst(v=>v.tag === "dbgPanel");
+        this.dbgPanel.visible = false;
         this.pauseText = this.findFirst(v=>v.tag === "pauseText");
         this.pauseText.visible = false;
         this.menuButton = this.findFirst(v=>v.tag === "menu");
