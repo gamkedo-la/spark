@@ -107,6 +107,7 @@ class StoryDialogAction extends Action {
         this.story = actor;
         // update dialog text
         this.story.dialogText.text = this.text;
+        this.story.dialogText.sketch.color = (this.speaker === "actor1") ? this.story.actor1Color : this.story.actor2Color;
         // start by fading in dialog
         this.story.dialogFader.fadein = false;
         this.story.dialogFader.maxFadeTTL = 400;
@@ -156,18 +157,6 @@ class UxStory extends UxCtrl {
     cpost(spec) {
         super.cpost(spec);
 
-        // fields needed for UI
-        /*
-        let npcName = (this.npc && this.npc.name) ? this.npc.name : "<name>";
-        let bio = (this.npc && this.npc.bio) ? this.npc.bio.info : "<bio>";
-        let job = (this.npc && this.npc.bio) ? this.npc.bio.job : "<job>";
-        let likes = (this.npc && this.npc.bio) ? this.npc.bio.likes : "<likes>";
-        let dislikes = (this.npc && this.npc.bio) ? this.npc.bio.dislikes : "<dislikes>";
-        let portraitTag = (this.npc && this.npc.portraitTag) ? this.npc.portraitTag : "gnome.portrait";
-        // FIXME: tie to npc morale
-        let moraleTag = "like";
-        */
-
         // construct the UI elements
         this.view = Generator.generate({
             cls: "UxCanvas",
@@ -175,7 +164,6 @@ class UxStory extends UxCtrl {
             cvsid: "uicanvas",
             xchildren: [
                 Templates.fader("mainFader", true, {active: false}),
-                //Templates.panel(null, {xsketch: {cls: "Rect", color: "black"}}),
                 Templates.panel(null, {xxform: {offset: 20, left: .1, right: .7, top: .5, bottom: .2}, xchildren: [
                     Templates.panel("actor1", { xsketch: {cls: "Media", tag: "fairy.right"}}),
                     Templates.fader("actor1Fader", true, {active: false}),
@@ -200,6 +188,8 @@ class UxStory extends UxCtrl {
         });
 
         this.script = spec.script || [];
+        this.actor1Color = "rgba(250,214,32,1)";
+        this.actor2Color = Templates.playTextColor;
 
         // lookup UI elements
         this.dialogPanel = Hierarchy.find(this.view, (v) => v.tag === "dialogPanel");
