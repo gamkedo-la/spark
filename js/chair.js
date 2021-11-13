@@ -41,7 +41,7 @@ class Chair extends Model {
         this.occupiedCondition = spec.occupiedCondition || Condition.occupied;
         this.actorCondition = spec.actorCondition || Condition.seated;
         // -- interactable
-        this.interactTag = "occupy";
+        this.interactTag = spec.hasOwnProperty("interactTag") ? spec.interactTag : "occupy";
         // -- collider
         if (spec.xcollider) {
             this.collider = Generator.generate(Object.assign({"cls": "Collider", x: this.x, y: this.y}, spec.xcollider));

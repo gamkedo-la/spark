@@ -139,6 +139,15 @@ class WorldOverrides {
             },
             {
                 predicate: (v) => v.x === this.wpos(WorldGen.inn.offx + 11) && 
+                                v.y === this.wpos(WorldGen.inn.offy + 1) &&
+                                v.tag === "stool",
+                spec: {
+                    occupiedDir: Direction.east, 
+                    interactTag: false,
+                },
+            },
+            {
+                predicate: (v) => v.x === this.wpos(WorldGen.inn.offx + 11) && 
                                 v.y === this.wpos(WorldGen.inn.offy + 7) &&
                                 v.tag === "stool",
                 spec: {
