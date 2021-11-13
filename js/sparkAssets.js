@@ -110,7 +110,7 @@ class SparkAssets {
             { src: "snd/happy_heart.mp3", loader: "Audio", tag: "cheer2", loop: false },
             { src: "snd/we_are_lucky.mp3", loader: "Audio", tag: "cheer3", loop: false },
             { src: "snd/pillar_activation.mp3", loader: "Audio", tag: "pillarActivation", loop: false },
-            { src: "snd/doSpark1.mp3", loader: "Audio", tag: "sparkSfx", loop: false, volume: .1 },
+            { src: "snd/doSpark4.mp3", loader: "Audio", tag: "sparkSfx", loop: false, volume: .1 },
 
             { src: "img/like-dislike-indicator-Sheet.png", loader: "Sheet", refs: [
                 Templates.xanim("like", 0, 0, {width: 32, height: 32, duration: [500, 500/7], loop: false}),
