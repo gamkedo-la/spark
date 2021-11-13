@@ -13,6 +13,7 @@ import { Camera }           from "./base/camera.js";
 import { Mouse }            from "./base/mouse.js";
 import { Event }            from "./base/event.js";
 import { Atts }             from "./base/atts.js";
+import { Mathf } from "./base/math.js";
 
 class ModelView extends UxPanel {
 
@@ -223,7 +224,11 @@ class CharacterView extends ModelView {
         if (!this.active) return;
         if (Atts.paused) return;
         if (this.mouseOver) {
-            this.eventQ.push(new Event("npc.click", {actor: this.model}));
+            // hackety hack: introduce click range
+            let wx = evt.x + Camera.main.minx; 
+            let wy = evt.y + Camera.main.miny; 
+            let range = Mathf.distance(wx, wy, this.x, this.y);
+            if (range <= 40) this.eventQ.push(new Event("npc.click", {actor: this.model}));
         }
     }
 
