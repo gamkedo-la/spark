@@ -22,7 +22,7 @@ class Dialog {
         this.npc = spec.npc;
         this._done = false;
         // parse spec
-        if (spec.hasOwnProperty("dialogs")) {
+        if (spec.hasOwnProperty("dialogs") && spec.dialogs) {
             this._dialogs = spec.dialogs;
         } else {
             this._dialogs = {
