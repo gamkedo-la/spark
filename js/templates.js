@@ -14,6 +14,7 @@ class Templates {
     static playTextColor = "rgba(0,167,167,1)";
     static playTextColor2 = "rgba(219,124,40,1)";
     static menuTextColor = new Color(0,255,0,.75);
+    static playTextColor3 = "rgba(250,214,32,1)";
 
     static panel(tag, spec={}) {
         let xsketch = spec.xsketch || {};

@@ -70,13 +70,13 @@ class UxTutorial extends UxCtrl {
         let xmodal = Templates.panel(null, {
             xchildren: [
                 Templates.panel("modalPanel", {
-                    xsketch: { cls: "Media", tag: "buttonLight", xfitter: { cls: "FitToParent" }},
+                    xsketch: { cls: "Media", tag: "buttonOff", xfitter: { cls: "FitToParent" }},
                     xxform: xxform,
                     xchildren: [
                         {
                             cls: "UxText",
                             tag: "modalText",
-                            xtext: { color: Templates.playTextColor, text: "replace", wrap: true, fit: false, font: this.font},
+                            xtext: { color: Templates.playTextColor3, text: "replace", wrap: true, fit: false, font: this.font},
                             xxform: { otop: 15, oleft: 20, oright: 5 },
                         },
                     ],
