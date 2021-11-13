@@ -385,6 +385,12 @@ class PlayState extends State {
     }
 
     pathToClick(x, y) {
+        // check for player occupying something...
+        if (this.player.occupyId) {
+            let interactTarget = this.entities.get(this.player.occupyId);
+            if (interactTarget) interactTarget.dointeract(this.player);
+        }
+        // set up pathfinding
         let target = new LevelNode(x, y, this.player.layer);
         console.log("player path to target: " + target);
         this.player.wantPathTo = target;
