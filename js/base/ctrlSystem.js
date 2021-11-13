@@ -45,7 +45,7 @@ class CtrlSystem extends System {
         if (e.ctrlId !== this.ctrlId) return;
         let dt = ctx.deltaTime;
 
-        let wantCtrl = this.bindings.left || this.bindings.right || this.bindings.up || this.bindings.down || this.bindings.primary;
+        let wantCtrl = this.bindings.left || this.bindings.right || this.bindings.up || this.bindings.down;
         if (e.currentAction && !wantCtrl) return;
 
         // check for current action...
