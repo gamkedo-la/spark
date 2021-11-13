@@ -299,6 +299,7 @@ class SparkAssets {
                 Templates.xsprite("morale.7", 16, 0, {width: 16*2, height: 16*2}),
                 Templates.xsprite("morale.8", 18, 0, {width: 16*2, height: 16*2}),
                 Templates.xsprite("morale.9", 20, 0, {width: 16*2, height: 16*2}),
+                Templates.xanim("mouseReticle", 22, 0, {duration: [250, 750/7], loop: false}),
             ]},
 
             { tag: "inn.lvl1.door.b", 

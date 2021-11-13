@@ -38,6 +38,7 @@ import { StoryDialogAction, StoryFadeInAction, StoryFadeOutAction, StoryHideActi
 import { UxTutorial } from "./uxTutorial.js";
 import { WorldOverrides } from "./worldOverrides.js";
 import { Morale } from "./morale.js";
+import { FitToParent } from "./base/fitter.js";
 
 class PlayState extends State {
     static startScript = [
@@ -412,6 +413,22 @@ class PlayState extends State {
         if (Atts.paused) return;
         // ignore if within button
         if (this.menuButton.mouseOver) return;
+        // ignore if clicking over npc
+        if (this.player.view.mouseOver ||
+            this.vendor.view.mouseOver || 
+            this.innkeeper.view.mouseOver || 
+            this.gardener.view.mouseOver) return;
+        // create view for target reticle
+        let xview = {
+            cls: "UxPanel",
+            ui: true,
+            xsketch: { cls: "Media", tag: "mouseReticle" },
+            xxform: { scalex: Config.renderScale, scaley: Config.renderScale, x: evt.x, y: evt.y, width: 16, height: 16 },
+            closeOnSketchDone: true,
+        };
+        let view = Generator.generate(xview);
+        console.log(`xview: ${Fmt.ofmt(xview)}, view: ${view}`);
+        console.log(`dim: ${view.width},${view.height}`);
         //let localMousePos = this.editorPanel.xform.getLocal(new Vect(evt.x, evt.y))
         console.log("onClicked: " + Fmt.ofmt(evt));
         let x = evt.x + this.camera.minx;

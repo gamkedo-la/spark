@@ -96,10 +96,10 @@ class ModelView extends UxPanel {
         let xview = {
             cls: "UxHoverView",
             ui: true,
-            xsketch: { cls: "Rect", color: "rgba(255,255,255,.25)", width: 50, height: 30},
+            xsketch: { cls: "Media", tag: "buttonOff.small" },
             getx: () => target.x*Config.renderScale - Camera.main.minx,
             gety: () => target.y*Config.renderScale - Camera.main.miny,
-            xxform: { dy: -35, x: dx, y: dy, scalex: Config.renderScale, scaley: Config.renderScale, width: 50, height: 20 },
+            xxform: { dy: -70, x: dx, y: dy, width: 100, height: 30 },
             xchildren: [
                 {
                     cls: "UxText",

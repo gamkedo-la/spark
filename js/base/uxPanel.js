@@ -19,6 +19,7 @@ class UxPanel extends UxView {
         // bind event handlers
         Util.bind(this, "onSketchUpdate");
         //if (this._sketch) this._sketch.evtUpdated.listen(this.onSketchUpdate);
+        this.closeOnSketchDone = spec.hasOwnProperty("closeOnSketchDone") ? spec.closeOnSketchDone : false;
     }
 
     // PROPERTIES ----------------------------------------------------------
@@ -47,6 +48,10 @@ class UxPanel extends UxView {
     // METHODS -------------------------------------------------------------
     iupdate(ctx) {
         if (this._sketch && this._sketch.update) this.updated |= this._sketch.update(ctx);
+        if (this.closeOnSketchDone && this.sketch.done) {
+            console.log(`closing view due to sketch done`);
+            this.destroy();
+        }
         //if (this.model && this.model.tag === "player") console.log("panel updated: " + this.updated)
         return this.updated;
     }
