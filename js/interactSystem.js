@@ -42,6 +42,7 @@ class InteractSystem extends System {
         this.sparkTarget = undefined;
         this.lastx = {};
         this.lasty = {};
+        this.recheck = true;
     }
 
     // PROPERTIES ----------------------------------------------------------
@@ -202,16 +203,18 @@ class InteractSystem extends System {
                     this.interactTarget.dointeract(e);
                 }
         }
+        this.recheck = true;
     }
 
     iterate(ctx, e) {
         // check for changes to actor state
-        if (this.lastx[e.gid] !== e.x || this.lasty[e.gid] !== e.y) {
-            this.lastx[e.gid] = e.x;
-            this.lasty[e.gid] = e.y;
+        //if (this.recheck || this.lastx[e.gid] !== e.x || this.lasty[e.gid] !== e.y) {
+            //this.recheck = false;
+            //this.lastx[e.gid] = e.x;
+            //this.lasty[e.gid] = e.y;
             this.checkinteract(ctx, e);
             this.checkspark(ctx, e);
-        }
+        //}
 
         // handle actor wanting to interact
         if (!e.interact) return;
