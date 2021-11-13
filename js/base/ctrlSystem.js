@@ -45,8 +45,23 @@ class CtrlSystem extends System {
         if (e.ctrlId !== this.ctrlId) return;
         let dt = ctx.deltaTime;
 
-        let wantCtrl = this.bindings.left || this.bindings.right || this.bindings.up || this.bindings.down;
+        let wantCtrl = this.bindings.left || this.bindings.right || this.bindings.up || this.bindings.down || this.bindings.primary;
         if (e.currentAction && !wantCtrl) return;
+
+        // check for current action...
+        if (e.currentAction) {
+            // -- if control is wanted...
+            if (wantCtrl) {
+                // delete actions that were planned, resetting state to allow for control to be passed back
+                e.currentAction = undefined;
+                e.actions = [];
+                e.speed = 0;
+            // -- otherwise, let action supersede
+            } else {
+                return;
+            }
+
+        }
 
         // check for primary/secondary interactions...
         if (!e.interact) {
