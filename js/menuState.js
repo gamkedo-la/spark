@@ -8,6 +8,7 @@ import { PlayState }        from "./playState.js";
 import { OptionsState }     from "./optionsState.js";
 import { Fmt }              from "./base/fmt.js";
 import { Base }             from "./base/base.js";
+import { HelpState } from "./helpState.js";
 
 class MenuState extends State {
 
@@ -41,9 +42,10 @@ class MenuState extends State {
                     // -- also note a few other variables here... 
                     //     the first variable is a UI tag (we'll use this for element lookups below)
                     //     the second variable is the actual text to use within the button
-                    Templates.menuButton("playButton", "play",          { xxform: { top: 0/3, bottom: 1-1/3 }}),
-                    Templates.menuButton("optionsButton", "options",    { xxform: { top: 1/3, bottom: 1-2/3 }}),
-                    Templates.menuButton("creditsButton", "credits",    { xxform: { top: 2/3, bottom: 1-3/3 }}),
+                    Templates.menuButton("playButton", "play",          { xxform: { top: 0/4, bottom: 1-1/4 }}),
+                    Templates.menuButton("optionsButton", "options",    { xxform: { top: 1/4, bottom: 1-2/4 }}),
+                    Templates.menuButton("helpButton", "how to play",   { xxform: { top: 2/4, bottom: 1-3/4 }}),
+                    Templates.menuButton("creditsButton", "credits",    { xxform: { top: 3/4, bottom: 1-4/4 }}),
                 ]}),
             ],
         };
@@ -61,6 +63,7 @@ class MenuState extends State {
         // -- using the superclass' findFirst method, look up the UI element that has a tag of "playButton"
         this.playButton = this.findFirst(v=>v.tag === "playButton");
         this.optionsButton = this.findFirst(v=>v.tag === "optionsButton");
+        this.helpButton = this.findFirst(v=>v.tag === "helpButton");
         this.creditsButton = this.findFirst(v=>v.tag === "creditsButton");
 
         // wire event handlers
@@ -71,6 +74,7 @@ class MenuState extends State {
         // first call here is to wire the play buttons click handler to a callback function.
         this.playButton.evtClicked.listen(this.onPlay);
         this.optionsButton.evtClicked.listen(this.onOptions);
+        this.helpButton.evtClicked.listen(this.onHelp);
         this.creditsButton.evtClicked.listen(this.onCredits);
     }
 
@@ -93,11 +97,16 @@ class MenuState extends State {
     onOptions(evt) {
         // here is an example of how major game states are managed.
         // the main play state is created/loaded
-        let state = new OptionsState();
+        let state = new OptionsState({showHelp: false});
         // then the state manager is told to swap the current state (which is the menu state) with the new play state.
         Base.instance.stateMgr.push(state);
-        
     }
+
+    onHelp(evt) {
+        let state = new HelpState();
+        Base.instance.stateMgr.push(state);
+    }
+
     onCredits(evt) {
         console.log("toDO display credits");
         // here is an example of how major game states are managed.

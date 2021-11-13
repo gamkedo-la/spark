@@ -53,6 +53,7 @@ class OptionsState extends State {
     // the post constructor.  called after the main constructor has been executed and is used to wire state specific logic
     cpost(spec) {
         super.cpost(spec);
+        let showHelp = spec.hasOwnProperty("showHelp") ? spec.showHelp : true;
         // NOTE: to avoid errors due to javascript binding of objects, this utility method is called on every event callback function
         // this is equavilent of calling this.onKeyDown = this.onKeyDown.bind(this);  // this tells js to bind the local "this" variable to the given "this".
         Util.bind(this, "onKeyDown", "onVolume", "onHelp", "onBack");
@@ -64,6 +65,11 @@ class OptionsState extends State {
         this.musicVolumeSlider = this.findFirst(v=>v.tag === "musicVolumeSlider");
         this.helpButton = this.findFirst(v=>v.tag === "helpButton");
         this.backButton = this.findFirst(v=>v.tag === "backButton");
+
+        if (!showHelp) {
+            this.helpButton.active = false;
+            this.helpButton.visible = false;
+        }
 
         // set initial slider positions (before wiring event handlers)
         this.sfxVolumeSlider.value = this.amgr.sfxVolume;

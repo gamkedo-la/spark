@@ -19,7 +19,7 @@ class HelpState extends State {
             cls: "UxCanvas",
             cvsid: "canvas",
             xchildren: [
-                Templates.panel("helpPanel", { xxform: { top: .2, bottom: .2, left: .2, right: .2}, xchildren: [
+                Templates.panel("helpPanel", { xxform: { top: .1, bottom: .1, left: .2, right: .2}, xchildren: [
                     //Templates.panel("objectivePanel",   { xsketch: {cls: "Media", tag: "buttonTrans"}, xxform: { top: 0, bottom: .8}, xchildren: [
                     Templates.panel("objectivePanel",   { xxform: { top: 0, bottom: .8}, xchildren: [
                         Templates.menuText(null, "objective", {xxform: { left: 0, right: .7}}),
@@ -37,12 +37,13 @@ class HelpState extends State {
                         ]}),
                     ]}),
                     Templates.panel("keysPanel", { xxform: { top: .5, bottom: .1}, xchildren: [
-                        Templates.menuText(null, "  keys  ", {xxform: { left: 0, right: .7}}),
+                        Templates.menuText(null, "  inputs  ", {xxform: { left: 0, right: .7}}),
                         Templates.panel(null, { xsketch: {cls: "Media", tag: "buttonTrans.small"}, xxform: { left: .3}, xchildren: [
-                            Templates.playText(null, "z - primary action, spark, talk, interact",       {xxform: { top: 0/4, bottom: 1-1/4}}),
-                            Templates.playText(null, "wasd/arrows - movement",                          {xxform: { top: 1/4, bottom: 1-2/4}}),
-                            Templates.playText(null, "m - mute",                                        {xxform: { top: 2/4, bottom: 1-3/4}}),
-                            Templates.playText(null, "escape - options menu",                           {xxform: { top: 3/4, bottom: 1-4/4}}),
+                            Templates.playText(null, "z - primary action, spark, talk, interact",       {xxform: { top: 0/5, bottom: 1-1/5}}),
+                            Templates.playText(null, "wasd/arrows - movement",                          {xxform: { top: 1/5, bottom: 1-2/5}}),
+                            Templates.playText(null, "m - mute",                                        {xxform: { top: 2/5, bottom: 1-3/5}}),
+                            Templates.playText(null, "escape - options menu",                           {xxform: { top: 3/5, bottom: 1-4/5}}),
+                            Templates.playText(null, "mouse - click to move, npc info",                 {xxform: { top: 4/5, bottom: 1-5/5}}),
                         ]}),
                     ]}),
                     Templates.menuButton("backButton", "back", { xxform: { left: .2, right: .2, top: .9, bottom: 0 }}),
