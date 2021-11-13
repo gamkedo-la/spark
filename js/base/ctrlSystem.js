@@ -51,7 +51,7 @@ class CtrlSystem extends System {
         // check for current action...
         if (e.currentAction) {
             // -- if control is wanted...
-            if (wantCtrl) {
+            if (wantCtrl && !e.conditions.has(Condition.cast) && !e.conditions.has(Condition.sparked)) {
                 // delete actions that were planned, resetting state to allow for control to be passed back
                 e.currentAction = undefined;
                 e.actions = [];
