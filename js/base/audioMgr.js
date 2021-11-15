@@ -39,7 +39,7 @@ class AudioMgr extends Gizmo {
             return;
         }
         this._audioCtx.resume().then(() => {
-            console.log("playback resumed");
+            //console.log("playback resumed");
             this.resumed = true;
         });
     }
@@ -87,7 +87,6 @@ class AudioMgr extends Gizmo {
 
     muteToggle(){
        this.mute = !this.mute;
-        console.log("Muted? " + this.mute);
         if(this.mute){
   
             if(this._audioCtx.state === "running"){

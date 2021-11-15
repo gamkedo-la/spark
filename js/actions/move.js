@@ -31,11 +31,9 @@ class MovePlan extends AiPlan {
         //console.log(`MovePlan prepare state ${Fmt.ofmt(state)}`);
         super.prepare(actor, state);
         if (!this.state.v_target) {
-            console.log("MovePlan: state missing entity target");
             return false;
         }
         if (!this.state.a_pos) {
-            console.log("MovePlan: state missing entity pos");
             return false;
         }
         return true;
@@ -135,7 +133,7 @@ class MoveProcess extends AiProcess {
             let target = Base.instance.entities.get(this.actor.collisionIds[0]);
             //console.log(`actor colliding with: ${this.actor.collisionIds} |${target}| ${this.currentCollisions}`);
             if (this.currentCollisions > MoveProcess.maxCollisions) {
-                console.log(`actor ${this.actor} failing movement, too many concurrent collisions`);
+                //console.log(`actor ${this.actor} failing movement, too many concurrent collisions`);
                 //this.actor.currentAction.ok = false;
                 this.actor.currentAction = undefined;
                 this.actor.actions = [];

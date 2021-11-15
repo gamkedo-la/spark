@@ -26,7 +26,6 @@ class CloseAtStationPlan extends AiPlan {
         super.prepare(actor, state);
         let target = this.state.v_target;
         if (target.conditions.has(target.closedCondition)) {
-            console.log("CloseAtStationPlan: target is already closed");
             return false;
         }
         return true;
@@ -80,7 +79,6 @@ class CloseAction extends Action {
     }
 
     start(actor) {
-        console.log(`close action actor: ${actor} target: ${this.target}}`);
         this.actor = actor;
         // actor applies sweeping condition
         //this.actor.conditions.add(Condition.sweeping);
@@ -89,7 +87,6 @@ class CloseAction extends Action {
     update(ctx) {
         this.ttl -= ctx.deltaTime;
         if (this.ttl <= 0) {
-            console.log(`actor ${this.actor} done closing`);
             this.done = true;
             //this.actor.conditions.delete(Condition.sweeping);
             // remove close condition from target

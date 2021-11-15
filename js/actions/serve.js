@@ -114,7 +114,6 @@ class ServeAction extends Action {
     }
 
     start(actor) {
-        console.log(`serve action actor: ${actor} target: ${this.target}} serve: ${this.serveTag}`);
         this.actor = actor;
         // update actor state
         //actor.conditions.add(this.target.actorCondition);
@@ -129,7 +128,6 @@ class ServeAction extends Action {
     update(ctx) {
         this.ttl -= ctx.deltaTime;
         if (this.ttl <= 0) {
-            console.log(`actor ${this.actor} done serving ${this.serveTag}`);
             this.done = true;
             //this.actor.conditions.delete(Condition.eating);
             // actor clears service order
@@ -253,7 +251,6 @@ class ClearAction extends Action {
     }
 
     start(actor) {
-        console.log(`clear beer action actor: ${actor} target: ${this.target}}`);
         this.actor = actor;
 
         // update actor state
@@ -268,7 +265,6 @@ class ClearAction extends Action {
     update(ctx) {
         this.ttl -= ctx.deltaTime;
         if (this.ttl <= 0) {
-            console.log(`actor ${this.actor} done clearing beer`);
             this.done = true;
             // lookup clear object by ID
             let clear = this.entities.get(this.target[this.clearId]);

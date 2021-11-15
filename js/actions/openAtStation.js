@@ -26,7 +26,7 @@ class OpenAtStationPlan extends AiPlan {
         super.prepare(actor, state);
         let target = this.state.v_target;
         if (!target.conditions.has(target.closedCondition)) {
-            console.log("OpenAtStationPlan: target is not closed");
+            //console.log("OpenAtStationPlan: target is not closed");
             return false;
         }
         return true;

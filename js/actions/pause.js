@@ -7,7 +7,6 @@ class PauseAction extends Action {
 
     start(actor) {
         Atts.paused = true;
-        console.log(`starting pause action`);
     }
 
     update(ctx) {

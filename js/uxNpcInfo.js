@@ -102,7 +102,6 @@ class UxNpcInfo extends UxCtrl {
     }
 
     onHint(evt) {
-        console.log("onHint");
         this.hints = new UxHints({hints: this.npc.bio.hints});
         // disable play state ui and mouse clicks
         this.view.active = false;

@@ -77,7 +77,6 @@ class Workstation extends Model {
     }
 
     leave(actor) {
-        console.log(`${this} leave actor: ${actor}`);
         // update chair state
         this.conditions.delete(this.occupiedCondition);
         this.offx = this.emptyX;

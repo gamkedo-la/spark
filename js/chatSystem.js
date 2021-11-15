@@ -148,15 +148,12 @@ class ChatSystem extends System {
         let sameTTL = Util.jitter(this.targetChatTTL, this.chatJitter);
         switch (kind) {
             case "chat.compliment":
-                console.log(`${speaker} setting compliment timer for target: ${target}`);
                 speaker.chatComplimentTimers[target.gid] = sameTTL;
                 break;
             case "chat.neutral":
-                console.log(`${speaker} setting neutral timer for target: ${target}`);
                 speaker.chatNeutralTimers[target.gid] = sameTTL;
                 break;
             case "chat.insult":
-                console.log(`${speaker} setting insult timer for target: ${target}`);
                 speaker.chatInsultTimers[target.gid] = sameTTL;
                 break;
         }

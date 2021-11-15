@@ -14,7 +14,6 @@ class ComplimentAction extends Action {
         this.chatSys = spec.chatSys || Hierarchy.find(Base.instance.systemMgr, (o => o.cls === "ChatSystem"));
     }
     start(actor) {
-        console.log(`compliment action actor: ${actor} target: ${this.target}}`);
         this.actor = actor;
         this.chatSys.doChat(actor, this.target, this.msg, "chat.compliment");
     }

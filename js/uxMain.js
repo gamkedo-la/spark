@@ -76,17 +76,16 @@ class UxMainCtrl extends UxCtrl {
     }
 
     onStart(evt) {
-        console.log("onStart");
         let ctrl = new UxPlayCtrl();
         this.base.ctrlMgr.replace(ctrl);
     }
 
     onOptions(evt) {
-        console.log("onOptions");
+        //console.log("onOptions");
     }
 
     onCredits(evt) {
-        console.log("onCredits");
+        //console.log("onCredits");
     }
 
 }

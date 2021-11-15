@@ -95,7 +95,6 @@ class GatherAction extends Action {
         if (this.ttl <= 0) {
             // actor gathers from target
             this.target.gather(this.actor);
-            console.log(`actor ${this.actor} done gathering`);
             this.done = true;
         }
         return this.done;

@@ -96,7 +96,7 @@ class OccupyAction extends Action {
         this.actor = actor;
         // check that target can be occupied
         if (this.target.conditions.has(this.target.occupiedCondition)) {
-            console.log(`actor: ${actor} cannot occupy: ${this.target} -- already occupied ${this.target.actorId}`);
+            //console.log(`actor: ${actor} cannot occupy: ${this.target} -- already occupied ${this.target.actorId}`);
             this.ok = false;
         } else {
             // actor occupies target

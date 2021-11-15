@@ -59,7 +59,6 @@ class Chair extends Model {
     }
 
     dointeract(actor) {
-        console.log(this + " dointeract");
         if (this.conditions.has(this.occupiedCondition)) {
             actor.actions.push(new LeaveAction({target: this}));
             //this.leave(actor);

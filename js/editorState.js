@@ -571,7 +571,6 @@ class EditorState extends State {
                     if (tileid && assetid !== "000") this.selectedTile = assetid;
                 }
             } else if (this.toolMode === "delete") {
-                console.log(`delete ${layer}:${depth} ${i},${j}`);
                 this.assignTile(layer, depth, i, j, "000");
             }
         }
@@ -760,7 +759,6 @@ class EditorState extends State {
                     if (this.layerMode === `${layer}.${depth}`) {
                         let layerId = Config.layerMap[layer];
                         let offy = (layerId-lastLayerId) * Config.tileSize;
-                        console.log(`layerId: ${layerId} last: ${lastLayerId} offy: ${offy}`);
                         this.editorPanel.setLayerOffy(offy);
                         /*
                         // iterate through all model state

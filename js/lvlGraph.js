@@ -122,7 +122,6 @@ class LevelGraph {
         // handle layer transitions
         if (from.layer !== to.layer) {
             // push move action
-            console.log("push layer transition");
             actions.push(new DummyAction({info: `layer transition ${from.layer}->${to.layer}`}));
         } else {
             cost += Math.round(Vect.dist(from, to)); 

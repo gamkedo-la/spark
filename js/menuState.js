@@ -87,7 +87,6 @@ class MenuState extends State {
         Base.instance.stateMgr.swap(state);
     }
     onContinue(evt) {
-        console.log("toDO Load Last Save");
         // here is an example of how major game states are managed.
         // the main play state is created/loaded
         //let state = new OptionsState();

@@ -70,7 +70,6 @@ class RestockAction extends Action {
     }
 
     start(actor) {
-        console.log(`restock action actor: ${actor} target: ${this.target}}`);
         this.actor = actor;
         // actor applies restock condition
         //this.actor.conditions.add(Condition.sweeping);
@@ -79,7 +78,6 @@ class RestockAction extends Action {
     update(ctx) {
         this.ttl -= ctx.deltaTime;
         if (this.ttl <= 0) {
-            console.log(`actor ${this.actor} done restocking`);
             this.done = true;
             //this.actor.conditions.delete(Condition.sweeping);
             // mark target as restocked

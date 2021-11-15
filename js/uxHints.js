@@ -69,7 +69,7 @@ class UxHints extends UxCtrl {
     }
 
     onHint(evt) {
-        console.log("onHint");
+        //console.log("onHint");
     }
 
     onBack(evt) {

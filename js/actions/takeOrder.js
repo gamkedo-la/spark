@@ -126,14 +126,12 @@ class TakeOrderAction extends Action {
         if (this.target.serveDir) actor.heading = Direction.asHeading(this.target.serveDir);
         actor.updated = true;
 
-        console.log(`take order action actor: ${actor} target: ${this.target}} tag: ${this.serviceTag}`);
         this.actor = actor;
     }
 
     update(ctx) {
         this.ttl -= ctx.deltaTime;
         if (this.ttl <= 0) {
-            console.log(`actor ${this.actor} done taking order`);
             this.done = true;
             this.actor.serviceOrderId = this.target.gid;
             this.actor.serviceTag = this.serviceTag;

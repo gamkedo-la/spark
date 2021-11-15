@@ -28,7 +28,6 @@ class Stairs extends Model {
     }
 
     doactivate(actor, overlap) {
-        console.log("doactivate w: " + actor + " layer: " + actor.layer);
         if (this.up) {
             actor.layer++;
         } else {

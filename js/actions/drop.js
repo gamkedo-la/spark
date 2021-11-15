@@ -66,7 +66,6 @@ class DropAction extends Action {
     start(actor) {
         // drop
         actor.carryTag = undefined;
-        console.log(`drop action actor: ${actor} drop: ${actor.carryTag}}`);
     }
 
     update(ctx) {

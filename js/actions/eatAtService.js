@@ -141,7 +141,7 @@ class ComplimentAtServicePlan extends AiPlan {
         // lookup innkeeper
         this.innkeeper = this.entities.findFirst((e) => e.tag === "ciara");
         if (!this.innkeeper) {
-            console.log(`cant find inkeeper`);
+            console.error(`cant find inkeeper`);
             return false;
         }
         // check if occupy location has been served food and beer...

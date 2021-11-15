@@ -33,12 +33,10 @@ class WakeScheme extends AiScheme {
 class WakePlan extends AiPlan {
 
     prepare(actor, state) {
-        console.log("=== WakePlan state: " + Fmt.ofmt(state));
         super.prepare(actor, state);
         // pull linked target...
         this.target = this.getEntities().get(actor.occupyId);
         if (!this.target) {
-            console.log("WakePlan: can't look up target for link: " + actor.occupyId);
             return false;
         }
         return true;
@@ -48,7 +46,6 @@ class WakePlan extends AiPlan {
         // update actor position
         let effects = [];
         if (this.target.actorSavedX && this.target.actorSavedY) {
-            console.log(`actor position updated to ${this.target.actorSavedX},${this.target.actorSavedY}`);
             effects.push((state) => {
                 state.a_pos = new LevelNode(this.target.actorSavedX, this.target.actorSavedY, this.actor.layer)
             });

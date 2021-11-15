@@ -71,7 +71,6 @@ class WaterAction extends Action {
     }
 
     start(actor) {
-        console.log(`water action actor: ${actor} target: ${this.target}}`);
         this.actor = actor;
         // actor drops water
         this.actor.carryTag = undefined;
@@ -82,7 +81,6 @@ class WaterAction extends Action {
     update(ctx) {
         this.ttl -= ctx.deltaTime;
         if (this.ttl <= 0) {
-            console.log(`actor ${this.actor} done watering`);
             this.done = true;
             this.actor.conditions.delete(Condition.watering);
             // mark target as no longer thirsty

@@ -38,7 +38,6 @@ class Dialog {
         }
         let startKey = spec.start || "start";
         this._dfltTitle = spec.dfltTitle || "Dialog Title";
-        console.log(`dialog spec: ${Fmt.ofmt(spec)}`);
         // setup
         this._currentDialog = {};
         this.load(startKey);

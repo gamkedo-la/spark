@@ -7,7 +7,6 @@ class ResumeAction extends Action {
 
     start(actor) {
         Atts.paused = false;
-        console.log(`starting resume action`);
     }
 
     update(ctx) {

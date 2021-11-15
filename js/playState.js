@@ -270,7 +270,6 @@ class PlayState extends State {
         this.fountainBase = this.findFirst(v=>v.tag === "sparkbase.fountain" && v.x === 504 && v.y === 456);
         this.exampleRelay = this.findFirst(v=>v.tag === "relay" && v.x === 632 && v.y === 504);
         this.gardenerSparkbase = this.findFirst(v=>v.tag === "rockRelay" && v.ownerTag === "Finn");
-        //console.log(`exampleRelay: ${this.exampleRelay}`);
 
         // debug mode
         this.clickMode = "path";
@@ -290,7 +289,6 @@ class PlayState extends State {
             if (this.viewMgr && v) this.viewMgr.renderall = true;
             if (this.daylightView) {
                 this.daylightView.visible = v;
-                console.log(`setting daylightview visible: ${v} set as: ${this.daylightView.visible}`);
             }
             super.active = v;
         }
@@ -298,7 +296,6 @@ class PlayState extends State {
 
     onKeyDown(evt) {
         if (!this.view.active) return;
-        //console.log("onKeyDown: " + Fmt.ofmt(evt));
         if (evt.key === "1") {
             this.dbgPanel.visible = !this.dbgPanel.visible;
         }
@@ -350,7 +347,6 @@ class PlayState extends State {
                 this.clickMode = "check";
                 break;
             }
-            console.log(`changed clickMode to: ${this.clickMode}`);
         }
         if (evt.key === "p") {
             Atts.paused = !Atts.paused;
@@ -360,7 +356,6 @@ class PlayState extends State {
            Base.instance.audioMgr.muteToggle();
         }
         if (evt.key === "Escape"){      
-            console.log(`escape pressed`);
             this.onMenu();
         }
     }
@@ -393,7 +388,6 @@ class PlayState extends State {
         }
         // set up pathfinding
         let target = new LevelNode(x, y, this.player.layer);
-        console.log("player path to target: " + target);
         this.player.wantPathTo = target;
     }
 
@@ -427,10 +421,7 @@ class PlayState extends State {
             closeOnSketchDone: true,
         };
         let view = Generator.generate(xview);
-        console.log(`xview: ${Fmt.ofmt(xview)}, view: ${view}`);
-        console.log(`dim: ${view.width},${view.height}`);
         //let localMousePos = this.editorPanel.xform.getLocal(new Vect(evt.x, evt.y))
-        console.log("onClicked: " + Fmt.ofmt(evt));
         let x = evt.x + this.camera.minx;
         let y = evt.y + this.camera.miny;
         x = x/Config.renderScale;
@@ -463,7 +454,6 @@ class PlayState extends State {
     }
 
     onMenu(evt) {
-        console.log("onMenu clicked");
         let state = new OptionsState();
         // then the state manager is told to swap the current state (which is the menu state) with the new play state.
         Base.instance.stateMgr.push(state);
@@ -524,7 +514,6 @@ class PlayState extends State {
         //// FIXME
         //let action = "spark";
         if (this.lastAction !== action) {
-            //console.log(`setting z action to: ${action}`);
             // update z panel w/ new icon for given action
             let sketch = Generator.generate(PlayState.actionSketches[action]);
             this.zPanel.sketch = sketch;
@@ -686,8 +675,6 @@ class PlayState extends State {
     updateGameEvents(ctx) {
         while (this.eventQ.length) {
             let evt = this.eventQ.shift();
-            console.log(`play state processing game event: ${Fmt.ofmt(evt)}`);
-
             let sfx;
             switch (evt.tag) {
                 case "npc.moraleMax":
@@ -753,7 +740,6 @@ class PlayState extends State {
 
     firstUpdate(ctx) {
         this.music = Generator.generate(Base.instance.media.get("gameplayMusic"));
-        //console.log(`this.music: ${this.music}`);
         this.music.play();
     }
 

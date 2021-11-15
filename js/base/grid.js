@@ -95,7 +95,6 @@ class Grid {
     }
 
     onGizmoDestroy(evt) {
-        console.log("onGizmoDestroy");
         let gzo = evt.actor;
         if (!gzo) return;
         this.remove(gzo);

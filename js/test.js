@@ -39,7 +39,6 @@ class Game {
             x: x, 
             y: y, 
         }, xobj);
-        console.log(`xobj: ${Fmt.ofmt(xobj)}`);
         return Generator.generate(xobj);
     }
 
@@ -75,12 +74,10 @@ class Game {
         });
 
         this.view = Generator.generate(xview);
-        console.log(`this.view: ${this.view}`);
         this.ctx = this.view.ctx;
 
         let xobj = this.assets.fromTag("strawberry");
         let tile = this.genobj( xobj, 5, 5 );
-        console.log(`tile: ${tile}`);
     }
 
     async load() {

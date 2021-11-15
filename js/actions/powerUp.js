@@ -12,7 +12,6 @@ class PowerUpAction extends Action {
     }
 
     start(actor) {
-        console.log(`starting PanToAction`);
         if (this.target) {
             this.target.conditions.add(this.powerUpCondition);
         } else {

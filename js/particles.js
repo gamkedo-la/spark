@@ -33,9 +33,6 @@ class PlayFxView extends UxView {
         this.doty = this.centery + Math.sin(this.angle) * this.radius;
         this.projx = 0;
         this.projy = 0;
-        console.log(`radius: ${this.radius}`);
-        console.log(`center: ${this.centerx},${this.centery}`);
-        console.log(`dot: ${this.dotx},${this.doty}`);
         //this.addCenterFx("TestFx");
         //this.addCirclingFx("SparkFx");
     }
@@ -152,14 +149,11 @@ class ParticlesState extends State {
 
     onKeyDown(evt) {
         if (!this.active) return;
-        console.log("ParticlesState onKeyDown: " + Fmt.ofmt(evt));
     }
 
     onClick(evt) {
         //if (!this.active) return;
-        console.log("ParticlesState onClick: " + Fmt.ofmt(evt));
         let local = new Vect(evt.x/Config.renderScale, evt.y/Config.renderScale);
-        console.log(`part panel: ${this.particlePanel}`);
         this.particlePanel.addProjectileFx("SparkFx", local.x, local.y);
     }
 

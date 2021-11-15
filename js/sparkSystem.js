@@ -40,7 +40,6 @@ class SparkSystem extends System {
             if (!src) break;
             // if source was a relay... power it down
             if (src.relay) {
-                console.log(`powering down relay: ${src} w/ id: ${srcid} from id: ${src.srcid}`);
                 src.conditions.delete(Condition.powered);
                 srcid = src.srcid;
                 src.srcid = 0;
@@ -77,11 +76,9 @@ class SparkSystem extends System {
                     }
                     // check if relay needs to be spun
                     if (obj.spinme && !obj.conditions.has(Condition.spun)) {
-                        console.log(`spinning relay: ${obj}`);
                         obj.conditions.add(Condition.spun);
                     } else {
                         obj.conditions.add(Condition.powered);
-                        console.log(`powering up relay`);
                         obj.srcid = e.srcid;
                     }
                     hitRelay = true;
@@ -108,7 +105,7 @@ class SparkSystem extends System {
                         spark.ignoreId = obj.gid;
                         hitRelay = true;
                     } else {
-                        console.log(`hit backside`);
+                        //console.log(`hit backside`);
                     }
                 // -- sparkable
                 } else if (obj.sparkable) { 
@@ -130,7 +127,7 @@ class SparkSystem extends System {
                 }
 
                 // this DOES output to console
-                console.log(`spark ${e} collided w: ${id}:${obj}`);
+                if (this.dbg) console.log(`spark ${e} collided w: ${id}:${obj}`);
 
             }
             // if we did not hit a relay, spark chain is broken
