@@ -80,6 +80,8 @@ class SparkSystem extends System {
                         sound.play();
                         obj.conditions.add(Condition.spun);
                     } else {
+                        let sound = Generator.generate({cls: "Media", tag: "rune.relay"});
+                        sound.play();
                         obj.conditions.add(Condition.powered);
                         obj.srcid = e.srcid;
                     }

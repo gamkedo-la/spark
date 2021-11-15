@@ -114,6 +114,7 @@ class SparkAssets {
             { src: "snd/vendor-extra-sound-option.mp3", loader: "Audio", tag: "rune.rotate", loop: false },
             { src: "snd/vendor-restock.mp3", loader: "Audio", tag: "vendor.restock", loop: false },
             { src: "snd/vendor-leave-door-close.mp3", loader: "Audio", tag: "crate.spin", loop: false },
+            { src: "snd/runeRelay.wav", loader: "Audio", tag: "rune.relay", loop: false },
 
             { src: "img/like-dislike-indicator-Sheet.png", loader: "Sheet", refs: [
                 Templates.xanim("like", 0, 0, {width: 32, height: 32, duration: [500, 500/7], loop: false}),
