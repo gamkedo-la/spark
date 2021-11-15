@@ -95,8 +95,8 @@ class SparkAssets {
     static init() {
         this.media = [
             { src: "snd/gameplayMusic.mp3", loader: "Audio", tag: "gameplayMusic", volume: .5, loop: true, kind: "music" },
-            { src: "snd/doorClosing.mp3", loader: "Audio", tag: "doorClosing" },
-            { src: "snd/doorOpenning.mp3", loader: "Audio", tag: "doorOpening" },
+            { src: "snd/doorClosing.mp3", loader: "Audio", tag: "doorClosing", volume: .1 },
+            { src: "snd/doorOpenning.mp3", loader: "Audio", tag: "doorOpening", volume: .2 },
             { src: "snd/poweringUp.mp3", loader: "Audio", tag: "poweringUp" },
             { src: "snd/fairyChimes.mp3", loader: "Audio", tag: "chimes", volume: .1, loop: true },
             { src: "snd/chime-solid.mp3", loader: "Audio", tag: "chimesHigh", volume: .1, loop: true },
@@ -110,7 +110,10 @@ class SparkAssets {
             { src: "snd/happy_heart.mp3", loader: "Audio", tag: "cheer2", loop: false },
             { src: "snd/we_are_lucky.mp3", loader: "Audio", tag: "cheer3", loop: false },
             { src: "snd/pillar_activation.mp3", loader: "Audio", tag: "pillarActivation", loop: false },
-            { src: "snd/doSpark4.mp3", loader: "Audio", tag: "sparkSfx", loop: false, volume: .1 },
+            { src: "snd/doSpark4.mp3", loader: "Audio", tag: "sparkSfx", loop: false, volume: .05 },
+            { src: "snd/vendor-extra-sound-option.mp3", loader: "Audio", tag: "rune.rotate", loop: false },
+            { src: "snd/vendor-restock.mp3", loader: "Audio", tag: "vendor.restock", loop: false },
+            { src: "snd/vendor-leave-door-close.mp3", loader: "Audio", tag: "crate.spin", loop: false },
 
             { src: "img/like-dislike-indicator-Sheet.png", loader: "Sheet", refs: [
                 Templates.xanim("like", 0, 0, {width: 32, height: 32, duration: [500, 500/7], loop: false}),

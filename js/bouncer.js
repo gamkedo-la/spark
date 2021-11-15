@@ -1,6 +1,7 @@
 export { Bouncer };
 
 import { Direction }        from "./base/dir.js";
+import { Generator } from "./base/generator.js";
 import { Model }            from "./base/model.js";
 
 class Bouncer extends Model {
@@ -13,6 +14,8 @@ class Bouncer extends Model {
         // -- direction handling
         this.facing = spec.facing || Direction.northEast;
         this.clockwise = spec.hasOwnProperty("clockwise") ? spec.clockwise : true;
+        // -- sfx
+        this.xturnSfx = spec.turnSfx || {cls: "Media", tag: "rune.rotate"};
     }
 
     dointeract(actor) {
@@ -20,6 +23,10 @@ class Bouncer extends Model {
     }
 
     rotate(actor) {
+        if (this.xturnSfx) {
+            let audio = Generator.generate(this.xturnSfx);
+            audio.play();
+        }
         // update facing direction
         this.facing = Direction.nextInRotation(Direction.diagonals, this.facing, this.clockwise);
     }

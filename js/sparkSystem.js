@@ -76,6 +76,8 @@ class SparkSystem extends System {
                     }
                     // check if relay needs to be spun
                     if (obj.spinme && !obj.conditions.has(Condition.spun)) {
+                        let sound = Generator.generate({cls: "Media", tag: "rune.rotate"});
+                        sound.play();
                         obj.conditions.add(Condition.spun);
                     } else {
                         obj.conditions.add(Condition.powered);

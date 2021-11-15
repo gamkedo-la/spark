@@ -6,6 +6,7 @@ import { AiPlan }           from "../base/ai/aiPlan.js";
 import { AiProcess }        from "../base/ai/aiProcess.js";
 import { Action }           from "../base/action.js";
 import { Condition } from "../base/condition.js";
+import { Generator } from "../base/generator.js";
 
 class RestockAtStockScheme extends AiScheme {
     constructor(spec={}) {
@@ -61,18 +62,23 @@ class RestockProcess extends AiProcess {
 }
 
 class RestockAction extends Action {
-    static dfltTTL = 5000;
+    static dfltTTL = 1000;
 
     constructor(spec={}) {
         super(spec);
         this.target = spec.target;
         this.ttl = spec.ttl || RestockAction.dfltTTL;
+        this.xsfx = spec.xsfx || { cls: "Media", tag: "vendor.restock"};
     }
 
     start(actor) {
         this.actor = actor;
         // actor applies restock condition
         //this.actor.conditions.add(Condition.sweeping);
+        if (this.xsfx) {
+            let sound = Generator.generate(this.xsfx);
+            sound.play();
+        }
     }
 
     update(ctx) {
