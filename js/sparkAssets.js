@@ -1800,6 +1800,13 @@ class SparkAssets {
                     "job": "gardener",
                     "likes": "watering, weeding, planting",
                     "dislikes": "time away from gardening",
+                    "hints": [
+                        "need to help Aodhan first",
+                        "there a closer water source, but why isn't Finn using it?",
+                        "sparking a light will get you where you need to be",
+                        "some runestones cause the spark to be reflected, interact to turn",
+                        "arrange runestones to place your spark well"
+                    ]
                 },
                 ctrlId: 0,
                 offy: -16,
