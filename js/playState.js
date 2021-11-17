@@ -82,7 +82,6 @@ class PlayState extends State {
                 text: "I'm so sorry, where are my manners, child?  I never did ask your name... Also, I've never seen you around here... where are you from, who are you?  Anywho... you're always welcome here!",
                 responses: {
                     "I'm Alette and...": (d) => d.load("diag3"),
-                    "I'm Alette": (d) => d.done = true,
                 }
             },
             diag3: {
@@ -125,6 +124,46 @@ class PlayState extends State {
                 text: "(And I did enjoy helping this man.  I think I could help the others too... and figure things out along the way.)",
                 responses: {
                     "I'll see what I can do": (d) => d.done = true,
+                }
+            },
+        }
+    };
+
+    static innkeeperSparkDialog = {
+        dfltTitle: "Ciara",
+        dialogs: {
+            start: {
+                text: "Oh my dearest darling!  I'm so sorry for doubting you, I don't know what had come over me!  Thank you so much!  It's true what Aodhan says of you, this Spark of yours is something special!",
+                responses: {
+                    "...": (d) => d.load("arc1"),
+                }
+            },
+            arc1: {
+                title: "Alette",
+                text: "(Wow, she's cheery all of a sudden.  I do admit, there's a connection here... my Spark, this gloom... but there's something else.  Ciara wasn't affected by my Spark directly.  Yet the gloom still lifted when I helped her?  Maybe that's the connection?",
+                responses: {
+                    "...": (d) => d.load("arc1_1"),
+                }
+            },
+            arc1_1: {
+                title: "Alette",
+                text: "(And yet I'm still here... which must mean... there's still more work to do?  Is that my purpose?  Not sure why these folks can't just get along without me... but maybe a little more help may help lift my own spirits...)",
+                responses: {
+                    "...": (d) => d.load("arc1_2"),
+                }
+            },
+            arc1_2: {
+                title: "Ciara",
+                text: "Is something the matter dear?  You were lost there for a moment.  Is there something on your mind?  Does no good bottling it up...",
+                responses: {
+                    "...": (d) => d.load("arc1_3"),
+                }
+            },
+            arc1_3: {
+                title: "Alette",
+                text: "(Don't think I'm quite ready to share yet.  I still have some things to think through... Off to the next soul to save I guess...)",
+                responses: {
+                    "I'm good, thanks!": (d) => d.done = true,
                 }
             },
         }
@@ -323,14 +362,16 @@ class PlayState extends State {
             Config.dbg.Stats = !Config.dbg.Stats;
         }
         if (evt.key === "8") {
-            //case "npc.moraleUp":
             if (!this.vendorMoraleMax) {
                 this.eventQ.push(new Event("npc.moraleMax", {actor: this.vendor}));
                 this.vendor.morale.value = Morale.max;
+                this.vendor.introDone = true;
                 this.vendorMoraleMax = true;
             } else if (!this.innkeeperMoraleMax) {
                 this.eventQ.push(new Event("npc.moraleMax", {actor: this.innkeeper}));
                 this.innkeeper.morale.value = Morale.max;
+                this.innkeeper.wantIntro = true;
+                this.innkeeper.introDone = true;
                 this.innkeeperMoraleMax = true;
             } else if (!this.gardenerMoraleMax) {
                 this.eventQ.push(new Event("npc.moraleMax", {actor: this.gardener}));
@@ -694,12 +735,16 @@ class PlayState extends State {
                         this.actions.push(new WaitForDialog({xdialog: Object.assign({}, PlayState.vendorSparkDialog, {actor: this.player, npc: this.vendor})}));
                         this.actions.push(new PanToAction({target: this.player}));
                         this.actions.push(new ResumeAction());
+                        // update other npc state
+                        this.innkeeper.wantIntro = true;
                     } else if (evt.actor.tag === "ciara") {
                         this.actions.push(new PauseAction());
                         this.actions.push(new PanToAction({target: this.innkeeperSparkbase}));
                         this.actions.push(new PlaySoundAction({sfx: this.pillarActivateSfx}));
                         this.actions.push(new PowerUpAction({target: this.innkeeperSparkbase}));
                         this.actions.push(new WaitAction());
+                        this.actions.push(new PanToAction({target: this.innkeeper}));
+                        this.actions.push(new WaitForDialog({xdialog: Object.assign({}, PlayState.innkeeperSparkDialog, {actor: this.player, npc: this.innkeeper})}));
                         this.actions.push(new PanToAction({target: this.player}));
                         this.actions.push(new ResumeAction());
                     } else if (evt.actor.tag === "finn") {

@@ -1723,6 +1723,7 @@ class SparkAssets {
                             },
                         },
                     },
+
                     { 
                         predicate: (actor, npc) => npc.introDone && npc.morale.value !== Morale.max,
                         dialogs: {
@@ -1734,6 +1735,19 @@ class SparkAssets {
                             }
                         }
                     },
+
+                    { 
+                        predicate: (actor, npc) => npc.morale.value === Morale.max,
+                        dialogs: {
+                            start: {
+                                text: "Thanks Alette, have any more Sparks for me?",
+                                responses: {
+                                    "...": (d) => d.done = true,
+                                }
+                            }
+                        }
+                    },
+
                 ],
             }),
 
@@ -1745,8 +1759,8 @@ class SparkAssets {
                     "likes": "satisified customers",
                     "dislikes": "magic, complaints",
                     "hints": [
-                        "something's preventing her from fully serving customers",
-                        "need to spark beer keg",
+                        "need to help Aodhan first",
+                        "figure out how to spark beer keg",
                         "find rune relay in SE corner of inn",
                         "find another hidden relay in kitchen",
                         "move within range of beer and cast spark",
@@ -1786,7 +1800,119 @@ class SparkAssets {
                     },
                 },
                 xdialogs: [
-                    { tag: "test", predicate: (actor, npc) => true},
+                    { 
+                        predicate: (actor, npc) => !npc.wantIntro,
+                        dialogs: {
+                            start: {
+                                text: "Or for Pete's sake!  Another weary soul looking for refreshment?  Well, you've come to the wrong place... shoo!",
+                                responses: {
+                                    "Uh... maybe later then?": (d) => d.done = true,
+                                },
+                            },
+                        },
+                    },
+                    {
+                        predicate: (actor, npc) => !npc.introDone,
+                        dialogs: {
+                            start: {
+                                text: "Open a bar they said.  It will be fun they said.  All I hear all day, everyday, is complaints from everyone in town.  Oh, a new face... you going to complain too?",
+                                responses: {
+                                    "Aodhan sent me...": (d) => d.load("arc1"),
+                                    "Maybe I can help?": (d) => d.load("arc2"),
+                                },
+                            },
+
+                            arc1: {
+                                text: "That old hack?  He's one of the worst complainers out of all of them... and to think, there was a time when I thought he was sweet.  I'm not quite sure why a innocent child like you would give him the time of day...",
+                                responses: {
+                                    "Ya... he was quite grumpy...": (d) => d.load("arc1_1"),
+                                },
+                            },
+
+                            arc1_1: {
+                                title: "Alette",
+                                text: "Turns out he was just having a bit of a bad stretch.  Seems to be going around.  He just needed a little, uh, spark, to lift his spirits.  I think you'll find that he may be more agreeable now.",
+                                responses: {
+                                    "...": (d) => d.load("arc1_2"),
+                                },
+                            },
+
+                            arc1_2: {
+                                title: "Ciara",
+                                text: "A little spark?!?  Not sure what you mean child.  And I'll believe that old man has changed his ways when I see it.  But I have my own mess to deal with... to be honest, folks have a right to complain.  What kind of barkeep can't offer their customer's a cool drink?",
+                                responses: {
+                                    "A cool drink?": (d) => d.load("arc1_3"),
+                                },
+                            },
+
+                            arc1_3: {
+                                title: "Ciara",
+                                text: "Yes, just that.  This beer keg here!  The beer just won't flow!  The keg is full, the tap is in, nothing.  I've tried everything, cleaning, refitting, arghhhh!  The stupid tap just won't work.  I'm about ready to split the keg open and left everyone drink from the floor!",
+                                responses: {
+                                    "Let me see what I can do.": (d) => d.load("arc1_4"),
+                                },
+                            },
+
+                            arc1_4: {
+                                title: "Ciara",
+                                text: "You think you can fix it?  Hmph, I doubt it!  Go ahead, give a shot.  Doesn't hurt I guess.  (Scoffs) Maybe one of your special `Sparks', huh?  Knock yourself out...",
+                                responses: {
+                                    "...": (d) => d.load("arc1_5"),
+                                },
+                            },
+
+                            arc1_5: {
+                                title: "Alette",
+                                text: "(She's making it really hard to want to help her... negativity seems to be everybody's forte here... I need to to try my best not to let it get to me.  Let me focus on what she said: the keg.  Maybe a Spark would help, despite what she thinks!  But how?  I need figure out how to extend my range...)",
+                                responses: {
+                                    "Let's do this!": (d) => {
+                                        d.done = true;
+                                        d.npc.introDone = true;
+                                    }
+                                },
+                            },
+
+                            arc2: {
+                                text: "Help how?  Folks are grumpy, I'm grumpy, not sure I see how you're going to change that...",
+                                responses: {
+                                    "If you just ...": (d) => d.load("arc2_1"),
+                                },
+                            },
+
+                            arc2_1: {
+                                text: "Look deary, please see I'm busy here.  I need to get this darn thing to work... maybe you can come back later?",
+                                responses: {
+                                    "...": (d) => d.done = true,
+                                },
+                            },
+
+                        },
+                    },
+
+                    { 
+                        predicate: (actor, npc) => npc.introDone && npc.morale.value !== Morale.max,
+                        dialogs: {
+                            start: {
+                                text: "How's that `Spark' working out for ya?",
+                                responses: {
+                                    "...": (d) => d.done = true,
+                                }
+                            }
+                        }
+                    },
+
+                    { 
+                        predicate: (actor, npc) => npc.morale.value === Morale.max,
+                        dialogs: {
+                            start: {
+                                text: "Thanks again little one.  Why don't you have a seat and I'll get you a little something?",
+                                responses: {
+                                    "...": (d) => d.done = true,
+                                }
+                            }
+                        }
+                    },
+
                 ],
             }),
 

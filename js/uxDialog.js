@@ -104,6 +104,12 @@ class UxDialogCtrl extends UxCtrl {
             let height = Text.measureWrapHeight(this.font, this.dialog.text, this.dialogText.width) + 35;
             this.dialogPanel.xform.height = height;
             this.dialogText.text = this.dialog.text;
+            // hackety hack hack
+            if (this.dialog.title == "Alette") {
+                this.dialogText.sketch.color = Templates.playTextColor3;
+            } else {
+                this.dialogText.sketch.color = this.dialogColor;
+            }
         }
     }
 
