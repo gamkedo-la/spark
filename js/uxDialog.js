@@ -86,7 +86,10 @@ class UxDialogCtrl extends UxCtrl {
     }
 
     onKeyDown(evt) {
-        if (evt.key === 'Escape' || evt.key === 'z') { // Z
+        if (evt.key === 'z') {
+            let response = this.dialog.responses[this.dialog.responses.length-1];
+            this.dialog.chooseResponse(response);
+        } else if (evt.key === 'Escape') {
             this.onBack();
         }
     }

@@ -1660,11 +1660,11 @@ class SparkAssets {
                             start: {
                                 text: "AHHH... everything is bad, bad!  First my shoes have gone missing and now this...  You there, out of my sight!",
                                 responses: {
-                                    "Sir, what's the matter?": (d) => d.load("diag2"),
                                     "Wow, so rude! Goodbye!": (d) => {
                                         d.done = true;
                                         d.npc.morale.events.push("chat.insult");
-                                    }
+                                    },
+                                    "Sir, what's the matter?": (d) => d.load("diag2"),
                                 },
                             },
                             diag2: {
@@ -1817,8 +1817,8 @@ class SparkAssets {
                             start: {
                                 text: "Open a bar they said.  It will be fun they said.  All I hear all day, everyday, is complaints from everyone in town.  Oh, a new face... you going to complain too?",
                                 responses: {
-                                    "Aodhan sent me...": (d) => d.load("arc1"),
                                     "Maybe I can help?": (d) => d.load("arc2"),
+                                    "Aodhan sent me...": (d) => d.load("arc1"),
                                 },
                             },
 
@@ -1965,7 +1965,17 @@ class SparkAssets {
                      },
                 },
                 xdialogs: [
-                    { tag: "test", predicate: (actor, npc) => true},
+                    { 
+                        predicate: (actor, npc) => !npc.wantIntro,
+                        dialogs: {
+                            start: {
+                                text: "Sorry kid, you're in the way!  Garden's not going to tend itself...",
+                                responses: {
+                                    "Ok...": (d) => d.done = true,
+                                },
+                            },
+                        },
+                    },
                 ],
             }),
 
