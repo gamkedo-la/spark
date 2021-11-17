@@ -1976,6 +1976,104 @@ class SparkAssets {
                             },
                         },
                     },
+
+                    { 
+                        predicate: (actor, npc) => !npc.introDone,
+                        dialogs: {
+                            start: {
+                                text: "So... you're the kid everyone's been talking about, heh?  Fixing other folks problems.  Not sure how that helps me... whatcha going to do, sprout me a set of fancy wings?",
+                                responses: {
+                                    "...": (d) => d.load("arc1"),
+                                },
+                            },
+
+                            arc1: {
+                                title: "Alette",
+                                text: "(Here we go again...  breathe, just breathe... surely there's some kindness in his heart... he just needs to slow down for a moment to let others help him.)",
+                                responses: {
+                                    "Just a moment sir!": (d) => d.load("arc1_1"),
+                                },
+                            },
+
+                            arc1_1: {
+                                title: "Finn",
+                                text: "A moment is all you'll get.  I really need to get back to work.  The whole village depends on me to grow their food.  And the garden is in a terrible state!  So much work... so little time...",
+                                responses: {
+                                    "The garden?": (d) => d.load("arc1_2"),
+                                },
+                            },
+
+                            arc1_2: {
+                                title: "Finn",
+                                text: "Yes, it's right over there.  There's weeding and watering, planting and watering, shooing the birds away and watering.  Did I mention watering?",
+                                responses: {
+                                    "Once or twice...": (d) => d.load("arc1_3"),
+                                },
+                            },
+
+                            arc1_3: {
+                                title: "Finn",
+                                text: "And that's the thing.  Ever since the well has dried up, I haven't had a moment's peace.  I can't draw water from the sea, so I'm forced to draw from the village fountain.  Not sure that's all that great for the plants, and it's definitely not any good on my poor legs, being so far away.",
+                                responses: {
+                                    "...": (d) => d.load("arc1_4"),
+                                },
+                            },
+
+                            arc1_4: {
+                                title: "Alette",
+                                text: "(So... maybe I need to take a closer look at that well... I wonder if my spark really would have enough power to bring back water to a well?  There's also the matter of reaching the well.)",
+                                responses: {
+                                    "...": (d) => d.load("arc1_5"),
+                                },
+                            },
+
+                            arc1_5: {
+                                title: "Alette",
+                                text: "(That's funny... there seems to be a set of rune stones near the well.  I wonder what those are for?  Could I use those somehow to reach the well?  Maybe a closer look...)",
+                                responses: {
+                                    "I'll see what I can do": (d) => d.load("arc1_6"),
+                                },
+                            },
+
+                            arc1_6: {
+                                title: "Finn",
+                                text: "Knock yourself out.  Just get on with it and stay outta my way.  And hurry if you please.  Not sure how much longer I can keep this up...",
+                                responses: {
+                                    "Ok": (d) => {
+                                        d.done = true;
+                                        d.npc.introDone = true;
+                                    },
+                                },
+                            },
+
+                        },
+
+                    },
+
+                    { 
+                        predicate: (actor, npc) => npc.introDone && npc.morale.value !== Morale.max,
+                        dialogs: {
+                            start: {
+                                text: "Waiting ever so patiently... no kindly step back so I can continue my work...",
+                                responses: {
+                                    "Sheesh...": (d) => d.done = true,
+                                },
+                            },
+                        },
+                    },
+
+                    { 
+                        predicate: (actor, npc) => npc.morale.value === Morale.max,
+                        dialogs: {
+                            start: {
+                                text: "Thanks again kid!  If you ever need a carrot, you know where to find me.",
+                                responses: {
+                                    "I'll keep that in mind": (d) => d.done = true,
+                                },
+                            },
+                        },
+                    },
+
                 ],
             }),
 

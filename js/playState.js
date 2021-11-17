@@ -140,7 +140,7 @@ class PlayState extends State {
             },
             arc1: {
                 title: "Alette",
-                text: "(Wow, she's cheery all of a sudden.  I do admit, there's a connection here... my Spark, this gloom... but there's something else.  Ciara wasn't affected by my Spark directly.  Yet the gloom still lifted when I helped her?  Maybe that's the connection?",
+                text: "(Wow, she's cheery all of a sudden.  I do admit, there's a connection here... my Spark, this gloom... but there's something else.  Ciara wasn't affected by my Spark directly.  Yet the gloom still lifted when I helped her?  Maybe that's the connection?)",
                 responses: {
                     "...": (d) => d.load("arc1_1"),
                 }
@@ -166,6 +166,61 @@ class PlayState extends State {
                     "I'm good, thanks!": (d) => d.done = true,
                 }
             },
+        }
+    };
+
+    static gardenerSparkDialog = {
+        dfltTitle: "Finn",
+        dialogs: {
+            start: {
+                text: "Hey kid!  Somehow you did it!  The old well springs back to life and my poor legs get a bit of break!  My family has been gardeners here for generations and has always relied on that well to make our gardens grow.  It means so much to me that you did this for me!",
+                responses: {
+                    "...": (d) => d.load("arc1"),
+                }
+            },
+            arc1: {
+                title: "Alette",
+                text: "(And there it is again at the mention of family.  I think of my mother and my heart breaks again.  Will I ever stop feeling this way?)",
+                responses: {
+                    "...": (d) => d.load("arc1_1"),
+                }
+            },
+            arc1_1: {
+                title: "Alette",
+                text: "(Yet I can't deny it anymore... with every person I help, it does seem like the magic within me grows.  Did you see that mom?  I actually brought life back to this well?  How's that even possible?)",
+                responses: {
+                    "...": (d) => d.load("arc1_2"),
+                }
+            },
+            arc1_2: {
+                title: "Alette",
+                text: "(I also can't help but feel connected to these people here.  They have such a gruff exterior but their hearts do seem so warm way down deep.  It's just finding a way to reach them I guess.)",
+                responses: {
+                    "...": (d) => d.load("arc1_3"),
+                }
+            },
+            arc1_3: {
+                title: "Finn",
+                text: "Child, I see sadness in your eyes!  Why cry these tears my child?",
+                responses: {
+                    "...": (d) => d.load("arc1_4"),
+                }
+            },
+            arc1_4: {
+                title: "Alette",
+                text: "Let's just say I'm a little homesick.  But I think I know may way back now.  Why I'm here.  Is there anyone else on this island that needs help?",
+                responses: {
+                    "...": (d) => d.load("arc1_5"),
+                }
+            },
+            arc1_5: {
+                title: "Finn",
+                text: "I think you've helped all that you can reach my child.  The only other soul on this island is Imogen.",
+                responses: {
+                    "...": (d) => d.load("arc1_5"),
+                }
+            },
+
         }
     };
 
@@ -365,13 +420,10 @@ class PlayState extends State {
             if (!this.vendorMoraleMax) {
                 this.eventQ.push(new Event("npc.moraleMax", {actor: this.vendor}));
                 this.vendor.morale.value = Morale.max;
-                this.vendor.introDone = true;
                 this.vendorMoraleMax = true;
             } else if (!this.innkeeperMoraleMax) {
                 this.eventQ.push(new Event("npc.moraleMax", {actor: this.innkeeper}));
                 this.innkeeper.morale.value = Morale.max;
-                this.innkeeper.wantIntro = true;
-                this.innkeeper.introDone = true;
                 this.innkeeperMoraleMax = true;
             } else if (!this.gardenerMoraleMax) {
                 this.eventQ.push(new Event("npc.moraleMax", {actor: this.gardener}));
@@ -736,6 +788,7 @@ class PlayState extends State {
                         this.actions.push(new PanToAction({target: this.player}));
                         this.actions.push(new ResumeAction());
                         // update other npc state
+                        this.vendor.introDone = true;
                         this.innkeeper.wantIntro = true;
                     } else if (evt.actor.tag === "ciara") {
                         this.actions.push(new PauseAction());
@@ -747,6 +800,9 @@ class PlayState extends State {
                         this.actions.push(new WaitForDialog({xdialog: Object.assign({}, PlayState.innkeeperSparkDialog, {actor: this.player, npc: this.innkeeper})}));
                         this.actions.push(new PanToAction({target: this.player}));
                         this.actions.push(new ResumeAction());
+                        // update other npc state
+                        this.innkeeper.introDone = true;
+                        this.gardener.wantIntro = true;
                     } else if (evt.actor.tag === "finn") {
                         this.actions.push(new PauseAction());
                         this.actions.push(new PanToAction({target: this.gardenerSparkbase}));
