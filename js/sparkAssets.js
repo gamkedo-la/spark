@@ -493,6 +493,7 @@ class SparkAssets {
                 Templates.xsprite("relay.idle",         11, 4, {width: 32, height: 48}),
                 Templates.xsprite("relay.sparked",      13, 4, {width: 32, height: 48}),
                 Templates.xsprite("relay.powered",      11, 7, {width: 32, height: 48}),
+                Templates.xsprite("stove.left",         15, 3, {width: 32, height: 64}),
                 Templates.xsprite("rockRelay.idle",      5, 7, {width: 32, height: 32}),
                 Templates.xsprite("rockRelay.sparked",   7, 7, {width: 32, height: 32}),
                 Templates.xsprite("rockRelay.powered",  9, 7, {width: 32, height: 32}),
@@ -580,6 +581,8 @@ class SparkAssets {
                 Templates.xsprite("tower.1",            2, 6, {width: 16*2, height: 16*3}),
                 Templates.xsprite("tower.door.close",   0, 0, {width: 16*2, height: 16*5}),
                 Templates.xsprite("tower.door.open",    2, 0, {width: 16*2, height: 16*5}),
+                Templates.xsprite("tower.table",        4, 0, {width: 16*2, height: 16*4}),
+                Templates.xsprite("tower.stool",        6, 0, {width: 16*2, height: 16*2}),
                 Templates.xsprite("tower.2",            8, 6, {width: 16*2, height: 16*3}),
                 Templates.xsprite("tower.3",            2, 9, {width: 16*2, height: 16*2}),
                 Templates.xsprite("tower.4",            8, 9, {width: 16*2, height: 16*2}),
@@ -1377,6 +1380,7 @@ class SparkAssets {
 
             Templates.tile("03z", "table.cards",        {offx: 8, offy: -16, xcollider: {width: 20, offy:-4}}),
             Templates.tile("040", "table.checkers",     {offx: 8, offy: -16, xcollider: {width: 20, offy:-4}}),
+            Templates.tile("041", "tower.table",        {offx: 8, offy: -24, xcollider: {width: 16, height: 24, offy: 8}}),
 
             // ------------------------------------------------------------------------------
 
@@ -1539,7 +1543,7 @@ class SparkAssets {
 
             Templates.object("o0j", "bed.ciara", "Bed", {
                 mediaTag: "bed",
-                offx: 12, offy: -24,
+                offx: 12, offy: -26,
                 xcollider: { width: 24, height: 48 }, 
                 occupiedOffX: 12, occupiedOffY: -24, occupiedOffD: 1,
                 approachOffsets: [{x:-16, y:-16},  {x:-16, y:-32},  {x:32, y:-16}, {x:32, y:-32}],
@@ -1636,6 +1640,29 @@ class SparkAssets {
                 xopenSfx: { cls: "Media", tag: "doorOpening"}, 
                 xcloseSfx: { cls: "Media", tag: "doorClosing"}, 
                 xcollider: { offx: 8, offy: 24, width:48, height:24 }, 
+            }),
+
+            Templates.object("o0x", "tower.bed", "Bed", {
+                mediaTag: "bed",
+                offx: 4, offy: -28,
+                xcollider: { width: 24, height: 48 }, 
+                occupiedOffX: 4, occupiedOffY: -26, occupiedOffD: 1,
+                approachOffsets: [{x:-16, y:-16},  {x:-16, y:-32},  {x:32, y:-16}, {x:32, y:-32}],
+            }),
+
+            Templates.object("o0y", "tower.stool", "Chair", {
+                offx: 8, offy: -8,
+                xcollider: { offy: 4, width: 14, height: 14 }, 
+                occupiedDir: Direction.west, 
+                occupiedOffX: 10, occupiedOffY: -14, occupiedOffD: 1,
+                approachOffsets: [{x:-16, y:0},  {x:32, y:0},  {x:0, y:16}, {x:16, y:16}, {x:0, y:-32}, {x:16, y:-32}],
+            }),
+
+            Templates.object("o0z", "stove.left", "Stove", {
+                offx: 8, offy: -24,
+                xcollider: { width: 16, height: 32, offy: 8 }, 
+                occupiedOffX: 8, occupiedOffY: -22,
+                approachOffsets: [{x:32, y:32},  {x:32, y:48}],
             }),
 
             // @@@ ------------------------------------------------------------------------------
