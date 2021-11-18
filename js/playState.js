@@ -345,6 +345,7 @@ class PlayState extends State {
         this.vendor = this.findFirst(v=>v.tag === "aodhan");
         this.innkeeper = this.findFirst(v=>v.tag === "ciara");
         this.gardener = this.findFirst(v=>v.tag === "finn");
+        this.tinkerer = this.findFirst(v=>v.tag === "nessa");
         this.menuButton.evtClicked.listen(this.onMenu);
         this.zPanel = this.findFirst(v=>v.tag === "zPanel");
         this.coordsText = this.findFirst(v=>v.tag === "coords");
@@ -443,6 +444,10 @@ class PlayState extends State {
                 this.eventQ.push(new Event("npc.moraleMax", {actor: this.gardener}));
                 this.gardener.morale.value = Morale.max;
                 this.gardenerMoraleMax = true;
+            } else if (!this.tinkererMoraleMax) {
+                this.eventQ.push(new Event("npc.moraleMax", {actor: this.tinkerer}));
+                this.tinkerer.morale.value = Morale.max;
+                this.tinkererMoraleMax = true;
             }
         }
         if (evt.key === "9") {
@@ -828,6 +833,9 @@ class PlayState extends State {
                         this.actions.push(new PanToAction({target: this.player}));
                         this.actions.push(new ResumeAction());
                         this.gardener.introDone = true;
+                        this.tinkerer.wantIntro = true;
+                    } else if (evt.actor.tag === "nessa") {
+                        // FIXME
                     }
 
                     break;

@@ -2023,6 +2023,7 @@ class SparkAssets {
                     },
                     dislikes: { 
                         "chat.insult": 2,
+                        "spark": 1, 
                      },
                 },
 
@@ -2143,7 +2144,7 @@ class SparkAssets {
                 name: "Nessa",
                 viewCls: "CharacterView",
                 mediaTag: "tinkerer",
-                portraitTag: "gardener.portrait",
+                portraitTag: "tinkerer.portrait",
                 bio: {
                     "info": "a lonely, mysterious girl",
                     "job": "tinkerer",
@@ -2179,9 +2180,52 @@ class SparkAssets {
                     likes: { 
                     },
                     dislikes: { 
-                        "chat.insult": 2,
+                        "dialog": 1,
+                        "spark": 1, 
                      },
                 },
+
+                xdialogs: [
+                    { 
+                        predicate: (actor, npc) => !npc.wantIntro,
+                        dialogs: {
+                            start: {
+                                text: "...",
+                                responses: {
+                                    "Uh, hello?": (d) => {
+                                        d.done = true;
+                                        d.npc.morale.events.push("dialog");
+                                    },
+                                    "Excuse me...": (d) => {
+                                        d.done = true;
+                                        d.npc.morale.events.push("dialog");
+                                    },
+                                },
+                            },
+                        },
+                    },
+                    { 
+                        predicate: (actor, npc) => !npc.introDone,
+                        dialogs: {
+
+                            start: {
+                                text: "Alette...",
+                                responses: {
+                                    "You know my name?": (d) => d.load("arc1"),
+                                },
+                            },
+                            arc1: {
+                                text: "TBD",
+                                responses: {
+                                    "TBD": (d) => d.done = true,
+                                },
+                            },
+
+                        },
+                    },
+
+                ],
+
             }),
 
         ];
