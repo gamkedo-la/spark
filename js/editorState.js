@@ -871,6 +871,7 @@ class EditorState extends State {
             // skip based on filter
             if (this.filterKw != "none") {
                 let media = this.media.get(asset.xsketch.tag);
+                if (!media) continue;
                 if (!media.kw || !media.kw.includes(this.filterKw)) continue;
             }
             let bspec = {
