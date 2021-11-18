@@ -113,8 +113,8 @@ class SparkAssets {
     static init() {
         this.media = [
             { src: "snd/gameplayMusic.mp3", loader: "Audio", tag: "gameplayMusic", volume: .5, loop: true, kind: "music" },
-            { src: "snd/doorClosing.mp3", loader: "Audio", tag: "doorClosing", volume: .1 },
-            { src: "snd/doorOpenning.mp3", loader: "Audio", tag: "doorOpening", volume: .2 },
+            { src: "snd/doorClosing.mp3", loader: "Audio", tag: "doorClosing", volume: .05 },
+            { src: "snd/doorOpenning.mp3", loader: "Audio", tag: "doorOpening", volume: .1 },
             { src: "snd/poweringUp.mp3", loader: "Audio", tag: "poweringUp" },
             { src: "snd/fairyChimes.mp3", loader: "Audio", tag: "chimes", volume: .1, loop: true },
             { src: "snd/chime-solid.mp3", loader: "Audio", tag: "chimesHigh", volume: .1, loop: true },
