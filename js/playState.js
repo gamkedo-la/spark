@@ -215,9 +215,23 @@ class PlayState extends State {
             },
             arc1_5: {
                 title: "Finn",
-                text: "I think you've helped all that you can reach my child.  The only other soul on this island is Imogen.",
+                text: "I think you've helped all that you can reach my child.  The only other soul on this island is Nessa, bless her.  Poor thing has lost her way more than anyone else...",
                 responses: {
-                    "...": (d) => d.load("arc1_5"),
+                    "Where can I find this Nessa?": (d) => d.load("arc1_6"),
+                }
+            },
+            arc1_6: {
+                title: "Finn",
+                text: "She has set up a hut near the docks.  She is always alone tinkering with something in there or hangs out by her home on the peninsula.  Careful with that one, right?",
+                responses: {
+                    "...": (d) => d.load("arc1_7"),
+                }
+            },
+            arc1_7: {
+                title: "Alette",
+                text: "(I wonder what her story is?  For folks here to think she's too far gone, given their state, I am a bit worried to meet her.  But can't hurt to try I guess.)",
+                responses: {
+                    "Thanks Finn!": (d) => d.done = true,
                 }
             },
 
@@ -809,8 +823,11 @@ class PlayState extends State {
                         this.actions.push(new PlaySoundAction({sfx: this.pillarActivateSfx}));
                         this.actions.push(new PowerUpAction({target: this.gardenerSparkbase}));
                         this.actions.push(new WaitAction());
+                        this.actions.push(new PanToAction({target: this.gardener}));
+                        this.actions.push(new WaitForDialog({xdialog: Object.assign({}, PlayState.gardenerSparkDialog, {actor: this.player, npc: this.gardener})}));
                         this.actions.push(new PanToAction({target: this.player}));
                         this.actions.push(new ResumeAction());
+                        this.gardener.introDone = true;
                     }
 
                     break;

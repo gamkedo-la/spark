@@ -2054,7 +2054,7 @@ class SparkAssets {
                         predicate: (actor, npc) => npc.introDone && npc.morale.value !== Morale.max,
                         dialogs: {
                             start: {
-                                text: "Waiting ever so patiently... no kindly step back so I can continue my work...",
+                                text: "Waiting ever so patiently... now kindly step back so I can continue my work...",
                                 responses: {
                                     "Sheesh...": (d) => d.done = true,
                                 },
