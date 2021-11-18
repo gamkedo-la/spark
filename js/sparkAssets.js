@@ -72,7 +72,6 @@ class SparkAssets {
     ];
 
     static gardenerSchemes = [
-        "CloseAtStationScheme",
         "ComplimentAtServiceScheme",
         "EatAtChairScheme",
         "EatAtServiceScheme",
@@ -90,6 +89,25 @@ class SparkAssets {
         "WantWaterScheme",
         "WantPlantScheme",
         "WaterAtPlantScheme",
+    ];
+
+    static tinkererSchemes = [
+        "ComplimentAtServiceScheme",
+        "EatAtChairScheme",
+        "EatAtServiceScheme",
+        "FindScheme",
+        "GatherScheme",
+        "LeaveScheme",
+        "MoveScheme",
+        "OccupyScheme",
+        "SleepAtBedScheme",
+        "WaitAtServiceScheme",
+        "WantBedScheme",
+        "WantChairScheme",
+        "WantServiceScheme",
+        "WantStoveScheme",
+        "WantWorkstationScheme",
+        "WorkAtStationScheme",
     ];
 
     static init() {
@@ -957,6 +975,48 @@ class SparkAssets {
                     [ModelState.eating_north]: { cls: "Media", tag: "innkeeper.eating_north" },
                     [ModelState.eating_west]:  { cls: "Media", tag: "innkeeper.eating_west" },
                     [ModelState.eating_east]:  { cls: "Media", tag: "innkeeper.eating_east" },
+            }},
+
+            { src: "img/tinkerer.png", loader: "Sheet", refs: [
+                {tag: "tinkerer.portrait",      cls: "Sprite", width: 32, height: 32, x: 32*0, y: 16 },
+                {tag: "tinkerer.idle_south",    cls: "Sprite", width: 32, height: 64, x: 32*0, y: 64*7 },
+                {tag: "tinkerer.idle_north",    cls: "Sprite", width: 32, height: 64, x: 32*1, y: 64*7 },
+                {tag: "tinkerer.idle_west",     cls: "Sprite", width: 32, height: 64, x: 32*2, y: 64*7 },
+                {tag: "tinkerer.idle_east",     cls: "Sprite", width: 32, height: 64, x: 32*3, y: 64*7 },
+                Templates.anim("tinkerer.walk_south", {offx:0, width: 32, height:64, duration: 70}),
+                Templates.anim("tinkerer.walk_north", {offx:32, width: 32, height:64, duration: 70}),
+                Templates.anim("tinkerer.walk_west", {offx:64, width: 32, height:64, duration: 70}),
+                Templates.anim("tinkerer.walk_east", {offx:96, width: 32, height:64, duration: 70}),
+                {tag: "tinkerer.sleep_south",    cls: "Sprite", width: 32, height: 64, x: 32*4, y: 64*0 },
+                {tag: "tinkerer.seated_south",    cls: "Sprite", width: 32, height: 64, x: 32*8, y: 64*0 },
+                {tag: "tinkerer.seated_north",    cls: "Sprite", width: 32, height: 64, x: 32*9, y: 64*0 },
+                {tag: "tinkerer.seated_west",     cls: "Sprite", width: 32, height: 64, x: 32*10, y: 64*0 },
+                {tag: "tinkerer.seated_east",     cls: "Sprite", width: 32, height: 64, x: 32*11, y: 64*0 },
+                Templates.anim("tinkerer.eating_south", {frames: 9, offx:32*12, width: 32, height:64, duration: 70}),
+                Templates.anim("tinkerer.eating_north", {frames: 9, offx:32*13, width: 32, height:64, duration: 70}),
+                Templates.anim("tinkerer.eating_west", {frames: 9, offx:32*14, width: 32, height:64, duration: 70}),
+                Templates.anim("tinkerer.eating_east", {frames: 9, offx:32*15, width: 32, height:64, duration: 70}),
+            ]},
+
+            { tag: "tinkerer",               cls: "Animator", animations: {
+                    [ModelState.idle]:        { cls: "Media", tag: "tinkerer.idle_south" },
+                    [ModelState.idle_south]:   { cls: "Media", tag: "tinkerer.idle_south" },
+                    [ModelState.idle_north]:   { cls: "Media", tag: "tinkerer.idle_north" },
+                    [ModelState.idle_west]:    { cls: "Media", tag: "tinkerer.idle_west" },
+                    [ModelState.idle_east]:    { cls: "Media", tag: "tinkerer.idle_east" },
+                    [ModelState.walk_south]:   { cls: "Media", tag: "tinkerer.walk_south" },
+                    [ModelState.walk_north]:   { cls: "Media", tag: "tinkerer.walk_north" },
+                    [ModelState.walk_west]:    { cls: "Media", tag: "tinkerer.walk_west" },
+                    [ModelState.walk_east]:    { cls: "Media", tag: "tinkerer.walk_east" },
+                    [ModelState.sleep_south]:  { cls: "Media", tag: "tinkerer.sleep_south" },
+                    [ModelState.seated_south]: { cls: "Media", tag: "tinkerer.seated_south" },
+                    [ModelState.seated_north]: { cls: "Media", tag: "tinkerer.seated_north" },
+                    [ModelState.seated_west]: { cls: "Media", tag: "tinkerer.seated_west" },
+                    [ModelState.seated_east]: { cls: "Media", tag: "tinkerer.seated_east" },
+                    [ModelState.eating_south]: { cls: "Media", tag: "tinkerer.eating_south" },
+                    [ModelState.eating_north]: { cls: "Media", tag: "tinkerer.eating_north" },
+                    [ModelState.eating_west]:  { cls: "Media", tag: "tinkerer.eating_west" },
+                    [ModelState.eating_east]:  { cls: "Media", tag: "tinkerer.eating_east" },
             }},
 
             { src: "img/fairyMother.png", loader: "Sheet", refs: [
@@ -1965,6 +2025,7 @@ class SparkAssets {
                         "chat.insult": 2,
                      },
                 },
+
                 xdialogs: [
                     { 
                         predicate: (actor, npc) => !npc.wantIntro,
@@ -2076,6 +2137,51 @@ class SparkAssets {
                     },
 
                 ],
+            }),
+
+            Templates.object("c05", "nessa", "Character", {
+                name: "Nessa",
+                viewCls: "CharacterView",
+                mediaTag: "tinkerer",
+                portraitTag: "gardener.portrait",
+                bio: {
+                    "info": "a lonely, mysterious girl",
+                    "job": "tinkerer",
+                    "likes": "???",
+                    "dislikes": "???",
+                    "hints": [
+                        "need to help Finn first",
+                    ]
+                },
+                ctrlId: 0,
+                offy: -16,
+                ownerTag: "Nessa",
+                maxFedTTL: 30000,
+                maxQuenchTTL: 30000,
+                hoverable: true,
+                xcollider: { tag: Collider.npc, blocking: Collider.projectile|Collider.object, width:14, height:12, offy:16, color: "rgba(0,0,127,.5)" },
+                xactivitySchedule: Templates.testSchedule,
+                sparkable: true,
+                chatable: true,
+                maxSparkTTL: 500,
+                xai: { 
+                    cls: "AiState",
+                    xdirectives: [
+                        Templates.aiWakeDirective,
+                        Templates.aiWorkDirective,
+                        Templates.aiRelaxDirective,
+                        Templates.aiRestDirective,
+                    ],
+                    xschemes: this.tinkererSchemes,
+                },
+                xmorale: {
+                    cls: "Morale",
+                    likes: { 
+                    },
+                    dislikes: { 
+                        "chat.insult": 2,
+                     },
+                },
             }),
 
         ];
