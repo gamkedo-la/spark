@@ -16,7 +16,7 @@ class Character extends Model {
         // -- movement state
         this.heading = 0;
         this.speed = 0;
-        this.maxSpeed = .1;
+        this.maxSpeed = spec.maxSpeed || .07;
         this.ctrlId = spec.hasOwnProperty("ctrlId") ? spec.ctrlId : 1;
         // -- bio information
         this.bio = spec.bio;

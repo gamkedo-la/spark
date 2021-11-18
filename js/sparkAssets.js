@@ -1586,6 +1586,7 @@ class SparkAssets {
             },
 
             Templates.object("c01", "player", "Character", {
+                maxSpeed: .1,
                 viewCls: "CharacterView",
                 name: "Alette",
                 portraitTag: "fairy.portrait",
