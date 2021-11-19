@@ -19,6 +19,7 @@ class TitleState extends State {
             //resize: true,
             tag: "cvs.0",
             xchildren: [
+                Templates.panel("titleBG", { xsketch: {cls: "Media", tag: "menuBackground"}, xxform: { top: 0, bottom: 0, left: 0, right: 0}}),
                 Templates.titleText(null, "Spark", { xxform: { left: .3, right: .3, top: .3, bottom: .55}}),
                 Templates.titleText(null, "-- Click or Press Any Key --", { xxform: { left: .3, right: .3, top: .515, bottom: .45}}),
                 Templates.titleText(null, "A HomeTeam GameDev Creation", { xxform: { left: .3, right: .3, top: .8, bottom: .175}}),
