@@ -1846,7 +1846,7 @@ class SparkAssets {
             Templates.object("c03", "ciara", "Character", {
                 name: "Ciara",
                 bio: {
-                    "info": "of all the beerjoints on the island...",
+                    "info": "of all the taverns on the island...",
                     "job": "innkeeper",
                     "likes": "satisified customers",
                     "dislikes": "magic, complaints",
@@ -1896,7 +1896,7 @@ class SparkAssets {
                         predicate: (actor, npc) => !npc.wantIntro,
                         dialogs: {
                             start: {
-                                text: "Or for Pete's sake!  Another weary soul looking for refreshment?  Well, you've come to the wrong place... shoo!",
+                                text: "Oh for Pete's sake!  Another weary soul looking for refreshment?  Well, you've come to the wrong place... shoo!",
                                 responses: {
                                     "Uh... maybe later then?": (d) => d.done = true,
                                 },
@@ -1955,7 +1955,7 @@ class SparkAssets {
 
                             arc1_5: {
                                 title: "Alette",
-                                text: "(She's making it really hard to want to help her... negativity seems to be everybody's forte here... I need to to try my best not to let it get to me.  Let me focus on what she said: the keg.  Maybe a Spark would help, despite what she thinks!  But how?  I need figure out how to extend my range...)",
+                                text: "(She's making it really hard to want to help her... negativity seems to be everybody's strength here... I need to to try my best not to let it get to me.  Let me focus on what she said: the keg.  Maybe a Spark would help, despite what she thinks!  But how?  I need figure out how to extend my range...)",
                                 responses: {
                                     "Let's do this!": (d) => {
                                         d.done = true;
