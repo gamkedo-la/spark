@@ -46,6 +46,8 @@ const menu = new function() {
     this.draw = function() {
         switch(currentMenu){
             case MAIN_MENU_PAGE:
+                    // draw the background
+                    
                 break;
             case OPTIONS_PAGE:
                 break;

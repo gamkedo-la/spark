@@ -26,14 +26,10 @@ class MenuState extends State {
             cvsid: "canvas",
             // a list of first level children of the canvas
             xchildren: [
-                // the only child at his level is a panel.  Panels are simple non-interactive UI elements that can either just be placeholders for organization 
-                // (no attached sketch) or provide a visual background (attached sketch).
-                // Note the use of a template here.  Templates are used to "hide" details of the data specification, as well as provide consistant look/feel 
-                // for elements.  See templates.js for all of these definitions.
-                // Here, the panel is being used to group together the main menu buttons.  Note the xxform variable which provides a rect transform for the panel
-                // - the specification for this xxform is saying use a top/bottom margin of 20% of the parent height (.2 for top/bottom keys) and 30% of the parent
-                // - width (.3 for left/right keys).  Each parent/child level you go down will always be in local coordinate space... see below.
-                Templates.panel("mainButtons", { xxform: { top: .3, bottom: .3, left: .3, right: .3}, xchildren: [
+                
+                Templates.panel("mainBG", { xsketch: {cls: "Media", tag: "menuBackground"}, xxform: { top: 0, bottom: 0, left: 0, right: 0}}),
+
+                Templates.panel("mainButtons", { xxform: { top: 0.3, bottom: 0.3, left: 0.3, right: 0.3}, xchildren: [ //xxform: { top: .3, bottom: .3, left: .3, right: .3}, xchildren: [
                     // under the top level panel, there are the four button definitions.
                     // -- again, note the use of the template here.  We can modify the look/feel of all the main menu buttons by modifying the single template.
                     // -- also note the xxform: here, I'm saying use only a top and bottom margin.  i'm using a little math here to "simplify" the layout.

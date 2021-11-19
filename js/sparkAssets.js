@@ -812,6 +812,10 @@ class SparkAssets {
                 },
             },
 
+            { src: "img/menu-background.png", loader: "Sheet", refs: [
+                {tag: "menuBackground", cls: "Sprite", width: 1024, height: 768, x: 0, y: 0 },
+            ]},
+
             { src: "img/buttons.png", loader: "Sheet", refs: [
                 {tag: "buttonOff", cls: "StretchSprite", width: 48, height: 48, x: 0, y: 0, border: 16 },
                 {tag: "buttonHover", cls: "StretchSprite", width: 48, height: 48, x: 48*1, y: 0, border: 16 },
