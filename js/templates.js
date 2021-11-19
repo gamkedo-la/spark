@@ -43,6 +43,18 @@ class Templates {
         }
     }
 
+    // used for a drop shadow effect
+    static titleDark(tag, text, spec={}) {
+        let xxform = spec.xxform || {};
+        let color = spec.color || "rgba(0,0,0,1)"
+        return {
+            cls: "UxText",
+            tag: tag,
+            xxform: xxform,
+            xtext: { color: color, text: text, },
+        }
+    }
+    
     static playText(tag, text, spec={}) {
         let xxform = spec.xxform || {};
         let color = spec.color || Templates.playTextColor;
