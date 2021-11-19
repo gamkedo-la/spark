@@ -5,6 +5,8 @@ import { AiGoal }           from "../base/ai/aiGoal.js";
 import { AiPlan }           from "../base/ai/aiPlan.js";
 import { AiProcess }        from "../base/ai/aiProcess.js";
 import { Action }           from "../base/action.js";
+import { Condition }        from "../base/condition.js";
+
 
 class OpenAtStationScheme extends AiScheme {
     constructor(spec={}) {
@@ -83,7 +85,8 @@ class OpenAction extends Action {
         //console.log(`open action actor: ${actor} target: ${this.target}}`);
         this.actor = actor;
         // actor applies sweeping condition
-        //this.actor.conditions.add(Condition.sweeping);
+        console.log(`added open condition to ${this.target}`)
+        this.target.conditions.add(Condition.opened);
     }
 
     update(ctx) {

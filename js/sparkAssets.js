@@ -92,6 +92,8 @@ class SparkAssets {
     ];
 
     static tinkererSchemes = [
+        "OpenAtStationScheme",
+        "CloseAtStationScheme",
         "ComplimentAtServiceScheme",
         "EatAtChairScheme",
         "EatAtServiceScheme",
@@ -650,6 +652,8 @@ class SparkAssets {
                 Templates.xsprite("lamppost.relay.idle", 8, 6, {width: 32, height: 64}),
                 Templates.xsprite("lamppost.relay.powered", 10, 6, {width: 32, height: 64}),
                 Templates.xsprite("lamppost.relay.sparked", 12, 6, {width: 32, height: 64}),
+                Templates.xsprite("tinker.station.closed", 16, 4, {width: 32, height: 80}),
+                Templates.xsprite("tinker.station.open", 18, 4, {width: 32, height: 80}),
             ]},
 
             { tag: "lamppost.relay", 
@@ -658,6 +662,16 @@ class SparkAssets {
                     [ModelState.idle]: { cls: "Media", tag: "lamppost.relay.idle" }, 
                     [ModelState.powered]: { cls: "Media", tag: "lamppost.relay.powered" }, 
                     [ModelState.sparked]: { cls: "Media", tag: "lamppost.relay.sparked" }, 
+                },
+            },
+
+            { tag: "tinker.station", 
+                cls: "Animator", 
+                animations: { 
+                    [ModelState.idle]: { cls: "Media", tag: "tinker.station.closed" }, 
+                    [ModelState.close]: { cls: "Media", tag: "tinker.station.closed" }, 
+                    [ModelState.open]: { cls: "Media", tag: "tinker.station.open" }, 
+                    [ModelState.occupied]: { cls: "Media", tag: "tinker.station.open" }, 
                 },
             },
 
@@ -1667,6 +1681,16 @@ class SparkAssets {
                 xcollider: { width: 16, height: 32, offy: 8 }, 
                 occupiedOffX: 8, occupiedOffY: -22,
                 approachOffsets: [{x:32, y:32},  {x:32, y:48}],
+            }),
+
+            Templates.object("o0A", "tinker.station", "Workstation", {
+                offx: 4, offy: -32,
+                occupiedDir: Direction.east, 
+                occupiedOffX: -16, occupiedOffY: -24,
+                approachOffsets: [
+                    {x: -16, y: -32 },
+                ],
+                xcollider: { width: 16, height: 32, offy: 8 },
             }),
 
             // @@@ ------------------------------------------------------------------------------

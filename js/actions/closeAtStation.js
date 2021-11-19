@@ -5,6 +5,7 @@ import { AiGoal }           from "../base/ai/aiGoal.js";
 import { AiPlan }           from "../base/ai/aiPlan.js";
 import { AiProcess }        from "../base/ai/aiProcess.js";
 import { Action }           from "../base/action.js";
+import { Condition }        from "../base/condition.js";
 
 class CloseAtStationScheme extends AiScheme {
     constructor(spec={}) {
@@ -88,7 +89,8 @@ class CloseAction extends Action {
         this.ttl -= ctx.deltaTime;
         if (this.ttl <= 0) {
             this.done = true;
-            //this.actor.conditions.delete(Condition.sweeping);
+            console.log(`removing open condition from: ${this.target}`);
+            this.target.conditions.delete(Condition.opened);
             // remove close condition from target
             this.target.conditions.add(this.target.closedCondition);
         }
