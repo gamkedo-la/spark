@@ -36,7 +36,7 @@ import { UxNpcInfo } from "./uxNpcInfo.js";
 import { StoryDialogAction, StoryFadeInAction, StoryFadeOutAction, StoryHideAction, StoryShowAction, UxStory } from "./uxStory.js";
 import { UxTutorial } from "./uxTutorial.js";
 import { CreditsState } from "./creditsState.js";
-import { FinishGameAction } from "./actions/finish.js";
+import { DisableGloomAction, FinishGameAction } from "./actions/finish.js";
 import { Morale } from "./morale.js";
 import { Event } from "./base/event.js";
 
@@ -279,12 +279,19 @@ class PlayState extends State {
         dfltTitle: "Nessa",
         dialogs: {
             start: {
-                text: "... FIXME ...",
+                text: "Do you feel that child?  The gloom has lifted.  Your mother... she... she would be so proud of you!",
+                responses: {
+                    "...": (d) => d.load("arc1"),
+                },
+            },
+            arc1: {
+                text: "And you child... you are glowing!  Shimmering... oh... my dear... tell Aine... tell her I love her.  And know this Alette, you will always be welcome here... no go, your mother is calling you...",
                 responses: {
                     "...": (d) => d.done = true,
                 },
-            },
+            }
         },
+
     };
 
     static actionSketches = {
@@ -903,6 +910,7 @@ class PlayState extends State {
                         this.actions.push(new PlaySoundAction({sfx: this.pillarActivateSfx}));
                         this.actions.push(new PowerUpAction({target: this.tinkerRune2}));
                         this.actions.push(new WaitAction());
+                        this.actions.push(new DisableGloomAction());
                         this.actions.push(new PanToAction({target: this.tinkerer}));
                         this.actions.push(new WaitForDialog({xdialog: Object.assign({}, PlayState.tinkererSparkDialog, {actor: this.player, npc: this.tinkerer})}));
                         this.actions.push(new PanToAction({target: this.player}));

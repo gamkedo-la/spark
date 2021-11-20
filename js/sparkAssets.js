@@ -2251,6 +2251,7 @@ class SparkAssets {
                 xmorale: {
                     cls: "Morale",
                     likes: { 
+                        "resolution": 10,
                     },
                     dislikes: { 
                         "dialog": 1,
@@ -2259,6 +2260,7 @@ class SparkAssets {
                 },
 
                 xdialogs: [
+                    /*
                     { 
                         predicate: (actor, npc) => !npc.wantIntro,
                         dialogs: {
@@ -2277,6 +2279,7 @@ class SparkAssets {
                             },
                         },
                     },
+                    */
                     { 
                         predicate: (actor, npc) => !npc.introDone,
                         dialogs: {
@@ -2288,9 +2291,194 @@ class SparkAssets {
                                 },
                             },
                             arc1: {
-                                text: "TBD",
+                                text: "Of course child I know you.  I guess I shouldn't expect you to remember me, you were too young...",
                                 responses: {
-                                    "TBD": (d) => d.done = true,
+                                    "What?!?": (d) => d.load("arc1_1"),
+                                },
+                            },
+                            arc1_1: {
+                                title: "Alette",
+                                text: "(Who is this person and how does she know me?  Did she know my mother?  Why didn't she speak up earlier if she knows me?  I've been racing around this island trying to figure out what I'm doing here.  She could've helped!  Could have given me guidance!)",
+                                responses: {
+                                    "(ask about mother...)": (d) => d.load("arc2"),
+                                    "(ask about helping...)": (d) => d.load("arc3"),
+                                },
+                            },
+                            arc2: {
+                                title: "Alette",
+                                text: "I'm sorry I don't remember you.  How did you know me... were you friends with my Mama?",
+                                responses: {
+                                    "...": (d) => d.load("arc2_1"),
+                                },
+                            },
+
+                            arc2_1: {
+                                title: "Nessa",
+                                text: "Your mother and I were dear friends.  Best friends actually.  We met at magic school years ago and became fast friends.  Oh the times we had! As for you, I was there when you were born!  Oh what a little spirit you were!  Breaks my heart I couldn't be there to watch you grow...",
+                                responses: {
+                                    "You know magic?!?": (d) => d.load("arc2_1_1"),
+                                    "My Mama...": (d) => d.load("arc2_1_2"),
+                                    "Why did you leave?": (d) => d.load("arc2_1_3"),
+                                },
+                            },
+
+                            arc2_1_1: {
+                                title: "Nessa",
+                                text: "You sound surprised!  You didn't think that fairies alone are gifted in the magical arts did you?",
+                                responses: {
+                                    "Kinda, ya!": (d) => d.load("arc2_1_1_1"),
+                                    "I guess not...": (d) => d.load("arc2_1_1_2"),
+                                },
+                            },
+
+                            arc2_1_1_1: {
+                                title: "Nessa",
+                                text: "Open your mind child... see the potential in people, not their limitations... I'm tired, let's talk more later...",
+                                responses: {
+                                    "...": (d) => d.done = true,
+                                },
+                            },
+
+                            arc2_1_1_2: {
+                                title: "Nessa",
+                                text: "I can see your doubt, but I guess I can't blame you... it has been quite a while since the magic school has had non-fairy students... ",
+                                responses: {
+                                    "Why didn't you help me?": (d) => d.load("arc3"),
+                                },
+                            },
+
+                            arc2_1_2: {
+                                title: "Alette",
+                                text: "Not sure how to tell you this... (I find it hard to just repeat it to myself)...",
+                                responses: {
+                                    "...": (d) => d.load("arc2_1_2_1"),
+                                },
+                            },
+
+                            arc2_1_2_1: {
+                                title: "Nessa",
+                                text: "I know child.  You aren't the only one missing your mother.  I felt the light go out when she passed... to be honest, I haven't recovered, nor have I really wanted to since then... ",
+                                responses: {
+                                    "The light?": (d) => d.load("arc4")
+                                },
+                            },
+
+                            arc2_1_3: {
+                                title: "Nessa",
+                                text: "That's a hard tale.  More than I am able to share right now.  You are not the only one to know sorrow my child.  What I can say is that I closed down contact with those I loved at a time when I needed them the most.  I grow weary child, let us finish this another time.",
+                                responses: {
+                                    "...": (d) => d.done = true,
+                                },
+                            },
+
+                            arc3: {
+                                title: "Alette",
+                                text: "(Not quite sure what to think about this person?  She knows me, yet I've been in this town for a while and only now she talks to me?  Why?",
+                                responses: {
+                                    "...": (d) => d.load("arc3_1"),
+                                },
+                            },
+                            arc3_1: {
+                                title: "Nessa",
+                                text: "I see you stewing on something there child.  Out with it!",
+                                responses: {
+                                    "...": (d) => d.load("arc3_2"),
+                                },
+                            },
+                            arc3_2: {
+                                title: "Alette",
+                                text: "Why are you just talking to me now?  Why didn't you call to me and help me!  I could have really used it!",
+                                responses: {
+                                    "...": (d) => d.load("arc3_3"),
+                                },
+                            },
+                            arc3_3: {
+                                title: "Nessa",
+                                text: "Really!?  As you have seemed to do pretty well on your own without my help!  Did it occur to you that the reason you're here is to work this out.  And that is something that you alone can only do?  I know you are hurting, but know you are not the only one in pain.  Lashing out is not helpful.  Let's speak again later once you've cooled down...",
+                                responses: {
+                                    "...": (d) => d.done = true,
+                                },
+                            },
+
+                            arc4: {
+                                title: "Nessa",
+                                text: "My light... my darling husband Ned... Oh how I miss him.  Lost to the sea years ago but still missed sorely.  I was beside myself with grief and honestly anger.",
+                                responses: {
+                                    "Anger?": (d) => d.load("arc4_1"),
+                                },
+                            },
+                            arc4_1: {
+                                title: "Nessa",
+                                text: "Yes, anger at myself, anger at magic, at the world.  What good is it spend a lifetime studying magic, if you still can't protect the ones you love?  Slowly that anger turned to apathy.  And then... and then your mother...",
+                                responses: {
+                                    "She passed...": (d) => d.load("arc4_2"),
+                                },
+                            },
+
+                            arc4_2: {
+                                title: "Nessa",
+                                text: "Something I felt in my bones.  My light and connection to the magical world was sputtering with the loss of Ned.  When your mother passed... I had nothing left to give... my light went dark, as it has done in this entire town.  I fear it may have been my fault.  But I was too far in my own despair to notice or care.",
+                                responses: {
+                                    "The town...": (d) => d.load("arc4_3"),
+                                },
+                            },
+
+                            arc4_3: {
+                                title: "Alette",
+                                text: "(Does that explain it then?  The gloom, the grumpiness, all of it?  Can one person's sorry cause such calamity?  But what's my role here?  Why is this connected to me?)",
+                                responses: {
+                                    "...": (d) => d.load("arc4_4"),
+                                },
+                            },
+
+                            arc4_4: {
+                                title: "Alette",
+                                text: "I am sorry.  I'm not quite sure what to say.  May I ask a question?  Do you know why my mother sent me here?",
+                                responses: {
+                                    "...": (d) => d.load("arc4_5"),
+                                },
+                            },
+
+                            arc4_5: {
+                                title: "Nessa",
+                                text: "What are you talking about child?  I thought you were here to visit places your mother used to visit.  What do you mean your mother sent you?",
+                                responses: {
+                                    "...": (d) => d.load("arc4_6"),
+                                },
+                            },
+
+                            arc4_6: {
+                                title: "Alette",
+                                text: "She spoke to me in a dream.  When I awoke, I was here without a clue as to why.  Just to try to help these folks.  That she'd help me... be here with me...",
+                                responses: {
+                                    "...": (d) => d.load("arc4_7"),
+                                },
+                            },
+
+                            arc4_7: {
+                                title: "Nessa",
+                                text: "Oh Aine you beautiful soul.  Your mother dear... (sobbing)... she knew.  She knew that I had lost myself... and even in her own grief of leaving you... she was still thinking of others, how she could help.",
+                                responses: {
+                                    "...": (d) => d.load("arc4_8"),
+                                },
+                            },
+
+                            arc4_8: {
+                                title: "Nessa",
+                                text: "And that help was you!  You are your mother's daughter!  That I clearly see now.  Just look at what you've done with this village?  It has re-awakened.  Your spirit, your Spark!",
+                                responses: {
+                                    "...": (d) => d.load("arc4_9"),
+                                },
+                            },
+
+                            arc4_9: {
+                                title: "Nessa",
+                                text: "Thank you child.  My heart is heavy, but my hope has been rekindled...",
+                                responses: {
+                                    "...": (d) => {
+                                        d.done = true;
+                                        d.npc.morale.events.push("resolution");
+                                    }
                                 },
                             },
 
