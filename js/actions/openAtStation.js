@@ -85,7 +85,7 @@ class OpenAction extends Action {
         //console.log(`open action actor: ${actor} target: ${this.target}}`);
         this.actor = actor;
         // actor applies sweeping condition
-        console.log(`added open condition to ${this.target}`)
+        //console.log(`added open condition to ${this.target}`)
         this.target.conditions.add(Condition.opened);
     }
 

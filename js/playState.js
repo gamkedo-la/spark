@@ -36,6 +36,9 @@ import { UxNpcInfo } from "./uxNpcInfo.js";
 import { StoryDialogAction, StoryFadeInAction, StoryFadeOutAction, StoryHideAction, StoryShowAction, UxStory } from "./uxStory.js";
 import { UxTutorial } from "./uxTutorial.js";
 import { CreditsState } from "./creditsState.js";
+import { FinishGameAction } from "./actions/finish.js";
+import { Morale } from "./morale.js";
+import { Event } from "./base/event.js";
 
 class PlayState extends State {
     static startStoryTag = "startStory";
@@ -413,6 +416,8 @@ class PlayState extends State {
         this.fountainBase = this.findFirst(v=>v.tag === "sparkbase.fountain" && v.x === 504 && v.y === 456);
         this.exampleRelay = this.findFirst(v=>v.tag === "relay" && v.x === 632 && v.y === 504);
         this.gardenerSparkbase = this.findFirst(v=>v.tag === "rockRelay" && v.ownerTag === "Finn");
+        this.tinkerRune1 = this.findFirst(v=>v.tag === "sparkbase" && v.ownerTag === "Nessa");
+        this.tinkerRune2 = this.findFirst(v=>v.tag === "rune.wall" && v.ownerTag === "Nessa");
 
         // debug mode
         this.clickMode = "path";
@@ -466,7 +471,7 @@ class PlayState extends State {
             Config.dbg.Stats = !Config.dbg.Stats;
         }
         if (evt.key === "8") {
-            this.genStory(PlayState.endScript, PlayState.endStoryTag);
+            //this.genStory(PlayState.endScript, PlayState.endStoryTag);
             /*
             if (!this.vendorMoraleMax) {
                 this.eventQ.push(new Event("npc.moraleMax", {actor: this.vendor}));
@@ -481,11 +486,12 @@ class PlayState extends State {
                 this.gardener.morale.value = Morale.max;
                 this.gardenerMoraleMax = true;
             } else if (!this.tinkererMoraleMax) {
+                */
+            if (!this.tinkererMoraleMax) {
                 this.eventQ.push(new Event("npc.moraleMax", {actor: this.tinkerer}));
                 this.tinkerer.morale.value = Morale.max;
                 this.tinkererMoraleMax = true;
             }
-            */
         }
         if (evt.key === "9") {
             switch(this.clickMode) {
@@ -799,8 +805,7 @@ class PlayState extends State {
         if (this.currentStoryTag === PlayState.startStoryTag) {
             this.genTutorial();
         } else {
-            let state = new CreditsState();
-            Base.instance.stateMgr.push(state);
+            this.eventQ.push(new Event("game.credits"));
         }
     }
 
@@ -829,6 +834,7 @@ class PlayState extends State {
     updateGameEvents(ctx) {
         while (this.eventQ.length) {
             let evt = this.eventQ.shift();
+            console.log(`game event: ${Fmt.ofmt(evt)}`);
             let sfx;
             switch (evt.tag) {
                 case "npc.moraleMax":
@@ -877,7 +883,19 @@ class PlayState extends State {
                         this.gardener.introDone = true;
                         this.tinkerer.wantIntro = true;
                     } else if (evt.actor.tag === "nessa") {
-                        // FIXME
+                        this.actions.push(new PauseAction());
+                        this.actions.push(new PanToAction({target: this.tinkerRune1}));
+                        this.actions.push(new PlaySoundAction({sfx: this.pillarActivateSfx}));
+                        this.actions.push(new PowerUpAction({target: this.tinkerRune1}));
+                        this.actions.push(new PanToAction({target: this.tinkerRune2}));
+                        this.actions.push(new PlaySoundAction({sfx: this.pillarActivateSfx}));
+                        this.actions.push(new PowerUpAction({target: this.tinkerRune2}));
+                        this.actions.push(new WaitAction());
+                        this.actions.push(new PanToAction({target: this.tinkerer}));
+                        //this.actions.push(new WaitForDialog({xdialog: Object.assign({}, PlayState.tinkererSparkDialog, {actor: this.player, npc: this.tinkerer})}));
+                        this.actions.push(new PanToAction({target: this.player}));
+                        this.actions.push(new FinishGameAction());
+                        this.tinkerer.introDone = true;
                     }
 
                     break;
@@ -899,6 +917,13 @@ class PlayState extends State {
                     break;
                 case "npc.click":
                     this.genNpcInfo(evt.actor);
+                    break;
+                case "game.finish":
+                    this.genStory(PlayState.endScript, PlayState.endStoryTag);
+                    break;
+                case "game.credits":
+                    let state = new CreditsState();
+                    Base.instance.stateMgr.push(state);
                     break;
             }
 

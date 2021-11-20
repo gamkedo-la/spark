@@ -558,6 +558,9 @@ class SparkAssets {
                 Templates.xsprite("bridge",             15, 21, { width: 16*4, height: 16*3 }),
                 Templates.xsprite("table.cards",        16, 0, { width: 16*2, height: 16*3 }),
                 Templates.xsprite("table.checkers",     18, 0, { width: 16*2, height: 16*3 }),
+                Templates.xsprite("rune.wall.idle",     15, 7, { width: 16*2, height: 16*2 }),
+                Templates.xsprite("rune.wall.powered",  17, 7, { width: 16*2, height: 16*2 }),
+                Templates.xsprite("rune.wall.sparked",  15, 9, { width: 16*2, height: 16*2 }),
             ]},
 
             { tag: "well", 
@@ -576,6 +579,15 @@ class SparkAssets {
                     [ModelState.idle_northWest]: { cls: "Media", tag: "bouncer.nw" }, 
                     [ModelState.idle_southEast]: { cls: "Media", tag: "bouncer.se" }, 
                     [ModelState.idle_southWest]: { cls: "Media", tag: "bouncer.sw" }, 
+                },
+            },
+
+            { tag: "rune.wall", 
+                cls: "Animator", 
+                animations: { 
+                    [ModelState.idle]: { cls: "Media", tag: "rune.wall.idle" }, 
+                    [ModelState.powered]: { cls: "Media", tag: "rune.wall.powered" }, 
+                    [ModelState.sparked]: { cls: "Media", tag: "rune.wall.sparked" }, 
                 },
             },
 
@@ -1691,6 +1703,12 @@ class SparkAssets {
                     {x: -16, y: -32 },
                 ],
                 xcollider: { width: 16, height: 32, offy: 8 },
+            }),
+
+            Templates.object("o0B", "rune.wall", "SparkBase", { 
+                powered: false,
+                range: 16*8,
+                offx: 8, offy: -8, 
             }),
 
             // @@@ ------------------------------------------------------------------------------

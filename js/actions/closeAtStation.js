@@ -89,7 +89,7 @@ class CloseAction extends Action {
         this.ttl -= ctx.deltaTime;
         if (this.ttl <= 0) {
             this.done = true;
-            console.log(`removing open condition from: ${this.target}`);
+            //console.log(`removing open condition from: ${this.target}`);
             this.target.conditions.delete(Condition.opened);
             // remove close condition from target
             this.target.conditions.add(this.target.closedCondition);

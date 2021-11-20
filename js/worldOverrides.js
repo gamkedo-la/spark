@@ -230,6 +230,29 @@ class WorldOverrides {
                 },
             },
 
+            // Nessa (tinkerer) things
+            // -- RUNES
+            {
+                predicate: (v) => v.x === this.wpos(WorldGen.lvl02.offx + 5) && 
+                                v.y === this.wpos(WorldGen.lvl02.offy + 14) &&
+                                v.cls === "SparkBase",
+                spec: {
+                    ownerTag: "Nessa",
+                    powered: false,
+                    range: Config.tileSize * 8,
+                },
+            },
+            {
+                predicate: (v) => v.x === this.wpos(WorldGen.pier.offx + 6) && 
+                                v.y === this.wpos(WorldGen.pier.offy + 7) &&
+                                v.cls === "SparkBase",
+                spec: {
+                    ownerTag: "Nessa",
+                    powered: false,
+                    range: Config.tileSize * 8,
+                },
+            },
+
             // ocean collider overrides
             {
                 predicate: (v) => v.x === this.wpos(WorldGen.lvl12.offx + 14) && v.y === this.wpos(WorldGen.lvl12.offy + 9) && v.tag.startsWith("ocean"),
