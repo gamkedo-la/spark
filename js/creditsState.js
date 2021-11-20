@@ -11,9 +11,15 @@ import { Base } from "./base/base.js";
 class CreditsState extends State {
     static credits = [
         {title: "Credits", text: "Thanks for playing!  Please scroll through all the contributors to the project without whose help this wouldn't have been possible!  Thanks one and all!"},
-        {title: "Person1", text: Text.rlorem},
-        {title: "Person2", text: Text.rlorem},
-        {title: "Person3", text: Text.rlorem},
+        {title: "Tylor Allison", text: "Core gameplay, project lead, AI behaviors, main artist, primary writer, tutorial, UI framework and primitives, performance optimizations, environment design, building/furniture art, NPC and object interactions, pathfinding, fairy/gnome sprites, custom editor, particles, input handling, asset management, hints system"},
+        {title: "Vince McKeown", text: "Bar assets (including game cards), floor rune relay, rock relay integration, runes, vendor house flower pot update, spark flower animations, mute refactor, stairs, assorted beach shells, electric zap sound, plants (fern, wild flowers, large leaf plant, shrubs), door open/close sounds, rocks"},
+        {title: "Patrick McKeown", text: "Tree, flower pot (including animation), sounds (fairy wings, wind chimes, silver and gold bells, gnome grumbling variations, cheers, sparks), additional sprite integration, gnome chatter, gloom and enlightened walk states, various scenery decoration improvements (vendor, plant variations, seashells, palm tree)"},
+        {title: "Alan Zaring", text: "Music"},
+        {title: "Vaan Hope Khani", text: "Initial main menu functionality, options state, button sounds, music and sound volume sliders, door opening sound, additional level editing"},
+        {title: "Chris DeLeon", text: "Pillar activation sound, vendor sounds, gnome sweeping animation, action UI icons"},
+        {title: "Christer \"McFunkypants\" Kaitila", text: "Title screen decoration, minor tutorial editing, lamp post sound hookup"},
+        {title: "Abhishek @akhmin_ak", text: "Story and dialog work (incl. Ciara, the barkeeper), updates to map areas for vendor and tower"},
+        {title: "Philip Greene", text: "NPC morale and like/dislike indicators, indicators sprite sheet"}
     ];
     static fontSize = 24;
 
