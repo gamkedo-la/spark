@@ -43,8 +43,15 @@ class TitleState extends State {
         Util.bind(this, "onKeyDown", "onClicked");
         Keys.evtKeyPressed.listen(this.onKeyDown);
         Mouse.evtClicked.listen(this.onClicked);
-        // add some particles to the title screen that follow the mouse
-        Mouse.evtMoved.listen(this.onMoved);
+
+        this.mouseFx = Generator.generate({
+            cls: "SparkFx",
+            getx: () => Mouse.x/2,
+            gety: () => Mouse.y/2,
+            xxform: {scalex:2, scaley:2}, 
+            depth: 100
+        });
+        
     }
 
     onKeyDown(evt) {
@@ -60,36 +67,6 @@ class TitleState extends State {
     onClicked(evt) {
         let state = new MenuState();
         Base.instance.stateMgr.swap(state);
-    }
-
-    // sparks follow the mouse
-    onMoved(evt) {
-        //console.log("title screen mouse moved!");
-        //console.log(evt);
-        
-        // FIXME: these particle emitters NEVER DIE?!?
-        let xfx = {
-            cls: "SparkFx",
-            getx: () => evt.x,
-            gety: () => evt.y,
-            xxform: {scalex:1, scaley:1}, 
-            //count: 1, // no effect
-            //lifespan: 0.1, // no effect
-            // how to set lifespan?
-            conditions: { ttl: new TtlCondition({ttl: 10})}, // no effect
-            // how to trigger emitter.done? how to move a single emitter?
-            depth: 100
-        };
-        
-        // only create one emitter
-        // if (!this.mouseFX) this.mouseFX = Generator.generate(xfx);
-        // and move it around. FIXME no effect
-        // this.mouseFX.x = evt.x;
-        // this.mouseFX.y = evt.x;
-        
-        // very spammy - they NEVER DIE
-        if (Math.random()<0.3) this.mouseFX = Generator.generate(xfx);
-        
     }
 
     destroy() {
