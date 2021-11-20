@@ -9,6 +9,7 @@ import { OptionsState }     from "./optionsState.js";
 import { Fmt }              from "./base/fmt.js";
 import { Base }             from "./base/base.js";
 import { HelpState } from "./helpState.js";
+import { CreditsState } from "./creditsState.js";
 
 class MenuState extends State {
 
@@ -103,13 +104,10 @@ class MenuState extends State {
     }
 
     onCredits(evt) {
-        console.log("toDO display credits");
-        // here is an example of how major game states are managed.
-        // the main play state is created/loaded
-        //let state = new OptionsState();
-        // then the state manager is told to swap the current state (which is the menu state) with the new play state.
-        //Base.instance.stateMgr.swap(state);
+        let state = new CreditsState();
+        Base.instance.stateMgr.push(state);
     }
+
     // the callback handler for a generic key press
     onKeyDown(evt) {
         // I've added a shortcut here, so if you hit the escape button, the game will start
