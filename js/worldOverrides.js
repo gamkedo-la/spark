@@ -239,7 +239,7 @@ class WorldOverrides {
                 spec: {
                     ownerTag: "Nessa",
                     powered: false,
-                    range: Config.tileSize * 8,
+                    range: Config.tileSize * 16,
                 },
             },
             {

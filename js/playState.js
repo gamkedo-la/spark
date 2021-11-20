@@ -275,6 +275,18 @@ class PlayState extends State {
         }
     };
 
+    static tinkererSparkDialog = {
+        dfltTitle: "Nessa",
+        dialogs: {
+            start: {
+                text: "... FIXME ...",
+                responses: {
+                    "...": (d) => d.done = true,
+                },
+            },
+        },
+    };
+
     static actionSketches = {
         "none":         {cls: "Media", tag: "z_action.none", xfitter: { cls: "FitToParent"}, color: new Color(225,0,0,.75)},
         "leave":        {cls: "Media", tag: "z_action.leave", xfitter: { cls: "FitToParent"}, color: new Color(225,0,0,.75)},
@@ -892,7 +904,7 @@ class PlayState extends State {
                         this.actions.push(new PowerUpAction({target: this.tinkerRune2}));
                         this.actions.push(new WaitAction());
                         this.actions.push(new PanToAction({target: this.tinkerer}));
-                        //this.actions.push(new WaitForDialog({xdialog: Object.assign({}, PlayState.tinkererSparkDialog, {actor: this.player, npc: this.tinkerer})}));
+                        this.actions.push(new WaitForDialog({xdialog: Object.assign({}, PlayState.tinkererSparkDialog, {actor: this.player, npc: this.tinkerer})}));
                         this.actions.push(new PanToAction({target: this.player}));
                         this.actions.push(new FinishGameAction());
                         this.tinkerer.introDone = true;

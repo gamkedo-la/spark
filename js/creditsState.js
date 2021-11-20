@@ -10,6 +10,7 @@ import { Base } from "./base/base.js";
 
 class CreditsState extends State {
     static credits = [
+        {title: "Credits", text: "Thanks for playing!  Please scroll through all the contributors to the project without whose help this wouldn't have been possible!  Thanks one and all!"},
         {title: "Person1", text: Text.rlorem},
         {title: "Person2", text: Text.rlorem},
         {title: "Person3", text: Text.rlorem},
