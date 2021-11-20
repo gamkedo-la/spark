@@ -27,17 +27,15 @@ import { PowerUpAction }    from "./actions/powerUp.js";
 import { UxPanel }          from "./base/uxPanel.js";
 import { Font }             from "./base/font.js";
 import { Text }             from "./base/text.js";
-import { Event }            from "./base/event.js";
 import { UxDialogCtrl } from "./uxDialog.js";
 import { Bounds } from "./base/bounds.js";
 import { Hierarchy } from "./base/hierarchy.js";
 import { PlaySoundAction } from "./base/action.js";
 import { OptionsState } from "./optionsState.js";
 import { UxNpcInfo } from "./uxNpcInfo.js";
-import { StoryDialogAction, StoryFadeInAction, StoryFadeOutAction, StoryHideAction, UxStory } from "./uxStory.js";
+import { StoryDialogAction, StoryFadeInAction, StoryFadeOutAction, StoryHideAction, StoryShowAction, UxStory } from "./uxStory.js";
 import { UxTutorial } from "./uxTutorial.js";
-import { WorldOverrides } from "./worldOverrides.js";
-import { Morale } from "./morale.js";
+import { CreditsState } from "./creditsState.js";
 
 class PlayState extends State {
     static startStoryTag = "startStory";
@@ -71,9 +69,12 @@ class PlayState extends State {
     ];
 
     static endScript = [
+        new StoryHideAction(),
         new StoryFadeOutAction({xtarget: "main", ttl: 3000}),
+        new StoryShowAction(),
         new StoryFadeInAction({xtarget: "actor2"}),
         new StoryFadeInAction({xtarget: "actor1"}),
+        new WaitAction({ttl: 10000}),
         /*
         new StoryDialogAction({speaker: "actor2", "text": "Alette!", ttl: 2000}),
         new StoryFadeInAction({xtarget: "actor1", ttl: 500}),
@@ -98,8 +99,8 @@ class PlayState extends State {
         new StoryDialogAction({speaker: "actor1", "text": "Well then, let’s get started...”", ttl: 2500}),
         new StoryFadeOutAction({xtarget: "overlay", ttl: 3000}),
         */
-        new StoryHideAction(),
-        new StoryFadeInAction({xtarget: "main", ttl: 3000}),
+        //new StoryHideAction(),
+        //new StoryFadeInAction({xtarget: "main", ttl: 3000}),
     ];
 
     static vendorSparkDialog = {
@@ -795,7 +796,12 @@ class PlayState extends State {
         // unpause game
         Atts.paused = false;
         // generate tutorial
-        if (this.currentStoryTag === PlayState.startStoryTag) this.genTutorial();
+        if (this.currentStoryTag === PlayState.startStoryTag) {
+            this.genTutorial();
+        } else {
+            let state = new CreditsState();
+            Base.instance.stateMgr.push(state);
+        }
     }
 
     genTutorial() {

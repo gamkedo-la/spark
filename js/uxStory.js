@@ -1,4 +1,4 @@
-export { StoryFadeInAction, StoryFadeOutAction, StoryHideAction, StoryDialogAction, UxStory };
+export { StoryFadeInAction, StoryFadeOutAction, StoryHideAction, StoryShowAction, StoryDialogAction, UxStory };
 
 import { Action } from "./base/action.js";
 import { Generator } from "./base/generator.js";
@@ -18,7 +18,10 @@ class StoryFadeInAction extends Action {
     start(actor) {
         // actor is UxStory instance
         this.actor = actor;
-        // lookup target
+        // check if target is visible
+        let target = actor[this.xtarget];
+        if (target && !target.visible) target.visible = true;
+        // lookup fader target
         this.target = actor[`${this.xtarget}Fader`];
         if (this.target) {
             this.target.maxFadeTTL = this.ttl;
@@ -45,7 +48,10 @@ class StoryFadeOutAction extends Action {
     start(actor) {
         // actor is UxStory instance
         this.actor = actor;
-        // lookup target
+        // check if target is visible
+        let target = actor[this.xtarget];
+        if (target && !target.visible) target.visible = true;
+        // lookup fader target
         this.target = actor[`${this.xtarget}Fader`];
         if (this.target) {
             this.target.maxFadeTTL = this.ttl;
@@ -84,6 +90,34 @@ class StoryHideAction extends Action {
         this.story.actor1Fader.visible = false;
         this.story.actor2Fader.visible = false;
         this.story.overlayFader.visible = false;
+    }
+    update(ctx) {
+        this.done = true;
+        return this.done;
+    }
+}
+
+// show all story elements
+class StoryShowAction extends Action {
+    constructor(spec={}) {
+        super(spec);
+        this.xtarget = spec.xtarget; // should be one of main, actor1, actor2, dialog
+        this.ttl = spec.ttl || 1000;
+    }
+    start(actor) {
+        // actor is UxStory instance
+        this.story = actor;
+        // show all story elements except main fader
+        // this.story.actor1Chat.visible = true;
+        // this.story.actor2Chat.visible = true;
+        //this.story.dialogPanel.visible = true;
+        this.story.skipButton.visible = true;
+        //this.story.actor1.visible = true;
+        //this.story.actor2.visible = true;
+        //this.story.dialogFader.visible = true;
+        //this.story.actor1Fader.visible = true;
+        //this.story.actor2Fader.visible = true;
+        //this.story.overlayFader.visible = true;
     }
     update(ctx) {
         this.done = true;
