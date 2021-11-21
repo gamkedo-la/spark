@@ -77,33 +77,25 @@ class PlayState extends State {
         new StoryShowAction(),
         new StoryFadeInAction({xtarget: "actor2"}),
         new StoryFadeInAction({xtarget: "actor1"}),
-        new WaitAction({ttl: 10000}),
-        /*
-        new StoryDialogAction({speaker: "actor2", "text": "Alette!", ttl: 2000}),
-        new StoryFadeInAction({xtarget: "actor1", ttl: 500}),
-        new StoryFadeOutAction({xtarget: "actor1", ttl: 700}),
-        new StoryDialogAction({speaker: "actor2", "text": "Alette, wake up my dear!", ttl: 2000}),
-        new StoryFadeInAction({xtarget: "actor1", ttl: 1000}),
-        new StoryDialogAction({speaker: "actor1", "text": "Mom!?! I thought you were...", ttl: 2000}),
-        new StoryDialogAction({speaker: "actor2", "text": "Now, now. I know you’re scared, I know none of this makes any sense...", ttl: 2000}),
-        new StoryDialogAction({speaker: "actor1", "text": "Of course it doesn’t! I.. I thought you were dead! And you decide to show up now!?!", ttl: 2500}),
-        new StoryDialogAction({speaker: "actor2", "text": "Darling, please listen to me. You have a lot of questions, and I can answer them. But you need to be patient. Forgive me, I know it’s been 5 years.", ttl: 4000}),
-        new StoryDialogAction({speaker: "actor2", "text": "When you open your eyes, you will land in the world of Innis Fhaolain.", ttl: 3000}),
-        new StoryDialogAction({speaker: "actor1", "text": "What why? And wh-what would I have to do there?", ttl: 2500}),
-        new StoryDialogAction({speaker: "actor2", "text": "You are there because, well…", ttl: 2000}),
-        new StoryDialogAction({speaker: "actor2", "text": "You are my child, my sweetheart. You have no idea how beautiful you are, and how your beauty will pass on to make everyone's lives a little better. To help others...", ttl: 5000}),
-        new StoryDialogAction({speaker: "actor1", "text": "I don’t care about any of that Mama!", ttl: 2500}),
-        new StoryDialogAction({speaker: "actor1", "text": "Not when you’re not here with me....", ttl: 2500}),
-        new StoryDialogAction({speaker: "actor2", "text": "Who said that I wouldn’t be without you? My presence shall bestow upon you powers, but they will be limited. I have gotten old… even in the afterlife.", ttl: 5000}),
-        new StoryDialogAction({speaker: "actor1", "text": "I’ll admit, I do like helping...", ttl: 2500}),
-        new StoryDialogAction({speaker: "actor1", "text": "It makes me feel a little better, and the ones around me…", ttl: 2500}),
-        new StoryDialogAction({speaker: "actor1", "text": "But how can I make such a difference? How can I help people? After all, I’m just one person…", ttl: 3500}),
-        new StoryDialogAction({speaker: "actor2", "text": "You might be surprised at what may happen. Let’s give it a shot and find out.  Alette, there’s no need to fear. I’ll be with you throughout this journey.", ttl: 5000}),
-        new StoryDialogAction({speaker: "actor1", "text": "Well then, let’s get started...”", ttl: 2500}),
+        new StoryDialogAction({speaker: "actor1", "text": "Mama!", ttl: 2000}),
+        new StoryDialogAction({speaker: "actor2", "text": "Yes my dear Alette!", ttl: 2000}),
+        new StoryDialogAction({speaker: "actor2", "text": "I am... I am sorry.  Sorry for leaving you.. sorry for sending...", ttl: 3000}),
+        new StoryDialogAction({speaker: "actor1", "text": "Please Mama!  No more apologies.  I am just so happy I am able to see you... even if it's just this one last time...", ttl: 5000}),
+        new StoryDialogAction({speaker: "actor2", "text": "My darling child... please don't think of it like that.  I am always with you!  And always will be...", ttl: 4000}),
+        new StoryDialogAction({speaker: "actor1", "text": "It's OK Mama.  I see now why you sent me.  Why you had me help your friend...", ttl: 4000}),
+        new StoryDialogAction({speaker: "actor1", "text": "I know that in your heart, you wanted to help your friend, but that's not why you sent me...", ttl: 4000}),
+        new StoryDialogAction({speaker: "actor1", "text": "It was for me... you were worried... worried I may lose myself... like your friend Nessa.", ttl: 4000}),
+        new StoryDialogAction({speaker: "actor2", "text": "My little star, how you shine!  We all have our troubles my child that distract us, that can bring us down...", ttl: 5000}),
+        new StoryDialogAction({speaker: "actor2", "text": "But we all have it within ourselves to be the light that shines for others as well.", ttl: 4000}),
+        new StoryDialogAction({speaker: "actor2", "text": "That light is needed in the world today.  Not because the giver is without their own troubles...", ttl: 4000}),
+        new StoryDialogAction({speaker: "actor1", "text": "But because that light that is shone for others also shines on oneself...", ttl: 3000}),
+        new StoryDialogAction({speaker: "actor2", "text": "So be the ~~ Spark ~~ my child!", ttl: 3000}),
+        new StoryDialogAction({speaker: "actor2", "text": "And remember, I will always love you... and always be with you...", ttl: 3000}),
+        new StoryFadeOutAction({xtarget: "actor2", ttl: 1000}),
+        new StoryDialogAction({speaker: "actor1", "text": "I will miss you Mama...", ttl: 3000}),
+        new StoryDialogAction({speaker: "actor1", "text": "But I will remember...", ttl: 3000}),
+        new StoryDialogAction({speaker: "actor1", "text": "Love you too!", ttl: 3000}),
         new StoryFadeOutAction({xtarget: "overlay", ttl: 3000}),
-        */
-        //new StoryHideAction(),
-        //new StoryFadeInAction({xtarget: "main", ttl: 3000}),
     ];
 
     static vendorSparkDialog = {
@@ -490,8 +482,7 @@ class PlayState extends State {
             Config.dbg.Stats = !Config.dbg.Stats;
         }
         if (evt.key === "8") {
-            //this.genStory(PlayState.endScript, PlayState.endStoryTag);
-            /*
+            this.genStory(PlayState.endScript, PlayState.endStoryTag);
             if (!this.vendorMoraleMax) {
                 this.eventQ.push(new Event("npc.moraleMax", {actor: this.vendor}));
                 this.vendor.morale.value = Morale.max;
@@ -505,8 +496,6 @@ class PlayState extends State {
                 this.gardener.morale.value = Morale.max;
                 this.gardenerMoraleMax = true;
             } else if (!this.tinkererMoraleMax) {
-                */
-            if (!this.tinkererMoraleMax) {
                 this.eventQ.push(new Event("npc.moraleMax", {actor: this.tinkerer}));
                 this.tinkerer.morale.value = Morale.max;
                 this.tinkererMoraleMax = true;

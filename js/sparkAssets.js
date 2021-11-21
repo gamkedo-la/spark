@@ -2225,6 +2225,8 @@ class SparkAssets {
                     "dislikes": "???",
                     "hints": [
                         "need to help Finn first",
+                        "talk to her",
+                        "find out more about how she know's your mother",
                     ]
                 },
                 ctrlId: 0,
@@ -2260,7 +2262,6 @@ class SparkAssets {
                 },
 
                 xdialogs: [
-                    /*
                     { 
                         predicate: (actor, npc) => !npc.wantIntro,
                         dialogs: {
@@ -2279,7 +2280,6 @@ class SparkAssets {
                             },
                         },
                     },
-                    */
                     { 
                         predicate: (actor, npc) => !npc.introDone,
                         dialogs: {

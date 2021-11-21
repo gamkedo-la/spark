@@ -140,6 +140,7 @@ class StoryDialogAction extends Action {
         // actor is UxStory instance
         this.story = actor;
         // update dialog text
+        this.story.dialogPanel.visible = true;
         this.story.dialogText.text = this.text;
         this.story.dialogText.sketch.color = (this.speaker === "actor1") ? this.story.actor1Color : this.story.actor2Color;
         // start by fading in dialog
