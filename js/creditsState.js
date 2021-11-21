@@ -19,7 +19,8 @@ class CreditsState extends State {
         {title: "Chris DeLeon", text: "Pillar activation sound, vendor sounds, gnome sweeping animation, action UI icons"},
         {title: "Christer \"McFunkypants\" Kaitila", text: "Title screen decoration, minor tutorial editing, lamp post sound hookup"},
         {title: "Abhishek @akhmin_ak", text: "Story and dialog work (incl. Ciara, the barkeeper), updates to map areas for vendor and tower"},
-        {title: "Philip Greene", text: "NPC morale and like/dislike indicators, indicators sprite sheet"}
+        {title: "Philip Greene", text: "NPC morale and like/dislike indicators, indicators sprite sheet"},
+        {title: "Gonzalo Delgado", text: "Tinkerer shop sprites"},
     ];
     static fontSize = 24;
 
