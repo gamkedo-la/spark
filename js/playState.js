@@ -482,7 +482,6 @@ class PlayState extends State {
             Config.dbg.Stats = !Config.dbg.Stats;
         }
         if (evt.key === "8") {
-            this.genStory(PlayState.endScript, PlayState.endStoryTag);
             if (!this.vendorMoraleMax) {
                 this.eventQ.push(new Event("npc.moraleMax", {actor: this.vendor}));
                 this.vendor.morale.value = Morale.max;
