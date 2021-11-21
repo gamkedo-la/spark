@@ -144,6 +144,9 @@ class SparkAssets {
             { src: "img/fountain.png", loader: "Sheet", refs: [
                 Templates.anim("fountain.water", {width: 16*7, height:16*7, duration: 250, frames: 8}),
             ]},
+            { src: "img/tinkerStuff.png", loader: "Sheet", refs: [
+                Templates.xsprite("tinker.chair", 0, 0, {width: 16, height: 32}),
+            ]},
             { src: "img/crate.png", loader: "Sheet", refs: [
                 Templates.xsprite("crate.relay.idle", 0, 0, {width: 32, height: 48}),
                 Templates.xanim("crate.relay.spin", 2, 0, {frames: 8, width: 32, height: 48, duration: 200, loop: false, noreset: true}),
@@ -561,6 +564,7 @@ class SparkAssets {
                 Templates.xsprite("rune.wall.idle",     15, 7, { width: 16*2, height: 16*2 }),
                 Templates.xsprite("rune.wall.powered",  17, 7, { width: 16*2, height: 16*2 }),
                 Templates.xsprite("rune.wall.sparked",  15, 9, { width: 16*2, height: 16*2 }),
+                Templates.xsprite("tinker.table2",      17, 3, { width: 16*2, height: 16*3 }),
             ]},
 
             { tag: "well", 
@@ -1173,7 +1177,7 @@ class SparkAssets {
             Templates.tile("00I", "sack", {offx: 8, offy: -8, xcollider: { width: 28, height: 16, offy: 4 }}),
             Templates.tile("00J", "table1x2", {offy: -16}),
             Templates.tile("00K", "basket", {offx: 8, offy: -8, xcollider: {width: 20, height: 12, offy: 8}}),
-            Templates.tile("00L", "table2x1", {offx: 8, offy: -8}),
+            Templates.tile("00L", "table2x1", {offx: 8, offy: -8, xcollider: {width: 32, height: 12}}),
             Templates.tile("00M", "largePost", {offy: -16, xcollider: { tag: Collider.sparkthru, width: 10, height: 10, offy: 16 }}),
             Templates.tile("00N", "smallPostBCross", {offy: -16, xcollider: { tag: Collider.sparkthru, width: 10, height: 10, offy: 16 }}),
             Templates.tile("00O", "smallPostFCross", {offy: -16, xcollider: { tag: Collider.sparkthru, width: 10, height: 10, offy: 16 }}),
@@ -1411,6 +1415,8 @@ class SparkAssets {
             Templates.tile("03z", "table.cards",        {offx: 8, offy: -16, xcollider: {width: 20, offy:-4}}),
             Templates.tile("040", "table.checkers",     {offx: 8, offy: -16, xcollider: {width: 20, offy:-4}}),
             Templates.tile("041", "tower.table",        {offx: 8, offy: -24, xcollider: {width: 16, height: 24, offy: 8}}),
+            Templates.tile("042", "tinker.chair",       {offx: 0, offy: -8, xcollider: {width: 16, height: 16, offy: 4}}),
+            Templates.tile("043", "tinker.table2",      {offx: 8, offy: -16, xcollider: {width: 32, height: 16, offy: 16}}),
 
             // ------------------------------------------------------------------------------
 
