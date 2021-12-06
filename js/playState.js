@@ -841,7 +841,7 @@ class PlayState extends State {
     updateGameEvents(ctx) {
         while (this.eventQ.length) {
             let evt = this.eventQ.shift();
-            console.log(`game event: ${Fmt.ofmt(evt)}`);
+            //console.log(`game event: ${Fmt.ofmt(evt)}`);
             let sfx;
             switch (evt.tag) {
                 case "npc.moraleMax":
